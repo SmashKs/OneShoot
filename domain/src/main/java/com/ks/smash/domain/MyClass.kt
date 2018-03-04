@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-package com.ks.smash.domain;
+package com.ks.smash.domain
 
-public class MyClass {
-}
+class MyClass
