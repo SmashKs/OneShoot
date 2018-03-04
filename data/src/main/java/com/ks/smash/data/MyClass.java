@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
-include ':presentation', ':domain', ':data'
+package com.ks.smash.data;
+
+public class MyClass {
+}

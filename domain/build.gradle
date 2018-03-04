@@ -14,4 +14,11 @@
  * limitations under the License.
  */
 
-include ':presentation', ':domain', ':data'
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
