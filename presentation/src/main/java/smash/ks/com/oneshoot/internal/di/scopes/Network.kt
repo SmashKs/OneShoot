@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.repositories
+package smash.ks.com.oneshoot.internal.di.scopes
 
-import smash.ks.com.data.DataStore
+import javax.inject.Scope
 
-class DataRepository : DataStore
+/**
+ * A scoping annotation to permit objects whose lifetime should depend to the life of the application to be
+ * memorized in the correct component.
+ */
+@Scope
+@Retention
+@MustBeDocumented
+annotation class Network

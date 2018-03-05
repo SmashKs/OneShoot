@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot
+package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import smash.ks.com.oneshoot.R
 
 class MainActivity : AppCompatActivity() {
 

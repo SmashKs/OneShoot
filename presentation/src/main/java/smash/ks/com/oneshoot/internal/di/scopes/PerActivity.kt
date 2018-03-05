@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.oneshoot.internal.di.scopes
 
-data class KsModel(var name: String = "")
+import javax.inject.Scope
+
+/**
+ * A scoping annotation to permit objects whose lifetime should conform to the life of the activity to be
+ * memorized in the correct component.
+ */
+@Scope
+@Retention
+@MustBeDocumented
+annotation class PerActivity
