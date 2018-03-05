@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain
+package smash.ks.com.domain.usecases.user
 
-class MyClass
+import smash.ks.com.domain.executors.PostExecutionThread
+import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.domain.usecases.BaseUsecase
+
+class GetUserUsercase(
+    threadExecutor: ThreadExecutor,
+    postExecutionThread: PostExecutionThread
+) : BaseUsecase(threadExecutor, postExecutionThread)
