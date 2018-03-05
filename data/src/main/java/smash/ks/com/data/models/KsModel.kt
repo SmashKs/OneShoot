@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package com.ks.smash.domain
+package smash.ks.com.data.models
 
-class MyClass
+data class KsModel(var name: String = "")
