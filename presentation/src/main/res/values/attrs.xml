@@ -16,10 +16,7 @@
   -->
 
 <resources>
-    <?xml version="1.0" encoding="utf-8"?>
-    <resources>
-        <declare-styleable name="FontTextView">
-            <attr name="textFont" format="string"/>
-        </declare-styleable>
-    </resources>
+    <declare-styleable name="FontTextView">
+        <attr name="textFont" format="string"/>
+    </declare-styleable>
 </resources>

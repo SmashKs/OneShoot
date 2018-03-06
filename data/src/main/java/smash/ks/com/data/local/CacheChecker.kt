@@ -18,7 +18,7 @@ package smash.ks.com.data.local
 
 interface CacheChecker {
     /**
-     * Checks if an element [PlayoneEntity] exists in the cache.
+     * Checks if an element [] exists in the cache.
      *
      * @param which check a column is cached.
      * @return true if the element is cached, otherwise false.
