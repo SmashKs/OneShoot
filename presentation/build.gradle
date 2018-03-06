@@ -47,6 +47,7 @@ kotlin {
 }
 
 kapt {
+    correctErrorTypes = true
     generateStubs = true
     useBuildCache = true
     mapDiagnosticLocations = true

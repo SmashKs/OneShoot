@@ -16,12 +16,27 @@
 
 package smash.ks.com.data.local
 
-import smash.ks.com.data.DataStore
+interface CacheChecker {
+    /**
+     * Checks if an element [PlayoneEntity] exists in the cache.
+     *
+     * @param which check a column is cached.
+     * @return true if the element is cached, otherwise false.
+     */
+    fun isCached(which: String): Boolean
 
-class LocalDataStore : DataStore, CacheChecker {
-    override fun isCached(which: String): Boolean = TODO()
+    /**
+     * Checks if the cache is expired.
+     *
+     * @param which check a column is expired.
+     * @return true, the cache is expired, otherwise false.
+     */
+    fun isExpired(which: String): Boolean
 
-    override fun isExpired(which: String): Boolean = TODO()
-
-    override fun keepLastCacheTime(which: String) = TODO()
+    /**
+     * Keep the last caching the item time.
+     *
+     * @param which
+     */
+    fun keepLastCacheTime(which: String)
 }
