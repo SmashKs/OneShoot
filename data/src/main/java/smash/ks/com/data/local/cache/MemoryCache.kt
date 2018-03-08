@@ -14,39 +14,10 @@
  * limitations under the License.
  */
 
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+package smash.ks.com.data.local.cache
 
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+abstract class MemoryCache : Cache {
+    inline fun <reified T> digCachedData(which: Int, params: Any) = obtainCachedObj(which, params) as T
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-}
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
 }

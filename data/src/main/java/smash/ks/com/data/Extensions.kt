@@ -14,39 +14,11 @@
  * limitations under the License.
  */
 
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+package smash.ks.com.data
 
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+// TODO(jieyi): 2018/03/08 They will be deleted after my lib separated.
+val currentTime get() = System.currentTimeMillis()
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-}
+inline fun Any?.isNull() = null == this
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+inline fun Any?.isNotNull() = null != this

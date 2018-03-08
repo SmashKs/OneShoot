@@ -60,6 +60,10 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    implementation "com.devrapid.jieyi:kotlinknifer:1.3.3"
+
+    implementation "androidx.core:core-ktx:0.2"
+
     //region Architecture
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:${dagger_2_version}"

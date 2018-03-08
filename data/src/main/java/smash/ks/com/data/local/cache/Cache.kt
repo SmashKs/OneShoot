@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local
+package smash.ks.com.data.local.cache
 
-import smash.ks.com.data.DataStore
-
-class LocalDataStore : DataStore, CacheChecker {
-    override fun isCached(which: String) = TODO()
-
-    override fun isExpired(which: String) = TODO()
-
-    override fun keepLastCacheTime(which: String) = TODO()
+/**
+ * This is first layer cache for retrieving from the remote.
+ */
+interface Cache {
+    fun isDirty(which: Int, params: Any): Boolean
+    fun isCached(which: Int, params: Any): Boolean
+    fun refreshOrCache(which: Int, params: Any, obj: Any? = null)
+    fun obtainCachedObj(which: Int, params: Any): Any?
 }
