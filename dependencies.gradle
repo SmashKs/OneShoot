@@ -32,7 +32,7 @@ ext {
     androidSupportVer = '27.1.0'
     androidContraintLayoutVer = '1.0.2'
 
-    kotlinVer = '1.2.30'
+    kotlinVer = "$kotlin_version"
     kotlinCoroutineVer = '0.22.5'
 
     ankoVer = '0.10.4'
@@ -131,6 +131,15 @@ ext {
 
     //region Data Dependencies
     dataDependencies = [
+            dbflowProcessor       : "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflowVer",
+            dbflowCore            : "com.github.Raizlabs.DBFlow:dbflow-core:$dbflowVer",
+            dbflow                : "com.github.Raizlabs.DBFlow:dbflow:$dbflowVer",
+            dbflowKotlinExt       : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflowVer",
+            dbflowRxJava2         : "com.github.Raizlabs.DBFlow:dbflow-rx2:$dbflowVer",
+            dbflowRxJava2KotlinExt: "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dbflowVer",
+            // sql-cipher database encryption (optional)
+            dbflowSqlEncrypt      : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$dbflowVer",
+            dbflowSqlCipher       : "net.zetetic:android-database-sqlcipher:${dbflowVer}@aar",
     ]
 
     dataTestDependencies = [
