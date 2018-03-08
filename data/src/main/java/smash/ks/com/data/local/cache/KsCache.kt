@@ -16,7 +16,7 @@
 
 package smash.ks.com.data.local.cache
 
-abstract class MemoryCache : Cache {
+abstract class KsCache : Cache {
     inline fun <reified T> digCachedData(which: Int, params: Any) = obtainCachedObj(which, params) as T
 
     fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)

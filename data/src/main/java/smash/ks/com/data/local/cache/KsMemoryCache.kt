@@ -19,7 +19,7 @@ package smash.ks.com.data.local.cache
 import smash.ks.com.data.currentTime
 import smash.ks.com.data.isNotNull
 
-open class KsMemoryCache : MemoryCache() {
+open class KsMemoryCache : KsCache() {
     companion object {
         private const val CAPACITY = 200
         private const val THRESHOLD = 24L * 60 * 60 // a day
