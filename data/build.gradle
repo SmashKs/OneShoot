@@ -24,12 +24,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //region Database
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dbflow_version"
+//    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
+//    implementation "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
+//    implementation "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
+//    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
+//    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:$dbflow_version"
+//    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dbflow_version"
     // sql-cipher database encryption (optional)
     // implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$dbflow_version"
     // implementation "net.zetetic:android-database-sqlcipher:${sqlcipher_version}@aar"
