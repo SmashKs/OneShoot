@@ -18,10 +18,4 @@ package smash.ks.com.data.local
 
 import smash.ks.com.data.DataStore
 
-class LocalDataStore : DataStore, CacheChecker {
-    override fun isCached(which: String) = TODO()
-
-    override fun isExpired(which: String) = TODO()
-
-    override fun keepLastCacheTime(which: String) = TODO()
-}
+class LocalDataStore : DataStore

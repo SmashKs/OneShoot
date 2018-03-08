@@ -19,21 +19,28 @@
 buildscript {
     ext {
         kotlin_version = '1.2.30'
-        dagger_2_version = '2.14.1'
+        anko_version = '0.10.4'
+        dbflow_version = "4.2.4"
+        dagger2_version = "2.15"
+        rxbinding_vserion = "2.0.0"
+        retrofit_version = "2.3.0"
+        android_support_version = "27.0.2"
     }
-
 
     repositories {
         google()
         jcenter()
         mavenCentral()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        classpath 'com.google.gms:google-services:3.2.0' // google-services plugin
     }
 }
 
@@ -46,6 +53,8 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        // required to find the project's artifacts
+        maven { url "https://www.jitpack.io" }
     }
 }
 
