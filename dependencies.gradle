@@ -1,0 +1,127 @@
+/*
+ * Copyright (C) 2018 The Smash Ks Open Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+ext {
+    //region Android
+    androidBuildToolsVersion = '27.0.3'
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 27
+    androidCompileSdkVersion = 27
+    //endregion
+
+    androidSupportVer = '27.0.2'
+    androidContraintLayoutVer = '1.0.2'
+
+    kotlinVer = '1.2.30'
+    kotlinCoroutineVer = '0.22.5'
+
+    ankoVer = '0.10.4'
+    ktxVer = '0.2'
+
+    dagger2Ver = '2.15'
+
+    firebaseVer = '11.8.0'
+
+    dbflowVer = "4.2.4"
+
+    retrofit2Ver = '2.3.0'
+    okhttp3Ver = '3.10.0'
+
+    rxLifecycle2Ver = '2.1.0'
+    rxBinding2Ver = '2.0.0'
+    rxPermission2Ver = '0.9.5@aar'
+    rxBusVer = '2.0.0'
+
+    jUnit = '4.12'
+
+    //region Global Dependencies
+    globalDependencies = [
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVer",
+            kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer",
+            kotlinCoroutine: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVer",
+
+            rxJava2        : "",
+            rxKotlin       : "",
+    ]
+
+    globalTestDependencies = [
+    ]
+    //endregion
+
+    //region Presentation Denpendencies
+    presentationDependencies = [
+            ankoCommon             : "org.jetbrains.anko:anko-commons:$ankoVer",
+            ankoSdk25              : "org.jetbrains.anko:anko-sdk25:$ankoVer",
+            ankoAppcompat          : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
+
+            androidKtx             : "androidx.core:core-ktx:$ktxVer",
+
+            dagger2                : "com.google.dagger:dagger:$dagger2Ver",
+            dagger2AndroidSupport  : "com.google.dagger:dagger-android-support:$dagger2Ver",
+            dagger2Compiler        : "com.google.dagger:dagger-compiler:$dagger2Ver",
+            dagger2AndroidProcessor: "com.google.dagger:dagger-android-processor:$dagger2Ver",
+
+            rxbus                  : "com.hwangjr.rxbus:rxbus:$rxBusVer",
+            rxlifecycle2           : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
+            rxlifecycle2Component  : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            rxpermission2          : "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermission2Ver",
+            rxbinding2             : "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Ver",
+            rxbinding2Appcompat    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBinding2Ver",
+            rxbinding2Design       : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBinding2Ver",
+            rxbinding2RecyclerView : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBinding2Ver",
+
+            retrofit2              : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
+            retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
+            retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
+            okhttp3InterceptorLog  : "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
+
+            firebaseCore           : "com.google.firebase:firebase-core:$firebaseVer",
+            firebaseDatabase       : "com.google.firebase:firebase-database:$firebaseVer",
+            firebaseAuth           : "com.google.firebase:firebase-auth:$firebaseVer",
+
+            androidCompat          : "com.android.support:appcompat-v7:$androidSupportVer",
+            androidAnnot           : "com.android.support:support-annotations:$androidSupportVer",
+            androidConstraintLayout: "com.android.support.constraint:constraint-layout:$androidContraintLayoutVer",
+            // androidRecyclerView:"",
+    ]
+
+    presentationTestDependencies = [
+    ]
+    //endregion
+
+    //region Domain Dependencies
+    domainDependencies = [
+    ]
+
+    domainTestDependencies = [
+    ]
+    //endregion
+
+    //region Data Dependencies
+    dataDependencies = [
+    ]
+
+    dataTestDependencies = [
+    ]
+    //endregion
+}
