@@ -29,7 +29,7 @@ ext {
     androidCompileSdkVersion = 27
     //endregion
 
-    androidSupportVer = '27.0.2'
+    androidSupportVer = '27.1.0'
     androidContraintLayoutVer = '1.0.2'
 
     kotlinVer = '1.2.30'
@@ -51,7 +51,7 @@ ext {
     rxJava2Ver = '2.1.8'
     rxKotlin2Ver = '2.1.0'
     rxLifecycle2Ver = '2.1.0'
-    rxBinding2Ver = '2.0.0'
+    rxBinding2Ver = '2.1.1'
     rxPermission2Ver = '0.9.5@aar'
     rxBusVer = '2.0.0'
 
