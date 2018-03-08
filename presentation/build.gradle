@@ -111,10 +111,38 @@ dependencies {
     implementation pd.androidConstraintLayout
 
     testImplementation gtd.junit
+    testImplementation gtd.kotlinJunit
+    testImplementation gtd.mockito
+    testImplementation gtd.assertj
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation ptd.robolectric
+    androidTestImplementation ptd.supportRunner
+    androidTestImplementation ptd.supportRules
+    androidTestImplementation ptd.mockitoAndroid
+    androidTestImplementation(ptd.androidRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(ptd.androidRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(ptd.espressoCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(ptd.espressoIntents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(ptd.espressoContrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
 
+    kaptTest pd.dagger2Compiler
+    kaptAndroidTest pd.dagger2Compiler
 }
 
 //apply plugin: 'com.google.gms.google-services'

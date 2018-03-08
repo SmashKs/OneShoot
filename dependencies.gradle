@@ -59,6 +59,15 @@ ext {
     jsoupVer = '1.10.3'
 
     jUnitVer = '4.12'
+    robolectricVer = '3.4.2'
+    assertJVer = '3.8.0'
+    mockitoVer = '1.9.5'
+    espressoVer = '3.0.1'
+    mockitoKotlinVer = '1.5.0'
+    mockitoAndroidVer = '2.8.47'
+    androidSupportRunnerVer = '1.0.1'
+    androidSupportRulesVer = '1.0.1'
+    runnerVer = '0.5'
 
     //region Global Dependencies
     globalDependencies = [
@@ -76,7 +85,10 @@ ext {
     ]
 
     globalTestDependencies = [
-            junit: "junit:junit:$jUnitVer"
+            junit      : "junit:junit:$jUnitVer",
+            kotlinJunit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVer",
+            mockito    : "com.nhaarman:mockito-kotlin:$mockitoKotlinVer",
+            assertj    : "org.assertj:assertj-core:$assertJVer",
     ]
     //endregion
 
@@ -118,6 +130,15 @@ ext {
     ]
 
     presentationTestDependencies = [
+            robolectric    : "org.robolectric:robolectric:$robolectricVer",
+            supportRunner  : "com.android.support.test:runner:$androidSupportRunnerVer",
+            supportRules   : "com.android.support.test:rules:$androidSupportRulesVer",
+            mockitoAndroid : "org.mockito:mockito-android:$mockitoAndroidVer",
+            espressoCore   : "com.android.support.test.espresso:espresso-core:$espressoVer",
+            espressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVer",
+            espressoContrib: "com.android.support.test.espresso:espresso-contrib:$espressoVer",
+            androidRunner  : "com.android.support.test:runner:$runnerVer",
+            androidRules   : "com.android.support.test:rules:$runnerVer",
     ]
     //endregion
 
@@ -143,6 +164,7 @@ ext {
     ]
 
     dataTestDependencies = [
+            robolectric: "org.robolectric:robolectric:$robolectricVer"
     ]
     //endregion
 }
