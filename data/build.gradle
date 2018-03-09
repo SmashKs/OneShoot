@@ -29,6 +29,10 @@ dependencies {
     implementation project(':domain')
 
     implementation gd.kotlin
+    implementation gd.kotlinCoroutine
+
+    implementation gd.rxJava2
+    implementation gd.rxKotlin2
 
     kapt dd.dbflowProcessor
     implementation dd.dbflowCore

@@ -26,6 +26,10 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation gd.kotlin
+    implementation gd.kotlinCoroutine
+
+    implementation gd.rxJava2
+    implementation gd.rxKotlin2
 }
 
 sourceCompatibility = "1.8"

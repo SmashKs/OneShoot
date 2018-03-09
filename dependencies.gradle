@@ -21,6 +21,19 @@ allprojects {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        eachDependency { details ->
+            // Force all of the primary support libraries to use the same version.
+            if (details.requested.group == 'com.android.support'
+                    && details.requested.name != 'multidex'
+                    && details.requested.name != 'multidex-instrumentation') {
+                details.useVersion supportLibraryVersion
+            }
+        }
+    }
+}
+
 ext {
     //region Android
     androidBuildToolsVersion = '27.0.3'
@@ -29,7 +42,7 @@ ext {
     androidCompileSdkVersion = 27
     //endregion
 
-    androidSupportVer = '27.1.0'
+    androidSupportVer = '27.0.2'
     androidContraintLayoutVer = '1.0.2'
 
     kotlinVer = "$kotlin_version"
@@ -80,8 +93,8 @@ ext {
 
             glide          : "com.github.bumptech.glide:glide:$glideVer",
 
-//            gson           : "com.google.code.gson:gson:$gsonVer",
-//            jsoup          : "org.jsoup:jsoup:$jsoupVer"
+            gson           : "com.google.code.gson:gson:$gsonVer",
+            jsoup          : "org.jsoup:jsoup:$jsoupVer"
     ]
 
     globalTestDependencies = [
