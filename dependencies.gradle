@@ -36,7 +36,7 @@ configurations.all {
 }
 
 ext {
-    //region Android
+    //region Version Android
     androidBuildToolsVersion = '27.0.3'
     androidMinSdkVersion = 21
     androidTargetSdkVersion = 27
@@ -49,31 +49,44 @@ ext {
     kotlinVer = "$kotlin_version"
     kotlinCoroutineVer = '0.22.5'
 
+    //region Version Kotlin/Android extension
     ankoVer = '0.10.4'
     ktxVer = '0.2'
-    kinferVer = '1.4.1'
-    shaverVer = '0.1.5'
+    kinferVer = '1.5.0'
+    shaverVer = '0.2.1'
+    //endregion
 
     dagger2Ver = '2.15'
 
+    //region Version Firebase dependencies
     firebaseVer = '11.8.0'
+    //endregion
 
+    //region Version Database dependencies
     dbflowVer = "4.2.4"
+    //endregion
 
+    //region Version Network dependencies
     glideVer = '4.6.1'
     retrofit2Ver = '2.3.0'
     okhttp3Ver = '3.10.0'
+    //endregion
 
+    //region Version Rx dependencies
     rxJava2Ver = '2.1.8'
     rxKotlin2Ver = '2.1.0'
     rxLifecycle2Ver = '2.1.0'
     rxBinding2Ver = '2.1.1'
     rxPermission2Ver = '0.9.5@aar'
     rxBusVer = '2.0.0'
+    //endregion
 
+    //region Version Parser dependencies
     gsonVer = '2.8.2'
     jsoupVer = '1.10.3'
+    //endregion
 
+    //region Version Test dependencies
     jUnitVer = '4.12'
     robolectricVer = '3.4.2'
     assertJVer = '3.8.0'
@@ -84,6 +97,7 @@ ext {
     androidSupportRunnerVer = '1.0.1'
     androidSupportRulesVer = '1.0.1'
     runnerVer = '0.5'
+    //endregion
 
     //region Global Dependencies
     globalDependencies = [
