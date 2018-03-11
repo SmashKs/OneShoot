@@ -50,6 +50,8 @@ ext {
 
     ankoVer = '0.10.4'
     ktxVer = '0.2'
+    kinferVer = '1.4.0'
+    shaverVer = '0.1.0'
 
     dagger2Ver = '2.15'
 
@@ -90,6 +92,9 @@ ext {
 
             rxJava2        : "io.reactivex.rxjava2:rxjava:$rxJava2Ver",
             rxKotlin2      : "io.reactivex.rxjava2:rxkotlin:$rxKotlin2Ver",
+
+            kknifer        : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
+            kshaver        : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
 
             glide          : "com.github.bumptech.glide:glide:$glideVer",
 

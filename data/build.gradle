@@ -34,6 +34,8 @@ dependencies {
     implementation gd.rxJava2
     implementation gd.rxKotlin2
 
+    implementation gd.kshaver
+
     kapt dd.dbflowProcessor
     implementation dd.dbflowCore
     implementation dd.dbflow
