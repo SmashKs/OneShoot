@@ -75,7 +75,7 @@ dependencies {
     implementation gd.rxJava2
     implementation gd.rxKotlin2
 
-    implementation gd.kknifer
+//    implementation gd.kknifer
     implementation gd.kshaver
 
     implementation pd.ankoCommon

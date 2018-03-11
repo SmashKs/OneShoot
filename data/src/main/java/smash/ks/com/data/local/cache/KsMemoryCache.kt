@@ -16,8 +16,8 @@
 
 package smash.ks.com.data.local.cache
 
-import smash.ks.com.data.currentTime
-import smash.ks.com.data.isNotNull
+import com.devrapid.kotlinshaver.currentTime
+import com.devrapid.kotlinshaver.isNotNull
 
 open class KsMemoryCache : KsCache() {
     companion object {

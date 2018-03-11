@@ -18,6 +18,7 @@ allprojects {
     repositories {
         jcenter()
         google()
+        maven { url "https://dl.bintray.com/pokk/maven" }
     }
 }
 
@@ -50,8 +51,8 @@ ext {
 
     ankoVer = '0.10.4'
     ktxVer = '0.2'
-    kinferVer = '1.4.0'
-    shaverVer = '0.1.0'
+    kinferVer = '1.4.1'
+    shaverVer = '0.1.5'
 
     dagger2Ver = '2.15'
 
