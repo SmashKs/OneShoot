@@ -16,4 +16,4 @@
 
 package smash.ks.com.oneshoot.entities
 
-data class KsEntity(var name: String = "") : Entity
+interface Entity

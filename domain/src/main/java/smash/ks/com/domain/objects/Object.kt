@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.domain.objects
 
-data class KsEntity(var name: String = "") : Entity
+interface Object

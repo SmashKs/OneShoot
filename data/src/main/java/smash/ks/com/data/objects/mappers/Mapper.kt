@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.objects
+package smash.ks.com.data.objects.mappers
 
-data class KsObject(var name: String = "")
+import org.modelmapper.ModelMapper
+import smash.ks.com.data.objects.Model
+import smash.ks.com.domain.objects.Object
+
+abstract class Mapper<M : Model, O : Object>(protected val mapper: ModelMapper) {
+    abstract fun toObjectFrom(model: M): O
+    abstract fun toModelFrom(obj: O): M
+}

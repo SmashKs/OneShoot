@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.oneshoot.entities.mappers
 
-data class KsEntity(var name: String = "") : Entity
+import org.modelmapper.ModelMapper
+import smash.ks.com.domain.objects.Object
+import smash.ks.com.oneshoot.entities.Entity
+
+abstract class Mapper<O : Object, E : Entity>(protected val mapper: ModelMapper) {
+    abstract fun toEntityFrom(obj: O): E
+    abstract fun toObjectFrom(entity: E): O
+}

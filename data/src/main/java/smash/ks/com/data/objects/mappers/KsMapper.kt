@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.data.objects.mappers
 
-data class KsEntity(var name: String = "") : Entity
+import org.modelmapper.ModelMapper
+import smash.ks.com.data.objects.KsModel
+import smash.ks.com.domain.objects.KsObject
+
+class KsMapper(mapper: ModelMapper) : Mapper<KsModel, KsObject>(mapper) {
+    override fun toObjectFrom(model: KsModel) = mapper.map(model, KsObject::class.java)
+
+    override fun toModelFrom(obj: KsObject) = mapper.map(obj, KsModel::class.java)
+}
