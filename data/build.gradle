@@ -45,6 +45,8 @@ dependencies {
     // sql-cipher database encryption (optional)
 //    implementation dd.dbflowSqlEncrypt
 //    implementation dd.dbflowSqlCipher
+
+    implementation dd.mapper
 }
 
 sourceCompatibility = "1.8"

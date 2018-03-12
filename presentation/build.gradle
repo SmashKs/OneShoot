@@ -75,7 +75,6 @@ dependencies {
     implementation gd.rxJava2
     implementation gd.rxKotlin2
 
-//    implementation gd.kknifer
     implementation gd.kshaver
 
     implementation pd.ankoCommon
@@ -83,10 +82,11 @@ dependencies {
     implementation pd.ankoAppcompat
     implementation pd.androidKtx
 
-
     implementation pd.firebaseCore
     implementation pd.firebaseDatabase
     implementation pd.firebaseAuth
+
+    implementation pd.mapper
 
     kapt pd.dagger2Compiler
     kapt pd.dagger2AndroidProcessor
