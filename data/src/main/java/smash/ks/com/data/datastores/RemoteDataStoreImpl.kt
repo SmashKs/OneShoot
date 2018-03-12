@@ -16,4 +16,6 @@
 
 package smash.ks.com.data.datastores
 
-class RemoteDataStoreImpl : DataStore
+import smash.ks.com.data.remote.services.KsService
+
+class RemoteDataStoreImpl(private val ksService: KsService) : DataStore

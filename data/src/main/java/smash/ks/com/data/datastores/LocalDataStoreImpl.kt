@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import smash.ks.com.data.datastores.DataStore
-
 /*
  * Copyright (C) 2018 The Smash Ks Open Project
  *
@@ -31,5 +29,7 @@ import smash.ks.com.data.datastores.DataStore
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import smash.ks.com.data.datastores.DataStore
 
 class LocalDataStoreImpl : DataStore

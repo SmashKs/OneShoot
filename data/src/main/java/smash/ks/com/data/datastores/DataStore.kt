@@ -16,6 +16,4 @@
 
 package smash.ks.com.data.datastores
 
-import smash.ks.com.data.remote.RemoteDataStore
-
-interface DataStore : RemoteDataStore
+interface DataStore

@@ -16,3 +16,4 @@
 
 package smash.ks.com.data.remote.config
 
+object ApiConfig
