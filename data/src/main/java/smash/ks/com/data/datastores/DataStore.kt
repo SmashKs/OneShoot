@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data
+package smash.ks.com.data.datastores
 
-interface DataStore
+import smash.ks.com.data.remote.RemoteDataStore
+
+interface DataStore : RemoteDataStore

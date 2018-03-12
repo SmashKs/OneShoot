@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local
+package smash.ks.com.data.datastores
 
-interface LocalDataStore
+class RemoteDataStoreImpl : DataStore
