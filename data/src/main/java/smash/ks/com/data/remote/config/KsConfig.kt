@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.executors
+package smash.ks.com.data.remote.config
 
-import java.util.concurrent.Executor
+class KsConfig : ApiConfig {
+    companion object {
+        const val API_REQUEST = "/ks/v1"
+        // All basic http api url of Search Music.
+        private val BASE_URL = "http://www.taiwan.no.one"
+    }
 
-interface ThreadExecutor : Executor
+    override val apiBaseUrl: String = BASE_URL
+}

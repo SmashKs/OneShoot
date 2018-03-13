@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.executors
+package smash.ks.com.oneshoot
 
-import java.util.concurrent.Executor
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import smash.ks.com.domain.executors.PostExecutionThread
 
-interface ThreadExecutor : Executor
+/**
+ * MainThread (UI Thread) implementation based on a [Scheduler] which will execute actions on the
+ * Android UI thread.
+ */
+class UiThread : PostExecutionThread {
+    override val scheduler: Scheduler = AndroidSchedulers.mainThread()
+}

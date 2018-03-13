@@ -75,7 +75,7 @@ ext {
     //region Version Rx dependencies
     rxJava2Ver = '2.1.8'
     rxKotlin2Ver = '2.1.0'
-    rxLifecycle2Ver = '2.1.0'
+    rxLifecycle2Ver = '2.2.1'
     rxBinding2Ver = '2.1.1'
     rxPermission2Ver = '0.9.5@aar'
     rxBusVer = '2.0.0'
@@ -141,14 +141,14 @@ ext {
             dagger2AndroidProcessor: "com.google.dagger:dagger-android-processor:$dagger2Ver",
             // Reactive
             rxbus                  : "com.hwangjr.rxbus:rxbus:$rxBusVer",
-            rxlifecycle2           : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
-            rxlifecycle2Component  : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            rxlifecycle2           : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            rxlifecycle2Component  : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
             rxpermission2          : "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermission2Ver",
             rxbinding2             : "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Ver",
             rxbinding2Appcompat    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBinding2Ver",
             rxbinding2Design       : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBinding2Ver",
             rxbinding2RecyclerView : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBinding2Ver",
-            // Internet
+            // Internet (Only for injection)
             retrofit2              : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
             retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
             retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
@@ -181,6 +181,8 @@ ext {
 
     //region Domain Dependencies
     domainDependencies = [
+            rxlifecycle2         : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            rxlifecycle2Component: "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
     ]
 
     domainTestDependencies = [
@@ -189,6 +191,7 @@ ext {
 
     //region Data Dependencies
     dataDependencies = [
+            // Database
             dbflowProcessor       : "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflowVer",
             dbflowCore            : "com.github.Raizlabs.DBFlow:dbflow-core:$dbflowVer",
             dbflow                : "com.github.Raizlabs.DBFlow:dbflow:$dbflowVer",
@@ -198,6 +201,11 @@ ext {
             // sql-cipher database encryption (optional)
             dbflowSqlEncrypt      : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$dbflowVer",
             dbflowSqlCipher       : "net.zetetic:android-database-sqlcipher:${dbflowVer}@aar",
+            // Internet
+            retrofit2             : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
+            retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
+            retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
+            okhttp3InterceptorLog: "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
 
             mapper                : "org.modelmapper:modelmapper:$modelmapperVer",
     ]

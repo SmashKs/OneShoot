@@ -18,9 +18,9 @@ package smash.ks.com.domain.usecases.user
 
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.usecases.BaseUsecase
+import smash.ks.com.domain.usecases.BaseUseCase
 
-class GetUserUsercase(
+class GetUserUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : BaseUsecase(threadExecutor, postExecutionThread)
+) : BaseUseCase(threadExecutor, postExecutionThread)

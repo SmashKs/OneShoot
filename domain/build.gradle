@@ -31,7 +31,10 @@ dependencies {
     implementation gd.rxJava2
     implementation gd.rxKotlin2
 
-//    implementation gd.kshaver
+    implementation gd.kshaver
+
+    implementation dd.rxlifecycle2
+    implementation dd.rxlifecycle2Component
 }
 
 sourceCompatibility = "1.8"

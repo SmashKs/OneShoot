@@ -16,4 +16,8 @@
 
 package smash.ks.com.domain.executors
 
-interface PostExecutionThread
+import io.reactivex.Scheduler
+
+interface PostExecutionThread {
+    val scheduler: Scheduler
+}
