@@ -56,7 +56,7 @@ abstract class BaseUseCase<T, R : BaseUseCase.RequestValues>(
         lifecycleProvider: LifecycleProvider<*>? = null,
         block: Observable<T>.() -> Observable<F>,
         observer: Observer<F>
-    ) = buildUseCaseObservable(block).apply { lifecycleProvider?.let { bindToLifecycle(it) } }.subscribe(observer)
+    ) = buildUseCaseObservable(block).apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
 
     /**
      * Executes the current use case with request [parameter].
@@ -131,7 +131,7 @@ abstract class BaseUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [Observer] from viewmodel, the data are omitted from database or remote.
      */
     fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) =
-        buildUseCaseObservable().apply { lifecycleProvider?.let { bindToLifecycle(it) } }.subscribe(observer)
+        buildUseCaseObservable().apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
 
     /**
      * Executes the current use case with request [parameter].

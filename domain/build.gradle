@@ -34,7 +34,6 @@ dependencies {
     implementation gd.kshaver
 
     implementation dd.rxlifecycle2
-    implementation dd.rxlifecycle2Component
 }
 
 sourceCompatibility = "1.8"

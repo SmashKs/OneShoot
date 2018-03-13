@@ -182,7 +182,6 @@ ext {
     //region Domain Dependencies
     domainDependencies = [
             rxlifecycle2         : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
-            rxlifecycle2Component: "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
     ]
 
     domainTestDependencies = [
