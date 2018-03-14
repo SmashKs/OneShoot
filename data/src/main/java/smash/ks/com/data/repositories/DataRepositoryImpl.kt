@@ -18,7 +18,7 @@ package smash.ks.com.data.repositories
 
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
-import smash.ks.com.domain.repostories.DataRepository
+import smash.ks.com.domain.repositories.DataRepository
 
 class DataRepositoryImpl(
     private val cache: KsCache,

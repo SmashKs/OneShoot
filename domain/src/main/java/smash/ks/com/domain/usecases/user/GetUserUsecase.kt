@@ -19,7 +19,7 @@ package smash.ks.com.domain.usecases.user
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.objects.KsObject
-import smash.ks.com.domain.repostories.DataRepository
+import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.BaseUseCase
 import smash.ks.com.domain.usecases.user.GetUserUsecase.Requests
 
@@ -31,7 +31,7 @@ class GetUserUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : BaseUseCase<KsObject, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUsecase() = TODO()
+    override fun fetchUseCase() = TODO()
 
     /** Wrapping data requests for general situation.*/
     class Requests(val obj: KsObject) : RequestValues

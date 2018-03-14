@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.repostories
+package smash.ks.com.domain.repositories
 
 interface DataRepository
