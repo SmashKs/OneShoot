@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.objects
+package smash.ks.com.domain.entities
 
-import smash.ks.com.domain.entities.Parameterable
-
-data class KsModel(var name: String = "") : Model, Parameterable {
-    override fun toParameter() = hashMapOf("name" to name)
+interface Parameterable {
+    fun toParameter(): HashMap<String, String>
 }
