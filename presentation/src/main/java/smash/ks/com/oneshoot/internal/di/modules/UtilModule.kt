@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.remote
+package smash.ks.com.oneshoot.internal.di.modules
 
-import smash.ks.com.data.remote.config.KsConfig
-import javax.inject.Inject
+import dagger.Module
 
-/**
- * Factory that creates different implementations of [smash.ks.com.data.remote.config.ApiConfig].
- */
-class RestfulApiFactory @Inject constructor() {
-    fun createKaritokeConfig() = KsConfig()
-}
+@Module
+class UtilModule

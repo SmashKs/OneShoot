@@ -36,6 +36,9 @@ dependencies {
 
     implementation gd.kshaver
 
+    kapt dd.dagger2Compiler
+    implementation dd.dagger2
+
     kapt dd.dbflowProcessor
     implementation dd.dbflowCore
     implementation dd.dbflow

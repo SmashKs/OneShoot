@@ -182,6 +182,9 @@ ext {
     //region Domain Dependencies
     domainDependencies = [
             rxlifecycle2         : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            // Dagger
+            dagger2              : "com.google.dagger:dagger:$dagger2Ver",
+            dagger2Compiler      : "com.google.dagger:dagger-compiler:$dagger2Ver",
     ]
 
     domainTestDependencies = [
@@ -191,22 +194,25 @@ ext {
     //region Data Dependencies
     dataDependencies = [
             // Database
-            dbflowProcessor       : "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflowVer",
-            dbflowCore            : "com.github.Raizlabs.DBFlow:dbflow-core:$dbflowVer",
-            dbflow                : "com.github.Raizlabs.DBFlow:dbflow:$dbflowVer",
-            dbflowKotlinExt       : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflowVer",
-            dbflowRxJava2         : "com.github.Raizlabs.DBFlow:dbflow-rx2:$dbflowVer",
-            dbflowRxJava2KotlinExt: "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dbflowVer",
+            dbflowProcessor        : "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflowVer",
+            dbflowCore             : "com.github.Raizlabs.DBFlow:dbflow-core:$dbflowVer",
+            dbflow                 : "com.github.Raizlabs.DBFlow:dbflow:$dbflowVer",
+            dbflowKotlinExt        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflowVer",
+            dbflowRxJava2          : "com.github.Raizlabs.DBFlow:dbflow-rx2:$dbflowVer",
+            dbflowRxJava2KotlinExt : "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dbflowVer",
             // sql-cipher database encryption (optional)
-            dbflowSqlEncrypt      : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$dbflowVer",
-            dbflowSqlCipher       : "net.zetetic:android-database-sqlcipher:${dbflowVer}@aar",
+            dbflowSqlEncrypt       : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$dbflowVer",
+            dbflowSqlCipher        : "net.zetetic:android-database-sqlcipher:${dbflowVer}@aar",
             // Internet
-            retrofit2             : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
-            retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
+            retrofit2              : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
+            retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
             retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
-            okhttp3InterceptorLog: "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
-
-            mapper                : "org.modelmapper:modelmapper:$modelmapperVer",
+            okhttp3InterceptorLog  : "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
+            // Dagger
+            dagger2                : "com.google.dagger:dagger:$dagger2Ver",
+            dagger2Compiler        : "com.google.dagger:dagger-compiler:$dagger2Ver",
+            // Mapper
+            mapper                 : "org.modelmapper:modelmapper:$modelmapperVer",
     ]
 
     dataTestDependencies = [

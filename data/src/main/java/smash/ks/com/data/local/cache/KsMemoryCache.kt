@@ -18,8 +18,9 @@ package smash.ks.com.data.local.cache
 
 import com.devrapid.kotlinshaver.currentTime
 import com.devrapid.kotlinshaver.isNotNull
+import javax.inject.Inject
 
-open class KsMemoryCache : KsCache() {
+open class KsMemoryCache @Inject constructor() : KsCache() {
     companion object {
         private const val CAPACITY = 200
         private const val THRESHOLD = 24L * 60 * 60 // a day
