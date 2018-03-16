@@ -16,4 +16,4 @@
 
 package smash.ks.com.oneshoot.bases
 
-class BaseActivity
+abstract class BaseActivity

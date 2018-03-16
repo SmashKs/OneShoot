@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.bases
+package smash.ks.com.oneshoot.internal.di.modules
 
-abstract class BaseFragment
+import dagger.Module
+
+@Module
+class RepositoryModule

@@ -16,4 +16,4 @@
 
 package smash.ks.com.oneshoot.bases
 
-abstract class BaseFragment
+abstract class MvpActivity : BaseActivity()

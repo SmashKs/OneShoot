@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.bases
+package smash.ks.com.oneshoot.internal.di.modules
 
-abstract class BaseFragment
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+import smash.ks.com.oneshoot.features.main.MainActivity
+import smash.ks.com.oneshoot.internal.di.scopes.PerActivity
+
+@Module
+abstract class BindActivityModule {
+    @PerActivity
+    @ContributesAndroidInjector(modules = [BindFragmentModule::class])
+    abstract fun contributeMainActivityInjector(): MainActivity
+}

@@ -103,7 +103,7 @@ ext {
 
     //region Global Dependencies
     globalDependencies = [
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVer",
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVer",
             kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer",
             kotlinCoroutine: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVer",
 
