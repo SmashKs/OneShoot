@@ -43,6 +43,7 @@ class NetModule {
     fun provideRxJavaCallAdapter() = RxJava2CallAdapterFactory.create()
 
     @Provides
+    @Singleton
     fun provideGson() = with(GsonBuilder()) {
         setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         setLenient()
