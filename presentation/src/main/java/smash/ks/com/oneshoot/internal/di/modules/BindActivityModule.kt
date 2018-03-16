@@ -21,6 +21,9 @@ import dagger.android.ContributesAndroidInjector
 import smash.ks.com.oneshoot.features.main.MainActivity
 import smash.ks.com.oneshoot.internal.di.scopes.PerActivity
 
+/**
+ * Dagger module that provides each of [android.app.Activity] in this central module during the activity lifecycle.
+ */
 @Module
 abstract class BindActivityModule {
     @PerActivity

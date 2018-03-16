@@ -19,8 +19,9 @@ package smash.ks.com.data.repositories
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.domain.repositories.DataRepository
+import javax.inject.Inject
 
-class DataRepositoryImpl(
+class DataRepositoryImpl @Inject constructor(
     private val cache: KsCache,
     private val local: DataStore,
     private val remote: DataStore

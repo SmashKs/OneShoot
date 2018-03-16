@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(':domain')
+    implementation project(':ext')
 
     implementation gd.kotlin
     implementation gd.kotlinCoroutine
@@ -36,8 +37,8 @@ dependencies {
 
     implementation gd.kshaver
 
-    kapt dd.dagger2Compiler
-    implementation dd.dagger2
+    kapt gd.dagger2Compiler
+    implementation gd.dagger2
 
     kapt dd.dbflowProcessor
     implementation dd.dbflowCore

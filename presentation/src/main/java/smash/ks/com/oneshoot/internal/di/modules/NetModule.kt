@@ -66,13 +66,11 @@ class NetModule {
         converter: GsonConverterFactory,
         callAdapter: RxJava2CallAdapterFactory,
         okHttpClient: OkHttpClient
-    ) =
-        Retrofit.Builder().apply {
-            addConverterFactory(converter)
-            addCallAdapterFactory(callAdapter)
-            client(okHttpClient)
-        }
-
+    ) = Retrofit.Builder().apply {
+        addConverterFactory(converter)
+        addCallAdapterFactory(callAdapter)
+        client(okHttpClient)
+    }
 
     @Provides
     @Singleton

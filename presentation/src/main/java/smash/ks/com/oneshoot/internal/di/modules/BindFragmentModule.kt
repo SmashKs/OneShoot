@@ -18,5 +18,10 @@ package smash.ks.com.oneshoot.internal.di.modules
 
 import dagger.Module
 
+/**
+ * A base component upon which [android.support.v4.app.Fragment] components may depend.
+ * Fragment-level components should extend this component. Lifecycle is shorter
+ * than [smash.ks.com.oneshoot.internal.di.scopes.PerActivity].
+ */
 @Module
 abstract class BindFragmentModule

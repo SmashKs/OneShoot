@@ -17,6 +17,28 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import dagger.Module
+import dagger.Provides
+import smash.ks.com.data.datastores.DataStore
+import smash.ks.com.data.datastores.LocalDataStoreImpl
+import smash.ks.com.data.datastores.RemoteDataStoreImpl
+import smash.ks.com.data.local.cache.Cache
+import smash.ks.com.data.local.cache.KsMemoryCache
+import javax.inject.Singleton
 
 @Module
-class RepositoryModule
+class RepositoryModule {
+    @Provides
+    @Remote
+    @Singleton
+    fun provideRemoteRepository(cloudDataStore: RemoteDataStoreImpl): DataStore = cloudDataStore
+
+    @Provides
+    @Local
+    @Singleton
+    fun provideLocalRepository(localStore: LocalDataStoreImpl): DataStore = localStore
+
+    @Provides
+    @Local
+    @Singleton
+    fun provideLocalCache(localCache: KsMemoryCache): Cache = localCache
+}

@@ -112,6 +112,9 @@ ext {
 
             kknifer        : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
             kshaver        : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
+            // Dagger
+            dagger2        : "com.google.dagger:dagger:$dagger2Ver",
+            dagger2Compiler: "com.google.dagger:dagger-compiler:$dagger2Ver",
 
             glide          : "com.github.bumptech.glide:glide:$glideVer",
 
@@ -135,9 +138,7 @@ ext {
             ankoAppcompat          : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
             androidKtx             : "androidx.core:core-ktx:$ktxVer",
             // Dependency Inject
-            dagger2                : "com.google.dagger:dagger:$dagger2Ver",
             dagger2AndroidSupport  : "com.google.dagger:dagger-android-support:$dagger2Ver",
-            dagger2Compiler        : "com.google.dagger:dagger-compiler:$dagger2Ver",
             dagger2AndroidProcessor: "com.google.dagger:dagger-android-processor:$dagger2Ver",
             // Reactive
             rxbus                  : "com.hwangjr.rxbus:rxbus:$rxBusVer",
@@ -181,10 +182,7 @@ ext {
 
     //region Domain Dependencies
     domainDependencies = [
-            rxlifecycle2         : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
-            // Dagger
-            dagger2              : "com.google.dagger:dagger:$dagger2Ver",
-            dagger2Compiler      : "com.google.dagger:dagger-compiler:$dagger2Ver",
+            rxlifecycle2: "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
     ]
 
     domainTestDependencies = [
@@ -208,15 +206,20 @@ ext {
             retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
             retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
             okhttp3InterceptorLog  : "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
-            // Dagger
-            dagger2                : "com.google.dagger:dagger:$dagger2Ver",
-            dagger2Compiler        : "com.google.dagger:dagger-compiler:$dagger2Ver",
             // Mapper
             mapper                 : "org.modelmapper:modelmapper:$modelmapperVer",
     ]
 
     dataTestDependencies = [
             robolectric: "org.robolectric:robolectric:$robolectricVer"
+    ]
+    //endregion
+
+    //region Extension Dependencies
+    extDependencies = [
+    ]
+
+    extTestDependencies = [
     ]
     //endregion
 }

@@ -42,6 +42,10 @@ android {
     }
     dexOptions { javaMaxHeapSize "4g" }
     packagingOptions { exclude 'META-INF/rxjava.properties' }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 androidExtensions { experimental = true }
@@ -68,6 +72,7 @@ dependencies {
 
     implementation project(':domain')
     implementation project(':data')
+    implementation project(':ext')
 
     implementation gd.kotlin
     implementation gd.kotlinCoroutine
@@ -89,9 +94,9 @@ dependencies {
 
     implementation pd.mapper
 
-    kapt pd.dagger2Compiler
+    kapt gd.dagger2Compiler
+    implementation gd.dagger2
     kapt pd.dagger2AndroidProcessor
-    implementation pd.dagger2
     implementation pd.dagger2AndroidSupport
 
     implementation(pd.rxbus, {
@@ -145,8 +150,8 @@ dependencies {
         exclude module: 'design'
     }
 
-    kaptTest pd.dagger2Compiler
-    kaptAndroidTest pd.dagger2Compiler
+    kaptTest gd.dagger2Compiler
+    kaptAndroidTest gd.dagger2Compiler
 }
 
 //apply plugin: 'com.google.gms.google-services'

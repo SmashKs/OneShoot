@@ -22,16 +22,22 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import smash.ks.com.oneshoot.App
 import smash.ks.com.oneshoot.internal.di.modules.AppModule
+import smash.ks.com.oneshoot.internal.di.modules.BindActivityModule
+import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule
+import smash.ks.com.oneshoot.internal.di.modules.UtilModule
 import javax.inject.Singleton
 
 /**
  * A component whose lifetime is the life of the application.
  */
 @Singleton
-@Component(modules = [AppModule::class,
-//    RepositoryModule::class,
-//    BindingActivityModule::class,
-    AndroidSupportInjectionModule::class])
+@Component(modules = [
+    AppModule::class,
+    BindActivityModule::class,
+    RepositoryModule::class,
+    UtilModule::class,
+    AndroidSupportInjectionModule::class
+])
 interface AppComponent : AndroidInjector<App> {
     /** [AndroidInjector] Builder for using on this whole app. */
     @Component.Builder

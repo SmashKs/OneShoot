@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.qualifiers
+package com.ks.smash.ext.internal.di.qulifiers
 
 import javax.inject.Qualifier
 
 /**
- * A qualifier for providing the [Local].
+ * A qualifier for providing the [Remote].
  */
 @Qualifier
 @Retention
 @MustBeDocumented
-annotation class Local
+annotation class Remote

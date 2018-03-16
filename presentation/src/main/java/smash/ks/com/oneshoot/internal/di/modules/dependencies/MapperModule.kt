@@ -14,4 +14,9 @@
  * limitations under the License.
  */
 
-include ':presentation', ':domain', ':data', ':ext'
+package smash.ks.com.oneshoot.internal.di.modules.dependencies
+
+import dagger.Module
+
+@Module
+class MapperModule

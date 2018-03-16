@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.qualifiers
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
-import javax.inject.Qualifier
+dependencies {
+    def ed = rootProject.ext.extDependencies
+    def gd = rootProject.ext.globalDependencies
 
-/**
- * A qualifier for providing the [Remote].
- */
-@Qualifier
-@Retention
-@MustBeDocumented
-annotation class Remote
+    implementation gd.kotlin
+    implementation gd.kotlinCoroutine
+
+    kapt gd.dagger2Compiler
+    implementation gd.dagger2
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

@@ -14,4 +14,14 @@
  * limitations under the License.
  */
 
-include ':presentation', ':domain', ':data', ':ext'
+package com.ks.smash.ext.internal.di.qulifiers
+
+import javax.inject.Qualifier
+
+/**
+ * A qualifier for providing the [Local].
+ */
+@Qualifier
+@Retention
+@MustBeDocumented
+annotation class Local
