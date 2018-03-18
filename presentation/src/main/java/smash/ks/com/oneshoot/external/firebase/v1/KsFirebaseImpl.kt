@@ -16,4 +16,7 @@
 
 package smash.ks.com.oneshoot.external.firebase.v1
 
-class KsFirebase
+import smash.ks.com.data.remote.services.KsFirebase
+import javax.inject.Inject
+
+class KsFirebaseImpl @Inject constructor() : KsFirebase

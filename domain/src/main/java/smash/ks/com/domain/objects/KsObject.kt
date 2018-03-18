@@ -16,4 +16,6 @@
 
 package smash.ks.com.domain.objects
 
-data class KsObject(var name: String = "") : Object
+import com.ks.smash.ext.const.DEFAULT_STR
+
+data class KsObject(var name: String = DEFAULT_STR) : Object

@@ -16,8 +16,9 @@
 
 package smash.ks.com.data.objects
 
+import com.ks.smash.ext.const.DEFAULT_STR
 import smash.ks.com.domain.entities.Parameterable
 
-data class KsModel(var name: String = "") : Model, Parameterable {
+data class KsModel(var name: String = DEFAULT_STR) : Model, Parameterable {
     override fun toParameter() = hashMapOf("name" to name)
 }

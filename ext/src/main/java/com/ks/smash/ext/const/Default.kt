@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.datastores
+package com.ks.smash.ext.const
 
-import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.data.remote.services.KsService
-import javax.inject.Inject
-
-class RemoteDataStoreImpl @Inject constructor(
-    private val ksService: KsService,
-    private val ksFirebase: KsFirebase
-) : DataStore
+const val DEFAULT_INT = -1
+const val DEFAULT_LONG = -1L
+const val DEFAULT_DOUBLE = -1.0
+const val DEFAULT_STR = ""

@@ -16,4 +16,6 @@
 
 package smash.ks.com.domain.entities
 
-data class KsEntity(var name: String = "")
+import com.ks.smash.ext.const.DEFAULT_STR
+
+data class KsEntity(var name: String = DEFAULT_STR)
