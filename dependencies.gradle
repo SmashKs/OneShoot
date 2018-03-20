@@ -137,6 +137,7 @@ ext {
             ankoSdk25              : "org.jetbrains.anko:anko-sdk25:$ankoVer",
             ankoAppcompat          : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
             androidKtx             : "androidx.core:core-ktx:$ktxVer",
+            kotlinCoroutineAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVer",
             // Dependency Inject
             dagger2AndroidSupport  : "com.google.dagger:dagger-android-support:$dagger2Ver",
             dagger2AndroidProcessor: "com.google.dagger:dagger-android-processor:$dagger2Ver",
