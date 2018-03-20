@@ -103,23 +103,24 @@ ext {
 
     //region Global Dependencies
     globalDependencies = [
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVer",
-            kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer",
-            kotlinCoroutine: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVer",
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVer",
+            kotlinReflect     : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer",
+            kotlinCoroutine   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVer",
+            kotlinCoroutineRx2: "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$kotlinCoroutineVer",
 
-            rxJava2        : "io.reactivex.rxjava2:rxjava:$rxJava2Ver",
-            rxKotlin2      : "io.reactivex.rxjava2:rxkotlin:$rxKotlin2Ver",
+            rxJava2           : "io.reactivex.rxjava2:rxjava:$rxJava2Ver",
+            rxKotlin2         : "io.reactivex.rxjava2:rxkotlin:$rxKotlin2Ver",
 
-            kknifer        : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
-            kshaver        : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
+            kknifer           : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
+            kshaver           : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
             // Dagger
-            dagger2        : "com.google.dagger:dagger:$dagger2Ver",
-            dagger2Compiler: "com.google.dagger:dagger-compiler:$dagger2Ver",
+            dagger2           : "com.google.dagger:dagger:$dagger2Ver",
+            dagger2Compiler   : "com.google.dagger:dagger-compiler:$dagger2Ver",
 
-            glide          : "com.github.bumptech.glide:glide:$glideVer",
+            glide             : "com.github.bumptech.glide:glide:$glideVer",
 
-            gson           : "com.google.code.gson:gson:$gsonVer",
-            jsoup          : "org.jsoup:jsoup:$jsoupVer"
+            gson              : "com.google.code.gson:gson:$gsonVer",
+            jsoup             : "org.jsoup:jsoup:$jsoupVer"
     ]
 
     globalTestDependencies = [
