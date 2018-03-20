@@ -111,7 +111,6 @@ ext {
             rxJava2           : "io.reactivex.rxjava2:rxjava:$rxJava2Ver",
             rxKotlin2         : "io.reactivex.rxjava2:rxkotlin:$rxKotlin2Ver",
 
-            kknifer           : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
             kshaver           : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
             // Dagger
             dagger2           : "com.google.dagger:dagger:$dagger2Ver",
@@ -138,6 +137,7 @@ ext {
             ankoSdk25              : "org.jetbrains.anko:anko-sdk25:$ankoVer",
             ankoAppcompat          : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
             androidKtx             : "androidx.core:core-ktx:$ktxVer",
+            kknifer                : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
             kotlinCoroutineAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVer",
             // Dependency Inject
             dagger2AndroidSupport  : "com.google.dagger:dagger-android-support:$dagger2Ver",

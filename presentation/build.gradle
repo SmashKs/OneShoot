@@ -83,6 +83,7 @@ dependencies {
     implementation gd.rxKotlin2
 
     implementation gd.kshaver
+    implementation pd.kknifer
 
     implementation pd.ankoCommon
     implementation pd.ankoSdk25
