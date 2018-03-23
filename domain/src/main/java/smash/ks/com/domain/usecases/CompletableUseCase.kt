@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases.user
+package smash.ks.com.domain.usecases
 
+import io.reactivex.Completable
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.objects.KsObject
-import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.BaseUseCase
-import smash.ks.com.domain.usecases.ObservableUseCase
-import smash.ks.com.domain.usecases.user.GetUserUsecase.Requests
 
-/**
- * This class is an implementation of [BaseUseCase] that represents a use case for an example.
- */
-class GetUserUsecase(
-    private val repository: DataRepository,
+abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : ObservableUseCase<KsObject, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() = TODO()
-
-    /** Wrapping data requests for general situation.*/
-    class Requests(val obj: KsObject) : RequestValues
+) : BaseUseCase<R>(threadExecutor, postExecutionThread) {
+    /**
+     * Choose a method from [smash.ks.com.data.datastores.DataStore] and fit this use case
+     * for return some data.
+     *
+     * @return an [Completable] for chaining on working threads.
+     */
+    protected abstract fun fetchUseCase(): Completable
 }

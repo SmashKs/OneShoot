@@ -20,27 +20,28 @@ import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Observable
 import smash.ks.com.domain.usecases.BaseUseCase
+import smash.ks.com.domain.usecases.ObservableUseCase
 
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
-    usecase: BaseUseCase<T, V>,
+    usecase: ObservableUseCase<T, V>,
     parameter: V,
     block: Observable<T>.() -> Observable<F>,
     observer: ObserverPlugin<F>.() -> Unit
 ) = usecase.execute(parameter, this, block, observer)
 
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
-    usecase: BaseUseCase<T, V>,
+    usecase: ObservableUseCase<T, V>,
     block: Observable<T>.() -> Observable<F>,
     observer: ObserverPlugin<F>.() -> Unit
 ) = usecase.execute(this, block, observer)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
-    usecase: BaseUseCase<T, V>,
+    usecase: ObservableUseCase<T, V>,
     parameter: V,
     observer: ObserverPlugin<T>.() -> Unit
 ) = usecase.execute(parameter, this, observer)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
-    usecase: BaseUseCase<T, V>,
+    usecase: ObservableUseCase<T, V>,
     observer: ObserverPlugin<T>.() -> Unit
 ) = usecase.execute(this, observer)
