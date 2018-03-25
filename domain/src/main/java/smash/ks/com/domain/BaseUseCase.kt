@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases
+package smash.ks.com.domain
 
 import io.reactivex.CompletableTransformer
 import io.reactivex.Observable
@@ -22,9 +22,9 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.Scheduler
 import io.reactivex.SingleTransformer
 import io.reactivex.schedulers.Schedulers
+import smash.ks.com.domain.BaseUseCase.RequestValues
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.usecases.BaseUseCase.RequestValues
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).

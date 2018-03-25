@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases
+package smash.ks.com.domain
 
 import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider

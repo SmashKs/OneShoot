@@ -16,13 +16,13 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import smash.ks.com.domain.BaseUseCase
+import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.BaseUseCase
-import smash.ks.com.domain.usecases.SingleUseCase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 
 /**

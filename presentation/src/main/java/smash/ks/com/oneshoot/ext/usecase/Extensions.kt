@@ -23,10 +23,10 @@ import io.reactivex.CompletableObserver
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
-import smash.ks.com.domain.usecases.BaseUseCase
-import smash.ks.com.domain.usecases.CompletableUseCase
-import smash.ks.com.domain.usecases.ObservableUseCase
-import smash.ks.com.domain.usecases.SingleUseCase
+import smash.ks.com.domain.BaseUseCase
+import smash.ks.com.domain.CompletableUseCase
+import smash.ks.com.domain.ObservableUseCase
+import smash.ks.com.domain.SingleUseCase
 
 //region Observable
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
