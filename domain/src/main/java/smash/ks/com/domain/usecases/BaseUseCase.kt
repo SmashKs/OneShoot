@@ -44,14 +44,26 @@ abstract class BaseUseCase<R : RequestValues>(
     /** Provide a common parameter variable for the children class. */
     var requestValues: R? = null
 
+    /**
+     * Composing the transfer a new thread [ThreadExecutor] scheduler to [smash.ks.com.oneshoot.UiThread]
+     * for [Observable].
+     */
     protected fun <T> observableTransferSchedule() = ObservableTransformer<T, T> {
         it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
     }
 
+    /**
+     * Composing the transfer a new thread [ThreadExecutor] scheduler to [smash.ks.com.oneshoot.UiThread]
+     * for [io.reactivex.Single].
+     */
     protected fun <T> singleTransferSchedule() = SingleTransformer<T, T> {
         it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
     }
 
+    /**
+     * Composing the transfer a new thread [ThreadExecutor] scheduler to [smash.ks.com.oneshoot.UiThread]
+     * for [io.reactivex.Completable].
+     */
     protected fun completableTransferSchedule() = CompletableTransformer {
         it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
     }
