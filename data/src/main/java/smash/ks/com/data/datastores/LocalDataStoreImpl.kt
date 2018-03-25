@@ -18,4 +18,8 @@ package smash.ks.com.data.datastores
 
 import javax.inject.Inject
 
-class LocalDataStoreImpl @Inject constructor() : DataStore
+class LocalDataStoreImpl @Inject constructor() : DataStore {
+    //region Fake
+    override fun fetchKsImage() = TODO()
+    //endregion
+}

@@ -16,4 +16,11 @@
 
 package smash.ks.com.data.remote.services
 
-interface KsFirebase
+import io.reactivex.Single
+import smash.ks.com.data.objects.KsModel
+
+interface KsFirebase {
+    //region Fake
+    fun fetchKsImage(imageId: Int): Single<KsModel>
+    //endregion
+}

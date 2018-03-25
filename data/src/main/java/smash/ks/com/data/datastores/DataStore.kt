@@ -16,4 +16,11 @@
 
 package smash.ks.com.data.datastores
 
-interface DataStore
+import io.reactivex.Single
+import smash.ks.com.data.objects.KsModel
+
+interface DataStore {
+    //region Fake
+    fun fetchKsImage(): Single<KsModel>
+    //endregion
+}

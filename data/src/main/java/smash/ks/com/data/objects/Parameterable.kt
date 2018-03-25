@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.entities
+package smash.ks.com.data.objects
 
 interface Parameterable {
     fun toParameter(): HashMap<String, String>

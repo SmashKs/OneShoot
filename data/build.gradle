@@ -51,6 +51,9 @@ dependencies {
 //    implementation dd.dbflowSqlCipher
 
     implementation dd.mapper
+
+    implementation dd.retrofit2
+    implementation dd.retrofit2AdapterRxJava2
 }
 
 sourceCompatibility = "1.8"

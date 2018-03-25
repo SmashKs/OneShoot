@@ -16,4 +16,11 @@
 
 package smash.ks.com.domain.repositories
 
-interface DataRepository
+import io.reactivex.Single
+import smash.ks.com.domain.objects.KsObject
+
+interface DataRepository {
+    //region Fake
+    fun retrieveKsImage(): Single<KsObject>
+    //endregion
+}
