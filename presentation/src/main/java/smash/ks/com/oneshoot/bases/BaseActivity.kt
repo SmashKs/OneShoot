@@ -16,4 +16,58 @@
 
 package smash.ks.com.oneshoot.bases
 
-abstract class BaseActivity
+import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
+import com.hwangjr.rxbus.RxBus
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
+
+abstract class BaseActivity : RxAppCompatActivity(), HasSupportFragmentInjector {
+    /** For providing to searchFragments. */
+    @Inject lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    var mvpOnCreate: (() -> Unit)? = null
+
+    // Register it in the parent class that it will be not reflected.
+    protected var busEvent = object {
+//        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
+//        fun test(test: String) {
+//        }
+    }
+
+    //region Activity lifecycle
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
+        setContentView(provideLayoutId())
+        mvpOnCreate?.invoke()
+
+        // Register RxBus.
+        RxBus.get().register(busEvent)
+        init(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Unregister RxBus.
+        RxBus.get().unregister(busEvent)
+    }
+    //endregion
+
+    abstract fun init(savedInstanceState: Bundle?)
+
+    @LayoutRes
+    abstract fun provideLayoutId(): Int
+
+    /**
+     * Providing the fragment injector([Fragment]) for the searchFragments.
+     *
+     * @return a [supportFragmentInjector] for children of this fragment.
+     */
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
+}

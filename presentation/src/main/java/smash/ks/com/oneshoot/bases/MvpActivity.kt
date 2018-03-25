@@ -16,4 +16,55 @@
 
 package smash.ks.com.oneshoot.bases
 
-abstract class MvpActivity : BaseActivity()
+import android.os.Bundle
+import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
+import smash.ks.com.oneshoot.mvp.views.MvpView
+
+abstract class MvpActivity<V : MvpView, P : BasePresenter<V>> : BaseActivity() {
+    abstract var presenter: P
+
+    //region Activity lifecycle
+    override fun onContentChanged() {
+        super.onContentChanged()
+        presenter.create(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        mvpOnCreate = {
+            // OPTIMIZE(jieyi): 11/9/17 Here might restart activity again, this function won't be ran!?
+            presenter.view = provideCurrentActivityView()
+            presenter.init()
+        }
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.pause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.stop()
+    }
+
+    override fun onDestroy() {
+        // After super.onDestroy() is executed, the presenter will be destroy. So the presenter should be
+        // executed before super.onDestroy().
+        presenter.destroy()
+        super.onDestroy()
+    }
+    //endregion
+
+    abstract fun provideCurrentActivityView(): V
+}

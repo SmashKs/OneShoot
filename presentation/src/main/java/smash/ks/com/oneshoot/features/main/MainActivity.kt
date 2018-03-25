@@ -21,7 +21,6 @@ import android.support.v7.app.AppCompatActivity
 import smash.ks.com.oneshoot.R
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

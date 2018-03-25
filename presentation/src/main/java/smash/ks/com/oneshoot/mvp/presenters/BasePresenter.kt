@@ -16,15 +16,16 @@
 
 package smash.ks.com.oneshoot.mvp.presenters
 
+import com.trello.rxlifecycle2.LifecycleProvider
 import smash.ks.com.oneshoot.mvp.views.MvpView
 
 abstract class BasePresenter<V : MvpView> : MvpPresenter {
     open lateinit var view: V
-//    protected lateinit var lifecycleProvider: LifecycleProvider<*>
+    protected lateinit var lifecycleProvider: LifecycleProvider<*>
 
-//    override fun <E> create(lifecycleProvider: LifecycleProvider<E>) {
-//        this.lifecycleProvider = lifecycleProvider
-//    }
+    override fun <E> create(lifecycleProvider: LifecycleProvider<E>) {
+        this.lifecycleProvider = lifecycleProvider
+    }
 
     override fun init() {}
 
