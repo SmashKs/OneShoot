@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases
+package smash.ks.com.domain.usecases.categories
 
 import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
@@ -22,6 +22,7 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.domain.usecases.BaseUseCase
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).

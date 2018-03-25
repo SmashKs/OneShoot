@@ -52,7 +52,7 @@ abstract class BaseUseCase<R : RequestValues>(
         it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
     }
 
-    protected fun <T> completableTransferSchedule() = CompletableTransformer {
+    protected fun completableTransferSchedule() = CompletableTransformer {
         it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
     }
 

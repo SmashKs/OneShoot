@@ -20,7 +20,7 @@ import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Observable
 import smash.ks.com.domain.usecases.BaseUseCase
-import smash.ks.com.domain.usecases.ObservableUseCase
+import smash.ks.com.domain.usecases.categories.ObservableUseCase
 
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
