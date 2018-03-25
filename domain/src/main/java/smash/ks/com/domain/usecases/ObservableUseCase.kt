@@ -38,7 +38,6 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : BaseUseCase<R>(threadExecutor, postExecutionThread) {
-
     //region UseCase with an anonymous function.
     /**
      * Executes the current use case.
@@ -170,8 +169,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      *
      * @return [Observable] for connecting with a [Observer] from the kotlin layer.
      */
-    private fun buildUseCaseObservable() =
-        fetchUseCase().subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+    private fun buildUseCaseObservable() = fetchUseCase().compose(observableTransferSchedule())
     //endregion
 
     /**

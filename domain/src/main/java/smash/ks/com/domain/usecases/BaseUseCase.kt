@@ -16,8 +16,11 @@
 
 package smash.ks.com.domain.usecases
 
+import io.reactivex.CompletableTransformer
 import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
 import io.reactivex.Scheduler
+import io.reactivex.SingleTransformer
 import io.reactivex.schedulers.Schedulers
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
@@ -40,6 +43,18 @@ abstract class BaseUseCase<R : RequestValues>(
 ) {
     /** Provide a common parameter variable for the children class. */
     var requestValues: R? = null
+
+    protected fun <T> observableTransferSchedule() = ObservableTransformer<T, T> {
+        it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+    }
+
+    protected fun <T> singleTransferSchedule() = SingleTransformer<T, T> {
+        it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+    }
+
+    protected fun <T> completableTransferSchedule() = CompletableTransformer {
+        it.subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+    }
 
     /**
      * Obtain a thread for while [Observable] is doing their tasks.

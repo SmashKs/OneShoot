@@ -52,8 +52,8 @@ ext {
     //region Version Kotlin/Android extension
     ankoVer = '0.10.4'
     ktxVer = '0.2'
-    kinferVer = '1.5.4'
-    shaverVer = '0.2.1'
+    kinferVer = '1.5.5'
+    shaverVer = '0.2.2'
     //endregion
 
     dagger2Ver = '2.15'
