@@ -44,7 +44,7 @@ ext {
     //endregion
 
     androidSupportVer = '27.0.2'
-    androidContraintLayoutVer = '1.0.2'
+    androidContraintLayoutVer = '1.1.0-beta6'
 
     kotlinVer = "$kotlin_version"
     kotlinCoroutineVer = '0.22.5'
