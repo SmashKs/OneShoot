@@ -18,10 +18,17 @@ package smash.ks.com.oneshoot.ext.usecase
 
 import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 import smash.ks.com.domain.usecases.BaseUseCase
+import smash.ks.com.domain.usecases.categories.CompletableUseCase
 import smash.ks.com.domain.usecases.categories.ObservableUseCase
+import smash.ks.com.domain.usecases.categories.SingleUseCase
 
+//region Observable
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
     parameter: V,
@@ -45,3 +52,56 @@ fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
     observer: ObserverPlugin<T>.() -> Unit
 ) = usecase.execute(this, observer)
+//endregion
+
+//region Single
+fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: SingleUseCase<T, V>,
+    parameter: V,
+    block: Single<T>.() -> Single<F>,
+    singleObserver: SingleObserver<F>.() -> Unit
+) = usecase.execute(parameter, this, block, singleObserver)
+
+fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: SingleUseCase<T, V>,
+    block: Single<T>.() -> Single<F>,
+    singleObserver: SingleObserver<F>.() -> Unit
+) = usecase.execute(this, block, singleObserver)
+
+fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: SingleUseCase<T, V>,
+    parameter: V,
+    singleObserver: SingleObserver<T>.() -> Unit
+) = usecase.execute(parameter, this, singleObserver)
+
+fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: SingleUseCase<T, V>,
+    singleObserver: SingleObserver<T>.() -> Unit
+) = usecase.execute(this, singleObserver)
+//endregion
+
+//region Completable
+fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: CompletableUseCase<V>,
+    parameter: V,
+    block: Completable.() -> Completable,
+    completableObserver: CompletableObserver.() -> Unit
+) = usecase.execute(parameter, this, block, completableObserver)
+
+fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: CompletableUseCase<V>,
+    block: Completable.() -> Completable,
+    completableObserver: CompletableObserver.() -> Unit
+) = usecase.execute(this, block, completableObserver)
+
+fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: CompletableUseCase<V>,
+    parameter: V,
+    completableObserver: CompletableObserver.() -> Unit
+) = usecase.execute(parameter, this, completableObserver)
+
+fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
+    usecase: CompletableUseCase<V>,
+    completableObserver: CompletableObserver.() -> Unit
+) = usecase.execute(this, completableObserver)
+//endregion
