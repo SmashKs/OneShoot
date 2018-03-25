@@ -16,10 +16,11 @@
 
 package smash.ks.com.data.datastores
 
+import smash.ks.com.domain.parameters.Parameterable
 import javax.inject.Inject
 
 class LocalDataStoreImpl @Inject constructor() : DataStore {
     //region Fake
-    override fun fetchKsImage() = TODO()
+    override fun fetchKsImage(params: Parameterable) = TODO()
     //endregion
 }

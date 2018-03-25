@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.external.firebase.v1
+package smash.ks.com.domain.parameters
 
-import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.domain.parameters.Parameterable
-import javax.inject.Inject
-
-class KsFirebaseImpl @Inject constructor() : KsFirebase {
-    //region Fake
-    override fun fetchKsImage(params: Parameterable) = TODO()
-    //endregion
+interface Parameterable {
+    fun toParameter(): HashMap<String, String>
 }

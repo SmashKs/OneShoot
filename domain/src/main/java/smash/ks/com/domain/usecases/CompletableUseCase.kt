@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases.categories
+package smash.ks.com.domain.usecases
 
-import com.devrapid.kotlinshaver.ObserverPlugin
+import com.devrapid.kotlinshaver.CompletablePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
-import io.reactivex.Observable
-import io.reactivex.Observer
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.usecases.BaseUseCase
 
-/**
- * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
- * This interface represents a execution unit for different use cases (this means any use case in the
- * application should implement this contract).
- *
- * By convention each UseCase implementation will return the result using a [org.reactivestreams.Subscriber]
- * that will execute its job in a background thread and will post the result in the UI thread.
- *
- * For passing a request parameters [smash.ks.com.domain.usecases.BaseUseCase.RequestValues] to data layer
- * that set a generic type for wrapping vary data.
- */
-abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
+abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : BaseUseCase<R>(threadExecutor, postExecutionThread) {
@@ -45,13 +33,16 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      *
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from
+     *                            database or remote.
      */
-    fun <F> execute(
+    fun execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
-        observer: Observer<F>
-    ) = buildUseCaseObservable(block).apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
+        block: Completable.() -> Completable,
+        completableObserver: CompletableObserver
+    ) = buildCompletableUseCase(block)
+        .apply { lifecycleProvider?.bindToLifecycle<Unit>() }
+        .subscribe(completableObserver)
 
     /**
      * Executes the current use case with request [parameter].
@@ -59,16 +50,16 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from database or remote.
      */
-    fun <F> execute(
+    fun execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
-        observer: Observer<F>
+        block: Completable.() -> Completable,
+        completableObserver: CompletableObserver
     ) {
         requestValues = parameter
-        execute(lifecycleProvider, block, observer)
+        execute(lifecycleProvider, block, completableObserver)
     }
 
     /**
@@ -76,13 +67,14 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      *
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from
+     *                       database or remote.
      */
-    fun <F> execute(
+    fun execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
-        observer: ObserverPlugin<F>.() -> Unit
-    ) = execute(lifecycleProvider, block, ObserverPlugin<F>().apply(observer))
+        block: Completable.() -> Completable,
+        completableObserver: CompletablePlugin.() -> Unit
+    ) = execute(lifecycleProvider, block, CompletablePlugin().apply(completableObserver))
 
     /**
      * Executes the current use case with request [parameter] with an anonymous function..
@@ -90,20 +82,20 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from database or remote.
      */
-    fun <F> execute(
+    fun execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
-        observer: ObserverPlugin<F>.() -> Unit
+        block: Completable.() -> Completable,
+        completableObserver: CompletablePlugin.() -> Unit
     ) {
         requestValues = parameter
-        execute(lifecycleProvider, block, observer)
+        execute(lifecycleProvider, block, completableObserver)
     }
 
     /**
-     * Build an [Observable] which will be used when executing the current [ObservableUseCase].
+     * Build an [Completable] which will be used when executing the current [SingleUseCase].
      * There is a [io.reactivex.internal.operators.observable.ObservableSubscribeOn] for fetching
      * the data from the [smash.ks.com.domain.repositories.DataRepository] works on the new thread
      * so after [io.reactivex.internal.operators.observable.ObservableSubscribeOn]'s chain function
@@ -111,9 +103,9 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * This is for who needs transfer the thread to UI, IO, or new thread again.
      *
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @return [Observable] for connecting with a [Observer] from the kotlin layer.
+     * @return [Completable] for connecting with a [CompletableObserver] from the kotlin layer.
      */
-    private fun <F> buildUseCaseObservable(block: (Observable<T>.() -> Observable<F>)) =
+    private fun buildCompletableUseCase(block: (Completable.() -> Completable)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
             .run(block)
@@ -125,59 +117,63 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * Executes the current use case.
      *
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
-     * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [] from presentation, the data are omitted
+     *                 from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) =
-        buildUseCaseObservable().apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
+    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, completableObserver: CompletableObserver) =
+        buildCompletableUseCase().apply { lifecycleProvider?.bindToLifecycle<Unit>() }.subscribe(completableObserver)
 
     /**
      * Executes the current use case with request [parameter].
      *
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
-     * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [CompletableObserver] from presentation, the data are omitted from
+     *                 database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) {
+    fun execute(
+        parameter: R,
+        lifecycleProvider: LifecycleProvider<*>? = null,
+        completableObserver: CompletableObserver
+    ) {
         requestValues = parameter
-        execute(lifecycleProvider, observer)
+        execute(lifecycleProvider, completableObserver)
     }
 
     /**
      * Executes the current use case.
      *
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
-     * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
+     * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: ObserverPlugin<T>.() -> Unit) =
-        execute(lifecycleProvider, ObserverPlugin<T>().apply(observer))
+    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: CompletableObserver.() -> Unit) =
+        execute(lifecycleProvider, CompletablePlugin().apply(observer))
 
     /**
      * Executes the current use case with request [parameter].
      *
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
-     * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
+     * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: ObserverPlugin<T>.() -> Unit) {
+    fun execute(
+        parameter: R,
+        lifecycleProvider: LifecycleProvider<*>? = null,
+        observer: CompletableObserver.() -> Unit
+    ) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
         fetchUseCase()
     }
 
-    /**
-     * Build an [Observable] which will be used when executing the current [ObservableUseCase] and run on
-     * the UI thread.
-     *
-     * @return [Observable] for connecting with a [Observer] from the kotlin layer.
-     */
-    private fun buildUseCaseObservable() = fetchUseCase().compose(observableTransferSchedule())
+    private fun buildCompletableUseCase() = fetchUseCase().compose(completableTransferSchedule())
     //endregion
 
     /**
      * Choose a method from [smash.ks.com.data.datastores.DataStore] and fit this use case
      * for return some data.
      *
-     * @return an [Observer] for chaining on working threads.
+     * @return an [Completable] for chaining on working threads.
      */
-    protected abstract fun fetchUseCase(): Observable<T>
+    protected abstract fun fetchUseCase(): Completable
 }

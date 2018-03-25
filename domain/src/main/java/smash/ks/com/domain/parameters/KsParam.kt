@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.objects
+package smash.ks.com.domain.parameters
 
-interface Parameterable {
-    fun toParameter(): HashMap<String, String>
+import com.ks.smash.ext.const.DEFAULT_INT
+
+data class KsParam(val imageId: Int = DEFAULT_INT) : Parameterable {
+    override fun toParameter() = hashMapOf("id" to imageId.toString())
 }

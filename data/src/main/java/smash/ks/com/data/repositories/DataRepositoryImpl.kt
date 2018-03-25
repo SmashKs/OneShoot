@@ -22,6 +22,7 @@ import org.modelmapper.ModelMapper
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.objects.mappers.KsMapper
+import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 import javax.inject.Inject
 
@@ -31,6 +32,7 @@ class DataRepositoryImpl @Inject constructor(
     @Remote private val remote: DataStore
 ) : DataRepository {
     //region Fake
-    override fun retrieveKsImage() = remote.fetchKsImage().map(KsMapper(ModelMapper())::toObjectFrom)
+    override fun retrieveKsImage(params: Parameterable) =
+        remote.fetchKsImage().map(KsMapper(ModelMapper())::toObjectFrom)
     //endregion
 }

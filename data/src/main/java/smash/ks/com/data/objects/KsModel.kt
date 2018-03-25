@@ -17,6 +17,7 @@
 package smash.ks.com.data.objects
 
 import com.ks.smash.ext.const.DEFAULT_STR
+import smash.ks.com.domain.parameters.Parameterable
 
 data class KsModel(val uri: String = DEFAULT_STR) : Model, Parameterable {
     override fun toParameter() = hashMapOf("uri" to uri)

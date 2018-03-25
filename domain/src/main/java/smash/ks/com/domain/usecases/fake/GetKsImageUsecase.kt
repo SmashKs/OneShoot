@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases.user
+package smash.ks.com.domain.usecases.fake
 
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.BaseUseCase
-import smash.ks.com.domain.usecases.categories.ObservableUseCase
-import smash.ks.com.domain.usecases.user.GetUserUsecase.Requests
+import smash.ks.com.domain.usecases.SingleUseCase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 
 /**
  * This class is an implementation of [BaseUseCase] that represents a use case for an example.
  */
-class GetUserUsecase(
+class GetKsImageUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : ObservableUseCase<KsObject, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() = TODO()
+) : SingleUseCase<KsObject, Requests>(threadExecutor, postExecutionThread) {
+    override fun fetchUseCase() =
+        requestValues?.run { repository.retrieveKsImage(params) } ?: throw Exception()
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val obj: KsObject) : RequestValues
+    class Requests(val params: KsParam = KsParam()) : RequestValues
 }

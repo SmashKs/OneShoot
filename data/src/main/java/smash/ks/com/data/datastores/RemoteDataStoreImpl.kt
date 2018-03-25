@@ -16,14 +16,15 @@
 
 package smash.ks.com.data.datastores
 
-import com.ks.smash.ext.const.DEFAULT_INT
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
+import smash.ks.com.domain.parameters.Parameterable
 import javax.inject.Inject
 
 class RemoteDataStoreImpl @Inject constructor(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
 ) : DataStore {
-    override fun fetchKsImage() = if (true) ksService.fetchKsData(hashMapOf()) else ksFirebase.fetchKsImage(DEFAULT_INT)
+    override fun fetchKsImage(params: Parameterable) =
+        if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchKsImage()
 }
