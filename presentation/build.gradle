@@ -101,6 +101,9 @@ dependencies {
     kapt pd.dagger2AndroidProcessor
     implementation pd.dagger2AndroidSupport
 
+    implementation gd.kodeinGeneric
+    implementation gd.kodeinCore
+
     implementation(pd.rxbus, {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     })
