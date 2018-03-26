@@ -19,9 +19,8 @@ package smash.ks.com.data.datastores
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.parameters.Parameterable
-import javax.inject.Inject
 
-class RemoteDataStoreImpl @Inject constructor(
+class RemoteDataStoreImpl(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
 ) : DataStore {

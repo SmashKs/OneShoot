@@ -23,6 +23,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import smash.ks.com.oneshoot.App
 import smash.ks.com.oneshoot.internal.di.modules.AppModule
 import smash.ks.com.oneshoot.internal.di.modules.BindActivityModule
+import smash.ks.com.oneshoot.internal.di.modules.NetModule
 import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule
 import smash.ks.com.oneshoot.internal.di.modules.UtilModule
 import javax.inject.Singleton
@@ -35,6 +36,7 @@ import javax.inject.Singleton
     AppModule::class,
     BindActivityModule::class,
     RepositoryModule::class,
+    NetModule::class,
     UtilModule::class,
     AndroidSupportInjectionModule::class
 ])
@@ -45,4 +47,5 @@ interface AppComponent : AndroidInjector<App> {
 
     /** Providing to dependence components. */
     fun context(): Context
+
 }

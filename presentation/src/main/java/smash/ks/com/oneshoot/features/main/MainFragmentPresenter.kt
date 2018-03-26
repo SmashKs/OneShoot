@@ -16,17 +16,19 @@
 
 package smash.ks.com.oneshoot.features.main
 
-import android.os.Bundle
-import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.bases.BaseActivity
-import java.util.Random
+import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.oneshoot.ext.usecase.execute
+import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
-class MainActivity : BaseActivity() {
-    override fun init(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.rl_container, MainFragment.newInstance(Random().nextInt()))
-        }.commit()
+class MainFragmentPresenter(
+    private val getKsImageCase: GetKsImageCase
+) : MainContract.Presenter() {
+    override fun obtainImageUri(imageId: Int) {
+        view.showLoading()
+
+        lifecycleProvider.execute(getKsImageCase, GetKsImageUsecase.Requests(KsParam(imageId))) {
+        }
     }
-
-    override fun provideLayoutId() = R.layout.activity_main
 }

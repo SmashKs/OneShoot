@@ -17,38 +17,66 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
-import com.ks.smash.ext.const.DEFAULT_STR
+import com.ks.smash.ext.const.DEFAULT_INT
+import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
+import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
+import javax.inject.Inject
 
-class MainFragment : MvpFragment<View, Presenter>() {
+class MainFragment : MvpFragment<View, Presenter>(), View {
     //region Instance
     companion object Factory {
         // The key name of the fragment initialization parameters.
-        private val ARG_PARAM_ = "param_"
+        const val ARG_RANDOM_ID = "param random image id"
 
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
          *
          * @return A new instance of fragment [MainFragment].
          */
-        fun newInstance(arg1: Any = DEFAULT_STR) = MainFragment().apply {
-            arguments = bundleOf(ARG_PARAM_ to arg1)
+        fun newInstance(arg1: Int = DEFAULT_INT) = MainFragment().apply {
+            arguments = bundleOf(ARG_RANDOM_ID to arg1)
         }
     }
     //endregion
 
-    //@Inject
-    override lateinit var presenter: Presenter
+    @Inject override lateinit var presenter: Presenter
     // The fragment initialization parameters.
-    private val arg1 by lazy { arguments?.getString(ARG_PARAM_) as Any }
+    private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
-    override fun provideCurrentFragmentView() = TODO()
-
+    //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
+        presenter.obtainImageUri(randomId)
     }
 
-    override fun provideInflateView() = TODO()
+    override fun provideCurrentFragmentView() = this
+
+    override fun provideInflateView() = R.layout.fragment_main
+    //endregion
+
+    //region View Implementation for the Presenter.
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showRetry() {
+    }
+
+    override fun hideRetry() {
+    }
+
+    override fun showError(message: String) {
+    }
+    //endregion
+
+    //region Presenter Implementation.
+    override fun showImageUri(uri: String) {
+        tv_label.text = uri
+    }
+    //endregion
 }

@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.ks
 
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import smash.ks.com.oneshoot.features.main.MainFragment
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.ks.MainModule
+import dagger.Provides
+import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.UsecaseModule
 import smash.ks.com.oneshoot.internal.di.scopes.PerFragment
+import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
-/**
- * A base component upon which [android.support.v4.app.Fragment] components may depend.
- * Fragment-level components should extend this component. Lifecycle is shorter
- * than [smash.ks.com.oneshoot.internal.di.scopes.PerActivity].
- */
-@Module
-abstract class BindFragmentModule {
-    //region Fake
+@Module(includes = [UsecaseModule::class])
+class MainModule {
+    @Provides
     @PerFragment
-    @ContributesAndroidInjector(modules = [MainModule::class])
-    abstract fun contributeMainFragmentInjector(): MainFragment
-    //endregion
+    fun provideMainPresenter(getKsImageCase: GetKsImageCase): MainContract.Presenter =
+        MainFragmentPresenter(getKsImageCase)
 }

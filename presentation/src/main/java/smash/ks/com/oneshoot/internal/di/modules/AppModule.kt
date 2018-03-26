@@ -20,7 +20,11 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import smash.ks.com.domain.executors.JobExecutor
+import smash.ks.com.domain.executors.PostExecutionThread
+import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.oneshoot.App
+import smash.ks.com.oneshoot.UiThread
 import javax.inject.Singleton
 
 /**
@@ -35,4 +39,12 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppContext(app: App): Context = app.applicationContext
+
+    @Provides
+    @Singleton
+    fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread = uiThread
+
+    @Provides
+    @Singleton
+    fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor = jobExecutor
 }

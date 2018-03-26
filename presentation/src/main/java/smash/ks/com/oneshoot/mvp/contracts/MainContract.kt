@@ -20,13 +20,18 @@ import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
 import smash.ks.com.oneshoot.mvp.views.MvpView
 
 /**
- * This specifies the contract between the [MvpPre] and the [IView].
+ * This specifies the contract between the [smash.ks.com.oneshoot.mvp.presenters.MvpPresenter] and
+ * the [MvpView].
  *
  * @author  Jieyi Wu
  * @since   2017/09/25
  */
 interface MainContract {
-    abstract class Presenter : BasePresenter<View>()
+    abstract class Presenter : BasePresenter<View>() {
+        abstract fun obtainImageUri(imageId: Int)
+    }
 
-    interface View : MvpView
+    interface View : MvpView {
+        fun showImageUri(uri: String)
+    }
 }

@@ -23,8 +23,10 @@ import dagger.Provides
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.datastores.LocalDataStoreImpl
 import smash.ks.com.data.datastores.RemoteDataStoreImpl
-import smash.ks.com.data.local.cache.Cache
+import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.local.cache.KsMemoryCache
+import smash.ks.com.data.remote.services.KsFirebase
+import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.repositories.DataRepositoryImpl
 import smash.ks.com.domain.repositories.DataRepository
 import javax.inject.Singleton
@@ -44,7 +46,12 @@ class RepositoryModule {
     @Provides
     @Local
     @Singleton
-    fun provideLocalCache(localCache: KsMemoryCache): Cache = localCache
+    fun provideLocalCache(localCache: KsMemoryCache): KsCache = localCache
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataStore(ksService: KsService, ksFirebase: KsFirebase) =
+        RemoteDataStoreImpl(ksService, ksFirebase)
 
     @Provides
     @Singleton

@@ -29,7 +29,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import smash.ks.com.data.remote.RestfulApiFactory
+import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
+import smash.ks.com.oneshoot.external.firebase.v1.KsFirebaseImpl
 import javax.inject.Singleton
 
 @Module
@@ -75,9 +77,13 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun provideKaritokeSerivce(baseBuilder: Retrofit.Builder, restfulApiFactory: RestfulApiFactory) =
+    fun provideKsSerivce(baseBuilder: Retrofit.Builder, restfulApiFactory: RestfulApiFactory) =
         with(baseBuilder) {
             baseUrl(restfulApiFactory.createKaritokeConfig().apiBaseUrl)
             build()
         }.create(KsService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLsFirebase(ksFirebaseImpl: KsFirebaseImpl): KsFirebase = ksFirebaseImpl
 }

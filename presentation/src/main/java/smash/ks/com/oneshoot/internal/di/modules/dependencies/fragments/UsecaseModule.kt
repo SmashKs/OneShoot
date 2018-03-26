@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments
 
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import smash.ks.com.oneshoot.features.main.MainFragment
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.ks.MainModule
+import dagger.Provides
+import smash.ks.com.domain.executors.PostExecutionThread
+import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.domain.repositories.DataRepository
+import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
 import smash.ks.com.oneshoot.internal.di.scopes.PerFragment
 
-/**
- * A base component upon which [android.support.v4.app.Fragment] components may depend.
- * Fragment-level components should extend this component. Lifecycle is shorter
- * than [smash.ks.com.oneshoot.internal.di.scopes.PerActivity].
- */
 @Module
-abstract class BindFragmentModule {
+class UsecaseModule {
     //region Fake
+    @Provides
     @PerFragment
-    @ContributesAndroidInjector(modules = [MainModule::class])
-    abstract fun contributeMainFragmentInjector(): MainFragment
+    fun provideUsecase(
+        repository: DataRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ): GetKsImageCase = GetKsImageUsecase(repository, threadExecutor, postExecutionThread)
     //endregion
 }
