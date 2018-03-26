@@ -19,11 +19,9 @@ package smash.ks.com.oneshoot.internal.di.modules
 import dagger.Module
 import dagger.Provides
 import org.modelmapper.ModelMapper
-import javax.inject.Singleton
 
 @Module
 class UtilModule {
-    @Singleton
     @Provides
     fun providesModelMapper() = ModelMapper()
 }

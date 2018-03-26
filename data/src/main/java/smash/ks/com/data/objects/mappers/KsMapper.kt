@@ -19,8 +19,9 @@ package smash.ks.com.data.objects.mappers
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.objects.KsObject
+import javax.inject.Inject
 
-class KsMapper(mapper: ModelMapper) : Mapper<KsModel, KsObject>(mapper) {
+class KsMapper @Inject constructor(mapper: ModelMapper) : Mapper<KsModel, KsObject>(mapper) {
     override fun toObjectFrom(model: KsModel) = mapper.map(model, KsObject::class.java)
 
     override fun toModelFrom(obj: KsObject) = mapper.map(obj, KsModel::class.java)

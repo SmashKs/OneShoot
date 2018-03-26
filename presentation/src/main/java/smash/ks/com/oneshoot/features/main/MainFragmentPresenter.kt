@@ -16,22 +16,24 @@
 
 package smash.ks.com.oneshoot.features.main
 
-import org.modelmapper.ModelMapper
+import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
-import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.ext.usecase.execute
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
 class MainFragmentPresenter(
-    private val getKsImageCase: GetKsImageCase
+    private val getKsImageCase: GetKsImageCase,
+    private val mapper: Mapper<KsObject, KsEntity>
 ) : MainContract.Presenter() {
     override fun obtainImageUri(imageId: Int) {
         view.showLoading()
 
         lifecycleProvider.execute(getKsImageCase, Requests(KsParam(imageId))) {
-            onSuccess { view.showImageUri(KsEntityMapper(ModelMapper()).toEntityFrom(it).uri) }
+            onSuccess { view.showImageUri(mapper.toEntityFrom(it).uri) }
             onError { view.showError("Something went to wrong.") }
         }
     }

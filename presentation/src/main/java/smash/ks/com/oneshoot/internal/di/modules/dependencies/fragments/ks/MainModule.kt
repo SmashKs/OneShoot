@@ -18,7 +18,12 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.ks
 
 import dagger.Module
 import dagger.Provides
+import org.modelmapper.ModelMapper
+import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
+import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments.UsecaseModule
 import smash.ks.com.oneshoot.internal.di.scopes.PerFragment
@@ -28,6 +33,12 @@ import smash.ks.com.oneshoot.mvp.contracts.MainContract
 class MainModule {
     @Provides
     @PerFragment
-    fun provideMainPresenter(getKsImageCase: GetKsImageCase): MainContract.Presenter =
-        MainFragmentPresenter(getKsImageCase)
+    fun provideMapper(mapper: ModelMapper): Mapper<KsObject, KsEntity> = KsEntityMapper(mapper)
+
+    @Provides
+    @PerFragment
+    fun provideMainPresenter(
+        getKsImageCase: GetKsImageCase,
+        mapper: Mapper<KsObject, KsEntity>
+    ): MainContract.Presenter = MainFragmentPresenter(getKsImageCase, mapper)
 }

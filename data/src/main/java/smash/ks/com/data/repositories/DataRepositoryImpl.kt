@@ -18,7 +18,6 @@ package smash.ks.com.data.repositories
 
 import com.ks.smash.ext.internal.di.qulifiers.Local
 import com.ks.smash.ext.internal.di.qulifiers.Remote
-import org.modelmapper.ModelMapper
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.objects.mappers.KsMapper
@@ -29,10 +28,11 @@ import javax.inject.Inject
 class DataRepositoryImpl @Inject constructor(
     @Local private val cache: KsCache,
     @Local private val local: DataStore,
-    @Remote private val remote: DataStore
+    @Remote private val remote: DataStore,
+    private val mapper: KsMapper
 ) : DataRepository {
     //region Fake
     override fun retrieveKsImage(params: Parameterable) =
-        (if (true) local else remote).fetchKsImage().map(KsMapper(ModelMapper())::toObjectFrom)
+        (if (true) local else remote).fetchKsImage().map(mapper::toObjectFrom)
     //endregion
 }
