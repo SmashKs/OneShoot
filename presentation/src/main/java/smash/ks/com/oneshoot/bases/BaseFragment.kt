@@ -81,7 +81,7 @@ abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
     /**
      * Providing the fragment injector([Fragment]) for this children of searchFragments.
      *
-     * @return a [fragmentInjector] for children of this fragment.
+     * @return a [supportFragmentInjector] for children of this fragment.
      */
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = childFragmentInjector
 

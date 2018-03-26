@@ -16,9 +16,11 @@
 
 package smash.ks.com.oneshoot.features.main
 
+import org.modelmapper.ModelMapper
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
+import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.oneshoot.ext.usecase.execute
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
@@ -28,7 +30,9 @@ class MainFragmentPresenter(
     override fun obtainImageUri(imageId: Int) {
         view.showLoading()
 
-        lifecycleProvider.execute(getKsImageCase, GetKsImageUsecase.Requests(KsParam(imageId))) {
+        lifecycleProvider.execute(getKsImageCase, Requests(KsParam(imageId))) {
+            onSuccess { view.showImageUri(KsEntityMapper(ModelMapper()).toEntityFrom(it).uri) }
+            onError { view.showError("Something went to wrong.") }
         }
     }
 }

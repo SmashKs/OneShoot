@@ -33,6 +33,6 @@ class DataRepositoryImpl @Inject constructor(
 ) : DataRepository {
     //region Fake
     override fun retrieveKsImage(params: Parameterable) =
-        remote.fetchKsImage().map(KsMapper(ModelMapper())::toObjectFrom)
+        (if (true) local else remote).fetchKsImage().map(KsMapper(ModelMapper())::toObjectFrom)
     //endregion
 }

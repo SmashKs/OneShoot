@@ -18,4 +18,4 @@ package smash.ks.com.oneshoot.entities
 
 import com.ks.smash.ext.const.DEFAULT_STR
 
-data class KsEntity(var name: String = DEFAULT_STR) : Entity
+data class KsEntity(var uri: String = DEFAULT_STR) : Entity
