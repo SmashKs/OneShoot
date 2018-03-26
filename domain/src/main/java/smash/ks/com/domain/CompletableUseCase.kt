@@ -146,7 +146,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: CompletableObserver.() -> Unit) =
+    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: CompletablePlugin.() -> Unit) =
         execute(lifecycleProvider, CompletablePlugin().apply(observer))
 
     /**
@@ -159,7 +159,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     fun execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        observer: CompletableObserver.() -> Unit
+        observer: CompletablePlugin.() -> Unit
     ) {
         requestValues = parameter
         execute(lifecycleProvider, observer)

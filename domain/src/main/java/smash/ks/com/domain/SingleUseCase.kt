@@ -140,7 +140,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: SingleObserver<T>.() -> Unit) =
+    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: SinglePlugin<T>.() -> Unit) =
         execute(lifecycleProvider, SinglePlugin<T>().apply(observer))
 
     /**
@@ -150,7 +150,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: SingleObserver<T>.() -> Unit) {
+    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: SinglePlugin<T>.() -> Unit) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
         fetchUseCase()
