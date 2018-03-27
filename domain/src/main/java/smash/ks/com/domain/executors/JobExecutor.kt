@@ -20,14 +20,11 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Decorated [ThreadPoolExecutor]
  */
-@Singleton
-class JobExecutor @Inject constructor() : ThreadExecutor {
+class JobExecutor : ThreadExecutor {
     companion object {
         private const val INITIAL_POOL_SIZE = 3
         private const val MAX_POOL_SIZE = 5

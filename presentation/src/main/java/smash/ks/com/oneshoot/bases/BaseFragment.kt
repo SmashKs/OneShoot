@@ -21,22 +21,15 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
-import smash.ks.com.oneshoot.ext.resource.gContext
-import javax.inject.Inject
 
-abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
+abstract class BaseFragment : RxFragment() {
     /** From an activity for providing to children searchFragments. */
-    @Inject lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
-    protected val appContext: Context by lazy { activity?.applicationContext ?: gContext() }
+//    @Inject lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
+//    protected val appContext: Context by lazy { activity?.applicationContext ?: gContext() }
     protected var rootView: View? = null
 
     //region Fragment lifecycle
@@ -44,7 +37,7 @@ abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
     @SuppressWarnings("deprecation")
     override fun onAttach(activity: Activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            AndroidSupportInjection.inject(this)
+//            AndroidSupportInjection.inject(this)
         }
         super.onAttach(activity)
     }
@@ -52,7 +45,7 @@ abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
     /** Perform injection here for M (API 23) due to deprecation of onAttach(Activity). */
     override fun onAttach(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            AndroidSupportInjection.inject(this)
+//            AndroidSupportInjection.inject(this)
         }
         super.onAttach(context)
     }
@@ -77,13 +70,6 @@ abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
         rendered(savedInstanceState)
     }
     //endregion
-
-    /**
-     * Providing the fragment injector([Fragment]) for this children of searchFragments.
-     *
-     * @return a [supportFragmentInjector] for children of this fragment.
-     */
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = childFragmentInjector
 
     /**
      * Initialize method.

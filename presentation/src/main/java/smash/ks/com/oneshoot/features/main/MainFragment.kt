@@ -24,7 +24,6 @@ import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
-import javax.inject.Inject
 
 class MainFragment : MvpFragment<View, Presenter>(), View {
     //region Instance
@@ -43,7 +42,7 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     }
     //endregion
 
-    @Inject override lateinit var presenter: Presenter
+    override lateinit var presenter: Presenter
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 

@@ -24,9 +24,6 @@ dependencies {
 
     implementation gd.kotlin
     implementation gd.kotlinCoroutine
-
-    kapt gd.dagger2Compiler
-    implementation gd.dagger2
 }
 
 sourceCompatibility = "1.8"

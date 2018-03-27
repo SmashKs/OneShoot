@@ -96,11 +96,6 @@ dependencies {
 
     implementation pd.mapper
 
-    kapt gd.dagger2Compiler
-    implementation gd.dagger2
-    kapt pd.dagger2AndroidProcessor
-    implementation pd.dagger2AndroidSupport
-
     implementation gd.kodeinGeneric
     implementation gd.kodeinCore
 
@@ -154,9 +149,6 @@ dependencies {
         exclude module: 'recyclerview-v7'
         exclude module: 'design'
     }
-
-    kaptTest gd.dagger2Compiler
-    kaptAndroidTest gd.dagger2Compiler
 }
 
 //apply plugin: 'com.google.gms.google-services'

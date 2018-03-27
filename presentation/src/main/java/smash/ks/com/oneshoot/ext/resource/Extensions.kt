@@ -16,28 +16,22 @@
 
 package smash.ks.com.oneshoot.ext.resource
 
-import android.support.annotation.ArrayRes
-import android.support.annotation.DimenRes
-import android.support.annotation.StringRes
-import org.jetbrains.anko.dimen
-import smash.ks.com.oneshoot.App
-
-fun gContext() = App.appComponent.context()
-
-fun gContextTest() = App
-
-fun gDimens(@DimenRes id: Int) = gContext().dimen(id)
-
-fun gStrings(@StringRes id: Int) = gContext().getString(id)
-
-fun gText(@StringRes id: Int) = gContext().getText(id)
-
-fun gStringArray(@ArrayRes id: Int) = gContext().resources.getStringArray(id)
-
-fun gTypeArray(@ArrayRes id: Int) = gContext().resources.obtainTypedArray(id)
-
-fun gResArray(@ArrayRes id: Int) =
-    gStringArray(id).mapIndexed { index, _ -> index to gTypeArray(id) }.toMutableList()
-
-fun gResArrays(@ArrayRes vararg ids: Int) =
-    ids.map(::gResArray).reduce { acc, new -> acc.addAll(new);acc }
+//fun gContext() = App.appComponent.context()
+//
+//fun gContextTest() = App
+//
+//fun gDimens(@DimenRes id: Int) = gContext().dimen(id)
+//
+//fun gStrings(@StringRes id: Int) = gContext().getString(id)
+//
+//fun gText(@StringRes id: Int) = gContext().getText(id)
+//
+//fun gStringArray(@ArrayRes id: Int) = gContext().resources.getStringArray(id)
+//
+//fun gTypeArray(@ArrayRes id: Int) = gContext().resources.obtainTypedArray(id)
+//
+//fun gResArray(@ArrayRes id: Int) =
+//    gStringArray(id).mapIndexed { index, _ -> index to gTypeArray(id) }.toMutableList()
+//
+//fun gResArrays(@ArrayRes vararg ids: Int) =
+//    ids.map(::gResArray).reduce { acc, new -> acc.addAll(new);acc }
