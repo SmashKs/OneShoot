@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot
 
 import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import smash.ks.com.domain.executors.PostExecutionThread
 
 /**

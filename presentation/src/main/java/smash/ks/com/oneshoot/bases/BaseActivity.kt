@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import com.hwangjr.rxbus.RxBus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 
 abstract class BaseActivity : RxAppCompatActivity() {
