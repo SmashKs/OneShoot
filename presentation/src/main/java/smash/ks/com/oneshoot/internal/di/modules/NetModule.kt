@@ -16,14 +16,4 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import com.hwangjr.rxbus.Bus
-import com.hwangjr.rxbus.RxBus
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-
-object AppModules {
-    fun appModule() = Kodein.Module {
-        bind<Bus>() with instance(RxBus.get())
-    }
-}
+object NetModule

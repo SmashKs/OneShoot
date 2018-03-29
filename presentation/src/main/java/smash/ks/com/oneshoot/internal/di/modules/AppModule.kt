@@ -14,33 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot
+package smash.ks.com.oneshoot.internal.di.modules
 
-import android.app.Application
-import android.content.Context
+import com.hwangjr.rxbus.Bus
+import com.hwangjr.rxbus.RxBus
 import org.kodein.Kodein
-import org.kodein.KodeinAware
-import org.kodein.android.androidModule
-import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
+import org.kodein.generic.bind
+import org.kodein.generic.instance
 
-/**
- * Android Main Application
- */
-class App : Application(), KodeinAware {
-    companion object {
-        lateinit var appContext: Context
-    }
-
-    init {
-        appContext = this
-    }
-
-    /**
-     * A Kodein Aware class must be within reach of a Kodein object.
-     */
-    override val kodein: Kodein by Kodein.lazy {
-        import(androidModule(this@App))
-        /* bindings */
-        import(appModule())
+object AppModule {
+    fun appModule() = Kodein.Module {
+        bind<Bus>() with instance(RxBus.get())
     }
 }
