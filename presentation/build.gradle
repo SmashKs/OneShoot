@@ -97,7 +97,7 @@ dependencies {
     implementation pd.mapper
 
     implementation gd.kodeinGeneric
-    implementation gd.kodeinCore
+    implementation gd.kodeinAndroid
 
     implementation(pd.rxbus, {
         exclude group: 'com.jakewharton.timber', module: 'timber'

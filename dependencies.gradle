@@ -116,8 +116,8 @@ ext {
 
             kshaver           : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
             // Kodein
+            kodeinAndroid     : "org.kodein:kodein-framework-android:$kodeinVer",
             kodeinGeneric     : "org.kodein:kodein-generic-jvm:$kodeinVer",
-            kodeinCore        : "org.kodein:kodein-framework-android:$kodeinVer",
 
             glide             : "com.github.bumptech.glide:glide:$glideVer",
 
