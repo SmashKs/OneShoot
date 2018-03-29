@@ -21,9 +21,15 @@ import com.hwangjr.rxbus.RxBus
 import org.kodein.Kodein
 import org.kodein.generic.bind
 import org.kodein.generic.instance
+import smash.ks.com.domain.executors.JobExecutor
+import smash.ks.com.domain.executors.PostExecutionThread
+import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.oneshoot.UiThread
 
 object AppModule {
     fun appModule() = Kodein.Module {
         bind<Bus>() with instance(RxBus.get())
+        bind<ThreadExecutor>() with instance(JobExecutor())
+        bind<PostExecutionThread>() with instance(UiThread())
     }
 }

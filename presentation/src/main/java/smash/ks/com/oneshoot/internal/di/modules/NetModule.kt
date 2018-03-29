@@ -16,4 +16,10 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-object NetModule
+import org.kodein.Kodein
+
+object NetModule {
+    fun netModule() = Kodein.Module {
+
+    }
+}

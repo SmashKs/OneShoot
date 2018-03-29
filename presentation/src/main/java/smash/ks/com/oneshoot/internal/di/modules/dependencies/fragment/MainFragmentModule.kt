@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules.dependencies
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
-import android.app.Fragment
 import org.kodein.Kodein
 import org.kodein.android.androidScope
 import org.kodein.generic.bind
 import org.kodein.generic.instance
 import org.kodein.generic.scoped
 import org.kodein.generic.singleton
-import smash.ks.com.domain.usecases.GetKsImageCase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.oneshoot.features.main.MainFragment
+import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
+import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
-object UsecaseModule {
-    fun usecaseModule() = Kodein.Module {
-        bind<GetKsImageCase>() with scoped(androidScope<Fragment>()).singleton {
-            GetKsImageUsecase(instance(), instance(), instance())
+object MainFragmentModule {
+    fun mainFragmentModule() = Kodein.Module {
+        import(usecaseModule())
+
+        bind<MainContract.Presenter>() with scoped(androidScope<MainFragment>()).singleton {
+            MainFragmentPresenter(instance(), instance())
         }
     }
 }
