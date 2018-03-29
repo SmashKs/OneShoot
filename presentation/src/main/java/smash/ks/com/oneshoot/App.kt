@@ -20,6 +20,7 @@ import android.app.Application
 import org.kodein.Kodein
 import org.kodein.KodeinAware
 import org.kodein.android.androidModule
+import smash.ks.com.oneshoot.internal.di.modules.appModule
 
 /**
  * Android Main Application
@@ -43,5 +44,6 @@ class App : Application(), KodeinAware {
     override val kodein: Kodein by Kodein.lazy {
         import(androidModule(this@App))
         /* bindings */
+        import(appModule)
     }
 }

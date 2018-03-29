@@ -18,13 +18,17 @@ package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import com.hwangjr.rxbus.RxBus
+import com.hwangjr.rxbus.Bus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import org.kodein.KodeinAware
+import org.kodein.LateInitKodein
+import org.kodein.generic.instance
 
 abstract class BaseActivity : RxAppCompatActivity() {
     /** For providing to searchFragments. */
-//    @Inject lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    val kodein = LateInitKodein()
     var mvpOnCreate: (() -> Unit)? = null
+    protected val rxbus by kodein.instance<Bus>()
 
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
@@ -35,12 +39,13 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
     //region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
+        kodein.baseKodein = (applicationContext as KodeinAware).kodein
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
         mvpOnCreate?.invoke()
 
         // Register RxBus.
-        RxBus.get().register(busEvent)
+        rxbus.register(busEvent)
         init(savedInstanceState)
     }
 
@@ -48,7 +53,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
         super.onDestroy()
 
         // Unregister RxBus.
-        RxBus.get().unregister(busEvent)
+        rxbus.unregister(busEvent)
     }
     //endregion
 
