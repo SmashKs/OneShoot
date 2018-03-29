@@ -108,7 +108,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     private fun buildCompletableUseCase(block: (Completable.() -> Completable)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .run(block)
+            .block()
             .observeOn(observeScheduler)
     //endregion
 

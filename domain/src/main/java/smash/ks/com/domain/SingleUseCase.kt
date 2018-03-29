@@ -106,7 +106,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
     private fun <F> buildUseCaseSingle(block: (Single<T>.() -> Single<F>)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .run(block)
+            .block()
             .observeOn(observeScheduler)
     //endregion
 

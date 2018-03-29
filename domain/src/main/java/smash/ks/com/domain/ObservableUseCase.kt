@@ -115,7 +115,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
     private fun <F> buildUseCaseObservable(block: (Observable<T>.() -> Observable<F>)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .run(block)
+            .block()
             .observeOn(observeScheduler)
     //endregion
 
