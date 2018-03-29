@@ -32,7 +32,7 @@ class App : Application(), KodeinAware {
     }
 
     init {
-        appContext = this.applicationContext
+        appContext = this
     }
 
     /**

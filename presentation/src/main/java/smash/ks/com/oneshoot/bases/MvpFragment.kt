@@ -22,7 +22,5 @@ import smash.ks.com.oneshoot.mvp.views.MvpView
 abstract class MvpFragment<V : MvpView, P : BasePresenter<V>> : BaseFragment() {
     abstract var presenter: P
 
-    //endregion
-
     abstract fun provideCurrentFragmentView(): V
 }
