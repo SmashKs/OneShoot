@@ -16,4 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.tag
 
-object KsTag
+object KsTag {
+    const val REMOTE = "ks di remote"
+    const val LOCAL = "ks di local"
+}

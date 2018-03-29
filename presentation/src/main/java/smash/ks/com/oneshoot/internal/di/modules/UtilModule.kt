@@ -16,4 +16,14 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-object UtilModule
+import android.content.Context
+import org.kodein.Kodein
+import org.kodein.generic.bind
+import org.kodein.generic.instance
+import org.modelmapper.ModelMapper
+
+object UtilModule {
+    fun utilModule(context: Context) = Kodein.Module {
+        bind<ModelMapper>() with instance(ModelMapper())
+    }
+}
