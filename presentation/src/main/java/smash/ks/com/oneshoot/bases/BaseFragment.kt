@@ -16,17 +16,20 @@
 
 package smash.ks.com.oneshoot.bases
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle2.components.support.RxFragment
+import org.kodein.KodeinAware
+import org.kodein.android.closestKodein
+import org.kodein.generic.instance
 
-abstract class BaseFragment : RxFragment() {
-    /** From an activity for providing to children searchFragments. */
-//    @Inject lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
-//    protected val appContext: Context by lazy { activity?.applicationContext ?: gContext() }
+abstract class BaseFragment : RxFragment(), KodeinAware {
+    override val kodein by closestKodein()
+    protected val appContext by instance<Context>()
     protected var rootView: View? = null
 
     //region Fragment lifecycle

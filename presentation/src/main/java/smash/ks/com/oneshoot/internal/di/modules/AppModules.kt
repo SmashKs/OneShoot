@@ -20,8 +20,10 @@ import com.hwangjr.rxbus.Bus
 import com.hwangjr.rxbus.RxBus
 import org.kodein.Kodein
 import org.kodein.generic.bind
-import org.kodein.generic.singleton
+import org.kodein.generic.instance
 
-val appModule = Kodein.Module {
-    bind<Bus>() with singleton { RxBus.get() }
+object AppModules {
+    fun appModule() = Kodein.Module {
+        bind<Bus>() with instance(RxBus.get())
+    }
 }

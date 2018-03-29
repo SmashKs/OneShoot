@@ -48,7 +48,7 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        presenter.obtainImageUri(randomId)
+//        presenter.obtainImageUri(randomId)
     }
 
     override fun provideCurrentFragmentView() = this

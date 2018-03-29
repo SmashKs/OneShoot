@@ -21,31 +21,31 @@ import android.support.annotation.LayoutRes
 import com.hwangjr.rxbus.Bus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import org.kodein.KodeinAware
-import org.kodein.LateInitKodein
+import org.kodein.android.closestKodein
 import org.kodein.generic.instance
 
-abstract class BaseActivity : RxAppCompatActivity() {
-    /** For providing to searchFragments. */
-    val kodein = LateInitKodein()
-    var mvpOnCreate: (() -> Unit)? = null
-    protected val rxbus by kodein.instance<Bus>()
+abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
+    final override val kodein by closestKodein()
+    protected var mvpOnCreate: (() -> Unit)? = null
+    protected val bus by instance<Bus>()
 
+    //region RxBus Example
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
 //        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
 //        fun test(test: String) {
 //        }
     }
+    //endregion
 
     //region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
-        kodein.baseKodein = (applicationContext as KodeinAware).kodein
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
         mvpOnCreate?.invoke()
 
         // Register RxBus.
-        rxbus.register(busEvent)
+        bus.register(busEvent)
         init(savedInstanceState)
     }
 
@@ -53,7 +53,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
         super.onDestroy()
 
         // Unregister RxBus.
-        rxbus.unregister(busEvent)
+        bus.unregister(busEvent)
     }
     //endregion
 
