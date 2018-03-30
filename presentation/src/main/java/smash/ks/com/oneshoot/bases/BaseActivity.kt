@@ -20,21 +20,29 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import com.hwangjr.rxbus.Bus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import org.kodein.Kodein
 import org.kodein.KodeinAware
 import org.kodein.android.closestKodein
 import org.kodein.generic.instance
+import org.kodein.generic.kcontext
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainActivityModule.mainActivityModule
 
 abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
-    final override val kodein by closestKodein()
+    override val kodeinContext get() = kcontext(this)
+    override val kodein by Kodein.lazy {
+        extend(_parentKodein)
+        /* activity specific bindings */
+        import(mainActivityModule())
+    }
     protected var mvpOnCreate: (() -> Unit)? = null
     protected val bus by instance<Bus>()
+    private val _parentKodein by closestKodein()
 
     //region RxBus Example
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
 //        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
-//        fun test(test: String) {
-//        }
+//        fun test(test: String) { }
     }
     //endregion
 

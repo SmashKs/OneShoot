@@ -19,18 +19,25 @@ package smash.ks.com.oneshoot.bases
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trello.rxlifecycle2.components.support.RxFragment
+import org.kodein.Kodein
 import org.kodein.KodeinAware
 import org.kodein.android.closestKodein
 import org.kodein.generic.instance
+import org.kodein.generic.kcontext
 
-abstract class BaseFragment : RxFragment(), KodeinAware {
-    override val kodein by closestKodein()
+abstract class BaseFragment : Fragment(), KodeinAware {
+    override val kodeinContext get() = kcontext(activity)
+    override val kodein by Kodein.lazy {
+        extend(_parentKodein)
+        /* fragment specific bindings */
+    }
     protected val appContext by instance<Context>()
     protected var rootView: View? = null
+    private val _parentKodein by closestKodein()
 
     //region Fragment lifecycle
     override fun onCreateView(
