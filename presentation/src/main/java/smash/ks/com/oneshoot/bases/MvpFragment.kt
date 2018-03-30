@@ -19,8 +19,8 @@ package smash.ks.com.oneshoot.bases
 import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
 import smash.ks.com.oneshoot.mvp.views.MvpView
 
-abstract class MvpFragment<V : MvpView, P : BasePresenter<V>> : BaseFragment() {
-    abstract var presenter: P
+abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>> : BaseFragment() {
+    abstract val presenter: P
 
     abstract fun provideCurrentFragmentView(): V
 }

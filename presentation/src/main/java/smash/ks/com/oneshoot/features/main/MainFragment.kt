@@ -42,7 +42,8 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     }
     //endregion
 
-    override lateinit var presenter: Presenter
+    override val presenter: Presenter = TODO()
+    //        by instance<Presenter>()
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 

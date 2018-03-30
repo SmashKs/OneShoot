@@ -16,13 +16,13 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
+import com.trello.rxlifecycle2.components.support.RxFragment
 import org.kodein.Kodein
 import org.kodein.android.androidScope
 import org.kodein.generic.bind
 import org.kodein.generic.instance
 import org.kodein.generic.scoped
 import org.kodein.generic.singleton
-import smash.ks.com.oneshoot.features.main.MainFragment
 import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
@@ -31,7 +31,7 @@ object MainFragmentModule {
     fun mainFragmentModule() = Kodein.Module {
         import(usecaseModule())
 
-        bind<MainContract.Presenter>() with scoped(androidScope<MainFragment>()).singleton {
+        bind<MainContract.Presenter>() with scoped(androidScope<RxFragment>()).singleton {
             MainFragmentPresenter(instance(), instance())
         }
     }
