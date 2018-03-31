@@ -16,44 +16,27 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import com.ks.smash.ext.internal.di.qulifiers.Local
-import com.ks.smash.ext.internal.di.qulifiers.Remote
-import dagger.Module
-import dagger.Provides
+import org.kodein.Kodein
+import org.kodein.generic.bind
+import org.kodein.generic.instance
+import org.kodein.generic.singleton
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.datastores.LocalDataStoreImpl
 import smash.ks.com.data.datastores.RemoteDataStoreImpl
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.local.cache.KsMemoryCache
-import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.repositories.DataRepositoryImpl
 import smash.ks.com.domain.repositories.DataRepository
-import javax.inject.Singleton
+import smash.ks.com.oneshoot.internal.di.tag.KsTag.LOCAL
+import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
 
-@Module
-class RepositoryModule {
-    @Provides
-    @Remote
-    @Singleton
-    fun provideRemoteRepository(cloudDataStore: RemoteDataStoreImpl): DataStore = cloudDataStore
-
-    @Provides
-    @Local
-    @Singleton
-    fun provideLocalRepository(localStore: LocalDataStoreImpl): DataStore = localStore
-
-    @Provides
-    @Local
-    @Singleton
-    fun provideLocalCache(localCache: KsMemoryCache): KsCache = localCache
-
-    @Provides
-    @Singleton
-    fun provideRemoteDataStore(ksService: KsService, ksFirebase: KsFirebase) =
-        RemoteDataStoreImpl(ksService, ksFirebase)
-
-    @Provides
-    @Singleton
-    fun providesDataRepository(dataRepository: DataRepositoryImpl): DataRepository = dataRepository
+object RepositoryModule {
+    fun repositoryModule() = Kodein.Module {
+        bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
+        bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
+        bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl() }
+        bind<DataRepository>() with singleton {
+            DataRepositoryImpl(instance(LOCAL), instance(LOCAL), instance(REMOTE), instance())
+        }
+    }
 }

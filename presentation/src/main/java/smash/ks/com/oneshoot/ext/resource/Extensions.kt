@@ -22,9 +22,7 @@ import android.support.annotation.StringRes
 import org.jetbrains.anko.dimen
 import smash.ks.com.oneshoot.App
 
-fun gContext() = App.appComponent.context()
-
-fun gContextTest() = App
+fun gContext() = App.appContext.applicationContext
 
 fun gDimens(@DimenRes id: Int) = gContext().dimen(id)
 

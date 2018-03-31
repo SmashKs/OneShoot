@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 
-import com.hwangjr.rxbus.Bus
-import com.hwangjr.rxbus.RxBus
+import com.trello.rxlifecycle2.components.support.RxFragment
 import org.kodein.Kodein
+import org.kodein.android.androidScope
 import org.kodein.generic.bind
 import org.kodein.generic.instance
-import smash.ks.com.domain.executors.JobExecutor
-import smash.ks.com.domain.executors.PostExecutionThread
-import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.oneshoot.UiThread
+import org.kodein.generic.scoped
+import org.kodein.generic.singleton
+import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
+import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
-object AppModule {
-    fun appModule() = Kodein.Module {
-        bind<Bus>() with instance(RxBus.get())
-        bind<ThreadExecutor>() with instance(JobExecutor())
-        bind<PostExecutionThread>() with instance(UiThread())
+object MainActivityModule {
+    fun mainActivityModule() = Kodein.Module {
+        bind<MainContract.Presenter>() with scoped(androidScope<RxFragment>()).singleton {
+            MainFragmentPresenter(instance(), instance())
+        }
     }
 }

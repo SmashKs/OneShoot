@@ -16,47 +16,30 @@
 
 package smash.ks.com.oneshoot.bases
 
-import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
-import smash.ks.com.oneshoot.ext.resource.gContext
-import javax.inject.Inject
+import org.kodein.Kodein
+import org.kodein.KodeinAware
+import org.kodein.android.closestKodein
+import org.kodein.generic.instance
+import org.kodein.generic.kcontext
 
-abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
-    /** From an activity for providing to children searchFragments. */
-    @Inject lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
-    protected val appContext: Context by lazy { activity?.applicationContext ?: gContext() }
+abstract class BaseFragment : RxFragment(), KodeinAware {
+    override val kodeinContext get() = kcontext(activity)
+    override val kodein by Kodein.lazy {
+        extend(_parentKodein)
+        /* fragment specific bindings */
+    }
+    protected val appContext by instance<Context>()
     protected var rootView: View? = null
+    private val _parentKodein by closestKodein()
 
     //region Fragment lifecycle
-    /** Perform injection here before M, L (API 22) and below because this is not yet available at L. */
-    @SuppressWarnings("deprecation")
-    override fun onAttach(activity: Activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            AndroidSupportInjection.inject(this)
-        }
-        super.onAttach(activity)
-    }
-
-    /** Perform injection here for M (API 23) due to deprecation of onAttach(Activity). */
-    override fun onAttach(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            AndroidSupportInjection.inject(this)
-        }
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,13 +60,6 @@ abstract class BaseFragment : RxFragment(), HasSupportFragmentInjector {
         rendered(savedInstanceState)
     }
     //endregion
-
-    /**
-     * Providing the fragment injector([Fragment]) for this children of searchFragments.
-     *
-     * @return a [supportFragmentInjector] for children of this fragment.
-     */
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = childFragmentInjector
 
     /**
      * Initialize method.

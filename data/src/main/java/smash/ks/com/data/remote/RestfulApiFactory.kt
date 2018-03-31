@@ -17,11 +17,10 @@
 package smash.ks.com.data.remote
 
 import smash.ks.com.data.remote.config.KsConfig
-import javax.inject.Inject
 
 /**
  * Factory that creates different implementations of [smash.ks.com.data.remote.config.ApiConfig].
  */
-class RestfulApiFactory @Inject constructor() {
-    fun createKaritokeConfig() = KsConfig()
+class RestfulApiFactory {
+    fun createKsConfig() = KsConfig()
 }

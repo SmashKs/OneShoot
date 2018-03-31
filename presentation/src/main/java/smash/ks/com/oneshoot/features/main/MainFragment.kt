@@ -17,14 +17,16 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
+import com.devrapid.kotlinknifer.logw
+import com.devrapid.kotlinshaver.threadName
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
+import org.kodein.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
-import javax.inject.Inject
 
 class MainFragment : MvpFragment<View, Presenter>(), View {
     //region Instance
@@ -43,7 +45,7 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     }
     //endregion
 
-    @Inject override lateinit var presenter: Presenter
+    override val presenter by instance<Presenter>()
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
@@ -77,6 +79,7 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     //region Presenter Implementation.
     override fun showImageUri(uri: String) {
         tv_label.text = uri
+        logw(threadName())
     }
     //endregion
 }

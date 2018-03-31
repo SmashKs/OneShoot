@@ -36,9 +36,6 @@ dependencies {
 
     implementation gd.kshaver
 
-    kapt gd.dagger2Compiler
-    implementation gd.dagger2
-
     implementation dd.rxlifecycle2
 }
 

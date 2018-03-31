@@ -19,9 +19,8 @@ package smash.ks.com.data.datastores
 import com.devrapid.kotlinshaver.single
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
-import javax.inject.Inject
 
-class LocalDataStoreImpl @Inject constructor() : DataStore {
+class LocalDataStoreImpl : DataStore {
     //region Fake
     override fun fetchKsImage(params: Parameterable) = single(KsModel("This is ks uri!!"))
     //endregion

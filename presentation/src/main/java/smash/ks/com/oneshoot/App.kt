@@ -16,24 +16,37 @@
 
 package smash.ks.com.oneshoot
 
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
-import smash.ks.com.oneshoot.internal.di.components.AppComponent
-import smash.ks.com.oneshoot.internal.di.components.DaggerAppComponent
+import android.app.Application
+import android.content.Context
+import org.kodein.Kodein
+import org.kodein.KodeinAware
+import org.kodein.android.androidModule
+import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
+import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
+import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
+import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilModule
 
 /**
  * Android Main Application
  */
-class App : DaggerApplication() {
+class App : Application(), KodeinAware {
     companion object {
-        lateinit var injector: AndroidInjector<App>
-        val appComponent by lazy { injector as AppComponent }
+        lateinit var appContext: Context
     }
 
     init {
-        // Create an application component injector.
-        injector = DaggerAppComponent.builder().create(this)
+        appContext = this
     }
 
-    override fun applicationInjector() = injector
+    /**
+     * A Kodein Aware class must be within reach of a Kodein object.
+     */
+    override val kodein: Kodein by Kodein.lazy {
+        import(androidModule(this@App))
+        /* bindings */
+        import(appModule())
+        import(utilModule(this@App.applicationContext))
+        import(repositoryModule())
+        import(serviceModule(applicationContext))
+    }
 }

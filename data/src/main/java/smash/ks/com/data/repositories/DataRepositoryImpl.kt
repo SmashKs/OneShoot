@@ -16,19 +16,16 @@
 
 package smash.ks.com.data.repositories
 
-import com.ks.smash.ext.internal.di.qulifiers.Local
-import com.ks.smash.ext.internal.di.qulifiers.Remote
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.objects.mappers.KsMapper
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
-import javax.inject.Inject
 
-class DataRepositoryImpl @Inject constructor(
-    @Local private val cache: KsCache,
-    @Local private val local: DataStore,
-    @Remote private val remote: DataStore,
+class DataRepositoryImpl constructor(
+    private val cache: KsCache,
+    private val local: DataStore,
+    private val remote: DataStore,
     private val mapper: KsMapper
 ) : DataRepository {
     //region Fake

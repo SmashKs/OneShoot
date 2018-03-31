@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragments
+package smash.ks.com.oneshoot.internal.di.modules.dependencies
 
-import dagger.Module
-import dagger.Provides
-import smash.ks.com.domain.executors.PostExecutionThread
-import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.repositories.DataRepository
+import android.support.v4.app.FragmentActivity
+import org.kodein.Kodein
+import org.kodein.android.androidScope
+import org.kodein.generic.bind
+import org.kodein.generic.instance
+import org.kodein.generic.scoped
+import org.kodein.generic.singleton
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
-import smash.ks.com.oneshoot.internal.di.scopes.PerFragment
 
-@Module
-class UsecaseModule {
-    //region Fake
-    @Provides
-    @PerFragment
-    fun provideUsecase(
-        repository: DataRepository,
-        threadExecutor: ThreadExecutor,
-        postExecutionThread: PostExecutionThread
-    ): GetKsImageCase = GetKsImageUsecase(repository, threadExecutor, postExecutionThread)
-    //endregion
+object UsecaseModule {
+    fun usecaseModule() = Kodein.Module {
+        bind<GetKsImageCase>() with scoped(androidScope<FragmentActivity>()).singleton {
+            GetKsImageUsecase(instance(), instance(), instance())
+        }
+    }
 }

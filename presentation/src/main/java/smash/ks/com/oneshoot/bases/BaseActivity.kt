@@ -18,36 +18,42 @@ package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
-import com.hwangjr.rxbus.RxBus
+import com.hwangjr.rxbus.Bus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
+import org.kodein.Kodein
+import org.kodein.KodeinAware
+import org.kodein.android.closestKodein
+import org.kodein.generic.instance
+import org.kodein.generic.kcontext
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainFragmentModule.mainFragmentModule
 
-abstract class BaseActivity : RxAppCompatActivity(), HasSupportFragmentInjector {
-    /** For providing to searchFragments. */
-    @Inject lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
-    var mvpOnCreate: (() -> Unit)? = null
+abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
+    override val kodeinContext get() = kcontext(this)
+    override val kodein by Kodein.lazy {
+        extend(_parentKodein)
+        /* activity specific bindings */
+        import(mainFragmentModule())
+    }
+    protected var mvpOnCreate: (() -> Unit)? = null
+    protected val bus by instance<Bus>()
+    private val _parentKodein by closestKodein()
 
+    //region RxBus Example
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
 //        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
-//        fun test(test: String) {
-//        }
+//        fun test(test: String) { }
     }
+    //endregion
 
     //region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
         mvpOnCreate?.invoke()
 
         // Register RxBus.
-        RxBus.get().register(busEvent)
+        bus.register(busEvent)
         init(savedInstanceState)
     }
 
@@ -55,7 +61,7 @@ abstract class BaseActivity : RxAppCompatActivity(), HasSupportFragmentInjector 
         super.onDestroy()
 
         // Unregister RxBus.
-        RxBus.get().unregister(busEvent)
+        bus.unregister(busEvent)
     }
     //endregion
 
@@ -63,11 +69,4 @@ abstract class BaseActivity : RxAppCompatActivity(), HasSupportFragmentInjector 
 
     @LayoutRes
     abstract fun provideLayoutId(): Int
-
-    /**
-     * Providing the fragment injector([Fragment]) for the searchFragments.
-     *
-     * @return a [supportFragmentInjector] for children of this fragment.
-     */
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 }

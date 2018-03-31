@@ -16,12 +16,38 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import dagger.Module
-import dagger.Provides
+import android.content.Context
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import org.kodein.Kodein
+import org.kodein.generic.bind
+import org.kodein.generic.instance
+import org.kodein.generic.singleton
 import org.modelmapper.ModelMapper
+import smash.ks.com.data.objects.KsModel
+import smash.ks.com.data.objects.mappers.KsMapper
+import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 
-@Module
-class UtilModule {
-    @Provides
-    fun providesModelMapper() = ModelMapper()
+object UtilModule {
+    fun utilModule(context: Context) = Kodein.Module {
+        bind<ModelMapper>() with instance(ModelMapper())
+        bind<Gson>() with singleton {
+            with(GsonBuilder()) {
+                setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                setLenient()
+                create()
+            }
+        }
+
+        bind<smash.ks.com.data.objects.mappers.Mapper<KsModel, KsObject>>() with singleton {
+            smash.ks.com.data.objects.mappers.KsMapper(instance())
+        }
+        bind<KsMapper>() with singleton { KsMapper(instance()) }
+        bind<smash.ks.com.oneshoot.entities.mappers.Mapper<KsObject, KsEntity>>() with singleton {
+            KsEntityMapper(instance())
+        }
+    }
 }
