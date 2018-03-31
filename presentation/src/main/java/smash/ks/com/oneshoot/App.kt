@@ -22,8 +22,8 @@ import org.kodein.Kodein
 import org.kodein.KodeinAware
 import org.kodein.android.androidModule
 import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
-import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
+import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
 import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilModule
 
 /**
@@ -47,6 +47,6 @@ class App : Application(), KodeinAware {
         import(appModule())
         import(utilModule(this@App.applicationContext))
         import(repositoryModule())
-        import(netModule())
+        import(serviceModule(applicationContext))
     }
 }

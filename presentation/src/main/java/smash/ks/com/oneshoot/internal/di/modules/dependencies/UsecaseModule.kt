@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies
 
-import android.app.Fragment
+import android.support.v4.app.FragmentActivity
 import org.kodein.Kodein
 import org.kodein.android.androidScope
 import org.kodein.generic.bind
@@ -28,7 +28,7 @@ import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
 
 object UsecaseModule {
     fun usecaseModule() = Kodein.Module {
-        bind<GetKsImageCase>() with scoped(androidScope<Fragment>()).singleton {
+        bind<GetKsImageCase>() with scoped(androidScope<FragmentActivity>()).singleton {
             GetKsImageUsecase(instance(), instance(), instance())
         }
     }
