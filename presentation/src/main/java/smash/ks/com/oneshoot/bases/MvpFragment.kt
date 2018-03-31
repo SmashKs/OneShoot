@@ -67,4 +67,6 @@ abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>> : BaseFragment
     //endregion
 
     abstract fun provideCurrentFragmentView(): V
+
+    protected fun showLoadView() {}
 }

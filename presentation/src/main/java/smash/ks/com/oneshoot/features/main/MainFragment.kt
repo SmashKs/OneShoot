@@ -17,11 +17,21 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
+import com.devrapid.kotlinknifer.invisiable
+import com.devrapid.kotlinknifer.visiable
+import com.devrapid.kotlinshaver.isNotNull
 import com.ks.smash.ext.const.DEFAULT_INT
+import kotlinx.android.synthetic.main.fragment_main.btn_click
+import kotlinx.android.synthetic.main.fragment_main.vs_loading
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.find
 import org.kodein.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
+import smash.ks.com.oneshoot.ext.coroutine.ui
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
@@ -49,6 +59,13 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         presenter.obtainImageUri(randomId)
+        btn_click.setOnClickListener {
+            showLoading()
+            launch(CommonPool) {
+                delay(1000)
+                ui { hideLoading() }
+            }
+        }
     }
 
     override fun provideCurrentFragmentView() = this
@@ -58,9 +75,11 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
 
     //region View Implementation for the Presenter.
     override fun showLoading() {
+        if (vs_loading.isNotNull()) vs_loading.visiable() else find<android.view.View>(R.id.v_loading).visiable()
     }
 
     override fun hideLoading() {
+        find<android.view.View>(R.id.v_loading).invisiable()
     }
 
     override fun showRetry() {
