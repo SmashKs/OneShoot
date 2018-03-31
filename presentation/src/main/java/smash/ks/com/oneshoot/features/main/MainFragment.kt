@@ -17,10 +17,7 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
-import com.devrapid.kotlinknifer.logw
-import com.devrapid.kotlinshaver.threadName
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
 import org.kodein.generic.instance
 import smash.ks.com.oneshoot.R
@@ -78,8 +75,7 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
 
     //region Presenter Implementation.
     override fun showImageUri(uri: String) {
-        tv_label.text = uri
-        logw(threadName())
+//        tv_label.text = uri
     }
     //endregion
 }

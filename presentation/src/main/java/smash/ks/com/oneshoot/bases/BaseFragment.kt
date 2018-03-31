@@ -22,18 +22,23 @@ import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.devrapid.kotlinknifer.logw
 import com.trello.rxlifecycle2.components.support.RxFragment
 import org.kodein.Kodein
 import org.kodein.KodeinAware
 import org.kodein.android.closestKodein
+import org.kodein.description
 import org.kodein.generic.instance
 import org.kodein.generic.kcontext
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
 
 abstract class BaseFragment : RxFragment(), KodeinAware {
     override val kodeinContext get() = kcontext(activity)
     override val kodein by Kodein.lazy {
         extend(_parentKodein)
+        logw(_parentKodein.container.tree.bindings.description())
         /* fragment specific bindings */
+        import(mainModule())
     }
     protected val appContext by instance<Context>()
     protected var rootView: View? = null
@@ -50,6 +55,7 @@ abstract class BaseFragment : RxFragment(), KodeinAware {
         rootView ?: let { rootView = inflater.inflate(provideInflateView(), null) }
         val parent: ViewGroup? = rootView?.parent as ViewGroup?
         parent?.removeView(rootView)
+
 
         return rootView
     }

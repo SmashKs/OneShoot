@@ -25,14 +25,14 @@ import org.kodein.KodeinAware
 import org.kodein.android.closestKodein
 import org.kodein.generic.instance
 import org.kodein.generic.kcontext
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainFragmentModule.mainFragmentModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModule.mainModule
 
 abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)
     override val kodein by Kodein.lazy {
         extend(_parentKodein)
         /* activity specific bindings */
-        import(mainFragmentModule())
+        import(mainModule())
     }
     protected var mvpOnCreate: (() -> Unit)? = null
     protected val bus by instance<Bus>()

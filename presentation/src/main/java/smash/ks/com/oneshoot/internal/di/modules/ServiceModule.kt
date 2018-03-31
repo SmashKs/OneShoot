@@ -39,6 +39,7 @@ object ServiceModule {
                 build()
             }.create(KsService::class.java)
         }
+
         bind<KsFirebase>() with singleton { KsFirebaseImpl() }
     }
 }

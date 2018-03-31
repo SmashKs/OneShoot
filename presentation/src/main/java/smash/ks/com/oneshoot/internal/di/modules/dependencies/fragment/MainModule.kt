@@ -27,8 +27,8 @@ import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
-object MainFragmentModule {
-    fun mainFragmentModule() = Kodein.Module {
+object MainModule {
+    fun mainModule() = Kodein.Module {
         import(usecaseModule())
 
         bind<MainContract.Presenter>() with scoped(androidScope<FragmentActivity>()).singleton {
