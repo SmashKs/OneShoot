@@ -20,6 +20,7 @@ import android.app.Application
 import android.content.Context
 import org.kodein.Kodein
 import org.kodein.KodeinAware
+import org.kodein.android.androidModule
 import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
 import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
 import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
@@ -41,7 +42,7 @@ class App : Application(), KodeinAware {
      * A Kodein Aware class must be within reach of a Kodein object.
      */
     override val kodein: Kodein by Kodein.lazy {
-        //        import(androidModule(this@App))
+        import(androidModule(this@App))
         /* bindings */
         import(appModule())
         import(utilModule(this@App.applicationContext))
