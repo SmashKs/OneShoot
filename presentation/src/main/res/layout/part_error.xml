@@ -21,4 +21,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_red_dark">
 
+    <TextView
+        android:id="@+id/tv_error_msg"
+        style="@style/Constraint.Wrap.Center"
+        android:drawableTop="@android:drawable/ic_dialog_info"
+        android:text="Something wrong happens!!"/>
 </android.support.constraint.ConstraintLayout>

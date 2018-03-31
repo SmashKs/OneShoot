@@ -25,6 +25,12 @@ import org.kodein.KodeinAware
 import org.kodein.android.closestKodein
 import org.kodein.generic.instance
 import org.kodein.generic.kcontext
+import smash.ks.com.oneshoot.ext.stubview.hideErrorView
+import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
+import smash.ks.com.oneshoot.ext.stubview.hideRetryView
+import smash.ks.com.oneshoot.ext.stubview.showErrorView
+import smash.ks.com.oneshoot.ext.stubview.showLoadingView
+import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModule.mainModule
 
 abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
@@ -69,4 +75,16 @@ abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
 
     @LayoutRes
     abstract fun provideLayoutId(): Int
+
+    protected fun showLoad() = showLoadingView()
+
+    protected fun hideLoad() = hideLoadingView()
+
+    protected fun showError(msg: String) = showErrorView()
+
+    protected fun hideError() = hideErrorView()
+
+    protected fun showRetry() = showRetryView()
+
+    protected fun hideRetry() = hideRetryView()
 }
