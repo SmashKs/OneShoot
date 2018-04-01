@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
 import smash.ks.com.oneshoot.mvp.views.MvpView
 
-abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>> : BaseFragment() {
+abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>, out A : BaseActivity> : BaseFragment<A>() {
     abstract val presenter: P
 
     //region Fragment lifecycle

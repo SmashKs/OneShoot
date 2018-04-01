@@ -30,10 +30,13 @@ class MainFragmentPresenter(
     private val mapper: Mapper<KsObject, KsEntity>
 ) : MainContract.Presenter() {
     override fun obtainImageUri(imageId: Int) {
-//        view.showLoading()
+        view.showLoading()
 
         lifecycleProvider.execute(getKsImageCase, Requests(KsParam(imageId))) {
-            onSuccess { view.showImageUri(mapper.toEntityFrom(it).uri) }
+            onSuccess {
+                view.showImageUri(mapper.toEntityFrom(it).uri)
+                view.hideLoading()
+            }
             onError { view.showError("Something went to wrong.") }
         }
     }

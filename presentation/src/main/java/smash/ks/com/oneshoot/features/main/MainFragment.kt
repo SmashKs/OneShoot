@@ -17,25 +17,21 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
-import com.devrapid.kotlinknifer.invisiable
-import com.devrapid.kotlinknifer.visiable
-import com.devrapid.kotlinshaver.isNotNull
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_main.btn_click
-import kotlinx.android.synthetic.main.fragment_main.vs_loading
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.support.v4.find
 import org.kodein.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
-import smash.ks.com.oneshoot.ext.coroutine.ui
+import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
+import smash.ks.com.oneshoot.ext.stubview.hideRetryView
+import smash.ks.com.oneshoot.ext.stubview.showErrorView
+import smash.ks.com.oneshoot.ext.stubview.showLoadingView
+import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
-class MainFragment : MvpFragment<View, Presenter>(), View {
+class MainFragment : MvpFragment<View, Presenter, MainActivity>(), View {
     //region Instance
     companion object Factory {
         // The key name of the fragment initialization parameters.
@@ -56,16 +52,13 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.obtainImageUri(randomId)
+    }
+
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        presenter.obtainImageUri(randomId)
-        btn_click.setOnClickListener {
-            showLoading()
-            launch(CommonPool) {
-                delay(1000)
-                ui { hideLoading() }
-            }
-        }
     }
 
     override fun provideCurrentFragmentView() = this
@@ -74,27 +67,20 @@ class MainFragment : MvpFragment<View, Presenter>(), View {
     //endregion
 
     //region View Implementation for the Presenter.
-    override fun showLoading() {
-        if (vs_loading.isNotNull()) vs_loading.visiable() else find<android.view.View>(R.id.v_loading).visiable()
-    }
+    override fun showLoading() = parent.showLoadingView()
 
-    override fun hideLoading() {
-        find<android.view.View>(R.id.v_loading).invisiable()
-    }
+    override fun hideLoading() = parent.hideLoadingView()
 
-    override fun showRetry() {
-    }
+    override fun showRetry() = parent.showRetryView()
 
-    override fun hideRetry() {
-    }
+    override fun hideRetry() = parent.hideRetryView()
 
-    override fun showError(message: String) {
-    }
+    override fun showError(message: String) = parent.showErrorView()
     //endregion
 
     //region Presenter Implementation.
     override fun showImageUri(uri: String) {
-//        tv_label.text = uri
+        tv_label.text = uri
     }
     //endregion
 }

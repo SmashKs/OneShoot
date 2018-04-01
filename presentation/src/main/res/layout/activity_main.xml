@@ -22,25 +22,25 @@
     android:layout_height="match_parent"
     tools:context=".features.main.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/rl_container"
+        style="@style/Constraint.Any.MatchParent"/>
+
     <ViewStub
         android:id="@+id/vs_loading"
-        style="@style/Constraint.Any"
+        style="@style/Constraint.MatchParent"
         android:inflatedId="@+id/v_loading"
         android:layout="@layout/part_loading"/>
 
     <ViewStub
         android:id="@+id/vs_error"
-        style="@style/Constraint.Any"
+        style="@style/Constraint.MatchParent"
         android:inflatedId="@+id/v_error"
         android:layout="@layout/part_error"/>
 
     <ViewStub
         android:id="@+id/vs_retry"
-        style="@style/Constraint.Any"
+        style="@style/Constraint.MatchParent"
         android:inflatedId="@+id/v_retry"
         android:layout="@layout/part_retry"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_container"
-        style="@style/Constraint.Any.MatchParent"/>
 </android.support.constraint.ConstraintLayout>
