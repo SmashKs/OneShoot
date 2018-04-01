@@ -88,6 +88,8 @@ dependencies {
     implementation pd.ankoCommon
     implementation pd.ankoSdk25
     implementation pd.ankoAppcompat
+    implementation pd.ankoCoroutineSdk25
+    implementation pd.ankoCoroutineAppcompat
     implementation pd.androidKtx
 
     implementation pd.firebaseCore
