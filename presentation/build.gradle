@@ -76,6 +76,7 @@ dependencies {
 
     implementation gd.kotlin
     implementation gd.kotlinCoroutine
+    implementation gd.kotlinCoroutineRx2
     implementation gd.kotlinReflect
     implementation pd.kotlinCoroutineAndroid
 
