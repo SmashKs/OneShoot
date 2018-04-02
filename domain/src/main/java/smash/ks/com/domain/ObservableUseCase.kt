@@ -178,5 +178,5 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      *
      * @return an [Observer] for chaining on working threads.
      */
-    protected abstract fun fetchUseCase(): Observable<T>
+    abstract fun fetchUseCase(): Observable<T>
 }

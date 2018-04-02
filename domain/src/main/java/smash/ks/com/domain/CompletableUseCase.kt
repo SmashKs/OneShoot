@@ -175,5 +175,5 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      *
      * @return an [Completable] for chaining on working threads.
      */
-    protected abstract fun fetchUseCase(): Completable
+    abstract fun fetchUseCase(): Completable
 }

@@ -165,5 +165,5 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      *
      * @return an [Single] for chaining on working threads.
      */
-    protected abstract fun fetchUseCase(): Single<T>
+    abstract fun fetchUseCase(): Single<T>
 }
