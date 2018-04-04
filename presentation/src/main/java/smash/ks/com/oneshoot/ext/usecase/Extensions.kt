@@ -23,10 +23,16 @@ import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.rx2.await
+import kotlinx.coroutines.experimental.rx2.awaitSingle
 import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
+import smash.ks.com.domain.objects.Object
+import smash.ks.com.oneshoot.entities.Entity
+import smash.ks.com.oneshoot.entities.mappers.Mapper
 
 //region Observable
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
@@ -105,3 +111,23 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     completableObserver: CompletablePlugin.() -> Unit
 ) = usecase.execute(this, completableObserver)
 //endregion
+
+
+suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
+    mapper: Mapper<O, E>,
+    parameter: V? = null
+) = async {
+    this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
+}
+
+suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
+    mapper: Mapper<O, E>,
+    parameter: V? = null
+) = async {
+    this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
+}
+
+suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.awaitCase(
+    parameter: V? = null
+) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
+

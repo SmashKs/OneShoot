@@ -16,8 +16,6 @@
 
 package smash.ks.com.oneshoot.features.main
 
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.rx2.await
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
@@ -25,6 +23,7 @@ import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.ext.coroutine.ui
+import smash.ks.com.oneshoot.ext.usecase.awaitCase
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
 class MainFragmentPresenter(
@@ -34,10 +33,8 @@ class MainFragmentPresenter(
     override fun obtainImageUri(imageId: Int) {
         view.showLoading()
         ui {
-            val entity = async {
-                val obj = getKsImageCase.apply { requestValues = Requests(KsParam(imageId)) }.fetchUseCase().await()
-                mapper.toEntityFrom(obj)
-            }
+            val entity = getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId)))
+
             view.showImageUri(entity.await().uri)
             view.hideLoading()
         }
