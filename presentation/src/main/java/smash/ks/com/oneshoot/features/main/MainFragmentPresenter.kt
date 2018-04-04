@@ -16,13 +16,13 @@
 
 package smash.ks.com.oneshoot.features.main
 
+import com.devrapid.kotlinknifer.ui
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
-import smash.ks.com.oneshoot.ext.coroutine.ui
 import smash.ks.com.oneshoot.ext.usecase.awaitCase
 import smash.ks.com.oneshoot.mvp.contracts.MainContract
 
