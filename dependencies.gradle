@@ -19,7 +19,7 @@ allprojects {
         jcenter()
         google()
         maven { url "https://dl.bintray.com/pokk/maven" }
-        maven { url "http://dl.bintray.com/salomonbrys/kodein" }
+        maven { url 'https://dl.bintray.com/kodein-framework/Kodein-DI/' }
     }
 }
 
@@ -58,7 +58,7 @@ ext {
     //endregion
 
     //region Version Dependency Injector
-    kodeinVer = '5.0.0-beta5'
+    kodeinVer = '5.0.0'
     //endregion
 
     //region Version Firebase dependencies
@@ -116,8 +116,8 @@ ext {
 
             kshaver           : "com.devrapid.jieyi:kotlinshaver:$shaverVer",
             // Kodein
-            kodeinAndroid     : "org.kodein:kodein-framework-android:$kodeinVer",
-            kodeinGeneric     : "org.kodein:kodein-generic-jvm:$kodeinVer",
+            kodeinAndroid     : "org.kodein.di:kodein-di-framework-android:$kodeinVer",
+            kodeinGeneric     : "org.kodein.di:kodein-di-generic-jvm:$kodeinVer",
 
             glide             : "com.github.bumptech.glide:glide:$glideVer",
 
