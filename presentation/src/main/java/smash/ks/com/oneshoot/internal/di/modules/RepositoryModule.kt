@@ -16,10 +16,10 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-import org.kodein.generic.singleton
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.datastores.LocalDataStoreImpl
 import smash.ks.com.data.datastores.RemoteDataStoreImpl

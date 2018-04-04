@@ -18,9 +18,9 @@ package smash.ks.com.oneshoot.internal.di.modules
 
 import com.hwangjr.rxbus.Bus
 import com.hwangjr.rxbus.RxBus
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
 import smash.ks.com.domain.executors.JobExecutor
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor

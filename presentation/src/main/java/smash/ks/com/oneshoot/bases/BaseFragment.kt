@@ -23,17 +23,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle2.components.support.RxFragment
-import org.kodein.Kodein
-import org.kodein.KodeinAware
-import org.kodein.android.closestKodein
-import org.kodein.generic.instance
-import org.kodein.generic.kcontext
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.kcontext
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
 
 abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
     protected var rootView: View? = null
     override val kodeinContext get() = kcontext(activity)
-    override val kodein by Kodein.lazy {
+    override val kodein = Kodein.lazy {
         extend(_parentKodein)
         /* fragment specific bindings */
         import(mainModule())

@@ -20,16 +20,16 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import com.hwangjr.rxbus.Bus
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import org.kodein.Kodein
-import org.kodein.KodeinAware
-import org.kodein.android.closestKodein
-import org.kodein.generic.instance
-import org.kodein.generic.kcontext
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.android.retainedKodein
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.kcontext
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModule.mainModule
 
 abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)
-    override val kodein by Kodein.lazy {
+    override val kodein by retainedKodein {
         extend(_parentKodein)
         /* activity specific bindings */
         import(mainModule())

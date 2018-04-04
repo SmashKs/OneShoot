@@ -20,10 +20,10 @@ import android.content.Context
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-import org.kodein.generic.singleton
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit

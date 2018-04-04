@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 
-import org.kodein.Kodein
+import org.kodein.di.Kodein
 
 object MainModule {
     fun mainModule() = Kodein.Module {

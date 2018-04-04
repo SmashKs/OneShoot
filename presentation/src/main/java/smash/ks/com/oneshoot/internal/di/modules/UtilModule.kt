@@ -20,10 +20,10 @@ import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-import org.kodein.generic.singleton
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.data.objects.mappers.KsMapper

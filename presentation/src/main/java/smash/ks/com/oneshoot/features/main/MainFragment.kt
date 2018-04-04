@@ -20,7 +20,7 @@ import android.os.Bundle
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
-import org.kodein.generic.instance
+import org.kodein.di.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView

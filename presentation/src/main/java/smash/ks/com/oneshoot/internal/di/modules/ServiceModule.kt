@@ -17,10 +17,10 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.content.Context
-import org.kodein.Kodein
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-import org.kodein.generic.singleton
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import smash.ks.com.data.remote.RestfulApiFactory
 import smash.ks.com.data.remote.config.KsConfig

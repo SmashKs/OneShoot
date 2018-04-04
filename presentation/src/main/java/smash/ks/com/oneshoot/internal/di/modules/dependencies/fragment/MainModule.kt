@@ -17,12 +17,12 @@
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
 import android.support.v4.app.FragmentActivity
-import org.kodein.Kodein
-import org.kodein.android.androidScope
-import org.kodein.generic.bind
-import org.kodein.generic.instance
-import org.kodein.generic.scoped
-import org.kodein.generic.singleton
+import org.kodein.di.Kodein
+import org.kodein.di.android.androidScope
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.scoped
+import org.kodein.di.generic.singleton
 import smash.ks.com.oneshoot.features.main.MainFragmentPresenter
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 import smash.ks.com.oneshoot.mvp.contracts.MainContract

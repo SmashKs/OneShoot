@@ -19,7 +19,7 @@ package smash.ks.com.oneshoot.features.main
 import android.os.Bundle
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.BaseActivity
-import java.util.Random
+import java.util.*
 
 class MainActivity : BaseActivity() {
     override fun init(savedInstanceState: Bundle?) {
