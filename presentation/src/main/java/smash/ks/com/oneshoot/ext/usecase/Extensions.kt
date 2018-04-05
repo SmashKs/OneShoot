@@ -112,6 +112,9 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 ) = usecase.execute(this, completableObserver)
 //endregion
 
+fun <O : Object, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
+    parameter: V? = null
+) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
@@ -120,12 +123,20 @@ suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUs
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
 }
 
+fun <O : Object, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
+    parameter: V? = null
+) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
+
 suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
 }
+
+fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.ayncCase(
+    parameter: V? = null
+) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.awaitCase(
     parameter: V? = null
