@@ -51,6 +51,7 @@ ext {
     kotlinCoroutineVer = '0.22.5'
 
     //region Version Kotlin/Android extension
+    aacVer = '1.1.1'
     ankoVer = '0.10.4'
     ktxVer = '0.2'
     kinferVer = '1.5.6'
@@ -144,6 +145,8 @@ ext {
             androidKtx            : "androidx.core:core-ktx:$ktxVer",
             kknifer               : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
             kotlinCoroutineAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVer",
+            // Android Architecture Component
+            aacViewAndLifecycle   : "android.arch.lifecycle:extensions:$aacVer",
             // Reactive
             rxbus                 : "com.hwangjr.rxbus:rxbus:$rxBusVer",
             rxlifecycle2          : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",

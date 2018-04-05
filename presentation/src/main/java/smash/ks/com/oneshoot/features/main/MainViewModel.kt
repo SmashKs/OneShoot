@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.mvp.presenters
+package smash.ks.com.oneshoot.features.main
 
-import com.trello.rxlifecycle2.LifecycleProvider
-import smash.ks.com.oneshoot.mvp.views.MvpView
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 
-abstract class BasePresenter<V : MvpView> : MvpPresenter {
-    open lateinit var view: V
-    lateinit var lifecycleProvider: LifecycleProvider<*>
-        private set
+class MainViewModel : ViewModel() {
+    val temp by lazy { MutableLiveData<String>() }
 
-    override fun <E> create(lifecycleProvider: LifecycleProvider<E>) {
-        this.lifecycleProvider = lifecycleProvider
+    fun loading() {
+        temp.value = "Hello World!!!!MAN"
     }
-
-    override fun init() {}
-
-    override fun start() {}
-
-    override fun resume() {}
-
-    override fun pause() {}
-
-    override fun stop() {}
-
-    override fun destroy() {}
 }

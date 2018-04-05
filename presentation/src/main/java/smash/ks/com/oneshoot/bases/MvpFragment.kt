@@ -16,6 +16,7 @@
 
 package smash.ks.com.oneshoot.bases
 
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,7 @@ import android.view.ViewGroup
 import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
 import smash.ks.com.oneshoot.mvp.views.MvpView
 
-abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>, out A : BaseActivity> : BaseFragment<A>() {
+abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>, out A : BaseActivity, VM : ViewModel> : BaseFragment<A>() {
     abstract val presenter: P
 
     //region Fragment lifecycle

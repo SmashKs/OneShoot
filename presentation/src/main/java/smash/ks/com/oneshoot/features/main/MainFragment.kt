@@ -16,7 +16,10 @@
 
 package smash.ks.com.oneshoot.features.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
@@ -31,7 +34,7 @@ import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
-class MainFragment : MvpFragment<View, Presenter, MainActivity>(), View {
+class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>(), View {
     //region Instance
     companion object Factory {
         // The key name of the fragment initialization parameters.
@@ -55,6 +58,11 @@ class MainFragment : MvpFragment<View, Presenter, MainActivity>(), View {
     override fun onResume() {
         super.onResume()
         presenter.obtainImageUri(randomId)
+
+        val vm = ViewModelProviders.of(this)[MainViewModel::class.java]
+        vm.temp.observe(this, Observer { logw(it) })
+
+        vm.loading()
     }
 
     //region Base Fragment

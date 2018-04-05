@@ -93,6 +93,8 @@ dependencies {
     implementation pd.ankoCoroutineAppcompat
     implementation pd.androidKtx
 
+    implementation pd.aacViewAndLifecycle
+
     implementation pd.firebaseCore
     implementation pd.firebaseDatabase
     implementation pd.firebaseAuth
