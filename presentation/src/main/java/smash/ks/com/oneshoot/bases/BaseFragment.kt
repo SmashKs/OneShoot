@@ -31,7 +31,6 @@ import org.kodein.di.generic.kcontext
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
 
 abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
-    protected var rootView: View? = null
     override val kodeinContext get() = kcontext(activity)
     override val kodein = Kodein.lazy {
         extend(_parentKodein)
@@ -40,6 +39,7 @@ abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
     }
     protected val appContext by instance<Context>()
     protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.
+    private var rootView: View? = null
     private val _parentKodein by closestKodein()
 
     //region Fragment lifecycle

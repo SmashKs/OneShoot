@@ -16,13 +16,14 @@
 
 package smash.ks.com.oneshoot.features.main
 
+import android.app.Application
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
-import org.kodein.di.generic.instance
+import smash.ks.com.oneshoot.App
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -30,10 +31,9 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
-import smash.ks.com.oneshoot.mvp.contracts.MainContract.Presenter
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
-class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>(), View {
+class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
     //region Instance
     companion object Factory {
         // The key name of the fragment initialization parameters.
@@ -50,14 +50,12 @@ class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>()
     }
     //endregion
 
-    override val presenter by instance<Presenter>()
-    override val viewModelFactory = MainViewModel.ViewModelFactory()
+    override val viewModelFactory = MainViewModel.ViewModelFactory(App.appContext as Application)
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
     override fun onResume() {
         super.onResume()
-        presenter.obtainImageUri(randomId)
 
         vm.temp.observe(this, Observer { logw(it) })
         vm.loading()
@@ -66,8 +64,6 @@ class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>()
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
     }
-
-    override fun provideCurrentFragmentView() = this
 
     override fun provideInflateView() = R.layout.fragment_main
     //endregion
