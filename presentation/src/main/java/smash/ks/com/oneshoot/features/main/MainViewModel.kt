@@ -18,11 +18,19 @@ package smash.ks.com.oneshoot.features.main
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 
 class MainViewModel : ViewModel() {
     val temp by lazy { MutableLiveData<String>() }
 
     fun loading() {
         temp.value = "Hello World!!!!MAN"
+    }
+
+    // TODO(jieyi): 2018/04/06 Make this class to a general factory.
+    class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return MainViewModel() as T
+        }
     }
 }

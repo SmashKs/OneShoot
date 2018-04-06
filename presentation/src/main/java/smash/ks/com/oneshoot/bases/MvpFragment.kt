@@ -17,15 +17,28 @@
 package smash.ks.com.oneshoot.bases
 
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import smash.ks.com.oneshoot.mvp.presenters.BasePresenter
 import smash.ks.com.oneshoot.mvp.views.MvpView
+import java.lang.reflect.ParameterizedType
 
-abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>, out A : BaseActivity, VM : ViewModel> : BaseFragment<A>() {
+abstract class MvpFragment<V : MvpView, out P : BasePresenter<V>, out A : BaseActivity, out VM : ViewModel> :
+    BaseFragment<A>() {
     abstract val presenter: P
+    abstract val viewModelFactory: ViewModelProvider.Factory?
+
+    /** Add the AAC [ViewModel] for each fragments. */
+    protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
+    /** [VM] is the fourth (index: 3) in the generic declare. */
+    private val vmConcreteClass get() = (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[3] as Class<*>
+    private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
+    /** The [ViewModelProviders.of.get] function for obtaining a [ViewModel]. */
+    private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 
     //region Fragment lifecycle
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

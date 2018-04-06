@@ -17,7 +17,6 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
@@ -52,6 +51,7 @@ class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>()
     //endregion
 
     override val presenter by instance<Presenter>()
+    override val viewModelFactory = MainViewModel.ViewModelFactory()
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
@@ -59,9 +59,7 @@ class MainFragment : MvpFragment<View, Presenter, MainActivity, MainViewModel>()
         super.onResume()
         presenter.obtainImageUri(randomId)
 
-        val vm = ViewModelProviders.of(this)[MainViewModel::class.java]
         vm.temp.observe(this, Observer { logw(it) })
-
         vm.loading()
     }
 
