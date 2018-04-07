@@ -22,7 +22,7 @@ import android.arch.lifecycle.ViewModelProviders
 import java.lang.reflect.ParameterizedType
 
 abstract class MvpFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragment<A>() {
-    abstract val viewModelFactory: ViewModelProvider.Factory?
+    abstract val viewModelFactory: ViewModelProvider.Factory
     /** Add the AAC [ViewModel] for each fragments. */
     protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
 

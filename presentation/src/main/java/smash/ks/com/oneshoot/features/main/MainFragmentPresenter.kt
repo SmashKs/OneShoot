@@ -31,8 +31,9 @@ class MainFragmentPresenter(
     private val mapper: Mapper<KsObject, KsEntity>
 ) : MainContract.Presenter() {
     override fun obtainImageUri(imageId: Int) {
-        view.showLoading()
         ui {
+            view.showLoading()
+
             val entity = getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId)))
 
             view.showImageUri(entity.await().uri)

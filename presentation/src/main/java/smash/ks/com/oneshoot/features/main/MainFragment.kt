@@ -16,14 +16,14 @@
 
 package smash.ks.com.oneshoot.features.main
 
-import android.app.Application
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
-import smash.ks.com.oneshoot.App
+import org.kodein.di.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -50,19 +50,19 @@ class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
     }
     //endregion
 
-    override val viewModelFactory = MainViewModel.ViewModelFactory(App.appContext as Application)
+    override val viewModelFactory by instance<ViewModelProvider.Factory>()
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
     override fun onResume() {
         super.onResume()
 
-        vm.temp.observe(this, Observer { logw(it) })
-        vm.loading()
+        vm.loading(randomId)
     }
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
+        vm.temp.observe(this, Observer { logw(it) })
     }
 
     override fun provideInflateView() = R.layout.fragment_main

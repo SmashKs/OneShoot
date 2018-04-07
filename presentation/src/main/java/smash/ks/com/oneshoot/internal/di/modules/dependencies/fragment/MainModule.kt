@@ -16,12 +16,23 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
+import android.arch.lifecycle.ViewModelProvider
 import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
+import smash.ks.com.oneshoot.ViewModelFactory
+import smash.ks.com.oneshoot.features.main.MainViewModel
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 
 object MainModule {
     fun mainModule() = Kodein.Module {
         import(usecaseModule())
 
+        bind<MainViewModel>() with singleton { MainViewModel(instance(), instance()) }
+        bind<ViewModelProvider.Factory>() with singleton {
+            ViewModelFactory(instance(),
+                             mutableMapOf(MainViewModel::class.java to instance()))
+        }
     }
 }

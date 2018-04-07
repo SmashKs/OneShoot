@@ -16,22 +16,31 @@
 
 package smash.ks.com.oneshoot.features.main
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import com.devrapid.kotlinknifer.ui
+import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.mappers.Mapper
+import smash.ks.com.oneshoot.ext.usecase.awaitCase
 
-class MainViewModel : ViewModel() {
-    val temp by lazy { MutableLiveData<String>() }
+class MainViewModel(
+    private val getKsImageCase: GetKsImageCase,
+    private val mapper: Mapper<KsObject, KsEntity>
+) : ViewModel() {
+    val temp by lazy { MutableLiveData<KsResponse>() }
 
-    fun loading() {
-        temp.value = "Hello World!!!!MAN"
-    }
+    fun loading(imageId: Int) {
+        ui {
+            temp.value = KsResponse.Loading<String>(null)
 
-    // TODO(jieyi): 2018/04/06 Make this class to a general factory.
-    class ViewModelFactory(application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel() as T
+            val entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
+
+            temp.value = KsResponse.Success(entity.await().uri)
         }
     }
 }
