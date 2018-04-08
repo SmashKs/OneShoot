@@ -19,7 +19,7 @@ package smash.ks.com.domain.objects
 import com.ks.smash.ext.const.DEFAULT_STR
 
 sealed class KsResponse {
-    class Loading<out T : Any>(val data: T? = null, val msg: String = DEFAULT_STR) : KsResponse()
-    class Success<out T>(val data: T? = null, val msg: String = DEFAULT_STR) : KsResponse()
+    class Loading<out T : Any>(val data: T? = null) : KsResponse()
+    class Success<out T>(val data: T? = null) : KsResponse()
     class Error<out T>(val data: T? = null, val msg: String = DEFAULT_STR) : KsResponse()
 }
