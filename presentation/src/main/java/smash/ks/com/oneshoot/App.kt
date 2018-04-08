@@ -25,6 +25,7 @@ import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
 import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
 import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
 import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 
 /**
  * Android Main Application
@@ -43,10 +44,12 @@ class App : Application(), KodeinAware {
      */
     override val kodein = Kodein.lazy {
         import(androidModule(this@App))
-        /* bindings */
+        /** bindings */
         import(appModule())
         import(utilModule(this@App.applicationContext))
         import(repositoryModule())
+        /** usecases are bind here but the scope is depending on each layers.  */
+        import(usecaseModule())
         import(serviceModule(applicationContext))
     }
 }
