@@ -16,6 +16,7 @@
 
 package smash.ks.com.oneshoot.bases
 
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
@@ -26,8 +27,12 @@ import com.trello.rxlifecycle2.components.support.RxFragment
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
+import org.kodein.di.generic.singleton
+import smash.ks.com.oneshoot.ViewModelFactory
+import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
 
 abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
@@ -36,6 +41,11 @@ abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
         extend(_parentKodein)
         /* fragment specific bindings */
         import(mainModule())
+
+        val viewModelSet by instance<ViewModelEntries>()
+        bind<ViewModelProvider.Factory>() with singleton {
+            ViewModelFactory(instance(), viewModelSet.toMap().toMutableMap())
+        }
     }
     protected val appContext by instance<Context>()
     protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.

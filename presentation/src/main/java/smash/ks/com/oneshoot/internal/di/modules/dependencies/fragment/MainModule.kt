@@ -16,23 +16,27 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
-import android.arch.lifecycle.ViewModelProvider
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
-import smash.ks.com.oneshoot.ViewModelFactory
+import org.kodein.di.generic.provider
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
 import smash.ks.com.oneshoot.features.main.MainViewModel
+import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
 
 object MainModule {
     fun mainModule() = Kodein.Module {
         import(usecaseModule())
 
-        bind<MainViewModel>() with singleton { MainViewModel(instance(), instance()) }
-        bind<ViewModelProvider.Factory>() with singleton {
-            ViewModelFactory(instance(),
-                             mutableMapOf(MainViewModel::class.java to instance()))
+        bind<ViewModelEntry>().inSet() with provider {
+            MainViewModel::class.java to MainViewModel(
+                // FIXME(jieyi): 2018/04/08 Here should be instance of the usecase.
+//                instance(),
+                GetKsImageUsecase(instance(), instance(), instance()),
+                instance()
+            )
         }
     }
 }

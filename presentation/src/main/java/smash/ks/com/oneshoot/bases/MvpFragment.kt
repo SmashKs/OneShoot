@@ -19,13 +19,14 @@ package smash.ks.com.oneshoot.bases
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
 abstract class MvpFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragment<A>() {
-    abstract val viewModelFactory: ViewModelProvider.Factory
     /** Add the AAC [ViewModel] for each fragments. */
     protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
 
+    private val viewModelFactory by instance<ViewModelProvider.Factory>()
     /** [VM] is the first (index: 0) in the generic declare. */
     private val vmConcreteClass
         get() = (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<*>

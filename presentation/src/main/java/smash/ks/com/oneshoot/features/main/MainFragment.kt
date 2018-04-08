@@ -17,12 +17,12 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
+import org.kodein.di.description
 import org.kodein.di.generic.instance
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.MvpFragment
@@ -31,6 +31,7 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
+import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
 class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
@@ -50,18 +51,20 @@ class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
     }
     //endregion
 
-    override val viewModelFactory by instance<ViewModelProvider.Factory>()
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
+    private val ss by instance<ViewModelEntries>()
 
     override fun onResume() {
         super.onResume()
 
+        logw(ss)
         vm.loading(randomId)
     }
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
+        logw(kodein.baseKodein.container.tree.bindings.description())
         vm.temp.observe(this, Observer { logw(it) })
     }
 

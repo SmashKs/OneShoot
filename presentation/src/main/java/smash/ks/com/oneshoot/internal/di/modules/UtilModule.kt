@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.setBinding
 import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.objects.KsModel
@@ -30,9 +31,14 @@ import smash.ks.com.data.objects.mappers.KsMapper
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
+import smash.ks.com.data.objects.mappers.Mapper as ObjMapper
+import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
 object UtilModule {
     fun utilModule(context: Context) = Kodein.Module {
+        /** ViewModel Set for [smash.ks.com.oneshoot.ViewModelFactory] */
+        bind() from setBinding<ViewModelEntry>()
+
         bind<ModelMapper>() with instance(ModelMapper())
         bind<Gson>() with singleton {
             with(GsonBuilder()) {
@@ -42,12 +48,8 @@ object UtilModule {
             }
         }
 
-        bind<smash.ks.com.data.objects.mappers.Mapper<KsModel, KsObject>>() with singleton {
-            smash.ks.com.data.objects.mappers.KsMapper(instance())
-        }
+        bind<ObjMapper<KsModel, KsObject>>() with singleton { KsMapper(instance()) }
         bind<KsMapper>() with singleton { KsMapper(instance()) }
-        bind<smash.ks.com.oneshoot.entities.mappers.Mapper<KsObject, KsEntity>>() with singleton {
-            KsEntityMapper(instance())
-        }
+        bind<EntityMapper<KsObject, KsEntity>>() with singleton { KsEntityMapper(instance()) }
     }
 }
