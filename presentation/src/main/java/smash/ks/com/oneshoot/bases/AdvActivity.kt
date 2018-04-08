@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.mvp.views
+package smash.ks.com.oneshoot.bases
 
-interface FragmentView
+abstract class AdvActivity<V : LoadView> : BaseActivity()

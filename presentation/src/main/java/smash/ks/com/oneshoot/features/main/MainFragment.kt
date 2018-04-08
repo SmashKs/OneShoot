@@ -18,20 +18,19 @@ package smash.ks.com.oneshoot.features.main
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
 import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.bases.MvpFragment
+import smash.ks.com.oneshoot.bases.AdvFragment
+import smash.ks.com.oneshoot.bases.LoadView
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
-import smash.ks.com.oneshoot.mvp.contracts.MainContract.View
 
-class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
+class MainFragment : AdvFragment<MainViewModel, MainActivity>(), LoadView {
     //region Instance
     companion object Factory {
         // The key name of the fragment initialization parameters.
@@ -59,7 +58,8 @@ class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        vm.temp.observe(this, Observer { logw(it) })
+        vm.temp.observe(this, Observer {
+        })
     }
 
     override fun provideInflateView() = R.layout.fragment_main
@@ -78,7 +78,7 @@ class MainFragment : MvpFragment<MainViewModel, MainActivity>(), View {
     //endregion
 
     //region Presenter Implementation.
-    override fun showImageUri(uri: String) {
+    fun showImageUri(uri: String) {
         tv_label.text = uri
     }
     //endregion

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.mvp.views
+package smash.ks.com.oneshoot.bases
 
 /**
  * Interface representing a View that will use to load data.
  */
-interface MvpView {
+interface LoadView {
     /**
      * Show a view with a progress bar indicating a loading process.
      */

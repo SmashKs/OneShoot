@@ -22,7 +22,7 @@ import android.arch.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
-abstract class MvpFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragment<A>() {
+abstract class AdvFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragment<A>() {
     /** Add the AAC [ViewModel] for each fragments. */
     protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
 
@@ -33,6 +33,4 @@ abstract class MvpFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragm
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
     /** The [ViewModelProviders.of.get] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
-
-    protected fun showLoadView() {}
 }
