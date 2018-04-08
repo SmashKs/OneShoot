@@ -16,4 +16,6 @@
 
 package smash.ks.com.oneshoot.bases
 
-abstract class AdvActivity<V : LoadView> : BaseActivity()
+import android.arch.lifecycle.ViewModel
+
+abstract class AdvActivity<VM : ViewModel> : BaseActivity()

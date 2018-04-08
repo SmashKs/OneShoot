@@ -36,7 +36,7 @@ class MainViewModel(
 
     fun loading(imageId: Int) {
         ui {
-            temp.value = KsResponse.Loading<String>(null)
+            temp.value = KsResponse.Loading<Any>()
 
             val entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
 

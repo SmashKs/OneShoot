@@ -22,14 +22,14 @@ import android.arch.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
-abstract class AdvFragment<out VM : ViewModel, out A : BaseActivity> : BaseFragment<A>() {
+abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>() {
     /** Add the AAC [ViewModel] for each fragments. */
     protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
 
     private val viewModelFactory by instance<ViewModelProvider.Factory>()
     /** [VM] is the first (index: 0) in the generic declare. */
     private val vmConcreteClass
-        get() = (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<*>
+        get() = (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<*>
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
     /** The [ViewModelProviders.of.get] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
