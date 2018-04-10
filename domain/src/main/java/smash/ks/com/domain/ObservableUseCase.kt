@@ -19,6 +19,7 @@ package smash.ks.com.domain
 import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
@@ -48,9 +49,9 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
+        block: Observable<T>.() -> ObservableSource<F>,
         observer: Observer<F>
-    ) = buildUseCaseObservable(block).apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
+    ) = buildUseCaseObservable(block).compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
     /**
      * Executes the current use case with request [parameter].
@@ -63,7 +64,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
     fun <F> execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
+        block: Observable<T>.() -> ObservableSource<F>,
         observer: Observer<F>
     ) {
         requestValues = parameter
@@ -79,7 +80,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
+        block: Observable<T>.() -> ObservableSource<F>,
         observer: ObserverPlugin<F>.() -> Unit
     ) = execute(lifecycleProvider, block, ObserverPlugin<F>().apply(observer))
 
@@ -94,7 +95,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
     fun <F> execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> Observable<F>,
+        block: Observable<T>.() -> ObservableSource<F>,
         observer: ObserverPlugin<F>.() -> Unit
     ) {
         requestValues = parameter
@@ -112,10 +113,10 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Observable] for connecting with a [Observer] from the kotlin layer.
      */
-    private fun <F> buildUseCaseObservable(block: (Observable<T>.() -> Observable<F>)) =
+    private fun <F> buildUseCaseObservable(block: (Observable<T>.() -> ObservableSource<F>)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .block()
+            .compose(block)
             .observeOn(observeScheduler)
     //endregion
 
@@ -127,7 +128,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
      */
     fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) =
-        buildUseCaseObservable().apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
+        buildUseCaseObservable().compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
     /**
      * Executes the current use case with request [parameter].

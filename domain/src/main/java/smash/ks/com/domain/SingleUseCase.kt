@@ -20,6 +20,7 @@ import com.devrapid.kotlinshaver.SinglePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Single
 import io.reactivex.SingleObserver
+import io.reactivex.SingleSource
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 
@@ -38,9 +39,9 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> Single<F>,
+        block: Single<T>.() -> SingleSource<F>,
         singleObserver: SingleObserver<F>
-    ) = buildUseCaseSingle(block).apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(singleObserver)
+    ) = buildUseCaseSingle(block).compose(lifecycleProvider?.bindToLifecycle()).subscribe(singleObserver)
 
     /**
      * Executes the current use case with request [parameter].
@@ -53,7 +54,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
     fun <F> execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> Single<F>,
+        block: Single<T>.() -> SingleSource<F>,
         singleObserver: SingleObserver<F>
     ) {
         requestValues = parameter
@@ -70,7 +71,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> Single<F>,
+        block: Single<T>.() -> SingleSource<F>,
         singleObserver: SinglePlugin<F>.() -> Unit
     ) = execute(lifecycleProvider, block, SinglePlugin<F>().apply(singleObserver))
 
@@ -85,7 +86,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
     fun <F> execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> Single<F>,
+        block: Single<T>.() -> SingleSource<F>,
         singleObserver: SinglePlugin<F>.() -> Unit
     ) {
         requestValues = parameter
@@ -103,10 +104,10 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Single] for connecting with a [SingleObserver] from the kotlin layer.
      */
-    private fun <F> buildUseCaseSingle(block: (Single<T>.() -> Single<F>)) =
+    private fun <F> buildUseCaseSingle(block: (Single<T>.() -> SingleSource<F>)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .block()
+            .compose(block)
             .observeOn(observeScheduler)
     //endregion
 
@@ -119,7 +120,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      *                 from database or remote.
      */
     fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: SingleObserver<T>) =
-        buildUseCaseSingle().apply { lifecycleProvider?.bindToLifecycle<T>() }.subscribe(observer)
+        buildUseCaseSingle().compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
     /**
      * Executes the current use case with request [parameter].

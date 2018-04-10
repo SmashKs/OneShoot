@@ -34,6 +34,7 @@ import smash.ks.com.domain.objects.Object
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 
+//region Those methods might be deprecated.
 //region Observable
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
@@ -111,7 +112,9 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     completableObserver: CompletablePlugin.() -> Unit
 ) = usecase.execute(this, completableObserver)
 //endregion
+//endregion
 
+//region Observable
 fun <O : Object, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
@@ -122,7 +125,9 @@ suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUs
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
 }
+//endregion
 
+//region Single
 fun <O : Object, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
@@ -133,7 +138,9 @@ suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCas
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
 }
+//endregion
 
+//region Completable
 fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
@@ -141,4 +148,5 @@ fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.ayncCase(
 suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.awaitCase(
     parameter: V? = null
 ) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
+//endregion
 

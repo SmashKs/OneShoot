@@ -20,6 +20,7 @@ import com.devrapid.kotlinshaver.CompletablePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
+import io.reactivex.CompletableSource
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 
@@ -38,10 +39,10 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> Completable,
+        block: Completable.() -> CompletableSource,
         completableObserver: CompletableObserver
     ) = buildCompletableUseCase(block)
-        .apply { lifecycleProvider?.bindToLifecycle<Unit>() }
+//        .compose { lifecycleProvider?.bindToLifecycle() }
         .subscribe(completableObserver)
 
     /**
@@ -55,7 +56,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     fun execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> Completable,
+        block: Completable.() -> CompletableSource,
         completableObserver: CompletableObserver
     ) {
         requestValues = parameter
@@ -72,7 +73,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> Completable,
+        block: Completable.() -> CompletableSource,
         completableObserver: CompletablePlugin.() -> Unit
     ) = execute(lifecycleProvider, block, CompletablePlugin().apply(completableObserver))
 
@@ -87,7 +88,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
     fun execute(
         parameter: R,
         lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> Completable,
+        block: Completable.() -> CompletableSource,
         completableObserver: CompletablePlugin.() -> Unit
     ) {
         requestValues = parameter
@@ -105,10 +106,10 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Completable] for connecting with a [CompletableObserver] from the kotlin layer.
      */
-    private fun buildCompletableUseCase(block: (Completable.() -> Completable)) =
+    private fun buildCompletableUseCase(block: (Completable.() -> CompletableSource)) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
-            .block()
+            .compose(block)
             .observeOn(observeScheduler)
     //endregion
 
@@ -121,7 +122,9 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      *                 from database or remote.
      */
     fun execute(lifecycleProvider: LifecycleProvider<*>? = null, completableObserver: CompletableObserver) =
-        buildCompletableUseCase().apply { lifecycleProvider?.bindToLifecycle<Unit>() }.subscribe(completableObserver)
+        buildCompletableUseCase()
+//            .compose(lifecycleProvider?.bindToLifecycle())
+            .subscribe(completableObserver)
 
     /**
      * Executes the current use case with request [parameter].

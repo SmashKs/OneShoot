@@ -75,7 +75,7 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
 
     override fun hideRetry() = parent.hideRetryView()
 
-    override fun showError(message: String) = parent.showErrorView()
+    override fun showError(message: String) = parent.showErrorView(message)
     //endregion
 
     //region Presenter Implementation.
