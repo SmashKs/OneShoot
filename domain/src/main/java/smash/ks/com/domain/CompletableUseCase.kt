@@ -42,7 +42,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
         block: Completable.() -> CompletableSource,
         completableObserver: CompletableObserver
     ) = buildCompletableUseCase(block)
-//        .compose { lifecycleProvider?.bindToLifecycle() }
+        .compose(lifecycleProvider?.bindToLifecycle<Completable>())
         .subscribe(completableObserver)
 
     /**
@@ -123,7 +123,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(lifecycleProvider: LifecycleProvider<*>? = null, completableObserver: CompletableObserver) =
         buildCompletableUseCase()
-//            .compose(lifecycleProvider?.bindToLifecycle())
+            .compose(lifecycleProvider?.bindToLifecycle<Completable>())
             .subscribe(completableObserver)
 
     /**
