@@ -34,7 +34,6 @@ abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
         /* activity specific bindings */
         import(mainModule())
     }
-    protected var mvpOnCreate: (() -> Unit)? = null
     protected val bus by instance<Bus>()
     private val _parentKodein by closestKodein()
 
@@ -50,7 +49,6 @@ abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
-        mvpOnCreate?.invoke()
 
         // Register RxBus.
         bus.register(busEvent)
