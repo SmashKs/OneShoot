@@ -19,6 +19,7 @@ package smash.ks.com.oneshoot.features.main
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.devrapid.kotlinknifer.ui
+import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.domain.parameters.KsParam
@@ -26,6 +27,7 @@ import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
+import smash.ks.com.oneshoot.ext.aac.abort
 import smash.ks.com.oneshoot.ext.usecase.awaitCase
 
 class MainViewModel(
@@ -33,14 +35,21 @@ class MainViewModel(
     private val mapper: Mapper<KsObject, KsEntity>
 ) : ViewModel() {
     val temp by lazy { MutableLiveData<KsResponse>() }
+    private lateinit var entity: Deferred<KsEntity>
 
     fun loading(imageId: Int) {
         ui {
             temp.value = KsResponse.Loading<Any>()
 
-            val entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
+            entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
 
             temp.value = KsResponse.Success(entity.await().uri)
         }
+    }
+
+    override fun onCleared() {
+        if (::entity.isInitialized) entity.abort()
+
+        super.onCleared()
     }
 }

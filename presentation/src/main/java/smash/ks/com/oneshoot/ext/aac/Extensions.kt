@@ -14,31 +14,35 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package smash.ks.com.oneshoot.ext.aac
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.oneshoot.bases.LoadView
 
-fun <T> LifecycleOwner.observe(liveData: LiveData<T>, block: (T?) -> Unit) =
+inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =
     liveData.observe(this, Observer(block))
 
-fun responseReaction(response: KsResponse?, successBlock: (KsResponse.Success<*>) -> Unit) {
+fun LoadView.responseReaction(response: KsResponse?, successBlock: (KsResponse.Success<*>) -> Unit) =
     response?.also {
         when (it) {
-            is KsResponse.Loading<*> -> {
-                /** show the loading view */
-            }
+            is KsResponse.Loading<*> -> showLoading()
             is KsResponse.Success<*> -> {
                 successBlock(it)
-                /** hide the loading view */
-//                hideLoading()
+                hideLoading()
             }
             is KsResponse.Error<*> -> {
-                /** show the error view */
-//                showError(it.msg)
+                hideLoading()
+                showError(it.msg)
             }
         }
     }
+
+inline fun <T> Deferred<T>.abort(cause: Throwable? = null) {
+    if (isActive) cancel(cause)
 }

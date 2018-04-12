@@ -52,15 +52,10 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
-    override fun onResume() {
-        super.onResume()
-
-        vm.loading(randomId)
-    }
-
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         observe(vm.temp, ::updateTemp)
+        vm.loading(randomId)
     }
 
     override fun provideInflateView() = R.layout.fragment_main

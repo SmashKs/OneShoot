@@ -44,7 +44,7 @@ ext {
     androidCompileSdkVersion = 27
     //endregion
 
-    androidSupportVer = '27.0.2'
+    androidSupportVer = '27.1.1'
     androidContraintLayoutVer = '1.1.0-beta6'
 
     kotlinVer = "$kotlin_version"
@@ -54,7 +54,7 @@ ext {
     aacVer = '1.1.1'
     ankoVer = '0.10.4'
     ktxVer = '0.2'
-    kinferVer = '1.5.6'
+    kinferVer = '1.5.7'
     shaverVer = '0.2.2'
     //endregion
 
@@ -63,7 +63,7 @@ ext {
     //endregion
 
     //region Version Firebase dependencies
-    firebaseVer = '11.8.0'
+    firebaseVer = '12.0.1'
     //endregion
 
     //region Version Database dependencies
