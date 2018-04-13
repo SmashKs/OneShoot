@@ -24,7 +24,7 @@ import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.ext.aac.abort
@@ -38,16 +38,23 @@ class MainViewModel(
     private lateinit var entity: Deferred<KsEntity>
 
     fun loading(imageId: Int) {
+        // TODO(jieyi): 2018/04/13 Here might extract a good extension for updating.
         ui {
             temp.value = KsResponse.Loading<Any>()
 
-            entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
+            try {
+                entity = getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId)))
+            }
+            catch (e: Exception) {
+                temp.value = KsResponse.Error(null, e.message.orEmpty())
+            }
 
             temp.value = KsResponse.Success(entity.await().uri)
         }
     }
 
     override fun onCleared() {
+        // TODO(jieyi): 2018/04/13 We might make a good method for releasing them. (By reflection?)
         if (::entity.isInitialized) entity.abort()
 
         super.onCleared()
