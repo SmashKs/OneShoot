@@ -24,7 +24,7 @@ import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.ext.aac.abort
@@ -43,13 +43,39 @@ class MainViewModel(
             temp.value = KsResponse.Loading<Any>()
 
             try {
-                entity = getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId)))
+                entity = getKsImageCase.awaitCase(mapper, GetKsImageUsecase.Requests(KsParam(imageId)))
             }
             catch (e: Exception) {
                 temp.value = KsResponse.Error(null, e.message.orEmpty())
             }
 
             temp.value = KsResponse.Success(entity.await().uri)
+        }
+
+//        temp.normal({
+//                        getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId)))
+//                    }, { res ->
+//                        res.await()
+//                    })
+    }
+
+    inline fun <T> MutableLiveData<KsResponse>.normal(
+        crossinline block: () -> Deferred<T>,
+        crossinline success: (res: Deferred<T>) -> T
+    ) {
+        var entity: Deferred<T>? = null
+
+        ui {
+            value = KsResponse.Loading<Any>()
+
+            try {
+                entity = block()
+            }
+            catch (e: Exception) {
+                value = KsResponse.Error(null, e.message.orEmpty())
+            }
+
+            if (null != entity) value = KsResponse.Success(success(entity!!))
         }
     }
 
