@@ -43,6 +43,5 @@ fun LoadView.responseReaction(response: KsResponse?, successBlock: (KsResponse.S
         }
     }
 
-inline fun <T> Deferred<T>.abort(cause: Throwable? = null) {
-    if (isActive) cancel(cause)
-}
+inline fun <T> Deferred<T>?.abort(cause: Throwable? = null) =
+    takeIf { null != it && it.isActive }?.cancel(cause)
