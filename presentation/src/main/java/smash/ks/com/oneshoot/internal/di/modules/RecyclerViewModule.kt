@@ -19,8 +19,13 @@ package smash.ks.com.oneshoot.internal.di.modules
 import android.content.Context
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.setBinding
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.features.main.FakeViewHolder
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
 object RecyclerViewModule {
@@ -29,5 +34,11 @@ object RecyclerViewModule {
 
         /** ViewModel Set for [MultiTypeFactory] */
         bind() from setBinding<ViewHolderEntry>()
+
+        /* specific bindings */
+        // TODO(jieyi): 2018/04/18 Add the binding here!
+        bind<ViewHolderEntry>().inSet() with provider {
+            KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
+        }
     }
 }
