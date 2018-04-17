@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -35,13 +35,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_fake"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label"
         tools:itemCount="3"
         tools:listitem="@layout/item_fake"/>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

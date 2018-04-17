@@ -22,8 +22,8 @@
     android:layout_height="match_parent"
     tools:context=".features.main.MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/rl_container"
+    <FrameLayout
+        android:id="@+id/fl_container"
         style="@style/Constraint.Any.MatchParent"/>
 
     <ViewStub
