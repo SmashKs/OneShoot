@@ -18,7 +18,7 @@ package smash.ks.com.oneshoot.internal.di.modules
 
 import com.hwangjr.rxbus.Bus
 import com.hwangjr.rxbus.RxBus
-import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.executors.JobExecutor
@@ -27,7 +27,7 @@ import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.oneshoot.UiThread
 
 object AppModule {
-    fun appModule() = Kodein.Module {
+    fun appModule() = Module {
         bind<Bus>() with instance(RxBus.get())
         bind<ThreadExecutor>() with instance(JobExecutor())
         bind<PostExecutionThread>() with instance(UiThread())

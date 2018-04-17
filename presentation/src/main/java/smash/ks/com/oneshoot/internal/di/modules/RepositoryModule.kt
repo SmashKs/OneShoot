@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
@@ -31,7 +31,7 @@ import smash.ks.com.oneshoot.internal.di.tag.KsTag.LOCAL
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
 
 object RepositoryModule {
-    fun repositoryModule() = Kodein.Module {
+    fun repositoryModule() = Module {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
         bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
         bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl() }

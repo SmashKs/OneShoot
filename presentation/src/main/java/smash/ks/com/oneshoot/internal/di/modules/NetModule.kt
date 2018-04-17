@@ -20,29 +20,30 @@ import android.content.Context
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.kodein.di.Kodein
+import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
+import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.CallAdapter
 import retrofit2.Converter
-import retrofit2.Retrofit
+import retrofit2.Retrofit.Builder
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetModule {
-    fun netModule(context: Context) = Kodein.Module {
+    fun netModule(context: Context) = Module {
         bind<Converter.Factory>() with singleton { GsonConverterFactory.create(instance()) }
         bind<CallAdapter.Factory>() with singleton { RxJava2CallAdapterFactory.create() }
         bind<Cache>() with singleton { Cache(context.cacheDir, 10 * 1024 * 1024 /* 10 MiB */) }
         bind<OkHttpClient>() with singleton {
             OkHttpClient.Builder().apply {
-                addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                addInterceptor(HttpLoggingInterceptor().setLevel(BODY))
                 cache(instance())
             }.build()
         }
-        bind<Retrofit.Builder>() with singleton {
-            Retrofit.Builder().apply {
+        bind<Builder>() with singleton {
+            Builder().apply {
                 addConverterFactory(instance())
                 addCallAdapterFactory(instance())
                 client(instance())

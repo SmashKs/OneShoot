@@ -16,12 +16,23 @@
 
 package smash.ks.com.oneshoot.widgets.recyclerview
 
+import android.content.Context
 import android.view.ViewGroup
 import com.ks.smash.ext.const.DEFAULT_INT
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-open class MultiTypeAdapter(override var dataList: MutableList<MultiVisitable>) : KsAdapter() {
-    override var typeFactory: MultiTypeFactory = MultiTypeFactory()
-    protected var viewType: Int = DEFAULT_INT
+open class MultiTypeAdapter(
+    override var dataList: MutableList<MultiVisitable>,
+    context: Context
+) : KsAdapter(), KodeinAware {
+    override var typeFactory: MultiTypeFactory
+        get() = multiTypeFactory
+        set(value) = Unit
+    override val kodein by closestKodein(context)
+    protected var viewType = DEFAULT_INT
+    private val multiTypeFactory by instance<MultiTypeFactory>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KsViewHolder {
         this.viewType = viewType

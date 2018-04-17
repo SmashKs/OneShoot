@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot
+package smash.ks.com.oneshoot.internal.di.modules
 
-import android.app.Application
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
+import org.kodein.di.Kodein.Module
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.setBinding
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
-class ViewModelFactory(
-    application: Application,
-    private val viewModels: MutableMap<Class<out ViewModel>, ViewModel>
-) : ViewModelProvider.AndroidViewModelFactory(application) {
-    override fun <T : ViewModel> create(modelClass: Class<T>) = viewModels[modelClass] as T
+object RecyclerViewModule {
+    fun recyclerViewModule(context: Context) = Module {
+        bind<MultiTypeFactory>() with instance(MultiTypeFactory(context))
+
+        /** ViewModel Set for [MultiTypeFactory] */
+        bind() from setBinding<ViewHolderEntry>()
+    }
 }

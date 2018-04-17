@@ -16,17 +16,37 @@
 
 package smash.ks.com.oneshoot.widgets.recyclerview
 
-import android.support.v7.widget.RecyclerView
-import android.view.View
+import android.content.Context
 import com.devrapid.adaptiverecyclerview.ViewTypeFactory
+import org.kodein.di.Kodein.Companion.lazy
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.features.main.FakeViewHolder
+import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntries
+import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 
-class MultiTypeFactory : ViewTypeFactory() {
-    override var transformMap: MutableMap<Int, Pair<Int, (View) -> RecyclerView.ViewHolder>> = mutableMapOf(
-        1 to Pair(R.layout.item_fake, ::FakeViewHolder)
-    )
+class MultiTypeFactory(context: Context) : ViewTypeFactory(), KodeinAware {
+    override var transformMap
+        get() = viewHolderEntries.toMap().toMutableMap()
+        set(value) = Unit
+    override val kodein = lazy {
+        extend(_parentKodein)
 
-    fun type(entity: KsEntity) = 1
+        /* specific bindings */
+        // TODO(jieyi): 2018/04/18 Add the binding here!
+        bind<ViewHolderEntry>().inSet() with provider {
+            KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
+        }
+    }
+    private val viewHolderEntries by instance<ViewHolderEntries>()
+    private val _parentKodein by closestKodein(context)
+
+    // *** Here are the entity binding the specific hashcode. ***
+    fun type(entity: MultiVisitable) = entity.javaClass.hashCode()
 }

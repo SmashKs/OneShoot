@@ -17,6 +17,11 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.arch.lifecycle.ViewModel
+import android.support.v7.widget.RecyclerView
+import android.view.View
 
 typealias ViewModelEntry = Pair<Class<out ViewModel>, ViewModel>
 typealias ViewModelEntries = Set<ViewModelEntry>
+
+typealias ViewHolderEntry = Pair<Int, Pair<Int, (View) -> RecyclerView.ViewHolder>>
+typealias ViewHolderEntries = Set<ViewHolderEntry>

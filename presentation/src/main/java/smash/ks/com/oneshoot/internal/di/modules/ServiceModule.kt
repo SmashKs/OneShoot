@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.content.Context
-import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
@@ -27,10 +27,11 @@ import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.oneshoot.external.firebase.v1.KsFirebaseImpl
+import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 
 object ServiceModule {
-    fun serviceModule(context: Context) = Kodein.Module {
-        import(NetModule.netModule(context))
+    fun serviceModule(context: Context) = Module {
+        import(netModule(context))
 
         bind<KsConfig>() with instance(RestfulApiFactory().createKsConfig())
         bind<KsService>() with singleton {

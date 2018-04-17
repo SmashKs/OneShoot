@@ -64,7 +64,7 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
 
         rv_fake.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            adapter = MultiTypeAdapter(mutableListOf(KsEntity(), KsEntity()))
+            adapter = MultiTypeAdapter(mutableListOf(KsEntity(), KsEntity()), this@MainFragment.parent)
         }
     }
 

@@ -18,10 +18,11 @@ package smash.ks.com.oneshoot
 
 import android.app.Application
 import android.content.Context
-import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Companion.lazy
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.androidModule
 import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
+import smash.ks.com.oneshoot.internal.di.modules.RecyclerViewModule.recyclerViewModule
 import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
 import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
 import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilModule
@@ -42,14 +43,17 @@ class App : Application(), KodeinAware {
     /**
      * A Kodein Aware class must be within reach of a Kodein object.
      */
-    override val kodein = Kodein.lazy {
-        import(androidModule(this@App))
+    override val kodein = lazy {
+        val app = this@App
+
+        import(androidModule(app))
         /** bindings */
         import(appModule())
-        import(utilModule(this@App.applicationContext))
+        import(utilModule(app))
         import(repositoryModule())
         /** usecases are bind here but the scope is depending on each layers.  */
         import(usecaseModule())
-        import(serviceModule(applicationContext))
+        import(serviceModule(app))
+        import(recyclerViewModule(app))
     }
 }

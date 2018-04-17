@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
+package smash.ks.com.oneshoot.widgets.viewmodel
 
-import org.kodein.di.Kodein.Module
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.inSet
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import smash.ks.com.oneshoot.features.main.MainViewModel
-import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
+import android.app.Application
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 
-object MainModule {
-    fun mainModule() = Module {
-        bind<ViewModelEntry>().inSet() with provider {
-            MainViewModel::class.java to MainViewModel(instance(), instance())
-        }
-    }
+class ViewModelFactory(
+    application: Application,
+    private val viewModels: MutableMap<Class<out ViewModel>, ViewModel>
+) : ViewModelProvider.AndroidViewModelFactory(application) {
+    override fun <T : ViewModel> create(modelClass: Class<T>) = viewModels[modelClass] as T
 }

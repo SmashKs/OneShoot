@@ -17,10 +17,10 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.content.Context
-import com.google.gson.FieldNamingPolicy
+import com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import org.kodein.di.Kodein
+import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.setBinding
@@ -35,14 +35,14 @@ import smash.ks.com.data.objects.mappers.Mapper as ObjMapper
 import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
 object UtilModule {
-    fun utilModule(context: Context) = Kodein.Module {
+    fun utilModule(context: Context) = Module {
         /** ViewModel Set for [smash.ks.com.oneshoot.ViewModelFactory] */
         bind() from setBinding<ViewModelEntry>()
 
         bind<ModelMapper>() with instance(ModelMapper())
         bind<Gson>() with singleton {
             with(GsonBuilder()) {
-                setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
                 setLenient()
                 create()
             }
