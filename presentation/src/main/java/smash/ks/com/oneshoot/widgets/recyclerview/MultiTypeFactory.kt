@@ -28,5 +28,5 @@ class MultiTypeFactory : ViewTypeFactory() {
         1 to Pair(R.layout.item_fake, ::FakeViewHolder)
     )
 
-    fun type(entity: KsEntity): Int = 1
+    fun type(entity: KsEntity) = 1
 }

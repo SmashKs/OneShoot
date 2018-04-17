@@ -34,7 +34,7 @@ class MainViewModel(
 ) : ViewModel() {
     val temp by lazy { MutableLiveData<KsResponse>() }
 
-    fun loading(imageId: Int) {
+    fun retrieveId(imageId: Int) {
         temp.askingData({ getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId))) }) { res ->
             res.await().uri
         }

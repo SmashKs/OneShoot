@@ -20,13 +20,8 @@ import com.devrapid.adaptiverecyclerview.AdaptiveAdapter
 import com.devrapid.adaptiverecyclerview.AdaptiveViewHolder
 import com.devrapid.adaptiverecyclerview.IVisitable
 
-interface IVisitor : MultiVisitable {
-    var childItemList: List<IVisitor>
-    var isExpandable: Boolean
-}
-
-typealias AdaptiveVH = AdaptiveViewHolder<MultiTypeFactory, MultiVisitable>
+typealias KsViewHolder = AdaptiveViewHolder<MultiTypeFactory, MultiVisitable>
 
 typealias MultiVisitable = IVisitable<MultiTypeFactory>
 
-typealias AdaptiveAdapter = AdaptiveAdapter<MultiTypeFactory, MultiVisitable, AdaptiveVH>
+typealias KsAdapter = AdaptiveAdapter<MultiTypeFactory, MultiVisitable, KsViewHolder>

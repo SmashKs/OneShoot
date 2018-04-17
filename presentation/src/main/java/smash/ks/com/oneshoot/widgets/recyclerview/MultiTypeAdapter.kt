@@ -19,11 +19,11 @@ package smash.ks.com.oneshoot.widgets.recyclerview
 import android.view.ViewGroup
 import com.ks.smash.ext.const.DEFAULT_INT
 
-open class MultiTypeAdapter(override var dataList: MutableList<MultiVisitable>) : AdaptiveAdapter() {
+open class MultiTypeAdapter(override var dataList: MutableList<MultiVisitable>) : KsAdapter() {
     override var typeFactory: MultiTypeFactory = MultiTypeFactory()
     protected var viewType: Int = DEFAULT_INT
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdaptiveVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KsViewHolder {
         this.viewType = viewType
 
         return super.onCreateViewHolder(parent, viewType)

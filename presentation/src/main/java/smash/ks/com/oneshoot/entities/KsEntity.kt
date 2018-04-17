@@ -17,16 +17,9 @@
 package smash.ks.com.oneshoot.entities
 
 import com.ks.smash.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.widgets.recyclerview.IVisitor
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiVisitable
 
-data class KsEntity(var uri: String = DEFAULT_STR) : Entity, IVisitor {
-    override var childItemList: List<IVisitor>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var isExpandable: Boolean
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-
+data class KsEntity(var uri: String = DEFAULT_STR) : Entity, MultiVisitable {
     override fun type(typeFactory: MultiTypeFactory) = typeFactory.type(this)
 }

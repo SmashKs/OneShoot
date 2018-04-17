@@ -60,10 +60,10 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         observe(vm.temp, ::updateTemp)
-        vm.loading(randomId)
+        vm.retrieveId(randomId)
 
         rv_fake.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             adapter = MultiTypeAdapter(mutableListOf(KsEntity(), KsEntity()))
         }
     }
