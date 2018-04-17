@@ -17,13 +17,17 @@
 package smash.ks.com.oneshoot.features.main
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.widget.LinearLayout
 import com.ks.smash.ext.const.DEFAULT_INT
+import kotlinx.android.synthetic.main.fragment_main.rv_fake
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
 import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.ext.aac.observe
 import smash.ks.com.oneshoot.ext.aac.responseReaction
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -31,6 +35,7 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
 class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
     //region Instance
@@ -56,6 +61,11 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
     override fun rendered(savedInstanceState: Bundle?) {
         observe(vm.temp, ::updateTemp)
         vm.loading(randomId)
+
+        rv_fake.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+            adapter = MultiTypeAdapter(mutableListOf(KsEntity(), KsEntity()))
+        }
     }
 
     override fun provideInflateView() = R.layout.fragment_main

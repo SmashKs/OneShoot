@@ -24,7 +24,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.rx2.await
 import kotlinx.coroutines.experimental.rx2.awaitSingle
 import smash.ks.com.domain.BaseUseCase
@@ -34,7 +33,6 @@ import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.objects.Object
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
-import java.util.concurrent.TimeUnit
 
 //region Those methods might be deprecated.
 //region Observable
@@ -138,7 +136,6 @@ suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCas
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {
-    delay(3, TimeUnit.SECONDS)
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
 }
 //endregion

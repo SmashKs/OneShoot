@@ -124,6 +124,8 @@ dependencies {
     implementation pd.androidAnnot
     implementation pd.androidConstraintLayout
 
+    implementation pd.adaptiveRecycler
+
     testImplementation gtd.junit
     testImplementation gtd.kotlinJunit
     testImplementation gtd.mockito

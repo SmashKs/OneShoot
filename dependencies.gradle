@@ -50,6 +50,10 @@ ext {
     kotlinVer = "$kotlin_version"
     kotlinCoroutineVer = '0.22.5'
 
+    //region Version Android Customize Component
+    adaptiveRecyclerViewVer = '0.0.8'
+    //endregion
+
     //region Version Kotlin/Android extension
     aacVer = '1.1.1'
     ankoVer = '0.10.4'
@@ -137,25 +141,25 @@ ext {
     //region Presentation Dependencies
     presentationDependencies = [
             // Android Extension
-            ankoCommon            : "org.jetbrains.anko:anko-commons:$ankoVer",
-            ankoSdk25             : "org.jetbrains.anko:anko-sdk25:$ankoVer",
-            ankoAppcompat         : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
-            ankoCoroutineSdk25    : "org.jetbrains.anko:anko-sdk25-coroutines:$ankoVer",
-            ankoCoroutineAppcompat: "org.jetbrains.anko:anko-appcompat-v7-coroutines:$ankoVer",
-            androidKtx            : "androidx.core:core-ktx:$ktxVer",
-            kknifer               : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
-            kotlinCoroutineAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVer",
+            ankoCommon             : "org.jetbrains.anko:anko-commons:$ankoVer",
+            ankoSdk25              : "org.jetbrains.anko:anko-sdk25:$ankoVer",
+            ankoAppcompat          : "org.jetbrains.anko:anko-appcompat-v7:$ankoVer",
+            ankoCoroutineSdk25     : "org.jetbrains.anko:anko-sdk25-coroutines:$ankoVer",
+            ankoCoroutineAppcompat : "org.jetbrains.anko:anko-appcompat-v7-coroutines:$ankoVer",
+            androidKtx             : "androidx.core:core-ktx:$ktxVer",
+            kknifer                : "com.devrapid.jieyi:kotlinknifer:$kinferVer",
+            kotlinCoroutineAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVer",
             // Android Architecture Component
-            aacViewAndLifecycle   : "android.arch.lifecycle:extensions:$aacVer",
+            aacViewAndLifecycle    : "android.arch.lifecycle:extensions:$aacVer",
             // Reactive
-            rxbus                 : "com.hwangjr.rxbus:rxbus:$rxBusVer",
-            rxlifecycle2          : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
-            rxlifecycle2Component : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
-            rxpermission2         : "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermission2Ver",
-            rxbinding2            : "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Ver",
-            rxbinding2Appcompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBinding2Ver",
-            rxbinding2Design      : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBinding2Ver",
-            rxbinding2RecyclerView: "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBinding2Ver",
+            rxbus                  : "com.hwangjr.rxbus:rxbus:$rxBusVer",
+            rxlifecycle2           : "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycle2Ver",
+            rxlifecycle2Component  : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Ver",
+            rxpermission2          : "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermission2Ver",
+            rxbinding2             : "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Ver",
+            rxbinding2Appcompat    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBinding2Ver",
+            rxbinding2Design       : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBinding2Ver",
+            rxbinding2RecyclerView : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBinding2Ver",
             // Internet (Only for injection)
             retrofit2              : "com.squareup.retrofit2:retrofit:$retrofit2Ver",
             retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
@@ -167,6 +171,8 @@ ext {
             firebaseAuth           : "com.google.firebase:firebase-auth:$firebaseVer",
 
             mapper                 : "org.modelmapper:modelmapper:$modelmapperVer",
+            // UI
+            adaptiveRecycler       : "com.devrapid.jieyi:adaptiverecyclerview:$adaptiveRecyclerViewVer",
             // Android Support
             androidCompat          : "com.android.support:appcompat-v7:$androidSupportVer",
             androidAnnot           : "com.android.support:support-annotations:$androidSupportVer",

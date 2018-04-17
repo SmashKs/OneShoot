@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.oneshoot.features.main
 
-import com.ks.smash.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.widgets.recyclerview.IVisitor
+import android.view.View
+import com.devrapid.adaptiverecyclerview.AdaptiveViewHolder
+import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
-data class KsEntity(var uri: String = DEFAULT_STR) : Entity, IVisitor {
-    override var childItemList: List<IVisitor>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var isExpandable: Boolean
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-
-    override fun type(typeFactory: MultiTypeFactory) = typeFactory.type(this)
+class FakeViewHolder(view: View) : AdaptiveViewHolder<MultiTypeFactory, KsEntity>(view) {
+    override fun initView(model: KsEntity, position: Int, adapter: Any) {
+    }
 }
