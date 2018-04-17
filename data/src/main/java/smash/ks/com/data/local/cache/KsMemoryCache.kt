@@ -22,7 +22,7 @@ import com.devrapid.kotlinshaver.isNotNull
 open class KsMemoryCache : KsCache() {
     companion object {
         private const val CAPACITY = 200
-        private const val THRESHOLD = 24L * 60 * 60 // a day
+        private const val THRESHOLD = 24L * 60 * 60 * 1000 // a day (time unit is ms)
 
         const val CATEGORY_KS = 43
     }
