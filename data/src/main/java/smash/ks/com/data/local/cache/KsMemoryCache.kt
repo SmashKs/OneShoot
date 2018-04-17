@@ -18,6 +18,7 @@ package smash.ks.com.data.local.cache
 
 import com.devrapid.kotlinshaver.currentTime
 import com.devrapid.kotlinshaver.isNotNull
+import com.ks.smash.ext.const.takeIfDefault
 
 open class KsMemoryCache : KsCache() {
     companion object {
@@ -32,12 +33,12 @@ open class KsMemoryCache : KsCache() {
      *
      * Structure is as like:
      * ======================================================
-     * Category WATCH_LIST(KEY), List(VALUE)
+     * [Category WATCH_LIST(KEY), List(VALUE)]
      *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
      *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
      *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
      *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
-     * Category FEATURE_WATCH_LIST(KEY), List(VALUE)
+     * [Category FEATURE_WATCH_LIST(KEY), List(VALUE)]
      *   ↳ Triple<Parameters, Cached Time, Cached Object(SMASH)>
      *   ↳ Triple<Parameters, Cached Time, Cached Object(SMASH)>
      */
@@ -72,7 +73,10 @@ open class KsMemoryCache : KsCache() {
 
     override fun obtainCachedObj(which: Int, params: Any) = isHit(which, params)?.third
 
-    fun clearWatchList(which: Int, params: Any) = memory[which]?.remove(params).isNotNull()
+    override fun clearCache(which: Int, params: Any?) =
+        which.takeIfDefault { memory.clear() } ?: let { memory[which]?.remove(params).isNotNull(); Unit }
+
+    override fun describeMemory() = memory.toString()
 
     protected fun isHit(which: Int, params: Any) = memory[which]?.find { it.first == params }
 }

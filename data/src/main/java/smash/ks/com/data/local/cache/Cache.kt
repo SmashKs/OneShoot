@@ -16,6 +16,8 @@
 
 package smash.ks.com.data.local.cache
 
+import com.ks.smash.ext.const.DEFAULT_INT
+
 /**
  * This is first layer cache for retrieving from the remote.
  */
@@ -24,4 +26,6 @@ interface Cache {
     fun isCached(which: Int, params: Any): Boolean
     fun refreshOrCache(which: Int, params: Any, obj: Any? = null)
     fun obtainCachedObj(which: Int, params: Any): Any?
+    fun clearCache(which: Int = DEFAULT_INT, params: Any?)
+    fun describeMemory(): String
 }
