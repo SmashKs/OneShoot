@@ -28,9 +28,15 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.features.main.FakeViewHolder
+import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
@@ -38,7 +44,7 @@ import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
 abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
     override val kodeinContext get() = kcontext(activity)
     override val kodein = Kodein.lazy {
-        extend(_parentKodein)
+        extend(parentKodein)
         /* fragment specific bindings */
         import(mainModule())
 
@@ -46,11 +52,15 @@ abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
         bind<ViewModelProvider.Factory>() with singleton {
             ViewModelFactory(instance(), viewModelSet.toMap().toMutableMap())
         }
+        // ***  ***
+        bind<ViewHolderEntry>().inSet() with provider {
+            KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
+        }
     }
     protected val appContext by instance<Context>()
     protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.
     private var rootView: View? = null
-    private val _parentKodein by closestKodein()
+    private val parentKodein by closestKodein()
 
     //region Fragment lifecycle
     override fun onCreateView(

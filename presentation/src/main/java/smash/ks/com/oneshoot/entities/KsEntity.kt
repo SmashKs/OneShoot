@@ -17,9 +17,9 @@
 package smash.ks.com.oneshoot.entities
 
 import com.ks.smash.ext.const.DEFAULT_STR
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
-import smash.ks.com.oneshoot.widgets.recyclerview.MultiVisitable
 
-data class KsEntity(var uri: String = DEFAULT_STR) : Entity, MultiVisitable {
+data class KsEntity(var uri: String = DEFAULT_STR) : Entity, KsMultiVisitable {
     override fun type(typeFactory: MultiTypeFactory) = typeFactory.type(this)
 }

@@ -24,7 +24,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
 open class MultiTypeAdapter(
-    override var dataList: MutableList<MultiVisitable>,
+    override var dataList: MutableList<KsMultiVisitable>,
     context: Context
 ) : KsAdapter(), KodeinAware {
     override var typeFactory: MultiTypeFactory

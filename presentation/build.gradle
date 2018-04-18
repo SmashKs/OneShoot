@@ -46,6 +46,13 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    sourceSets {
+        main {
+            res.srcDirs += [
+                    'src/main/res-features/ks',
+            ]
+        }
+    }
 }
 
 androidExtensions { experimental = true }

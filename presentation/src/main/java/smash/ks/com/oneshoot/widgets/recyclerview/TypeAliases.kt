@@ -20,8 +20,8 @@ import com.devrapid.adaptiverecyclerview.AdaptiveAdapter
 import com.devrapid.adaptiverecyclerview.AdaptiveViewHolder
 import com.devrapid.adaptiverecyclerview.IVisitable
 
-typealias KsViewHolder = AdaptiveViewHolder<MultiTypeFactory, MultiVisitable>
+typealias KsViewHolder = AdaptiveViewHolder<MultiTypeFactory, KsMultiVisitable>
 
-typealias MultiVisitable = IVisitable<MultiTypeFactory>
+typealias KsMultiVisitable = IVisitable<MultiTypeFactory>
 
-typealias KsAdapter = AdaptiveAdapter<MultiTypeFactory, MultiVisitable, KsViewHolder>
+typealias KsAdapter = AdaptiveAdapter<MultiTypeFactory, KsMultiVisitable, KsViewHolder>

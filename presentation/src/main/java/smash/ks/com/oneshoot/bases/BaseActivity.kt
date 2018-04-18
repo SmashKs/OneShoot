@@ -30,12 +30,12 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModul
 abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)
     override val kodein by retainedKodein {
-        extend(_parentKodein)
+        extend(parentKodein)
         /* activity specific bindings */
         import(mainModule())
     }
     protected val bus by instance<Bus>()
-    private val _parentKodein by closestKodein()
+    private val parentKodein by closestKodein()
 
     //region RxBus Example
     // Register it in the parent class that it will be not reflected.
