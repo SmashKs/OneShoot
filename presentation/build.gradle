@@ -49,7 +49,7 @@ android {
     sourceSets {
         main {
             res.srcDirs += [
-                    'src/main/res-features/ks',
+                    "src/main/res-features/ks",
             ]
         }
     }
