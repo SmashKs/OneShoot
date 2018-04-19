@@ -26,7 +26,7 @@ import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntries
 class MultiTypeFactory(context: Context) : ViewTypeFactory(), KodeinAware {
     override var transformMap
         get() = viewHolderEntries.toMap().toMutableMap()
-        set(value) = Unit
+        set(value) = throw UnsupportedOperationException("We don't allow this method to use!")
     override val kodein by closestKodein(context)
     private val viewHolderEntries by instance<ViewHolderEntries>()
 

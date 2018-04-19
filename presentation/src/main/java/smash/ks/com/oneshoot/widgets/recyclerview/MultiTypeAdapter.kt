@@ -29,7 +29,7 @@ open class MultiTypeAdapter(
 ) : KsAdapter(), KodeinAware {
     override var typeFactory: MultiTypeFactory
         get() = multiTypeFactory
-        set(value) = Unit
+        set(value) = throw UnsupportedOperationException("We don't allow this method to use!")
     override val kodein by closestKodein(context)
     protected var viewType = DEFAULT_INT
     private val multiTypeFactory by instance<MultiTypeFactory>()
