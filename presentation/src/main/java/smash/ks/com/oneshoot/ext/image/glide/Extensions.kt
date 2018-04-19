@@ -28,22 +28,27 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ks.smash.ext.const.DEFAULT_INT
+import com.ks.smash.ext.const.takeUnlessDefault
 import smash.ks.com.oneshoot.ext.resource.gContext
 
-fun ImageView.loadByString(str: String, context: Context = gContext()) =
-    glideDefault(context) { load(str) }
+fun ImageView.loadByString(str: String, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glideDefault(context, options) { load(str) }
 
-fun ImageView.loadByBitmap(bitmap: Bitmap, context: Context = gContext()) =
-    glideDefault(context) { load(bitmap) }
+fun ImageView.loadByBitmap(bitmap: Bitmap, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glideDefault(context, options) { load(bitmap) }
 
-fun ImageView.loadByUri(uri: Uri, context: Context = gContext()) =
-    glideDefault(context) { load(uri) }
+fun ImageView.loadByUri(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glideDefault(context, options) { load(uri) }
 
-fun ImageView.loadByDrawable(drawable: Drawable, context: Context = gContext()) =
-    glideDefault(context) { load(drawable) }
+fun ImageView.loadByDrawable(
+    drawable: Drawable,
+    context: Context = gContext(),
+    options: RequestOptions = glideKsOptions()
+) =
+    glideDefault(context, options) { load(drawable) }
 
-fun ImageView.loadByAny(any: Any, context: Context = gContext()) =
-    glideDefault(context) { load(any) }
+fun ImageView.loadByAny(any: Any, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glideDefault(context, options) { load(any) }
 
 fun glideKsOptions(
     @DrawableRes phResource: Int = DEFAULT_INT,
@@ -51,34 +56,36 @@ fun glideKsOptions(
 ) =
     RequestOptions().apply {
         centerCrop()
-        placeholder(phResource)
-        error(erSource)
+            phResource.takeUnlessDefault(::placeholder)
+            erSource.takeUnlessDefault(::error)
         priority(Priority.HIGH)
         diskCacheStrategy(DiskCacheStrategy.RESOURCE)
     }
 
-fun ImageView.glideDefault(
-    context: Context = gContext(),
-    block: RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap>
-) =
-    Glide.with(context)
+fun glideObtaineBitmapFrom(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glide(context)
         .asBitmap()
-        .apply(glideKsOptions())
-        .block()
-        .into(this)
-
-fun glideObtaineBitmapFrom(uri: Uri, context: Context = gContext()) =
-    Glide.with(context)
-        .asBitmap()
-        .apply(glideKsOptions())
+        .apply(options)
         .load(uri)
         .submit()
         .get()
 
-fun glideObtaineDrawableFrom(uri: Uri, context: Context = gContext()) =
-    Glide.with(context)
+fun glideObtaineDrawableFrom(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
+    glide(context)
         .asDrawable()
-        .apply(glideKsOptions())
+        .apply(options)
         .load(uri)
         .submit()
         .get()
+
+private fun ImageView.glideDefault(
+    context: Context = gContext(),
+    options: RequestOptions = glideKsOptions(),
+    block: RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap>
+) = glide(context)
+    .asBitmap()
+    .apply(options)
+    .block()
+    .into(this)
+
+private fun glide(context: Context) = Glide.with(context)
