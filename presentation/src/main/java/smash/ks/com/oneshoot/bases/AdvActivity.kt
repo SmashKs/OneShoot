@@ -24,6 +24,7 @@ import java.lang.reflect.ParameterizedType
 
 abstract class AdvActivity<out VM : ViewModel> : BaseActivity() {
     /** Add the AAC [ViewModel] for each fragments. */
+    @Suppress("UNCHECKED_CAST")
     protected val vm by lazy { vmCreateMethod.invoke(vmProviders, vmConcreteClass) as VM }
 
     private val viewModelFactory by instance<ViewModelProvider.Factory>()

@@ -127,6 +127,8 @@ dependencies {
     implementation pd.retrofit2AdapterRxJava2
     implementation pd.okhttp3InterceptorLog
 
+    implementation pd.glide
+
     implementation pd.androidCompat
     implementation pd.androidAnnot
     implementation pd.androidConstraintLayout

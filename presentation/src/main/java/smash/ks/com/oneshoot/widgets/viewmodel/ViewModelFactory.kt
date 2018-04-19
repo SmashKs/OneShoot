@@ -24,5 +24,6 @@ class ViewModelFactory(
     application: Application,
     private val viewModels: MutableMap<Class<out ViewModel>, ViewModel>
 ) : ViewModelProvider.AndroidViewModelFactory(application) {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>) = viewModels[modelClass] as T
 }

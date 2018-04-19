@@ -75,7 +75,7 @@ ext {
     //endregion
 
     //region Version Network dependencies
-    glideVer = '4.6.1'
+    glideVer = '4.7.1'
     retrofit2Ver = '2.3.0'
     okhttp3Ver = '3.10.0'
     //endregion
@@ -124,8 +124,6 @@ ext {
             kodeinAndroid     : "org.kodein.di:kodein-di-framework-android:$kodeinVer",
             kodeinGeneric     : "org.kodein.di:kodein-di-generic-jvm:$kodeinVer",
 
-            glide             : "com.github.bumptech.glide:glide:$glideVer",
-
             gson              : "com.google.code.gson:gson:$gsonVer",
             jsoup             : "org.jsoup:jsoup:$jsoupVer"
     ]
@@ -165,6 +163,8 @@ ext {
             retrofit2ConverterGson : "com.squareup.retrofit2:converter-gson:$retrofit2Ver",
             retrofit2AdapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Ver",
             okhttp3InterceptorLog  : "com.squareup.okhttp3:logging-interceptor:$okhttp3Ver",
+            // Glide
+            glide                  : "com.github.bumptech.glide:glide:$glideVer",
             // Firebase
             firebaseCore           : "com.google.firebase:firebase-core:$firebaseVer",
             firebaseDatabase       : "com.google.firebase:firebase-database:$firebaseVer",

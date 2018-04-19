@@ -36,7 +36,7 @@ import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
 object UtilModule {
     fun utilModule(context: Context) = Module {
-        /** ViewModel Set for [smash.ks.com.oneshoot.ViewModelFactory] */
+        /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
         bind() from setBinding<ViewModelEntry>()
 
         bind<ModelMapper>() with instance(ModelMapper())
