@@ -21,13 +21,22 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.features.main.FakeViewHolder
 import smash.ks.com.oneshoot.features.main.MainViewModel
+import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 
 object MainModule {
     fun mainModule() = Module {
+        // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             MainViewModel::class.java to MainViewModel(instance(), instance())
+        }
+        // *** ViewHolder
+        bind<ViewHolderEntry>().inSet() with provider {
+            KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
         }
     }
 }

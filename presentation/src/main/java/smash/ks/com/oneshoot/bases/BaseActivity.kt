@@ -38,6 +38,7 @@ abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
     private val parentKodein by closestKodein()
 
     //region RxBus Example
+    // OPTIMIZE(jieyi): 2018/04/19 This's a simple example for RxBus.
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
 //        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
