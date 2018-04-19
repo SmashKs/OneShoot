@@ -32,7 +32,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import org.kodein.di.generic.singleton
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.MainModule.mainModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.FragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
 
 abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
@@ -40,7 +40,7 @@ abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
     override val kodein = Kodein.lazy {
         extend(parentKodein)
         /* fragment specific bindings */
-        import(mainModule())
+        import(fragmentModule())
 
         bind<ViewModelProvider.Factory>() with singleton {
             ViewModelFactory(instance(), instance<ViewModelEntries>().toMap().toMutableMap())

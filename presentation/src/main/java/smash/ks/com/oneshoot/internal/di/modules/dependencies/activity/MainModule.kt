@@ -19,6 +19,5 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 import org.kodein.di.Kodein.Module
 
 object MainModule {
-    fun mainModule() = Module {
-    }
+    fun mainModule() = Module {}
 }

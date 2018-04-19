@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.main
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 
-import android.os.Bundle
-import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.bases.BaseActivity
-import java.util.Random
+import org.kodein.di.Kodein.Module
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModule.mainModule
 
-class MainActivity : BaseActivity() {
-    override fun init(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_container, MainFragment.newInstance(Random().nextInt()))
-        }.commit()
+object ActivityModule {
+    fun activityModule() = Module {
+        import(mainModule())
     }
-
-    override fun provideLayoutId() = R.layout.activity_base
 }

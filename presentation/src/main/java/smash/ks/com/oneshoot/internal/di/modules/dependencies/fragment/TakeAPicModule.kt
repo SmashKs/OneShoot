@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.main
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
-import android.os.Bundle
-import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.bases.BaseActivity
-import java.util.Random
+import org.kodein.di.Kodein.Module
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.provider
+import smash.ks.com.oneshoot.features.photograph.TakeAPicViewModel
+import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 
-class MainActivity : BaseActivity() {
-    override fun init(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_container, MainFragment.newInstance(Random().nextInt()))
-        }.commit()
+object TakeAPicModule {
+    fun takeAPicModule() = Module {
+        // *** ViewModel
+        bind<ViewModelEntry>().inSet() with provider {
+            TakeAPicViewModel::class.java to TakeAPicViewModel()
+        }
     }
-
-    override fun provideLayoutId() = R.layout.activity_base
 }

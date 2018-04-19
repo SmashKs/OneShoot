@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.main
+package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.BaseActivity
-import java.util.Random
 
-class MainActivity : BaseActivity() {
+class PhotographActivity : BaseActivity() {
     override fun init(savedInstanceState: Bundle?) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_container, MainFragment.newInstance(Random().nextInt()))
+            replace(R.id.fl_container, TakeAPicFragment.newInstance())
         }.commit()
     }
 
