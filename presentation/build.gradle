@@ -116,10 +116,6 @@ dependencies {
     })
     implementation pd.rxlifecycle2Component
     implementation pd.rxlifecycle2
-    implementation pd.rxbinding2
-    implementation pd.rxbinding2Appcompat
-    implementation pd.rxbinding2Design
-    implementation pd.rxbinding2RecyclerView
     implementation pd.rxpermission2
 
     implementation pd.retrofit2
@@ -130,6 +126,7 @@ dependencies {
     implementation pd.glide
 
     implementation pd.androidCompat
+    implementation pd.androidRecyclerView
     implementation pd.androidAnnot
     implementation pd.androidConstraintLayout
 
