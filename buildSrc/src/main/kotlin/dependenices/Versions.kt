@@ -30,7 +30,7 @@ object Versions {
     }
 
     object Kotlin {
-        const val kotlin = ""
+        const val kotlin = "1.2.40"
         const val kotlinCoroutine = "0.22.5"
     }
 

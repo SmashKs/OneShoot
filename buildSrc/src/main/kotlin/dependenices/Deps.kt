@@ -49,7 +49,7 @@ object Deps {
         const val ankoCoroutine = "org.jetbrains.anko:anko-sdk25-coroutines:${Versions.KotlinAndroidExt.anko}"
         const val ankoV7Coroutine = "org.jetbrains.anko:anko-appcompat-v7-coroutines:${Versions.KotlinAndroidExt.anko}"
         const val ktx = "androidx.core:core-ktx:${Versions.KotlinAndroidExt.ktx}"
-        const val knifer = "com.devrapid.jieyi:knifer:${Versions.KotlinAndroidExt.kinfer}"
+        const val knifer = "com.devrapid.jieyi:kotlinknifer:${Versions.KotlinAndroidExt.kinfer}"
         const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.kotlinCoroutine}"
 
         const val lifecycle = "android.arch.lifecycle:extensions:${Versions.KotlinAndroidExt.aac}"
@@ -62,9 +62,9 @@ object Deps {
         const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Network.retrofit2}"
         const val retrofit2Gson = "com.squareup.retrofit2:converter-gson:${Versions.Network.retrofit2}"
         const val retrofit2RxJava2 = "com.squareup.retrofit2:adapter-rxjava2:${Versions.Network.retrofit2}"
-        const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.retrofit2}"
+        const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.okhttp3}"
 
-        const val glide = "com.github.bumptech.glide:glide:$${Versions.Network.glide}"
+        const val glide = "com.github.bumptech.glide:glide:${Versions.Network.glide}"
 
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.Firebase.firebase}"
         const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.firebase}"
@@ -75,10 +75,10 @@ object Deps {
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"
 
         const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
-        const val annot = "com.android.support:support-annotations:$${Versions.AndroidComponent.support}"
-        const val recyclerview = "com.android.support:recyclerview-v7:$${Versions.AndroidComponent.support}"
+        const val annot = "com.android.support:support-annotations:${Versions.AndroidComponent.support}"
+        const val recyclerview = "com.android.support:recyclerview-v7:${Versions.AndroidComponent.support}"
         const val constraintLayout =
-            "com.android.support.constraint:constraint-layout:$${Versions.AndroidComponent.contraintLayout}"
+            "com.android.support.constraint:constraint-layout:${Versions.AndroidComponent.contraintLayout}"
     }
 
     object PresentationTest {
