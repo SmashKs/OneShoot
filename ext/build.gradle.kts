@@ -30,8 +30,21 @@
  * limitations under the License.
  */
 
-object Metal {
-    val dirs = arrayOf(
-        "src/main/res-features/ks"
-    )
+plugins {
+    id("java-library")
+    id("kotlin")
+    id("kotlin-kapt")
 }
+
+dependencies {
+    val ed = rootProject.extra["extDependencies"]
+    val gd = rootProject.extra["globalDependencies"]
+
+
+    println(ed)
+//    implementation(gd["kotlin"])
+//    implementation(gd["kotlinCoroutine"])
+}
+
+setProperty("sourceCompatibility", JavaVersion.VERSION_1_8)
+setProperty("targetCompatibility", JavaVersion.VERSION_1_8)
