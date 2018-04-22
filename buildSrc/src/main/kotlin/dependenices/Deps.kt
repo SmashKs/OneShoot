@@ -110,9 +110,9 @@ object Deps {
         const val dbflowSqlEncrypt = "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${Versions.Database.dbflow}"
         const val dbflowSqlCipher = "net.zetetic:android-database-sqlcipher:${Versions.Database.dbflow}@aar"
         // Internet
-        const val retrofit2 = "com.squareup.retrofit2:retrofit:$${Versions.Network.retrofit2}"
-        const val retrofit2ConverterGson = "com.squareup.retrofit2:converter-gson:$${Versions.Network.retrofit2}"
-        const val retrofit2AdapterRxJava2 = "com.squareup.retrofit2:adapter-rxjava2:$${Versions.Network.retrofit2}"
+        const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Network.retrofit2}"
+        const val retrofit2ConverterGson = "com.squareup.retrofit2:converter-gson:${Versions.Network.retrofit2}"
+        const val retrofit2AdapterRxJava2 = "com.squareup.retrofit2:adapter-rxjava2:${Versions.Network.retrofit2}"
         const val okhttp3InterceptorLog = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.okhttp3}"
         // Mapper
         const val mapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"

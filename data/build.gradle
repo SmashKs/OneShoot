@@ -47,8 +47,8 @@ dependencies {
 
     implementation Data.mapper
 
-//    implementation Data.retrofit2
-//    implementation Data.retrofit2AdapterRxJava2
+    implementation Data.retrofit2
+    implementation Data.retrofit2AdapterRxJava2
 }
 
 sourceCompatibility = "1.8"
