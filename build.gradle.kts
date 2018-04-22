@@ -52,10 +52,6 @@ buildscript {
     }
 }
 
-apply {
-    from("dependencies.gradle")
-}
-
 allprojects {
     if (File("/volumes/ramdisk").exists()) {
         rootProject.buildDir = File("/volumes/ramdisk/Android/${rootProject.name}/${project.name}")
