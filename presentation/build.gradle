@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
+import dependenices.Deps.Global
+import dependenices.Deps.GlobalTest
+import dependenices.Deps.Presentation
+import dependenices.Deps.PresentationTest
+import dependenices.Versions.Android
+import resources.Metal
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileSdkVersion Android.compileSdk
+    buildToolsVersion Android.buildTools
     defaultConfig {
         applicationId "smash.ks.com.oneshoot"
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        minSdkVersion Android.minSdk
+        targetSdkVersion Android.targetSdk
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -48,9 +53,7 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs += [
-                    "src/main/res-features/ks",
-            ]
+            res.srcDirs += Metal.dirs
         }
     }
 }
@@ -70,90 +73,83 @@ kapt {
 }
 
 dependencies {
-    def pd = rootProject.ext.presentationDependencies
-    def ptd = rootProject.ext.presentationTestDependencies
-    def gd = rootProject.ext.globalDependencies
-    def gtd = rootProject.ext.globalTestDependencies
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(':domain')
     implementation project(':data')
     implementation project(':ext')
 
-    implementation gd.kotlin
-    implementation gd.kotlinCoroutine
-    implementation gd.kotlinCoroutineRx2
-    implementation gd.kotlinReflect
-    implementation pd.kotlinCoroutineAndroid
+    implementation Global.kotlin
+    implementation Global.coroutine
+    implementation Global.coroutinesRx2
+    implementation Global.refelect
+    implementation Presentation.coroutine
 
-    implementation gd.rxJava2
-    implementation gd.rxKotlin2
+    implementation Global.rxJava2
+    implementation Global.rxKotlin
 
-    implementation gd.kshaver
-    implementation pd.kknifer
+    implementation Global.shaver
+    implementation Presentation.knifer
 
-    implementation pd.ankoCommon
-    implementation pd.ankoSdk25
-    implementation pd.ankoAppcompat
-    implementation pd.ankoCoroutineSdk25
-    implementation pd.ankoCoroutineAppcompat
-    implementation pd.androidKtx
+    implementation Presentation.anko
+    implementation Presentation.ankoSdk25
+    implementation Presentation.ankoV7
+    implementation Presentation.ankoCoroutine
+    implementation Presentation.ankoV7Coroutine
+    implementation Presentation.ktx
 
-    implementation pd.aacViewAndLifecycle
+    implementation Presentation.lifecycle
 
-    implementation pd.firebaseCore
-    implementation pd.firebaseDatabase
-    implementation pd.firebaseAuth
+    implementation Presentation.firebaseCore
+    implementation Presentation.firebaseDB
+    implementation Presentation.firebaseAuth
 
-    implementation pd.mapper
+    implementation Presentation.modelMapper
 
-    implementation gd.kodeinGeneric
-    implementation gd.kodeinAndroid
+    implementation Global.kodeinAndroid
+    implementation Global.kodenJVM
 
-    implementation(pd.rxbus, {
+    implementation(Presentation.rxBus, {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     })
-    implementation pd.rxlifecycle2Component
-    implementation pd.rxlifecycle2
-    implementation pd.rxpermission2
+    implementation Presentation.rxLifecycleComponent
+    implementation Presentation.rxLifecycle
+    implementation Presentation.rxPermission
 
-    implementation pd.retrofit2
-    implementation pd.retrofit2ConverterGson
-    implementation pd.retrofit2AdapterRxJava2
-    implementation pd.okhttp3InterceptorLog
+    implementation Presentation.retrofit2
+    implementation Presentation.retrofit2Gson
+    implementation Presentation.retrofit2RxJava2
+    implementation Presentation.okhttpLogging
 
-    implementation pd.glide
+    implementation Presentation.glide
 
-    implementation pd.androidCompat
-    implementation pd.androidRecyclerView
-    implementation pd.androidAnnot
-    implementation pd.androidConstraintLayout
+    implementation Presentation.appcompat
+    implementation Presentation.recyclerview
+    implementation Presentation.annot
+    implementation Presentation.constraintLayout
 
-    implementation pd.adaptiveRecycler
+    implementation Presentation.arv
 
-    testImplementation gtd.junit
-    testImplementation gtd.kotlinJunit
-    testImplementation gtd.mockito
-    testImplementation gtd.assertj
+    testImplementation GlobalTest.junit
+    testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.mockito
+    testImplementation GlobalTest.assertj
 
-    androidTestImplementation ptd.robolectric
-    androidTestImplementation ptd.supportRunner
-    androidTestImplementation ptd.supportRules
-    androidTestImplementation ptd.mockitoAndroid
-    androidTestImplementation(ptd.androidRunner) {
+    androidTestImplementation PresentationTest.robolectric
+    androidTestImplementation PresentationTest.mockito
+    androidTestImplementation(PresentationTest.runner) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation(ptd.androidRules) {
+    androidTestImplementation(PresentationTest.rules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation(ptd.espressoCore) {
+    androidTestImplementation(PresentationTest.espressoCore) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation(ptd.espressoIntents) {
+    androidTestImplementation(PresentationTest.espressoIntent) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation(ptd.espressoContrib) {
+    androidTestImplementation(PresentationTest.espressoContrib) {
         exclude module: 'appcompat'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'

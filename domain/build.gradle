@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
+import dependenices.Deps.Domain
+import dependenices.Deps.Global
+
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    def dd = rootProject.ext.domainDependencies
-    def dtd = rootProject.ext.domainTestDependencies
-    def gd = rootProject.ext.globalDependencies
-    def gtd = rootProject.ext.globalTestDependencies
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(':ext')
 
-    implementation gd.kotlin
-    implementation gd.kotlinCoroutine
+    implementation Global.kotlin
+    implementation Global.coroutine
 
-    implementation gd.rxJava2
-    implementation gd.rxKotlin2
+    implementation Global.rxJava2
+    implementation Global.rxKotlin
 
-    implementation gd.kshaver
+    implementation Global.shaver
 
-    implementation dd.rxlifecycle2
+    implementation Domain.rxLifecycle
 }
 
 sourceCompatibility = "1.8"

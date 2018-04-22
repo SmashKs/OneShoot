@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import dependenices.Deps.Data
 import dependenices.Deps.Global
 
 apply plugin: 'java-library'
@@ -22,33 +21,8 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation project(':domain')
-    implementation project(':ext')
-
     implementation Global.kotlin
     implementation Global.coroutine
-
-    implementation Global.rxJava2
-    implementation Global.rxKotlin
-
-    implementation Global.shaver
-
-    kapt Data.dbflowProcessor
-    implementation Data.dbflowCore
-    implementation Data.dbflow
-    implementation Data.dbflowKotlinExt
-    implementation Data.dbflowRxJava2
-    implementation Data.dbflowRxJava2KotlinExt
-    // sql-cipher database encryption (optional)
-//    implementation Data.dbflowSqlEncrypt
-//    implementation Data.dbflowSqlCipher
-
-    implementation Data.mapper
-
-//    implementation Data.retrofit2
-//    implementation Data.retrofit2AdapterRxJava2
 }
 
 sourceCompatibility = "1.8"
