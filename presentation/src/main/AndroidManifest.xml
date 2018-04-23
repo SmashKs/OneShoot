@@ -34,7 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
         tools:replace="android:label">
-        <activity android:name=".features.main.MainActivity">
+        <activity
+            android:name=".features.main.MainActivity"
+            android:theme="@style/SecondTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
