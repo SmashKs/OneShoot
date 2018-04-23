@@ -25,61 +25,8 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<AspectRatio>, Parcelable {
-    fun matches(size: Size): Boolean {
-        val gcd = gcd(size.width, size.height)
-        val x = size.width / gcd
-        val y = size.height / gcd
-
-        return this.x == x && this.y == y
-    }
-
-    override fun equals(o: Any?): Boolean {
-        if (o == null) {
-            return false
-        }
-        if (this === o) {
-            return true
-        }
-        if (o is AspectRatio) {
-            val ratio = o as AspectRatio?
-            return x == ratio!!.x && y == ratio.y
-        }
-        return false
-    }
-
-    override fun toString(): String {
-        return x.toString() + ":" + y
-    }
-
-    fun toFloat(): Float {
-        return x.toFloat() / y
-    }
-
-    override fun hashCode(): Int {
-        // assuming most sizes are <2^16, doing a rotate will give us perfect hashing
-        return y xor (x shl Integer.SIZE / 2 or x.ushr(Integer.SIZE / 2))
-    }
-
-    override fun compareTo(another: AspectRatio): Int {
-        if (equals(another)) {
-            return 0
-        }
-        else if (toFloat() - another.toFloat() > 0) {
-            return 1
-        }
-        return -1
-    }
-
-    /**
-     * @return The inverse of this [AspectRatio].
-     */
-    fun inverse(): AspectRatio {
-
-        return AspectRatio.of(y, x)
-    }
-
     companion object {
-        private val sCache by lazy { SparseArrayCompat<SparseArrayCompat<AspectRatio>>(16) }
+        private val cache by lazy { SparseArrayCompat<SparseArrayCompat<AspectRatio>>(16) }
 
         /**
          * Returns an instance of [AspectRatio] specified by `x` and `y` values.
@@ -93,14 +40,17 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
             var x = x
             var y = y
             val gcd = gcd(x, y)
+
             x /= gcd
             y /= gcd
-            var arrayX: SparseArrayCompat<AspectRatio>? = sCache.get(x)
+
+            var arrayX: SparseArrayCompat<AspectRatio>? = cache.get(x)
+
             if (arrayX == null) {
                 val ratio = AspectRatio(x, y)
                 arrayX = SparseArrayCompat()
                 arrayX.put(y, ratio)
-                sCache.put(x, arrayX)
+                cache.put(x, arrayX)
                 return ratio
             }
             else {
@@ -122,29 +72,65 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
          */
         fun parse(s: String): AspectRatio {
             val position = s.indexOf(':')
-            if (position == -1) {
-                throw IllegalArgumentException("Malformed aspect ratio: $s")
-            }
+
+            if (position == -1) throw IllegalArgumentException("Malformed aspect ratio: $s")
+
             try {
-                val x = Integer.parseInt(s.substring(0, position))
-                val y = Integer.parseInt(s.substring(position + 1))
+                val x = s.substring(0, position).toInt()
+                val y = s.substring(position + 1).toInt()
                 return AspectRatio.of(x, y)
             }
             catch (e: NumberFormatException) {
                 throw IllegalArgumentException("Malformed aspect ratio: $s", e)
             }
-
         }
 
         private fun gcd(a: Int, b: Int): Int {
             var a = a
             var b = b
+
             while (b != 0) {
                 val c = b
                 b = a % b
                 a = c
             }
+
             return a
         }
+    }
+
+    override fun equals(other: Any?) = when {
+        null == other -> false
+        this === other -> true
+        other is AspectRatio -> other.x == x && other.y == y
+        else -> false
+    }
+
+    override fun toString() = "$x : $y"
+
+    override fun hashCode(): Int {
+        // assuming most sizes are <2^16, doing a rotate will give us perfect hashing
+        return y xor (x shl Integer.SIZE / 2 or x.ushr(Integer.SIZE / 2))
+    }
+
+    override fun compareTo(other: AspectRatio) = when {
+        equals(other) -> 0
+        0 < toFloat() - other.toFloat() -> 1
+        else -> -1
+    }
+
+    /**
+     * @return The inverse of this [AspectRatio].
+     */
+    fun inverse() = AspectRatio.of(y, x)
+
+    fun toFloat() = x.toFloat() / y
+
+    fun matches(size: Size): Boolean {
+        val gcd = gcd(size.width, size.height)
+        val x = size.width / gcd
+        val y = size.height / gcd
+
+        return this.x == x && this.y == y
     }
 }

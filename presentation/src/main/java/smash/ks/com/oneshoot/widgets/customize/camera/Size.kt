@@ -19,8 +19,8 @@ package smash.ks.com.oneshoot.widgets.customize.camera
 /**
  * Immutable class for describing width and height dimensions in pixels.
  *
- * @property width Int The width of the size, in pixels
- * @property height Int The height of the size, in pixels
+ * @property width The width of the size, in pixels
+ * @property height The height of the size, in pixels
  */
 class Size(
     val width: Int,
