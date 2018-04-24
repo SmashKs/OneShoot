@@ -16,7 +16,6 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.ImageFormat
@@ -180,7 +179,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     private val mPreviewSizes = SizeMap()
     private val mPictureSizes = SizeMap()
     private var mFacing: Int = 0
-    private var mAspectRatio: AspectRatio? = DEFAULT_ASPECT_RATIO
+    private var mAspectRatio: AspectRatio = DEFAULT_ASPECT_RATIO
     private var mAutoFocus: Boolean = false
 
     // Revert
@@ -398,7 +397,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         if (mImageReader != null) {
             mImageReader!!.close()
         }
-        val largest = mPictureSizes.sizes(mAspectRatio!!)!!.last()
+        val largest = mPictureSizes.sizes(mAspectRatio)?.last() ?: Size(100, 100)
         mImageReader = ImageReader.newInstance(largest.width, largest.height,
                                                ImageFormat.JPEG, /* maxImages */ 2)
         mImageReader!!.setOnImageAvailableListener(mOnImageAvailableListener, null)
@@ -410,7 +409,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
      *
      * The result will be processed in [.mCameraDeviceCallback].
      */
-    @SuppressLint("MissingPermission")
     private fun startOpeningCamera() {
         try {
             mCameraManager.openCamera(mCameraId!!, mCameraDeviceCallback, null)
@@ -418,7 +416,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         catch (e: CameraAccessException) {
             throw RuntimeException("Failed to open camera: " + mCameraId!!, e)
         }
-
     }
 
     /**
@@ -466,7 +463,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             surfaceLonger = surfaceWidth
             surfaceShorter = surfaceHeight
         }
-        val candidates = mPreviewSizes.sizes(mAspectRatio!!)
+        val candidates = mPreviewSizes.sizes(mAspectRatio)
 
         // Pick the smallest of those big enough
         if (candidates != null) {

@@ -60,7 +60,7 @@ class SizeMap {
      *
      * @param ratio The aspect ratio to be removed.
      */
-    fun remove(ratio: AspectRatio) = ratios.remove(ratio)
+    fun remove(ratio: AspectRatio?) = ratios.remove(ratio)
 
     fun ratios() = ratios.keys
 
