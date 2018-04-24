@@ -27,46 +27,35 @@ import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 
 internal class SurfaceViewPreview(context: Context, parent: ViewGroup) : Preview() {
-
-    val mSurfaceView: SurfaceView
-
-    override val surface: Surface
-        get() = surfaceHolder!!.surface
-
+    val surfaceView by lazy {
+        View.inflate(context, R.layout.surface_view, parent).findViewById(R.id.surface_view) as SurfaceView
+    }
     override var surfaceHolder: SurfaceHolder? = null
-        get() = mSurfaceView.holder
-
-    override val view: View
-        get() = mSurfaceView
-
-    override val outputClass: Class<*>
-        get() = SurfaceHolder::class.java
-
-    override val isReady: Boolean
-        get() = width != 0 && height != 0
+        get() = surfaceView.holder
+    override val surface: Surface get() = surfaceHolder!!.surface
+    override val view get() = surfaceView
+    override val outputClass get() = SurfaceHolder::class.java
+    override val isReady get() = 0 != width && 0 != height
 
     init {
-        val view = View.inflate(context, R.layout.surface_view, parent)
-        mSurfaceView = view.findViewById(R.id.surface_view)
-        val holder = mSurfaceView.holder
+        surfaceView.holder.apply {
+            setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+            addCallback(object : SurfaceHolder.Callback {
+                override fun surfaceCreated(h: SurfaceHolder) {}
 
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-        holder.addCallback(object : SurfaceHolder.Callback {
-            override fun surfaceCreated(h: SurfaceHolder) {}
-
-            override fun surfaceChanged(h: SurfaceHolder, format: Int, width: Int, height: Int) {
-                setSize(width, height)
-                if (!ViewCompat.isInLayout(mSurfaceView)) {
-                    dispatchSurfaceChanged()
+                override fun surfaceChanged(h: SurfaceHolder, format: Int, width: Int, height: Int) {
+                    setSize(width, height)
+                    if (!ViewCompat.isInLayout(surfaceView)) {
+                        dispatchSurfaceChanged()
+                    }
                 }
-            }
 
-            override fun surfaceDestroyed(h: SurfaceHolder) {
-                setSize(0, 0)
-            }
-        })
+                override fun surfaceDestroyed(h: SurfaceHolder) {
+                    setSize(0, 0)
+                }
+            })
+        }
     }
 
     override fun setDisplayOrientation(displayOrientation: Int) {}
-
 }

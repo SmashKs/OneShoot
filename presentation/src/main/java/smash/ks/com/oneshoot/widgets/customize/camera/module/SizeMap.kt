@@ -36,6 +36,7 @@ class SizeMap {
         for (ratio in ratios.keys) {
             if (ratio.matches(size)) {
                 val sizes = ratios[ratio]
+
                 if (sizes != null) {
                     return if (sizes.contains(size)) {
                         false
@@ -50,8 +51,10 @@ class SizeMap {
 
         // None of the existing ratio matches the provided size; add a new key.
         val sizes = TreeSet<Size>()
+
         sizes.add(size)
         ratios[AspectRatio.of(size.width, size.height)] = sizes
+
         return true
     }
 

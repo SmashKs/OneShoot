@@ -29,31 +29,19 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 
 @TargetApi(14)
 internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview() {
-
-    private val mTextureView: TextureView
-
-    private var mDisplayOrientation: Int = 0
-
-    override val surface: Surface
-        get() = Surface(mTextureView.surfaceTexture)
-
+    private var displayOrientation = 0
+    private val textureView by lazy {
+        View.inflate(context, R.layout.texture_view, parent).findViewById(R.id.texture_view) as TextureView
+    }
     override var surfaceTexture: SurfaceTexture? = null
-        get() = mTextureView.surfaceTexture
-
-    override val view: View
-        get() = mTextureView
-
-    override val outputClass: Class<*>
-        get() = SurfaceTexture::class.java
-
-    override val isReady: Boolean
-        get() = mTextureView.surfaceTexture != null
+        get() = textureView.surfaceTexture
+    override val surface get() = Surface(textureView.surfaceTexture)
+    override val view get() = textureView
+    override val outputClass get() = SurfaceTexture::class.java
+    override val isReady get() = textureView.surfaceTexture != null
 
     init {
-        val view = View.inflate(context, R.layout.texture_view, parent)
-        mTextureView = view.findViewById(R.id.texture_view)
-        mTextureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
-
+        textureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
             override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
                 setSize(width, height)
                 configureTransform()
@@ -78,22 +66,22 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
     // This method is called only from Camera2.
     @TargetApi(15)
     override fun setBufferSize(width: Int, height: Int) {
-        mTextureView.surfaceTexture.setDefaultBufferSize(width, height)
+        textureView.surfaceTexture.setDefaultBufferSize(width, height)
     }
 
     override fun setDisplayOrientation(displayOrientation: Int) {
-        mDisplayOrientation = displayOrientation
+        this.displayOrientation = displayOrientation
         configureTransform()
     }
 
     /**
-     * Configures the transform matrix for TextureView based on [.mDisplayOrientation] and
+     * Configures the transform matrix for TextureView based on [.displayOrientation] and
      * the surface size.
      */
     fun configureTransform() {
         val matrix = Matrix()
 
-        if (mDisplayOrientation % 180 == 90) {
+        if (displayOrientation % 180 == 90) {
             val width = this.width
             val height = this.height
 
@@ -104,14 +92,14 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
                              0f, height.toFloat(), // bottom left
                              width.toFloat(), height.toFloat())// bottom right
                 , 0,
-                if (mDisplayOrientation == 90)
+                if (displayOrientation == 90)
                 // Clockwise
                     floatArrayOf(0f, height.toFloat(), // top left
                                  0f, 0f, // top right
                                  width.toFloat(), height.toFloat(), // bottom left
                                  width.toFloat(), 0f)// bottom right
                 else
-                // mDisplayOrientation == 270
+                // displayOrientation == 270
                 // Counter-clockwise
                     floatArrayOf(width.toFloat(), 0f, // top left
                                  width.toFloat(), height.toFloat(), // top right
@@ -120,9 +108,9 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
                 , 0,
                 4)
         }
-        else if (mDisplayOrientation == 180) {
+        else if (displayOrientation == 180) {
             matrix.postRotate(180f, (width / 2).toFloat(), (height / 2).toFloat())
         }
-        mTextureView.setTransform(matrix)
+        textureView.setTransform(matrix)
     }
 }

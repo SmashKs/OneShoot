@@ -62,7 +62,7 @@ open class CameraView @JvmOverloads constructor(
     @IntDef(FLASH_OFF, FLASH_ON, FLASH_TORCH, FLASH_AUTO, FLASH_RED_EYE)
     annotation class Flash
 
-    var mImpl: CameraViewModule
+    var cameraViewModule: CameraViewModule
     private var callbacks: CallbackBridge?
     private var adjustViewBounds: Boolean = false
     private var displayOrientationDetector: DisplayOrientationDetector?
@@ -75,7 +75,7 @@ open class CameraView @JvmOverloads constructor(
         //  setup
         val preview = createPreview(context)
         callbacks = CallbackBridge()
-        mImpl = if (Build.VERSION.SDK_INT < 23) {
+        cameraViewModule = if (Build.VERSION.SDK_INT < 23) {
             Camera2(callbacks, preview, context)
         }
         else {
@@ -99,7 +99,7 @@ open class CameraView @JvmOverloads constructor(
         // Display orientation detector
         displayOrientationDetector = object : DisplayOrientationDetector(context) {
             override fun onDisplayOrientationChanged(displayOrientation: Int) {
-                mImpl.setDisplayOrientation(displayOrientation)
+                cameraViewModule.setDisplayOrientation(displayOrientation)
             }
         }
     }
@@ -114,15 +114,12 @@ open class CameraView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        if (!isInEditMode) {
-            displayOrientationDetector?.enable(ViewCompat.getDisplay(this))
-        }
+        if (!isInEditMode) displayOrientationDetector?.enable(ViewCompat.getDisplay(this))
     }
 
     override fun onDetachedFromWindow() {
-        if (!isInEditMode) {
-            displayOrientationDetector?.disable()
-        }
+        if (!isInEditMode) displayOrientationDetector?.disable()
+
         super.onDetachedFromWindow()
     }
 
@@ -179,12 +176,12 @@ open class CameraView @JvmOverloads constructor(
         }
         if (null == ratio) throw Exception("")
         if (height < width * ratio.y / ratio.x) {
-            mImpl.view.measure(
+            cameraViewModule.view.measure(
                 makeMeasureSpec(width, EXACTLY),
                 makeMeasureSpec(width * ratio.y / ratio.x, EXACTLY))
         }
         else {
-            mImpl.view.measure(
+            cameraViewModule.view.measure(
                 makeMeasureSpec(height * ratio.x / ratio.y, EXACTLY),
                 makeMeasureSpec(height, EXACTLY))
         }
@@ -213,13 +210,13 @@ open class CameraView @JvmOverloads constructor(
      * [Activity.onResume].
      */
     fun start() {
-        if (!mImpl.start()) {
+        if (!cameraViewModule.start()) {
             //store the state ,and restore this state after fall back o Camera1
             val state = onSaveInstanceState()
             // Camera2 uses legacy hardware layer; fall back to Camera1
-//            mImpl = Camera1(callbacks, createPreview(context))
+//            cameraViewModule = Camera1(callbacks, createPreview(context))
             onRestoreInstanceState(state)
-            mImpl.start()
+            cameraViewModule.start()
         }
     }
 
@@ -228,13 +225,13 @@ open class CameraView @JvmOverloads constructor(
      * [Activity.onPause].
      */
     open fun stop() {
-        mImpl.stop()
+        cameraViewModule.stop()
     }
 
     /**
      * @return `true` if the camera is opened.
      */
-    fun isCameraOpened() = mImpl.isCameraOpened
+    fun isCameraOpened() = cameraViewModule.isCameraOpened
 
     /**
      * Add a new callback.
@@ -278,7 +275,7 @@ open class CameraView @JvmOverloads constructor(
      * [.FACING_FRONT].
      */
     fun setFacing(@Facing facing: Int) {
-        mImpl.facing = facing
+        cameraViewModule.facing = facing
     }
 
     /**
@@ -287,12 +284,12 @@ open class CameraView @JvmOverloads constructor(
      * @return The camera facing.
      */
     @Facing
-    fun getFacing() = mImpl.facing
+    fun getFacing() = cameraViewModule.facing
 
     /**
      * Gets all the aspect ratios supported by the current camera.
      */
-    fun getSupportedAspectRatios() = mImpl.supportedAspectRatios
+    fun getSupportedAspectRatios() = cameraViewModule.supportedAspectRatios
 
     /**
      * Sets the aspect ratio of camera.
@@ -300,7 +297,7 @@ open class CameraView @JvmOverloads constructor(
      * @param ratio The [AspectRatio] to be set.
      */
     fun setAspectRatio(ratio: AspectRatio?) {
-        if (null != ratio && mImpl.setAspectRatio(ratio)) {
+        if (null != ratio && cameraViewModule.setAspectRatio(ratio)) {
             requestLayout()
         }
 
@@ -311,7 +308,7 @@ open class CameraView @JvmOverloads constructor(
      *
      * @return The current [AspectRatio]. Can be `null` if no camera is opened yet.
      */
-    fun getAspectRatio() = mImpl.aspectRatio
+    fun getAspectRatio() = cameraViewModule.aspectRatio
 
     /**
      * Enables or disables the continuous auto-focus mode. When the current camera doesn't support
@@ -321,7 +318,7 @@ open class CameraView @JvmOverloads constructor(
      * disable it.
      */
     fun setAutoFocus(autoFocus: Boolean) {
-        mImpl.autoFocus = autoFocus
+        cameraViewModule.autoFocus = autoFocus
     }
 
     /**
@@ -330,7 +327,7 @@ open class CameraView @JvmOverloads constructor(
      * @return `true` if the continuous auto-focus mode is enabled. `false` if it is
      * disabled, or if it is not supported by the current camera.
      */
-    fun getAutoFocus(): Boolean = mImpl.autoFocus
+    fun getAutoFocus(): Boolean = cameraViewModule.autoFocus
 
     /**
      * Sets the flash mode.
@@ -338,7 +335,7 @@ open class CameraView @JvmOverloads constructor(
      * @param flash The desired flash mode.
      */
     fun setFlash(@Flash flash: Int) {
-        mImpl.flash = flash
+        cameraViewModule.flash = flash
     }
 
     /**
@@ -347,14 +344,14 @@ open class CameraView @JvmOverloads constructor(
      * @return The current flash mode.
      */
     @Flash
-    fun getFlash() = mImpl.flash
+    fun getFlash() = cameraViewModule.flash
 
     /**
      * Take a picture. The result will be returned to
      * [Callback.onPictureTaken].
      */
     fun takePicture() {
-        mImpl.takePicture()
+        cameraViewModule.takePicture()
     }
 
     private inner class CallbackBridge : CameraViewModule.Callback {

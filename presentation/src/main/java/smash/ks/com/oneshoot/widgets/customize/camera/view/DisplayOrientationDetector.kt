@@ -44,15 +44,13 @@ abstract class DisplayOrientationDetector(context: Context) {
     var display: Display? = null
     var lastKnownDisplayOrientation = 0
         private set
-    private val orientationEventListener: OrientationEventListener
-
-    init {
-        orientationEventListener = object : OrientationEventListener(context) {
+    private val orientationEventListener by lazy {
+        object : OrientationEventListener(context) {
             /** This is either Surface.Rotation_0, _90, _180, _270, or -1 (invalid).  */
             private var lastKnownRotation = -1
 
             override fun onOrientationChanged(orientation: Int) {
-                if (ORIENTATION_UNKNOWN == orientation || null == display) return
+                if (null == display || ORIENTATION_UNKNOWN == orientation) return
 
                 val rotation = display!!.rotation
 

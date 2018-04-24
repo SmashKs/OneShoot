@@ -19,12 +19,16 @@ package smash.ks.com.oneshoot.widgets.customize.camera.module
 import android.os.Parcelable
 import android.support.v4.util.SparseArrayCompat
 import kotlinx.android.parcel.Parcelize
+import java.lang.Integer.SIZE
 
 /**
  * Immutable class for describing proportional relationship between width and height.
  */
 @Parcelize
-class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<AspectRatio>, Parcelable {
+class AspectRatio private constructor(
+    val x: Int,
+    val y: Int
+) : Comparable<AspectRatio>, Parcelable {
     companion object {
         private val cache by lazy { SparseArrayCompat<SparseArrayCompat<AspectRatio>>(16) }
 
@@ -36,30 +40,30 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
          * @param y The height
          * @return An instance of [AspectRatio]
          */
-        fun of(x: Int, y: Int): AspectRatio {
-            var x = x
-            var y = y
-            val gcd = gcd(x, y)
+        fun of(x: Int, y: Int): AspectRatio = run {
+            var w = x
+            var h = y
+            val gcd = gcd(w, h)
 
-            x /= gcd
-            y /= gcd
+            w /= gcd
+            h /= gcd
 
-            var arrayX: SparseArrayCompat<AspectRatio>? = cache.get(x)
+            var arrayX = cache.get(x)
 
-            if (arrayX == null) {
+            if (null == arrayX) {
                 val ratio = AspectRatio(x, y)
                 arrayX = SparseArrayCompat()
                 arrayX.put(y, ratio)
                 cache.put(x, arrayX)
-                return ratio
+                ratio
             }
             else {
-                var ratio: AspectRatio? = arrayX.get(y)
-                if (ratio == null) {
+                var ratio = arrayX.get(y)
+                if (null == ratio) {
                     ratio = AspectRatio(x, y)
                     arrayX.put(y, ratio)
                 }
-                return ratio
+                ratio
             }
         }
 
@@ -86,16 +90,16 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
         }
 
         private fun gcd(a: Int, b: Int): Int {
-            var a = a
-            var b = b
+            var aTmp = a
+            var bTmp = b
 
-            while (b != 0) {
-                val c = b
-                b = a % b
-                a = c
+            while (bTmp != 0) {
+                val c = bTmp
+                bTmp = aTmp % bTmp
+                aTmp = c
             }
 
-            return a
+            return aTmp
         }
     }
 
@@ -110,7 +114,7 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
 
     override fun hashCode(): Int {
         // assuming most sizes are <2^16, doing a rotate will give us perfect hashing
-        return y xor (x shl Integer.SIZE / 2 or x.ushr(Integer.SIZE / 2))
+        return y xor (x shl SIZE / 2 or x.ushr(SIZE / 2))
     }
 
     override fun compareTo(other: AspectRatio) = when {
@@ -126,12 +130,11 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
 
     fun toFloat() = x.toFloat() / y
 
-    fun matches(size: Size): Boolean {
-        val gcd =
-            gcd(size.width, size.height)
+    fun matches(size: Size) = let {
+        val gcd = gcd(size.width, size.height)
         val x = size.width / gcd
         val y = size.height / gcd
 
-        return this.x == x && this.y == y
+        x == this.x && y == this.y
     }
 }

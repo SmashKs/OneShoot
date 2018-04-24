@@ -16,13 +16,11 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
-import android.view.View
-
 abstract class CameraViewModule(
     protected val mCallback: Callback?,
-    protected val mPreview: Preview
+    protected val preview: Preview
 ) {
-    val view: View get() = mPreview.view
+    val view get() = preview.view
     abstract val isCameraOpened: Boolean
     abstract var facing: Int
     abstract val supportedAspectRatios: Set<AspectRatio>
@@ -48,9 +46,7 @@ abstract class CameraViewModule(
 
     interface Callback {
         fun onCameraOpened()
-
         fun onCameraClosed()
-
         fun onPictureTaken(data: ByteArray)
     }
 }
