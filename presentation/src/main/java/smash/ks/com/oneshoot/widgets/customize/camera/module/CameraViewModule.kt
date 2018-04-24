@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 abstract class CameraViewModule(
-    protected val mCallback: Callback?,
+    protected val callback: CameraViewModule.Callback?,
     protected val preview: Preview
 ) {
     val view get() = preview.view

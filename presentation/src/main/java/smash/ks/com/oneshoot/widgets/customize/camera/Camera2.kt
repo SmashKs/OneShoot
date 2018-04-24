@@ -65,6 +65,7 @@ import android.hardware.camera2.CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKE
 import android.hardware.camera2.TotalCaptureResult
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.ImageReader
+import android.media.ImageReader.OnImageAvailableListener
 import android.media.ImageReader.newInstance
 import android.util.Log
 import android.util.SparseIntArray
@@ -86,17 +87,115 @@ import java.util.Arrays
 
 @TargetApi(21)
 open class Camera2(callback: Callback?, preview: Preview, context: Context) : CameraViewModule(callback, preview) {
-    private val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    companion object {
+        private val FACINGS by lazy {
+            SparseIntArray().apply {
+                put(FACING_BACK, LENS_FACING_BACK)
+                put(FACING_FRONT, LENS_FACING_FRONT)
+            }
+        }
+
+        private const val TAG = "Camera2"
+        /** Max preview width that is guaranteed by Camera2 API */
+        private const val MAX_PREVIEW_WIDTH = 1920
+        /** Max preview height that is guaranteed by Camera2 API */
+        private const val MAX_PREVIEW_HEIGHT = 1080
+    }
+
+    var captureCallback = object : PictureCaptureCallback() {
+        override fun onPrecaptureRequired() {
+            previewRequestBuilder!!.set(CONTROL_AE_PRECAPTURE_TRIGGER, CONTROL_AE_PRECAPTURE_TRIGGER_START)
+            setState(STATE_PRECAPTURE)
+            try {
+                captureSession!!.capture(previewRequestBuilder!!.build(), this, null)
+                previewRequestBuilder!!.set(CONTROL_AE_PRECAPTURE_TRIGGER, CONTROL_AE_PRECAPTURE_TRIGGER_IDLE)
+            }
+            catch (e: CameraAccessException) {
+                Log.e(TAG, "Failed to run precapture sequence.", e)
+            }
+        }
+
+        override fun onReady() {
+            captureStillPicture()
+        }
+    }
+    var camera: CameraDevice? = null
+    var captureSession: CameraCaptureSession? = null
+    var previewRequestBuilder: CaptureRequest.Builder? = null
+    // Revert
+    override var flash = 0
+        set(flash) {
+            if (this.flash == flash) return
+
+            val saved = this.flash
+            field = flash
+            if (null != previewRequestBuilder) {
+                updateFlash()
+                if (null != captureSession) {
+                    try {
+                        captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
+                    }
+                    catch (e: CameraAccessException) {
+                        field = saved
+                    }
+                }
+            }
+        }
+    override var facing
+        get() = mFacing
+        set(facing) {
+            if (mFacing == facing) return
+
+            mFacing = facing
+
+            if (isCameraOpened) {
+                stop()
+                start()
+            }
+        }
+    // Revert
+    override var autoFocus
+        get() = mAutoFocus
+        set(autoFocus) {
+            if (mAutoFocus == autoFocus) return
+
+            mAutoFocus = autoFocus
+            if (null != previewRequestBuilder) {
+                updateAutoFocus()
+                if (null != captureSession) {
+                    try {
+                        captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
+                    }
+                    catch (e: CameraAccessException) {
+                        mAutoFocus = !mAutoFocus
+                    }
+                }
+            }
+        }
+
+    private var cameraId: String? = null
+    private var cameraCharacteristics: CameraCharacteristics? = null
+    private var imageReader: ImageReader? = null
+    private var displayOrientation = 0
+    private var mFacing = 0
+    private var mAspectRatio = DEFAULT_ASPECT_RATIO
+    private var mAutoFocus = false
+    override val aspectRatio get() = mAspectRatio
+    override val isCameraOpened get() = null != camera
+    override val supportedAspectRatios get() = previewSizes.ratios()
+    private val previewSizes by lazy { SizeMap() }
+    private val pictureSizes by lazy { SizeMap() }
+    private val cameraManager by lazy { context.getSystemService(Context.CAMERA_SERVICE) as CameraManager }
     private val cameraDeviceCallback by lazy {
         object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
                 this@Camera2.camera = camera
-                mCallback?.onCameraOpened()
+                this@Camera2.callback?.onCameraOpened()
                 startCaptureSession()
             }
 
             override fun onClosed(camera: CameraDevice) {
-                mCallback?.onCameraClosed()
+                this@Camera2.callback?.onCameraClosed()
             }
 
             override fun onDisconnected(camera: CameraDevice) {
@@ -109,7 +208,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             }
         }
     }
-    private val mSessionCallback by lazy {
+    private val sessionCallback by lazy {
         object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 if (null == camera) return
@@ -118,9 +217,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                 updateAutoFocus()
                 updateFlash()
                 try {
-                    captureSession?.setRepeatingRequest(previewRequestBuilder?.build(),
-                                                        captureCallback,
-                                                        null) ?: throw NullPointerException()
+                    captureSession!!.setRepeatingRequest(previewRequestBuilder?.build(), captureCallback, null)
                 }
                 catch (e: CameraAccessException) {
                     Log.e(TAG, "Failed to start camera preview because it couldn't access camera", e)
@@ -144,110 +241,28 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             }
         }
     }
-
-    var captureCallback: PictureCaptureCallback = object : PictureCaptureCallback() {
-        override fun onPrecaptureRequired() {
-            previewRequestBuilder!!.set(CONTROL_AE_PRECAPTURE_TRIGGER,
-                                        CONTROL_AE_PRECAPTURE_TRIGGER_START)
-            setState(Camera2.PictureCaptureCallback.STATE_PRECAPTURE)
-            try {
-                captureSession!!.capture(previewRequestBuilder!!.build(), this, null)
-                previewRequestBuilder!!.set(CONTROL_AE_PRECAPTURE_TRIGGER,
-                                            CONTROL_AE_PRECAPTURE_TRIGGER_IDLE)
-            }
-            catch (e: CameraAccessException) {
-                Log.e(TAG, "Failed to run precapture sequence.", e)
-            }
-        }
-
-        override fun onReady() {
-            captureStillPicture()
-        }
-    }
-
     private val mOnImageAvailableListener by lazy {
-        ImageReader.OnImageAvailableListener { reader ->
-            reader.acquireNextImage().use({ image ->
-                                              val planes = image.planes
-                                              if (planes.isNotEmpty()) {
-                                                  val buffer = planes[0].buffer
-                                                  val data = ByteArray(buffer.remaining())
-                                                  buffer.get(data)
-                                                  mCallback?.onPictureTaken(data)
-                                              }
-                                          })
+        OnImageAvailableListener { reader ->
+            reader.acquireNextImage().use { image ->
+                val planes = image.planes
+                if (planes.isNotEmpty()) {
+                    val buffer = planes[0].buffer
+                    val data = ByteArray(buffer.remaining())
+                    buffer.get(data)
+                    this.callback?.onPictureTaken(data)
+                }
+            }
         }
     }
-
-    var camera: CameraDevice? = null
-    var captureSession: CameraCaptureSession? = null
-    var previewRequestBuilder: CaptureRequest.Builder? = null
-    private var cameraId: String? = null
-    private var cameraCharacteristics: CameraCharacteristics? = null
-    private var imageReader: ImageReader? = null
-    private var mFacing = 0
-    private var displayOrientation = 0
-    private var mAspectRatio = DEFAULT_ASPECT_RATIO
-    private var mAutoFocus = false
-    private val previewSizes by lazy { SizeMap() }
-    private val pictureSizes by lazy { SizeMap() }
-
-    // Revert
-    override var flash = 0
-        set(flash) {
-            if (this.flash == flash) return
-
-            val saved = this.flash
-            field = flash
-            if (null != previewRequestBuilder) {
-                updateFlash()
-                if (null != captureSession) {
-                    try {
-                        captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
-                    }
-                    catch (e: CameraAccessException) {
-                        field = saved
-                    }
-                }
-            }
-        }
-
-    override val isCameraOpened get() = null != camera
-    override var facing
-        get() = mFacing
-        set(facing) {
-            if (mFacing == facing) return
-
-            mFacing = facing
-
-            if (isCameraOpened) {
-                stop()
-                start()
-            }
-        }
-    override val supportedAspectRatios get() = previewSizes.ratios()
-    // Revert
-    override var autoFocus
-        get() = mAutoFocus
-        set(autoFocus) {
-            if (mAutoFocus == autoFocus) return
-
-            mAutoFocus = autoFocus
-            if (null != previewRequestBuilder) {
-                updateAutoFocus()
-                if (null != captureSession) {
-                    try {
-                        captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
-                    }
-                    catch (e: CameraAccessException) {
-                        mAutoFocus = !mAutoFocus
-                    }
-                }
-            }
-        }
 
     init {
         this.preview.onSurfaceChanged = { startCaptureSession() }
+    }
+
+    protected open fun collectPictureSizes(sizes: SizeMap, map: StreamConfigurationMap) {
+        for (size in map.getOutputSizes(JPEG)) {
+            pictureSizes.add(Size(size.width, size.height))
+        }
     }
 
     override fun start(): Boolean {
@@ -275,8 +290,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         }
     }
 
-    override val aspectRatio get() = mAspectRatio
-
     override fun setAspectRatio(ratio: AspectRatio): Boolean {
         if (ratio == mAspectRatio || !previewSizes.ratios().contains(ratio)) {
             // TODO: Better error handling
@@ -300,6 +313,121 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     /**
+     * Starts a capture session for camera preview.
+     *
+     * This rewrites [.previewRequestBuilder].
+     *
+     * The result will be continuously processed in [.sessionCallback].
+     */
+    fun startCaptureSession() {
+        if (!isCameraOpened || !preview.isReady || null == imageReader) return
+
+        val previewSize = chooseOptimalSize()
+        preview.setBufferSize(previewSize.width, previewSize.height)
+        val surface = preview.surface
+
+        try {
+            previewRequestBuilder = camera!!.createCaptureRequest(TEMPLATE_PREVIEW)
+            previewRequestBuilder!!.addTarget(surface)
+            camera!!.createCaptureSession(Arrays.asList(surface, imageReader!!.surface), sessionCallback, null)
+        }
+        catch (e: CameraAccessException) {
+            throw RuntimeException("Failed to start camera session")
+        }
+    }
+
+    /**
+     * Updates the  state of auto-focus to [.mAutoFocus].
+     */
+    fun updateAutoFocus() {
+        if (mAutoFocus) {
+            val modes = cameraCharacteristics!!.get(CONTROL_AF_AVAILABLE_MODES)
+            // Auto focus is not supported
+            if (modes.isEmpty() || 1 == modes.size && CONTROL_AF_MODE_OFF == modes[0]) {
+                mAutoFocus = false
+                previewRequestBuilder!!.set(CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
+            }
+            else {
+                previewRequestBuilder!!.set(CONTROL_AF_MODE, CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            }
+        }
+        else {
+            previewRequestBuilder!!.set(CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
+        }
+    }
+
+    /**
+     * Updates the state of flash to [flash].
+     */
+    fun updateFlash() {
+        when (flash) {
+            FLASH_OFF -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON, FLASH_MODE to FLASH_MODE_OFF)
+            FLASH_ON -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_ALWAYS_FLASH, FLASH_MODE to FLASH_MODE_OFF)
+            FLASH_TORCH -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON, FLASH_MODE to FLASH_MODE_TORCH)
+            FLASH_AUTO -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_AUTO_FLASH, FLASH_MODE to FLASH_MODE_OFF)
+            FLASH_RED_EYE -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE,
+                                    FLASH_MODE to FLASH_MODE_OFF)
+            else -> emptyList()
+        }.forEach { previewRequestBuilder!!.set(it.first, it.second) }
+    }
+
+    /**
+     * Captures a still picture.
+     */
+    fun captureStillPicture() {
+        try {
+            camera!!.createCaptureRequest(TEMPLATE_STILL_CAPTURE).apply {
+                addTarget(imageReader!!.surface)
+                set(CONTROL_AF_MODE, previewRequestBuilder!!.get(CONTROL_AF_MODE))
+                when (flash) {
+                    FLASH_OFF -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON, FLASH_MODE to FLASH_MODE_OFF)
+                    FLASH_ON -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_ALWAYS_FLASH)
+                    FLASH_TORCH -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON, FLASH_MODE to FLASH_MODE_TORCH)
+                    FLASH_AUTO -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_AUTO_FLASH)
+                    FLASH_RED_EYE -> listOf(CONTROL_AE_MODE to CONTROL_AE_MODE_ON_AUTO_FLASH)
+                    else -> emptyList()
+                }.forEach { set(it.first, it.second) }
+                // Calculate JPEG orientation.
+                val sensorOrientation = cameraCharacteristics!!.get(SENSOR_ORIENTATION)!!
+                set(JPEG_ORIENTATION,
+                    ((sensorOrientation + displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + 360) % 360))
+                // Stop preview and capture a still picture.
+                captureSession!!.stopRepeating()
+                captureSession!!.capture(build(), object : CameraCaptureSession.CaptureCallback() {
+                    override fun onCaptureCompleted(
+                        session: CameraCaptureSession,
+                        request: CaptureRequest,
+                        result: TotalCaptureResult
+                    ) = unlockFocus()
+                }, null)
+            }
+        }
+        catch (e: CameraAccessException) {
+            Log.e(TAG, "Cannot capture a still picture.", e)
+        }
+
+    }
+
+    /**
+     * Unlocks the auto-focus and restart camera preview. This is supposed to be called after
+     * capturing a still picture.
+     */
+    fun unlockFocus() {
+        previewRequestBuilder!!.set(CONTROL_AF_TRIGGER, CONTROL_AF_TRIGGER_CANCEL)
+        try {
+            captureSession!!.capture(previewRequestBuilder!!.build(), captureCallback, null)
+            updateAutoFocus()
+            updateFlash()
+            previewRequestBuilder!!.set(CONTROL_AF_TRIGGER, CONTROL_AF_TRIGGER_IDLE)
+            captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
+            captureCallback.setState(STATE_PREVIEW)
+        }
+        catch (e: CameraAccessException) {
+            Log.e(TAG, "Failed to restart camera preview.", e)
+        }
+    }
+
+    /**
      *
      * Chooses a camera ID by the specified camera facing ([.mFacing]).
      *
@@ -308,7 +436,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
      */
     private fun chooseCameraIdByFacing(): Boolean {
         try {
-            val Facing = _FACINGS.get(mFacing)
+            val facing = FACINGS.get(mFacing)
             val ids = cameraManager.cameraIdList
             // No camera
             if (ids.isEmpty()) throw RuntimeException("No camera available.")
@@ -316,33 +444,30 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             for (id in ids) {
                 val characteristics = cameraManager.getCameraCharacteristics(id)
                 val level = characteristics.get(INFO_SUPPORTED_HARDWARE_LEVEL)
+
                 if (null == level || INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY == level) continue
 
-                val internal =
-                    characteristics.get(LENS_FACING) ?: throw NullPointerException("Unexpected state: LENS_FACING null")
+                val internal = characteristics.get(LENS_FACING)!!
 
-                if (internal == Facing) {
+                if (internal == facing) {
                     cameraId = id
                     cameraCharacteristics = characteristics
                     return true
                 }
             }
+
             // Not found
             cameraId = ids[0]
             cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId!!)
             val level = cameraCharacteristics!!.get(INFO_SUPPORTED_HARDWARE_LEVEL)
             if (null == level || INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY == level) return false
 
-            val internal =
-                cameraCharacteristics!!.get(LENS_FACING) ?: throw NullPointerException("Unexpected state: LENS_FACING null")
-            var i = 0
-            val count = _FACINGS.size()
-            while (i < count) {
-                if (_FACINGS.valueAt(i) == internal) {
-                    mFacing = _FACINGS.keyAt(i)
+            val internal = cameraCharacteristics!!.get(LENS_FACING)
+            for (index in 0 until FACINGS.size()) {
+                if (FACINGS.valueAt(index) == internal) {
+                    mFacing = FACINGS.keyAt(index)
                     return true
                 }
-                i++
             }
             // The operation can reach here when the only camera device is an external one.
             // We treat it as facing back.
@@ -379,12 +504,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         if (!previewSizes.ratios().contains(mAspectRatio)) mAspectRatio = previewSizes.ratios().iterator().next()
     }
 
-    protected open fun collectPictureSizes(sizes: SizeMap, map: StreamConfigurationMap) {
-        for (size in map.getOutputSizes(JPEG)) {
-            pictureSizes.add(Size(size.width, size.height))
-        }
-    }
-
     private fun prepareImageReader() {
         imageReader.takeIf { null != it }?.close()
         val largest = pictureSizes.sizes(mAspectRatio)?.last() ?: Size(100, 100)
@@ -405,30 +524,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         }
         catch (e: CameraAccessException) {
             throw RuntimeException("Failed to open camera: " + cameraId!!, e)
-        }
-    }
-
-    /**
-     * Starts a capture session for camera preview.
-     *
-     * This rewrites [.previewRequestBuilder].
-     *
-     * The result will be continuously processed in [.mSessionCallback].
-     */
-    fun startCaptureSession() {
-        if (!isCameraOpened || !preview.isReady || null == imageReader) return
-
-        val previewSize = chooseOptimalSize()
-        preview.setBufferSize(previewSize.width, previewSize.height)
-        val surface = preview.surface
-
-        try {
-            previewRequestBuilder = camera!!.createCaptureRequest(TEMPLATE_PREVIEW)
-            previewRequestBuilder!!.addTarget(surface)
-            camera!!.createCaptureSession(Arrays.asList(surface, imageReader!!.surface), mSessionCallback, null)
-        }
-        catch (e: CameraAccessException) {
-            throw RuntimeException("Failed to start camera session")
         }
     }
 
@@ -463,54 +558,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     /**
-     * Updates the  state of auto-focus to [.mAutoFocus].
-     */
-    fun updateAutoFocus() {
-        if (mAutoFocus) {
-            val modes = cameraCharacteristics!!.get(CONTROL_AF_AVAILABLE_MODES)
-            // Auto focus is not supported
-            if (modes.isEmpty() || 1 == modes.size && CONTROL_AF_MODE_OFF == modes[0]) {
-                mAutoFocus = false
-                previewRequestBuilder!!.set(CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
-            }
-            else {
-                previewRequestBuilder!!.set(CONTROL_AF_MODE, CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-            }
-        }
-        else {
-            previewRequestBuilder!!.set(CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
-        }
-    }
-
-    /**
-     * Updates the  state of flash to [.mFlash].
-     */
-    fun updateFlash() {
-        when (flash) {
-            FLASH_OFF -> {
-                previewRequestBuilder!!.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON)
-                previewRequestBuilder!!.set(FLASH_MODE, FLASH_MODE_OFF)
-            }
-            FLASH_ON -> {
-                previewRequestBuilder!!.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_ALWAYS_FLASH)
-                previewRequestBuilder!!.set(FLASH_MODE, FLASH_MODE_OFF)
-            }
-            FLASH_TORCH -> {
-                previewRequestBuilder!!.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON)
-                previewRequestBuilder!!.set(FLASH_MODE, FLASH_MODE_TORCH)
-            }
-            FLASH_AUTO -> {
-                previewRequestBuilder!!.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_AUTO_FLASH)
-                previewRequestBuilder!!.set(FLASH_MODE, FLASH_MODE_OFF)
-            }
-            FLASH_RED_EYE -> {
-                previewRequestBuilder!!.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE)
-                previewRequestBuilder!!.set(FLASH_MODE, FLASH_MODE_OFF)
-            }
-        }
-    }
-
-    /**
      * Locks the focus as the first step for a still image capture.
      */
     private fun lockFocus() {
@@ -521,68 +568,6 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         }
         catch (e: CameraAccessException) {
             Log.e(TAG, "Failed to lock focus.", e)
-        }
-    }
-
-    /**
-     * Captures a still picture.
-     */
-    fun captureStillPicture() {
-        try {
-            val captureRequestBuilder = camera!!.createCaptureRequest(TEMPLATE_STILL_CAPTURE)
-            captureRequestBuilder.addTarget(imageReader!!.surface)
-            captureRequestBuilder.set(CONTROL_AF_MODE, previewRequestBuilder!!.get(CONTROL_AF_MODE))
-            when (flash) {
-                FLASH_OFF -> {
-                    captureRequestBuilder.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON)
-                    captureRequestBuilder.set(FLASH_MODE, FLASH_MODE_OFF)
-                }
-                FLASH_ON -> captureRequestBuilder.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_ALWAYS_FLASH)
-                FLASH_TORCH -> {
-                    captureRequestBuilder.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON)
-                    captureRequestBuilder.set(FLASH_MODE, FLASH_MODE_TORCH)
-                }
-                FLASH_AUTO -> captureRequestBuilder.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_AUTO_FLASH)
-                FLASH_RED_EYE -> captureRequestBuilder.set(CONTROL_AE_MODE, CONTROL_AE_MODE_ON_AUTO_FLASH)
-            }
-            // Calculate JPEG orientation.
-            val sensorOrientation = cameraCharacteristics!!.get(SENSOR_ORIENTATION)!!
-            captureRequestBuilder.set(JPEG_ORIENTATION,
-                                      ((sensorOrientation +
-                                        displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + 360) % 360))
-            // Stop preview and capture a still picture.
-            captureSession!!.stopRepeating()
-            captureSession!!.capture(captureRequestBuilder.build(),
-                                     object : CameraCaptureSession.CaptureCallback() {
-                                         override fun onCaptureCompleted(
-                                             session: CameraCaptureSession,
-                                             request: CaptureRequest,
-                                             result: TotalCaptureResult
-                                         ) = unlockFocus()
-                                     }, null)
-        }
-        catch (e: CameraAccessException) {
-            Log.e(TAG, "Cannot capture a still picture.", e)
-        }
-
-    }
-
-    /**
-     * Unlocks the auto-focus and restart camera preview. This is supposed to be called after
-     * capturing a still picture.
-     */
-    fun unlockFocus() {
-        previewRequestBuilder!!.set(CONTROL_AF_TRIGGER, CONTROL_AF_TRIGGER_CANCEL)
-        try {
-            captureSession!!.capture(previewRequestBuilder!!.build(), captureCallback, null)
-            updateAutoFocus()
-            updateFlash()
-            previewRequestBuilder!!.set(CONTROL_AF_TRIGGER, CONTROL_AF_TRIGGER_IDLE)
-            captureSession!!.setRepeatingRequest(previewRequestBuilder!!.build(), captureCallback, null)
-            captureCallback.setState(STATE_PREVIEW)
-        }
-        catch (e: CameraAccessException) {
-            Log.e(TAG, "Failed to restart camera preview.", e)
         }
     }
 
@@ -659,20 +644,4 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
          */
         abstract fun onPrecaptureRequired()
     }
-
-    companion object {
-        private val _FACINGS by lazy {
-            SparseIntArray().apply {
-                put(FACING_BACK, LENS_FACING_BACK)
-                put(FACING_FRONT, LENS_FACING_FRONT)
-            }
-        }
-
-        private const val TAG = "Camera2"
-        /** Max preview width that is guaranteed by Camera2 API */
-        private const val MAX_PREVIEW_WIDTH = 1920
-        /** Max preview height that is guaranteed by Camera2 API */
-        private const val MAX_PREVIEW_HEIGHT = 1080
-    }
-
 }

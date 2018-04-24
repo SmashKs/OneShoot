@@ -16,7 +16,6 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera.view
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Build
@@ -38,6 +37,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
 import smash.ks.com.oneshoot.widgets.customize.camera.module.CameraViewModule
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.DEFAULT_ASPECT_RATIO
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FACING_BACK
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FACING_FRONT
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
@@ -62,55 +62,45 @@ open class CameraView @JvmOverloads constructor(
     @IntDef(FLASH_OFF, FLASH_ON, FLASH_TORCH, FLASH_AUTO, FLASH_RED_EYE)
     annotation class Flash
 
-    var cameraViewModule: CameraViewModule
-    private var callbacks: CallbackBridge?
     private var adjustViewBounds: Boolean = false
-    private var displayOrientationDetector: DisplayOrientationDetector?
-
-    init {
-        if (isInEditMode) {
-            callbacks = null
-            displayOrientationDetector = null
-        }
-        //  setup
+    private val cameraViewModule by lazy {
         val preview = createPreview(context)
-        callbacks = CallbackBridge()
-        cameraViewModule = if (Build.VERSION.SDK_INT < 23) {
+
+        if (Build.VERSION.SDK_INT < 23) {
             Camera2(callbacks, preview, context)
         }
         else {
             Camera2Api23(callbacks, preview, context)
         }
-        // Attributes
-        val a = context.obtainStyledAttributes(attrs, R.styleable.CameraView, defStyleAttr,
-                                               R.style.Widget_CameraView)
-        adjustViewBounds = a.getBoolean(R.styleable.CameraView_android_adjustViewBounds, false)
-        setFacing(a.getInt(R.styleable.CameraView_facing, FACING_BACK))
-        val aspectRatio = a.getString(R.styleable.CameraView_aspectRatio)
-        if (aspectRatio != null) {
-            setAspectRatio(AspectRatio.parse(aspectRatio))
+    }
+    private val displayOrientationDetector by lazy {
+        // Display orientation detector
+        if (isInEditMode) {
+            null
         }
         else {
-            setAspectRatio(Constants.DEFAULT_ASPECT_RATIO)
-        }
-        setAutoFocus(a.getBoolean(R.styleable.CameraView_autoFocus, true))
-        setFlash(a.getInt(R.styleable.CameraView_flash, Constants.FLASH_AUTO))
-        a.recycle()
-        // Display orientation detector
-        displayOrientationDetector = object : DisplayOrientationDetector(context) {
-            override fun onDisplayOrientationChanged(displayOrientation: Int) {
-                cameraViewModule.setDisplayOrientation(displayOrientation)
+            object : DisplayOrientationDetector(context) {
+                override fun onDisplayOrientationChanged(displayOrientation: Int) {
+                    cameraViewModule.setDisplayOrientation(displayOrientation)
+                }
             }
         }
     }
+    private val callbacks by lazy { if (isInEditMode) null else CallbackBridge() }
 
-    private fun createPreview(context: Context) = if (Build.VERSION.SDK_INT < 14) {
-        SurfaceViewPreview(context, this)
-    }
-    else {
-        TextureViewPreview(context, this)
+    init {
+        // Attributes
+        context.obtainStyledAttributes(attrs, R.styleable.CameraView, defStyleAttr, R.style.Widget_CameraView).apply {
+            val aspectRatio = getString(R.styleable.CameraView_aspectRatio)
+            setAspectRatio(aspectRatio.takeIf { null != it }?.let { AspectRatio.parse(aspectRatio) } ?: DEFAULT_ASPECT_RATIO)
+            adjustViewBounds = getBoolean(R.styleable.CameraView_android_adjustViewBounds, false)
+            setFacing(getInt(R.styleable.CameraView_facing, FACING_BACK))
+            setAutoFocus(getBoolean(R.styleable.CameraView_autoFocus, true))
+            setFlash(getInt(R.styleable.CameraView_flash, Constants.FLASH_AUTO))
+        }.recycle()
     }
 
+    //region Override methods
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
@@ -136,23 +126,22 @@ open class CameraView @JvmOverloads constructor(
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec)
                 return
             }
+
             val widthMode = getMode(widthMeasureSpec)
             val heightMode = getMode(heightMeasureSpec)
+            val ratio = getAspectRatio()
 
-            if (widthMode == EXACTLY && heightMode != EXACTLY) {
-                val ratio = getAspectRatio()
-                var height = (getSize(widthMeasureSpec) * ratio!!.toFloat()).toInt()
-
-                if (heightMode == AT_MOST) {
+            if (EXACTLY == widthMode && EXACTLY != heightMode) {
+                var height = (getSize(widthMeasureSpec) * ratio.toFloat()).toInt()
+                if (AT_MOST == heightMode) {
                     height = Math.min(height, getSize(heightMeasureSpec))
                 }
 
                 super.onMeasure(widthMeasureSpec, makeMeasureSpec(height, EXACTLY))
             }
-            else if (widthMode != EXACTLY && heightMode == EXACTLY) {
-                val ratio = getAspectRatio()
-                var width = (getSize(heightMeasureSpec) * ratio!!.toFloat()).toInt()
-                if (widthMode == AT_MOST) {
+            else if (EXACTLY != widthMode && EXACTLY == heightMode) {
+                var width = (getSize(heightMeasureSpec) * ratio.toFloat()).toInt()
+                if (AT_MOST == widthMode) {
                     width = Math.min(width, getSize(widthMeasureSpec))
                 }
 
@@ -171,10 +160,11 @@ open class CameraView @JvmOverloads constructor(
         val height = measuredHeight
         var ratio = getAspectRatio()
 
-        if (displayOrientationDetector!!.lastKnownDisplayOrientation % 180 === 0) {
-            ratio = ratio!!.inverse()
-        }
-        if (null == ratio) throw Exception("")
+        displayOrientationDetector
+            ?.lastKnownDisplayOrientation
+            ?.takeIf { 0 == it % 180 }
+            ?.let { ratio = ratio.inverse() }
+
         if (height < width * ratio.y / ratio.x) {
             cameraViewModule.view.measure(
                 makeMeasureSpec(width, EXACTLY),
@@ -187,14 +177,11 @@ open class CameraView @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("WrongConstant")
-    override fun onSaveInstanceState(): Parcelable? {
-        val state = SavedState(super.onSaveInstanceState())
-        state.facing = getFacing()
-        state.ratio = getAspectRatio()
-        state.autoFocus = getAutoFocus()
-        state.flash = getFlash()
-        return state
+    override fun onSaveInstanceState() = SavedState(super.onSaveInstanceState()).apply {
+        facing = getFacing()
+        ratio = getAspectRatio()
+        autoFocus = getAutoFocus()
+        flash = getFlash()
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) = state.let { it as? SavedState }?.let {
@@ -204,6 +191,7 @@ open class CameraView @JvmOverloads constructor(
         setAutoFocus(it.autoFocus)
         setFlash(it.flash)
     } ?: super.onRestoreInstanceState(state)
+    //endregion
 
     /**
      * Open a camera device and start showing camera preview. This is typically called from
@@ -221,12 +209,9 @@ open class CameraView @JvmOverloads constructor(
     }
 
     /**
-     * Stop camera preview and close the device. This is typically called from
-     * [Activity.onPause].
+     * Stop camera preview and close the device. This is typically called from [Activity.onPause].
      */
-    open fun stop() {
-        cameraViewModule.stop()
-    }
+    open fun stop() = cameraViewModule.stop()
 
     /**
      * @return `true` if the camera is opened.
@@ -255,10 +240,10 @@ open class CameraView @JvmOverloads constructor(
      * @see .getAdjustViewBounds
      */
     fun setAdjustViewBounds(adjustViewBounds: Boolean) {
-        if (this.adjustViewBounds != adjustViewBounds) {
-            this.adjustViewBounds = adjustViewBounds
-            requestLayout()
-        }
+        if (this.adjustViewBounds == adjustViewBounds) return
+
+        this.adjustViewBounds = adjustViewBounds
+        requestLayout()
     }
 
     /**
@@ -266,7 +251,7 @@ open class CameraView @JvmOverloads constructor(
      * camera.
      * @see .setAdjustViewBounds
      */
-    fun getAdjustViewBounds(): Boolean = adjustViewBounds
+    fun getAdjustViewBounds() = adjustViewBounds
 
     /**
      * Chooses camera by the direction it faces.
@@ -300,7 +285,6 @@ open class CameraView @JvmOverloads constructor(
         if (null != ratio && cameraViewModule.setAspectRatio(ratio)) {
             requestLayout()
         }
-
     }
 
     /**
@@ -327,7 +311,7 @@ open class CameraView @JvmOverloads constructor(
      * @return `true` if the continuous auto-focus mode is enabled. `false` if it is
      * disabled, or if it is not supported by the current camera.
      */
-    fun getAutoFocus(): Boolean = cameraViewModule.autoFocus
+    fun getAutoFocus() = cameraViewModule.autoFocus
 
     /**
      * Sets the flash mode.
@@ -350,8 +334,64 @@ open class CameraView @JvmOverloads constructor(
      * Take a picture. The result will be returned to
      * [Callback.onPictureTaken].
      */
-    fun takePicture() {
-        cameraViewModule.takePicture()
+    fun takePicture() = cameraViewModule.takePicture()
+
+    private fun createPreview(context: Context) = if (Build.VERSION.SDK_INT < 14) {
+        SurfaceViewPreview(context, this)
+    }
+    else {
+        TextureViewPreview(context, this)
+    }
+
+    /**
+     * Callback for monitoring events about [CameraView].
+     */
+    abstract class Callback {
+        /**
+         * Called when camera is opened.
+         *
+         * @param cameraView The associated [CameraView].
+         */
+        fun onCameraOpened(cameraView: CameraView) {}
+
+        /**
+         * Called when camera is closed.
+         *
+         * @param cameraView The associated [CameraView].
+         */
+        fun onCameraClosed(cameraView: CameraView) {}
+
+        /**
+         * Called when a picture is taken.
+         *
+         * @param cameraView The associated [CameraView].
+         * @param data       JPEG data.
+         */
+        fun onPictureTaken(cameraView: CameraView, data: ByteArray) {}
+    }
+
+    protected class SavedState : View.BaseSavedState {
+        var ratio: AspectRatio? = null
+        var autoFocus = false
+        @Facing var facing = 0
+        @Flash var flash = 0
+
+        constructor(source: Parcel, loader: ClassLoader) : super(source) {
+            facing = source.readInt()
+            ratio = source.readParcelable(loader)
+            autoFocus = source.readByte().toInt() != 0
+            flash = source.readInt()
+        }
+
+        constructor(superState: Parcelable) : super(superState)
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(facing)
+            out.writeParcelable(ratio, 0)
+            out.writeByte((if (autoFocus) 1 else 0).toByte())
+            out.writeInt(flash)
+        }
     }
 
     private inner class CallbackBridge : CameraViewModule.Callback {
@@ -381,58 +421,5 @@ open class CameraView @JvmOverloads constructor(
         fun reserveRequestLayoutOnOpen() {
             requestLayoutOnOpen = true
         }
-    }
-
-    protected class SavedState : View.BaseSavedState {
-        @Facing
-        var facing: Int = 0
-        var ratio: AspectRatio? = null
-        var autoFocus: Boolean = false
-        @Flash
-        var flash: Int = 0
-
-        constructor(source: Parcel, loader: ClassLoader) : super(source) {
-            facing = source.readInt()
-            ratio = source.readParcelable(loader)
-            autoFocus = source.readByte().toInt() != 0
-            flash = source.readInt()
-        }
-
-        constructor(superState: Parcelable) : super(superState)
-
-        override fun writeToParcel(out: Parcel, flags: Int) {
-            super.writeToParcel(out, flags)
-            out.writeInt(facing)
-            out.writeParcelable(ratio, 0)
-            out.writeByte((if (autoFocus) 1 else 0).toByte())
-            out.writeInt(flash)
-        }
-    }
-
-    /**
-     * Callback for monitoring events about [CameraView].
-     */
-    abstract class Callback {
-        /**
-         * Called when camera is opened.
-         *
-         * @param cameraView The associated [CameraView].
-         */
-        fun onCameraOpened(cameraView: CameraView) {}
-
-        /**
-         * Called when camera is closed.
-         *
-         * @param cameraView The associated [CameraView].
-         */
-        fun onCameraClosed(cameraView: CameraView) {}
-
-        /**
-         * Called when a picture is taken.
-         *
-         * @param cameraView The associated [CameraView].
-         * @param data       JPEG data.
-         */
-        fun onPictureTaken(cameraView: CameraView, data: ByteArray) {}
     }
 }
