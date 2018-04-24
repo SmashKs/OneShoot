@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 import android.support.v4.util.ArrayMap
 import java.util.SortedSet
@@ -23,7 +23,7 @@ import java.util.TreeSet
 /**
  * A collection class that automatically groups [Size]s by their [AspectRatio]s.
  */
-internal class SizeMap {
+class SizeMap {
     private val ratios by lazy { ArrayMap<AspectRatio, SortedSet<Size>>() }
 
     /**

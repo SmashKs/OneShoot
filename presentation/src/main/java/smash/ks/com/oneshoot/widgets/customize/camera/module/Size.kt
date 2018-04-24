@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 /**
  * Immutable class for describing width and height dimensions in pixels.

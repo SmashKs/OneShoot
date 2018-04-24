@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
+import android.graphics.SurfaceTexture
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.View
@@ -29,8 +30,8 @@ abstract class Preview {
         private set
     var height = 0
         private set
-    var surfaceHolder: SurfaceHolder? = null
-    var surfaceTexture: Any? = null
+    open var surfaceHolder: SurfaceHolder? = null
+    open var surfaceTexture: SurfaceTexture? = null
 
     abstract val surface: Surface
     abstract val view: View
@@ -41,7 +42,7 @@ abstract class Preview {
 
     protected fun dispatchSurfaceChanged() = onSurfaceChanged?.invoke() ?: Unit
 
-    fun setBufferSize(width: Int, height: Int): Unit = TODO()
+    open fun setBufferSize(width: Int, height: Int): Unit = TODO()
 
     fun setSize(width: Int, height: Int) {
         this.width = width

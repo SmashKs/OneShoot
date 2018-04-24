@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 import android.os.Parcelable
 import android.support.v4.util.SparseArrayCompat
@@ -78,7 +78,7 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
             try {
                 val x = s.substring(0, position).toInt()
                 val y = s.substring(position + 1).toInt()
-                return AspectRatio.of(x, y)
+                return of(x, y)
             }
             catch (e: NumberFormatException) {
                 throw IllegalArgumentException("Malformed aspect ratio: $s", e)
@@ -122,12 +122,13 @@ class AspectRatio private constructor(val x: Int, val y: Int) : Comparable<Aspec
     /**
      * @return The inverse of this [AspectRatio].
      */
-    fun inverse() = AspectRatio.of(y, x)
+    fun inverse() = of(y, x)
 
     fun toFloat() = x.toFloat() / y
 
     fun matches(size: Size): Boolean {
-        val gcd = gcd(size.width, size.height)
+        val gcd =
+            gcd(size.width, size.height)
         val x = size.width / gcd
         val y = size.height / gcd
 

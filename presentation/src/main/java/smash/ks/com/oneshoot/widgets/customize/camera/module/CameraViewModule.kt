@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 import android.view.View
 
-abstract class CameraView(
-    protected val mCallback: Callback,
+abstract class CameraViewModule(
+    protected val mCallback: Callback?,
     protected val mPreview: Preview
 ) {
     val view: View get() = mPreview.view
-
     abstract val isCameraOpened: Boolean
-
     abstract var facing: Int
-
     abstract val supportedAspectRatios: Set<AspectRatio>
-
-    abstract val aspectRatio: AspectRatio
-
+    abstract val aspectRatio: AspectRatio?
     abstract var autoFocus: Boolean
-
     abstract var flash: Int
 
     /**

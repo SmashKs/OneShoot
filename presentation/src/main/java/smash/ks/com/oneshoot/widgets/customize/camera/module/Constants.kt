@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.widgets.customize.camera
+package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 internal object Constants {
     val DEFAULT_ASPECT_RATIO by lazy { AspectRatio.of(4, 3) }
 
+    /** The camera device faces the opposite direction as the device's screen.  */
     const val FACING_BACK = 0
+    /** The camera device faces the same direction as the device's screen.  */
     const val FACING_FRONT = 1
 
+    /** Flash will not be fired.  */
     const val FLASH_OFF = 0
+    /** Flash will always be fired during snapshot.  */
     const val FLASH_ON = 1
+    /** Constant emission of light during preview, auto-focus and snapshot.  */
     const val FLASH_TORCH = 2
+    /** Flash will be fired automatically when required.  */
     const val FLASH_AUTO = 3
+    /** Flash will be fired in red-eye reduction mode.  */
     const val FLASH_RED_EYE = 4
 
     const val LANDSCAPE_90 = 90
