@@ -67,6 +67,7 @@ import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
 import android.media.ImageReader.newInstance
+import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.util.Log
 import android.util.SparseIntArray
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_PREVIEW
@@ -85,7 +86,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
 import java.util.Arrays
 
-@TargetApi(21)
+@TargetApi(LOLLIPOP)
 open class Camera2(callback: Callback?, preview: Preview, context: Context) : CameraViewModule(callback, preview) {
     companion object {
         private val FACINGS by lazy {
@@ -525,6 +526,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         catch (e: CameraAccessException) {
             throw RuntimeException("Failed to open camera: " + cameraId!!, e)
         }
+        catch (e: SecurityException) {
+            throw RuntimeException("You need to open the permission: ", e)
+        }
     }
 
     /**
@@ -537,6 +541,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         val surfaceShorter: Int
         val surfaceWidth = preview.width
         val surfaceHeight = preview.height
+
         if (surfaceWidth < surfaceHeight) {
             surfaceLonger = surfaceHeight
             surfaceShorter = surfaceWidth
@@ -545,6 +550,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             surfaceLonger = surfaceWidth
             surfaceShorter = surfaceHeight
         }
+
         val candidates = previewSizes.sizes(mAspectRatio)
 
         // Pick the smallest of those big enough

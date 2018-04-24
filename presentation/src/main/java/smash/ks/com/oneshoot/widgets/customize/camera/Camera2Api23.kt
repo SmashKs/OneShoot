@@ -18,14 +18,15 @@ package smash.ks.com.oneshoot.widgets.customize.camera
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.graphics.ImageFormat
+import android.graphics.ImageFormat.JPEG
 import android.hardware.camera2.params.StreamConfigurationMap
+import android.os.Build.VERSION_CODES.M
 import smash.ks.com.oneshoot.widgets.customize.camera.module.CameraViewModule
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
 
-@TargetApi(23)
+@TargetApi(M)
 class Camera2Api23(
     callback: CameraViewModule.Callback?,
     preview: Preview,
@@ -33,12 +34,10 @@ class Camera2Api23(
 ) : Camera2(callback, preview, context) {
     override fun collectPictureSizes(sizes: SizeMap, map: StreamConfigurationMap) {
         // Try to get hi-res output sizes
-        val outputSizes = map.getHighResolutionOutputSizes(ImageFormat.JPEG)
+        val outputSizes = map.getHighResolutionOutputSizes(JPEG)
 
         when {
-            null != outputSizes -> for (size in outputSizes) {
-                sizes.add(Size(size.width, size.height))
-            }
+            null != outputSizes -> for (size in outputSizes) sizes.add(Size(size.width, size.height))
             sizes.isEmpty() -> super.collectPictureSizes(sizes, map)
         }
     }

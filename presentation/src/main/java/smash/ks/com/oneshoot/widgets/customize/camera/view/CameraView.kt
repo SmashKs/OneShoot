@@ -24,14 +24,14 @@ import android.os.Parcelable
 import android.support.annotation.IntDef
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
-import android.view.View
 import android.view.View.MeasureSpec.AT_MOST
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.getMode
 import android.view.View.MeasureSpec.getSize
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
-import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.R.style.Widget_CameraView
+import smash.ks.com.oneshoot.R.styleable.*
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
@@ -47,6 +47,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_RED
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_TORCH
 import smash.ks.com.oneshoot.widgets.customize.camera.preview.SurfaceViewPreview
 import smash.ks.com.oneshoot.widgets.customize.camera.preview.TextureViewPreview
+import kotlin.annotation.AnnotationRetention.SOURCE
 
 open class CameraView @JvmOverloads constructor(
     context: Context,
@@ -55,7 +56,7 @@ open class CameraView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
     /** Direction the camera faces relative to device screen.  */
     @IntDef(FACING_BACK, FACING_FRONT)
-    @Retention(AnnotationRetention.SOURCE)
+    @Retention(SOURCE)
     annotation class Facing
 
     /** The mode for for the camera device's flash control  */
@@ -90,13 +91,13 @@ open class CameraView @JvmOverloads constructor(
 
     init {
         // Attributes
-        context.obtainStyledAttributes(attrs, R.styleable.CameraView, defStyleAttr, R.style.Widget_CameraView).apply {
-            val aspectRatio = getString(R.styleable.CameraView_aspectRatio)
+        context.obtainStyledAttributes(attrs, CameraView, defStyleAttr, Widget_CameraView).apply {
+            val aspectRatio = getString(CameraView_aspectRatio)
             setAspectRatio(aspectRatio.takeIf { null != it }?.let { AspectRatio.parse(aspectRatio) } ?: DEFAULT_ASPECT_RATIO)
-            adjustViewBounds = getBoolean(R.styleable.CameraView_android_adjustViewBounds, false)
-            setFacing(getInt(R.styleable.CameraView_facing, FACING_BACK))
-            setAutoFocus(getBoolean(R.styleable.CameraView_autoFocus, true))
-            setFlash(getInt(R.styleable.CameraView_flash, Constants.FLASH_AUTO))
+            adjustViewBounds = getBoolean(CameraView_android_adjustViewBounds, false)
+            setFacing(getInt(CameraView_facing, FACING_BACK))
+            setAutoFocus(getBoolean(CameraView_autoFocus, true))
+            setFlash(getInt(CameraView_flash, Constants.FLASH_AUTO))
         }.recycle()
     }
 
@@ -201,8 +202,10 @@ open class CameraView @JvmOverloads constructor(
         if (!cameraViewModule.start()) {
             //store the state ,and restore this state after fall back o Camera1
             val state = onSaveInstanceState()
-            // Camera2 uses legacy hardware layer; fall back to Camera1
-//            cameraViewModule = Camera1(callbacks, createPreview(context))
+
+            // OPTIMIZE(jieyi): 2018/04/25 Camera2 uses legacy hardware layer; fall back to Camera1
+            // cameraViewModule = Camera1(callbacks, createPreview(context))
+
             onRestoreInstanceState(state)
             cameraViewModule.start()
         }
@@ -370,7 +373,7 @@ open class CameraView @JvmOverloads constructor(
         fun onPictureTaken(cameraView: CameraView, data: ByteArray) {}
     }
 
-    protected class SavedState : View.BaseSavedState {
+    protected class SavedState : BaseSavedState {
         var ratio: AspectRatio? = null
         var autoFocus = false
         @Facing var facing = 0

@@ -37,7 +37,7 @@ class SizeMap {
             if (ratio.matches(size)) {
                 val sizes = ratios[ratio]
 
-                if (sizes != null) {
+                if (null != sizes) {
                     return if (sizes.contains(size)) {
                         false
                     }
