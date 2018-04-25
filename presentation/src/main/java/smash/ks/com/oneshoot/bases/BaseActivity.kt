@@ -18,8 +18,8 @@ package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.v7.app.AppCompatActivity
 import com.hwangjr.rxbus.Bus
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.android.retainedKodein
@@ -27,7 +27,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.ActivityModule.activityModule
 
-abstract class BaseActivity : RxAppCompatActivity(), KodeinAware {
+abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)
     override val kodein by retainedKodein {
         extend(parentKodein)

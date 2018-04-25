@@ -267,12 +267,12 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     override fun start(): Boolean {
-        if (!chooseCameraIdByFacing()) {
-            return false
-        }
+        if (!chooseCameraIdByFacing()) return false
+
         collectCameraInfo()
         prepareImageReader()
         startOpeningCamera()
+
         return true
     }
 
@@ -393,14 +393,16 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                 set(JPEG_ORIENTATION,
                     ((sensorOrientation + displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + 360) % 360))
                 // Stop preview and capture a still picture.
-                captureSession!!.stopRepeating()
-                captureSession!!.capture(build(), object : CameraCaptureSession.CaptureCallback() {
-                    override fun onCaptureCompleted(
-                        session: CameraCaptureSession,
-                        request: CaptureRequest,
-                        result: TotalCaptureResult
-                    ) = unlockFocus()
-                }, null)
+                captureSession!!.apply {
+                    stopRepeating()
+                    capture(build(), object : CameraCaptureSession.CaptureCallback() {
+                        override fun onCaptureCompleted(
+                            session: CameraCaptureSession,
+                            request: CaptureRequest,
+                            result: TotalCaptureResult
+                        ) = unlockFocus()
+                    }, null)
+                }
             }
         }
         catch (e: CameraAccessException) {
@@ -488,6 +490,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     private fun collectCameraInfo() {
         val map =
             cameraCharacteristics!!.get(SCALER_STREAM_CONFIGURATION_MAP) ?: throw IllegalStateException("Failed to get configuration map: " + cameraId!!)
+
         previewSizes.clear()
         for (size in map.getOutputSizes(preview.outputClass)) {
             val width = size.width
@@ -495,13 +498,15 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
 
             if (MAX_PREVIEW_WIDTH >= width && MAX_PREVIEW_HEIGHT >= height) previewSizes.add(Size(width, height))
         }
+
         pictureSizes.clear()
         collectPictureSizes(pictureSizes, map)
+
         for (ratio in previewSizes.ratios()) {
             if (!pictureSizes.ratios().contains(ratio)) previewSizes.remove(ratio)
         }
-
-        if (!previewSizes.ratios().contains(mAspectRatio)) mAspectRatio = previewSizes.ratios().iterator().next()
+        // HACK(jieyi): 2018/04/25 Check this action.
+        if (!previewSizes.ratios().contains(mAspectRatio)) mAspectRatio = previewSizes.ratios().last()
     }
 
     private fun prepareImageReader() {

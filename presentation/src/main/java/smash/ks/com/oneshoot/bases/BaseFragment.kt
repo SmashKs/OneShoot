@@ -20,10 +20,10 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trello.rxlifecycle2.components.support.RxFragment
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -35,7 +35,7 @@ import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.FragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
 
-abstract class BaseFragment<out A : BaseActivity> : RxFragment(), KodeinAware {
+abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     override val kodeinContext get() = kcontext(activity)
     override val kodein = Kodein.lazy {
         extend(parentKodein)

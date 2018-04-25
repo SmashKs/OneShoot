@@ -34,11 +34,10 @@ class Camera2Api23(
 ) : Camera2(callback, preview, context) {
     override fun collectPictureSizes(sizes: SizeMap, map: StreamConfigurationMap) {
         // Try to get hi-res output sizes
-        val outputSizes = map.getHighResolutionOutputSizes(JPEG)
-
-        when {
-            null != outputSizes -> for (size in outputSizes) sizes.add(Size(size.width, size.height))
-            sizes.isEmpty() -> super.collectPictureSizes(sizes, map)
+        for (size in map.getHighResolutionOutputSizes(JPEG)) {
+            sizes.add(Size(size.width, size.height))
         }
+
+        if (sizes.isEmpty()) super.collectPictureSizes(sizes, map)
     }
 }
