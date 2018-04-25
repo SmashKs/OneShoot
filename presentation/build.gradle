@@ -123,6 +123,8 @@ dependencies {
 
     implementation Presentation.glide
 
+    implementation Presentation.quickDialog
+
     implementation Presentation.appcompat
     implementation Presentation.recyclerview
     implementation Presentation.annot

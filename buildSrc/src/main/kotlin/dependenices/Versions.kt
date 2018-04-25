@@ -30,7 +30,7 @@ object Versions {
     }
 
     object Kotlin {
-        const val kotlin = "1.2.40"
+        const val kotlin = "1.2.31"
         const val kotlinCoroutine = "0.22.5"
     }
 
@@ -79,6 +79,10 @@ object Versions {
 
     object Mapping {
         const val modelmapper = "1.1.0"
+    }
+
+    object Ui {
+        const val dialog = "0.1.1"
     }
 
     object Test {

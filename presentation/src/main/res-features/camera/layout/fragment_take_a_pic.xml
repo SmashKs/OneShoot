@@ -21,10 +21,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
+    <smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+        android:id="@+id/cv_camera"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,5 +44,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceView"/>
+        app:layout_constraintTop_toBottomOf="@+id/cv_camera"/>
 </android.support.constraint.ConstraintLayout>

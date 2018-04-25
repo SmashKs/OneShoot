@@ -18,6 +18,8 @@ package resources
 
 object Metal {
     val dirs = arrayOf(
-        "src/main/res-features/ks"
+        "src/main/res-features",
+        "src/main/res-features/ks",
+        "src/main/res-features/camera"
     )
 }

@@ -34,16 +34,14 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
         tools:replace="android:label">
-        <activity
-            android:name=".features.main.MainActivity"
-            android:theme="@style/SecondTheme">
+        <activity android:name=".features.main.MainActivity">
+        </activity>
+        <activity android:name=".features.photograph.PhotographActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".features.photograph.PhotographActivity"/>
     </application>
 
 </manifest>

@@ -74,6 +74,8 @@ object Deps {
 
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"
 
+        const val quickDialog = "com.devrapid.jieyi:dialogbuilder:${Versions.Ui.dialog}"
+
         const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
         const val annot = "com.android.support:support-annotations:${Versions.AndroidComponent.support}"
         const val recyclerview = "com.android.support:recyclerview-v7:${Versions.AndroidComponent.support}"

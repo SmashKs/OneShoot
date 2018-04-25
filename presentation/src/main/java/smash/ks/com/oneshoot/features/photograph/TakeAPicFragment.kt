@@ -16,17 +16,28 @@
 
 package smash.ks.com.oneshoot.features.photograph
 
+import android.Manifest.permission.CAMERA
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat.requestPermissions
+import android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale
+import android.support.v4.content.ContextCompat.checkSelfPermission
+import android.widget.Toast.LENGTH_SHORT
+import android.widget.Toast.makeText
+import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.ks.smash.ext.const.DEFAULT_INT
+import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import org.jetbrains.anko.bundleOf
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
+import smash.ks.com.oneshoot.features.main.MainFragment.Factory.REQUEST_CAMERA_PERMISSION
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
     //region Instance
@@ -47,6 +58,31 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
 
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
+
+    override fun onResume() {
+        super.onResume()
+
+        when {
+            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
+            shouldShowRequestPermissionRationale(parent, CAMERA) -> {
+                QuickDialogFragment.Builder(this) {
+                    message = gStrings(R.string.camera_permission_confirmation)
+                    btnPositiveText = "Ok" to { _ ->
+                        requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
+                    }
+                    btnNegativeText = "Deny" to { _ ->
+                        makeText(parent, gStrings(R.string.camera_permission_not_granted), LENGTH_SHORT).show()
+                    }
+                }.build().show()
+            }
+            else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cv_camera.stop()
+    }
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
