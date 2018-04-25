@@ -259,8 +259,8 @@ open class CameraView @JvmOverloads constructor(
     /**
      * Chooses camera by the direction it faces.
      *
-     * @param facing The camera facing. Must be either [.FACING_BACK] or
-     * [.FACING_FRONT].
+     * @param facing The camera facing. Must be either [FACING_BACK] or
+     * [FACING_FRONT].
      */
     fun setFacing(@Facing facing: Int) {
         cameraViewModule.facing = facing

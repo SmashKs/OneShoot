@@ -316,9 +316,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     /**
      * Starts a capture session for camera preview.
      *
-     * This rewrites [.previewRequestBuilder].
+     * This rewrites [previewRequestBuilder].
      *
-     * The result will be continuously processed in [.sessionCallback].
+     * The result will be continuously processed in [sessionCallback].
      */
     fun startCaptureSession() {
         if (!isCameraOpened || !preview.isReady || null == imageReader) return
@@ -338,7 +338,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     /**
-     * Updates the  state of auto-focus to [.mAutoFocus].
+     * Updates the state of auto-focus to [mAutoFocus].
      */
     fun updateAutoFocus() {
         if (mAutoFocus) {
@@ -430,10 +430,10 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
 
     /**
      *
-     * Chooses a camera ID by the specified camera facing ([.mFacing]).
+     * Chooses a camera ID by the specified camera facing ([mFacing]).
      *
-     * This rewrites [.cameraId], [.cameraCharacteristics], and optionally
-     * [.mFacing].
+     * This rewrites [cameraId], [cameraCharacteristics], and optionally
+     * [mFacing].
      */
     private fun chooseCameraIdByFacing(): Boolean {
         try {
@@ -481,10 +481,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     /**
-     * Collects some information from [.cameraCharacteristics].
+     * Collects some information from [cameraCharacteristics].
      *
-     * This rewrites [.previewSizes], [.pictureSizes], and optionally,
-     * [.mAspectRatio].
+     * This rewrites [previewSizes], [pictureSizes], and optionally, [mAspectRatio].
      */
     private fun collectCameraInfo() {
         val map =
@@ -507,17 +506,17 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
 
     private fun prepareImageReader() {
         imageReader.takeIf { null != it }?.close()
-        val largest = pictureSizes.sizes(mAspectRatio)?.last() ?: Size(100, 100)
+        // OPTIMIZE(jieyi): 2018/04/25 Hard code here.
+        val largest = pictureSizes.sizes(mAspectRatio)?.last() ?: Size(300, 300)
         imageReader = newInstance(largest.width, largest.height, JPEG, /* maxImages */ 2).apply {
             setOnImageAvailableListener(mOnImageAvailableListener, null)
         }
     }
 
     /**
-     *
      * Starts opening a camera device.
      *
-     * The result will be processed in [.cameraDeviceCallback].
+     * The result will be processed in [cameraDeviceCallback].
      */
     private fun startOpeningCamera() {
         try {
@@ -532,7 +531,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     /**
-     * Chooses the optimal preview size based on [.previewSizes] and the surface size.
+     * Chooses the optimal preview size based on [previewSizes] and the surface size.
      *
      * @return The picked size for camera preview.
      */
