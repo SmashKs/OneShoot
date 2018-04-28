@@ -70,6 +70,7 @@ import android.media.ImageReader.newInstance
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.util.Log
 import android.util.SparseIntArray
+import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_LOCKING
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_PREVIEW
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
 import smash.ks.com.oneshoot.widgets.customize.camera.module.CameraViewModule
@@ -84,7 +85,6 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_TOR
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
-import java.util.Arrays
 
 @TargetApi(LOLLIPOP)
 open class Camera2(callback: Callback?, preview: Preview, context: Context) : CameraViewModule(callback, preview) {
@@ -298,7 +298,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         }
         mAspectRatio = ratio
         prepareImageReader()
-        if (captureSession != null) {
+        if (null != captureSession) {
             captureSession!!.close()
             captureSession = null
             startCaptureSession()
@@ -330,7 +330,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
         try {
             previewRequestBuilder = camera!!.createCaptureRequest(TEMPLATE_PREVIEW)
             previewRequestBuilder!!.addTarget(surface)
-            camera!!.createCaptureSession(Arrays.asList(surface, imageReader!!.surface), sessionCallback, null)
+            camera!!.createCaptureSession(listOf(surface, imageReader!!.surface), sessionCallback, null)
         }
         catch (e: CameraAccessException) {
             throw RuntimeException("Failed to start camera session")
@@ -400,7 +400,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                             session: CameraCaptureSession,
                             request: CaptureRequest,
                             result: TotalCaptureResult
-                        ) = unlockFocus()
+                        ) {
+                            unlockFocus()
+                        }
                     }, null)
                 }
             }
@@ -573,7 +575,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     private fun lockFocus() {
         previewRequestBuilder!!.set(CONTROL_AF_TRIGGER, CONTROL_AF_TRIGGER_START)
         try {
-            captureCallback.setState(PictureCaptureCallback.STATE_LOCKING)
+            captureCallback.setState(STATE_LOCKING)
             captureSession!!.capture(previewRequestBuilder!!.build(), captureCallback, null)
         }
         catch (e: CameraAccessException) {
