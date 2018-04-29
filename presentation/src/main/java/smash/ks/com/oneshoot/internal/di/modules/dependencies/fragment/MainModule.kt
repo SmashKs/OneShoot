@@ -27,8 +27,8 @@ import org.kodein.di.generic.scoped
 import org.kodein.di.generic.singleton
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
-import smash.ks.com.oneshoot.features.main.FakeViewHolder
-import smash.ks.com.oneshoot.features.main.MainViewModel
+import smash.ks.com.oneshoot.features.fake.FakeViewHolder
+import smash.ks.com.oneshoot.features.fake.FakeViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
@@ -37,7 +37,7 @@ object MainModule {
     fun mainModule() = Module {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
-            MainViewModel::class.java to MainViewModel(instance(), instance())
+            FakeViewModel::class.java to FakeViewModel(instance(), instance())
         }
         // *** ViewHolder
         bind<ViewHolderEntry>().inSet() with provider {

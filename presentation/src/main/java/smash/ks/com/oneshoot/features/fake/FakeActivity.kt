@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package resources
+package smash.ks.com.oneshoot.features.fake
 
-object Metal {
-    val dirs = arrayOf(
-        "src/main/res-features",
-        "src/main/res-features/ks",
-        "src/main/res-features/camera"
-    )
+import android.os.Bundle
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.bases.BaseActivity
+import java.util.Random
+
+class FakeActivity : BaseActivity() {
+    override fun init(savedInstanceState: Bundle?) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_container, FakeFragment.newInstance(Random().nextInt()))
+        }.commit()
+    }
+
+    override fun provideLayoutId() = R.layout.activity_base
 }

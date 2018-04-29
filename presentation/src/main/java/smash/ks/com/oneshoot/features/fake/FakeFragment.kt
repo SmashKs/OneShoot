@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.main
+package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -38,7 +38,7 @@ import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
-class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
+class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Instance
     companion object Factory {
         const val REQUEST_CAMERA_PERMISSION = 1
@@ -48,9 +48,9 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
          *
-         * @return A new instance of fragment [MainFragment].
+         * @return A new instance of fragment [FakeFragment].
          */
-        fun newInstance(arg1: Int = DEFAULT_INT) = MainFragment().apply {
+        fun newInstance(arg1: Int = DEFAULT_INT) = FakeFragment().apply {
             arguments = bundleOf(ARG_RANDOM_ID to arg1)
         }
     }

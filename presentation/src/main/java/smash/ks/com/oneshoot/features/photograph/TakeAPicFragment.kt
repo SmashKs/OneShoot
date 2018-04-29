@@ -43,7 +43,7 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
-import smash.ks.com.oneshoot.features.main.MainFragment.Factory.REQUEST_CAMERA_PERMISSION
+import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {

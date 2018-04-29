@@ -19,7 +19,7 @@ import dependenices.Deps.GlobalTest
 import dependenices.Deps.Presentation
 import dependenices.Deps.PresentationTest
 import dependenices.Versions.Android
-import resources.Metal
+import resources.FeatureRes
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -53,7 +53,7 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs += Metal.dirs
+            res.srcDirs += FeatureRes.dirs
         }
     }
 }

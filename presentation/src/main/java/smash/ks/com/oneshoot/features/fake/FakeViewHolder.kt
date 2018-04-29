@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.main
+package smash.ks.com.oneshoot.features.fake
 
 import android.view.View
 import com.devrapid.adaptiverecyclerview.AdaptiveViewHolder
