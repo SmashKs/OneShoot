@@ -20,8 +20,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.LinearLayout
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_main.rv_fake
-import kotlinx.android.synthetic.main.fragment_main.tv_label
+import kotlinx.android.synthetic.main.fragment_fake.rv_fake
+import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.objects.KsResponse
@@ -74,7 +74,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         }
     }
 
-    override fun provideInflateView() = R.layout.fragment_main
+    override fun provideInflateView() = R.layout.fragment_fake
     //endregion
 
     //region View Implementation for the Presenter.
