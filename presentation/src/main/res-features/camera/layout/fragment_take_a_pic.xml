@@ -27,22 +27,33 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:background="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/iv_shot"
+        app:layout_constraintBottom_toTopOf="@+id/ib_shot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/iv_shot"
+    <ImageButton
+        android:id="@+id/ib_shot"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
         android:padding="8dp"
+        android:scaleType="centerCrop"
         android:src="@android:drawable/presence_online"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv_camera"/>
+
+    <ImageView
+        android:id="@+id/iv_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ib_shot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ib_shot"/>
 </android.support.constraint.ConstraintLayout>

@@ -16,17 +16,22 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
+import android.support.v4.app.FragmentActivity
 import org.kodein.di.Kodein.Module
+import org.kodein.di.android.androidScope
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import org.kodein.di.generic.scoped
+import org.kodein.di.generic.singleton
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.features.main.FakeViewHolder
 import smash.ks.com.oneshoot.features.main.MainViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 
 object MainModule {
     fun mainModule() = Module {
@@ -37,6 +42,15 @@ object MainModule {
         // *** ViewHolder
         bind<ViewHolderEntry>().inSet() with provider {
             KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
+        }
+        // *** Others
+        bind<MutableList<KsMultiVisitable>>("ks entity") with scoped(androidScope<FragmentActivity>()).singleton {
+            mutableListOf(
+                KsEntity(),
+                KsEntity(),
+                KsEntity(),
+                KsEntity()
+            ) as MutableList<KsMultiVisitable>
         }
     }
 }

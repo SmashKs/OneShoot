@@ -356,22 +356,22 @@ open class CameraView @JvmOverloads constructor(
          *
          * @param cameraView The associated [CameraView].
          */
-        fun onCameraOpened(cameraView: CameraView) {}
+        open fun onCameraOpened(cameraView: CameraView) {}
 
         /**
          * Called when camera is closed.
          *
          * @param cameraView The associated [CameraView].
          */
-        fun onCameraClosed(cameraView: CameraView) {}
+        open fun onCameraClosed(cameraView: CameraView) {}
 
         /**
          * Called when a picture is taken.
          *
          * @param cameraView The associated [CameraView].
-         * @param data       JPEG data.
+         * @param data JPEG data.
          */
-        fun onPictureTaken(cameraView: CameraView, data: ByteArray) {}
+        open fun onPictureTaken(cameraView: CameraView, data: ByteArray) {}
     }
 
     protected class SavedState : BaseSavedState {

@@ -18,6 +18,8 @@ package smash.ks.com.oneshoot.features.photograph
 
 import android.Manifest.permission.CAMERA
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale
@@ -27,8 +29,10 @@ import android.widget.Toast.makeText
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
-import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_shot
+import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
+import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
@@ -40,6 +44,7 @@ import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.features.main.MainFragment.Factory.REQUEST_CAMERA_PERMISSION
+import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
     //region Instance
@@ -58,9 +63,20 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
     }
     //endregion
 
+    private val cameraCallback by lazy {
+        object : CameraView.Callback() {
+            override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
+                val bmp = BitmapFactory.decodeByteArray(data, 0, data.size)
+
+                iv_preview.imageBitmap = Bitmap.createScaledBitmap(bmp, bmp.width, bmp.height, false)
+            }
+        }
+    }
+
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
+    //region Fragment Lifecycle
     override fun onResume() {
         super.onResume()
 
@@ -85,10 +101,12 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
         super.onPause()
         cv_camera.stop()
     }
+    //endregion
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        iv_shot.onClick { cv_camera.takePicture() }
+        cv_camera.addCallback(cameraCallback)
+        ib_shot.onClick { cv_camera.takePicture() }
     }
 
     override fun provideInflateView() = R.layout.fragment_take_a_pic

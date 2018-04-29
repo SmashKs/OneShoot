@@ -23,11 +23,11 @@ import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_main.rv_fake
 import kotlinx.android.synthetic.main.fragment_main.tv_label
 import org.jetbrains.anko.bundleOf
+import org.kodein.di.generic.instance
 import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
-import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.ext.aac.observe
 import smash.ks.com.oneshoot.ext.aac.responseReaction
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -35,6 +35,7 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
 class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
@@ -55,17 +56,21 @@ class MainFragment : AdvFragment<MainActivity, MainViewModel>(), LoadView {
     }
     //endregion
 
+    private val list by instance<MutableList<KsMultiVisitable>>("ks entity")
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        observe(vm.temp, ::updateTemp)
-        vm.retrieveId(randomId)
+        vm.apply {
+            observe(temp, ::updateTemp)
+
+            retrieveId(randomId)
+        }
 
         rv_fake.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            adapter = MultiTypeAdapter(mutableListOf(KsEntity(), KsEntity()), context)
+            adapter = MultiTypeAdapter(list, context)
         }
     }
 
