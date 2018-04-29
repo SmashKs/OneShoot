@@ -18,7 +18,8 @@ package smash.ks.com.oneshoot.widgets.customize.camera.view
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.IntDef
@@ -67,7 +68,7 @@ open class CameraView @JvmOverloads constructor(
     private val cameraViewModule by lazy {
         val preview = createPreview(context)
 
-        if (Build.VERSION.SDK_INT < 23) {
+        if (SDK_INT < 23) {
             Camera2(callbacks, preview, context)
         }
         else {
@@ -339,7 +340,7 @@ open class CameraView @JvmOverloads constructor(
      */
     fun takePicture() = cameraViewModule.takePicture()
 
-    private fun createPreview(context: Context) = if (Build.VERSION.SDK_INT < 14) {
+    private fun createPreview(context: Context) = if (SDK_INT < ICE_CREAM_SANDWICH) {
         SurfaceViewPreview(context, this)
     }
     else {
