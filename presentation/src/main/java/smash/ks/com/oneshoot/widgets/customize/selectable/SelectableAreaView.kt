@@ -21,6 +21,7 @@ import android.graphics.Canvas
 import android.graphics.Color.GREEN
 import android.graphics.Color.RED
 import android.graphics.Paint
+import android.graphics.Paint.Style.FILL
 import android.graphics.Paint.Style.STROKE
 import android.graphics.PointF
 import android.util.AttributeSet
@@ -42,7 +43,8 @@ class SelectableAreaView @JvmOverloads constructor(
     companion object {
         const val DEFAULT_GAP = 100f
         const val DEFAULT_STROKE_WIDTH = 5f
-        const val DEFAULT_TOUCH_RANGE = 20f
+        const val DEFAULT_ANGLE_WIDTH = 15f
+        const val DEFAULT_TOUCH_RANGE = DEFAULT_ANGLE_WIDTH * 3
         const val DEFAULT_POSITION = 50f
 
         private const val DIRECT_LEFT = 0b0001
@@ -52,12 +54,26 @@ class SelectableAreaView @JvmOverloads constructor(
     }
 
     private var isTouch = false
-    private val paint by lazy {
+    private val paintRect by lazy {
         Paint().apply {
             color = RED
             isAntiAlias = true
             style = STROKE
             strokeWidth = DEFAULT_STROKE_WIDTH
+        }
+    }
+    private val paintOuterRect by lazy {
+        Paint().apply {
+            setARGB(255, 0, 0, 100)
+            isAntiAlias = true
+            style = FILL
+        }
+    }
+    private val paintInnerRect by lazy {
+        Paint().apply {
+            setARGB(0, 0, 0, 0)
+            isAntiAlias = true
+            style = FILL
         }
     }
     private val paintAngles by lazy {
@@ -92,7 +108,7 @@ class SelectableAreaView @JvmOverloads constructor(
         when (event.action) {
             ACTION_DOWN -> {
                 fourAngles.forEach searching@{
-                    if (event.x in it.coordination.x - DEFAULT_TOUCH_RANGE..it.coordination.x + DEFAULT_TOUCH_RANGE &&
+                    if (event.x in it.coordination.x - DEFAULT_TOUCH_RANGE * 4..it.coordination.x + DEFAULT_TOUCH_RANGE &&
                         event.y in it.coordination.y - DEFAULT_TOUCH_RANGE..it.coordination.y + DEFAULT_TOUCH_RANGE
                     ) {
                         it.isSelected = true
@@ -129,16 +145,24 @@ class SelectableAreaView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
+            // All background
+            drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), paintOuterRect)
             // Center image
             drawRect(leftTopPoint.coordination.x,
                      leftTopPoint.coordination.y,
                      rightBottomPoint.coordination.x,
                      rightBottomPoint.coordination.y,
-                     paint)
+                     paintRect)
+            // Inner transport.
+            drawRect(leftTopPoint.coordination.x,
+                     leftTopPoint.coordination.y,
+                     rightBottomPoint.coordination.x,
+                     rightBottomPoint.coordination.y,
+                     paintInnerRect)
             // Four Angles
             fourAngles.forEach {
-                drawRect(it.coordination.x - DEFAULT_TOUCH_RANGE, it.coordination.y - DEFAULT_TOUCH_RANGE,
-                         it.coordination.x + DEFAULT_TOUCH_RANGE, it.coordination.y + DEFAULT_TOUCH_RANGE, paintAngles)
+                drawRect(it.coordination.x - DEFAULT_ANGLE_WIDTH, it.coordination.y - DEFAULT_ANGLE_WIDTH,
+                         it.coordination.x + DEFAULT_ANGLE_WIDTH, it.coordination.y + DEFAULT_ANGLE_WIDTH, paintAngles)
             }
         }
     }

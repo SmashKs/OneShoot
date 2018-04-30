@@ -35,7 +35,7 @@
     <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#55000000"
+        android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
         app:layout_constraintEnd_toEndOf="@+id/cv_camera"
         app:layout_constraintStart_toStartOf="@+id/cv_camera"
