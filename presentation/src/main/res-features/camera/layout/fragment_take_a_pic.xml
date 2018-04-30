@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <smash.ks.com.oneshoot.widgets.customize.camera.view.CameraViewSelectableArea
+    <smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
         android:id="@+id/cv_camera"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -31,6 +31,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#55000000"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
+        app:layout_constraintEnd_toEndOf="@+id/cv_camera"
+        app:layout_constraintStart_toStartOf="@+id/cv_camera"
+        app:layout_constraintTop_toTopOf="@+id/cv_camera"/>
 
     <ImageButton
         android:id="@+id/ib_shot"
