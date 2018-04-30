@@ -17,7 +17,6 @@
 package smash.ks.com.oneshoot.widgets.customize.selectable
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color.GREEN
 import android.graphics.Color.RED
@@ -43,8 +42,13 @@ class SelectableAreaView @JvmOverloads constructor(
     companion object {
         const val DEFAULT_GAP = 100f
         const val DEFAULT_STROKE_WIDTH = 5f
-        const val DEFAULT_TOUCH_RANGE = 10f
+        const val DEFAULT_TOUCH_RANGE = 20f
         const val DEFAULT_POSITION = 50f
+
+        private const val DIRECT_LEFT = 0b0001
+        private const val DIRECT_RIGHT = 0b0010
+        private const val DIRECT_TOP = 0b0100
+        private const val DIRECT_BOTTOM = 0b1000
     }
 
     private var isTouch = false
@@ -62,12 +66,26 @@ class SelectableAreaView @JvmOverloads constructor(
             isAntiAlias = true
         }
     }
-    private val leftTopPoint by lazy { LT(false, PointF(DEFAULT_POSITION, DEFAULT_POSITION)) }
-    private val rightBottomPoint by lazy {
-        RB(false, PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION))
+    private val leftTopPoint by lazy {
+        LT(false,
+           PointF(DEFAULT_POSITION, DEFAULT_POSITION),
+           DIRECT_LEFT or DIRECT_TOP)
     }
-    private val leftBottomPoint by lazy { LB(false, PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_POSITION)) }
-    private val rightTopPoint by lazy { RT(false, PointF(DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION)) }
+    private val rightBottomPoint by lazy {
+        RB(false,
+           PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION),
+           DIRECT_RIGHT or DIRECT_BOTTOM)
+    }
+    private val leftBottomPoint by lazy {
+        LB(false,
+           PointF(DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION),
+           DIRECT_LEFT or DIRECT_BOTTOM)
+    }
+    private val rightTopPoint by lazy {
+        RT(false,
+           PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_POSITION),
+           DIRECT_RIGHT or DIRECT_TOP)
+    }
     private val fourAngles by lazy { listOf(leftTopPoint, rightBottomPoint, leftBottomPoint, rightTopPoint) }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -86,11 +104,19 @@ class SelectableAreaView @JvmOverloads constructor(
             ACTION_MOVE -> {
                 if (!isTouch) return true
 
-                val p = fourAngles.find(AnglePoint::isSelected) ?: throw Resources.NotFoundException()
-                p.coordination.x = event.x
-                p.coordination.y = event.y
-
-                invalidate()
+                fourAngles.find(AnglePoint::isSelected)?.apply {
+                    // Change the touching rectangle angle.
+                    coordination.x = event.x
+                    coordination.y = event.y
+                    // Change others related rectangle angle.
+                    fourAngles.forEach {
+                        when (direction and it.direction) {
+                            DIRECT_LEFT, DIRECT_RIGHT -> it.coordination.x = event.x
+                            DIRECT_TOP, DIRECT_BOTTOM -> it.coordination.y = event.y
+                        }
+                    }
+                    invalidate()
+                }
             }
             ACTION_UP -> {
                 fourAngles.find(AnglePoint::isSelected)?.isSelected = false
@@ -119,11 +145,28 @@ class SelectableAreaView @JvmOverloads constructor(
 
     sealed class AnglePoint(
         var isSelected: Boolean,
-        var coordination: PointF
+        var coordination: PointF,
+        var direction: Int
     ) {
-        class LT(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
-        class LB(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
-        class RT(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
-        class RB(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
+        class LT(
+            isSelected: Boolean,
+            coordination: PointF,
+            direction: Int
+        ) : AnglePoint(isSelected, coordination, direction)
+
+        class LB(
+            isSelected: Boolean,
+            coordination: PointF, direction: Int
+        ) : AnglePoint(isSelected, coordination, direction)
+
+        class RT(
+            isSelected: Boolean,
+            coordination: PointF, direction: Int
+        ) : AnglePoint(isSelected, coordination, direction)
+
+        class RB(
+            isSelected: Boolean,
+            coordination: PointF, direction: Int
+        ) : AnglePoint(isSelected, coordination, direction)
     }
 }
