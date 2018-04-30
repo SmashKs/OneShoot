@@ -17,15 +17,23 @@
 package smash.ks.com.oneshoot.widgets.customize.selectable
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.Color.GREEN
+import android.graphics.Color.RED
 import android.graphics.Paint
 import android.graphics.Paint.Style.STROKE
 import android.graphics.PointF
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
 import android.widget.FrameLayout
+import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.LB
+import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.LT
+import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.RB
+import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.RT
 
 class SelectableAreaView @JvmOverloads constructor(
     context: Context,
@@ -37,13 +45,12 @@ class SelectableAreaView @JvmOverloads constructor(
         const val DEFAULT_STROKE_WIDTH = 5f
         const val DEFAULT_TOUCH_RANGE = 10f
         const val DEFAULT_POSITION = 50f
-        val DEFAULT_RECT =
-            RectF(DEFAULT_POSITION, DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION)
     }
 
+    private var isTouch = false
     private val paint by lazy {
         Paint().apply {
-            color = Color.RED
+            color = RED
             isAntiAlias = true
             style = STROKE
             strokeWidth = DEFAULT_STROKE_WIDTH
@@ -51,28 +58,72 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintAngles by lazy {
         Paint().apply {
-            color = Color.GREEN
+            color = GREEN
             isAntiAlias = true
         }
     }
-    private val leftTopPoint = PointF(DEFAULT_POSITION, DEFAULT_POSITION)
-    private val rightBottomPoint = PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION)
+    private val leftTopPoint by lazy { LT(false, PointF(DEFAULT_POSITION, DEFAULT_POSITION)) }
+    private val rightBottomPoint by lazy {
+        RB(false, PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION))
+    }
+    private val leftBottomPoint by lazy { LB(false, PointF(DEFAULT_GAP + DEFAULT_POSITION, DEFAULT_POSITION)) }
+    private val rightTopPoint by lazy { RT(false, PointF(DEFAULT_POSITION, DEFAULT_GAP + DEFAULT_POSITION)) }
+    private val fourAngles by lazy { listOf(leftTopPoint, rightBottomPoint, leftBottomPoint, rightTopPoint) }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            ACTION_DOWN -> {
+                fourAngles.forEach searching@{
+                    if (event.x in it.coordination.x - DEFAULT_TOUCH_RANGE..it.coordination.x + DEFAULT_TOUCH_RANGE &&
+                        event.y in it.coordination.y - DEFAULT_TOUCH_RANGE..it.coordination.y + DEFAULT_TOUCH_RANGE
+                    ) {
+                        it.isSelected = true
+                        isTouch = true
+                        return@searching
+                    }
+                }
+            }
+            ACTION_MOVE -> {
+                if (!isTouch) return true
+
+                val p = fourAngles.find(AnglePoint::isSelected) ?: throw Resources.NotFoundException()
+                p.coordination.x = event.x
+                p.coordination.y = event.y
+
+                invalidate()
+            }
+            ACTION_UP -> {
+                fourAngles.find(AnglePoint::isSelected)?.isSelected = false
+                isTouch = false
+            }
+        }
+
         return true
     }
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
             // Center image
-            drawRect(leftTopPoint.x, leftTopPoint.y, rightBottomPoint.x, rightBottomPoint.y, paint)
+            drawRect(leftTopPoint.coordination.x,
+                     leftTopPoint.coordination.y,
+                     rightBottomPoint.coordination.x,
+                     rightBottomPoint.coordination.y,
+                     paint)
             // Four Angles
-            val fourAngles = listOf(leftTopPoint)
-            drawRect(leftTopPoint.x - DEFAULT_TOUCH_RANGE,
-                     leftTopPoint.y - DEFAULT_TOUCH_RANGE,
-                     leftTopPoint.x + DEFAULT_TOUCH_RANGE,
-                     leftTopPoint.y + DEFAULT_TOUCH_RANGE,
-                     paintAngles)
+            fourAngles.forEach {
+                drawRect(it.coordination.x - DEFAULT_TOUCH_RANGE, it.coordination.y - DEFAULT_TOUCH_RANGE,
+                         it.coordination.x + DEFAULT_TOUCH_RANGE, it.coordination.y + DEFAULT_TOUCH_RANGE, paintAngles)
+            }
         }
+    }
+
+    sealed class AnglePoint(
+        var isSelected: Boolean,
+        var coordination: PointF
+    ) {
+        class LT(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
+        class LB(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
+        class RT(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
+        class RB(isSelected: Boolean, coordination: PointF) : AnglePoint(isSelected, coordination)
     }
 }
