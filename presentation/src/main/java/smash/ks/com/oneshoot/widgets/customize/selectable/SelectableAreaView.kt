@@ -18,12 +18,16 @@ package smash.ks.com.oneshoot.widgets.customize.selectable
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color.CYAN
 import android.graphics.Color.GREEN
 import android.graphics.Color.RED
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
 import android.graphics.Paint.Style.STROKE
 import android.graphics.PointF
+import android.graphics.PorterDuff.Mode.DST_OUT
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
@@ -41,8 +45,8 @@ class SelectableAreaView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
-        const val DEFAULT_GAP = 100f
-        const val DEFAULT_STROKE_WIDTH = 5f
+        const val DEFAULT_GAP = 300f
+        const val DEFAULT_STROKE_WIDTH = 2f
         const val DEFAULT_ANGLE_WIDTH = 15f
         const val DEFAULT_TOUCH_RANGE = DEFAULT_ANGLE_WIDTH * 3
         const val DEFAULT_POSITION = 50f
@@ -64,16 +68,17 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintOuterRect by lazy {
         Paint().apply {
-            setARGB(255, 0, 0, 100)
+            setARGB(150, 0, 0, 0)
             isAntiAlias = true
             style = FILL
         }
     }
     private val paintInnerRect by lazy {
         Paint().apply {
-            setARGB(0, 0, 0, 0)
+            color = CYAN  // This is interacted area so any color is fine.
             isAntiAlias = true
             style = FILL
+            xfermode = PorterDuffXfermode(DST_OUT)
         }
     }
     private val paintAngles by lazy {
@@ -103,6 +108,8 @@ class SelectableAreaView @JvmOverloads constructor(
            DIRECT_RIGHT or DIRECT_TOP)
     }
     private val fourAngles by lazy { listOf(leftTopPoint, rightBottomPoint, leftBottomPoint, rightTopPoint) }
+    /** This canvas rect object. */
+    private val wholeRectangle by lazy { RectF(0f, 0f, width.toFloat(), height.toFloat()) }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
@@ -145,20 +152,23 @@ class SelectableAreaView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
-            // All background
-            drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), paintOuterRect)
-            // Center image
+            // Create a new canvas for doing interaction layer.
+            saveLayer(wholeRectangle, null).apply {
+                // All background rectangle (DST layer).
+                drawRect(wholeRectangle, paintOuterRect)
+                // Inner transport of selection area rectangle (SRC layer).
+                drawRect(leftTopPoint.coordination.x,
+                         leftTopPoint.coordination.y,
+                         rightBottomPoint.coordination.x,
+                         rightBottomPoint.coordination.y,
+                         paintInnerRect)
+            }.apply(::restoreToCount)
+            // Selection Area Rectangle.
             drawRect(leftTopPoint.coordination.x,
                      leftTopPoint.coordination.y,
                      rightBottomPoint.coordination.x,
                      rightBottomPoint.coordination.y,
                      paintRect)
-            // Inner transport.
-            drawRect(leftTopPoint.coordination.x,
-                     leftTopPoint.coordination.y,
-                     rightBottomPoint.coordination.x,
-                     rightBottomPoint.coordination.y,
-                     paintInnerRect)
             // Four Angles
             fourAngles.forEach {
                 drawRect(it.coordination.x - DEFAULT_ANGLE_WIDTH, it.coordination.y - DEFAULT_ANGLE_WIDTH,
