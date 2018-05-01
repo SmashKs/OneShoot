@@ -57,7 +57,8 @@ class SelectableAreaView @JvmOverloads constructor(
         private const val DIRECT_BOTTOM = 0b1000
     }
 
-    private var isTouch = false
+    private var isTouchAngle = false
+    private var isTouchInside = false
     private val paintRect by lazy {
         Paint().apply {
             color = RED
@@ -110,40 +111,64 @@ class SelectableAreaView @JvmOverloads constructor(
     private val fourAngles by lazy { listOf(leftTopPoint, rightBottomPoint, leftBottomPoint, rightTopPoint) }
     /** This canvas rect object. */
     private val wholeRectangle by lazy { RectF(0f, 0f, width.toFloat(), height.toFloat()) }
+    /** Each angles' offset when touching the screen inside the rectangle. */
+    private val listOffset by lazy { listOf(PointF(), PointF(), PointF(), PointF()) }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             ACTION_DOWN -> {
+                // Four angles' area.
                 fourAngles.forEach searching@{
                     if (event.x in it.coordination.x - DEFAULT_TOUCH_RANGE * 4..it.coordination.x + DEFAULT_TOUCH_RANGE &&
-                        event.y in it.coordination.y - DEFAULT_TOUCH_RANGE..it.coordination.y + DEFAULT_TOUCH_RANGE
-                    ) {
+                        event.y in it.coordination.y - DEFAULT_TOUCH_RANGE..it.coordination.y + DEFAULT_TOUCH_RANGE) {
                         it.isSelected = true
-                        isTouch = true
+                        isTouchAngle = true
                         return@searching
                     }
                 }
+                // Inside the rectangle excepting the overlapping of the four angles' area.
+                if (!isTouchAngle &&
+                    event.x in leftTopPoint.coordination.x..rightBottomPoint.coordination.x &&
+                    event.y in leftTopPoint.coordination.y..rightBottomPoint.coordination.y) {
+                    // Keeping the each offsets for each angles.
+                    listOffset.zip(fourAngles).forEach { (offset, angles) ->
+                        offset.x = event.x - angles.coordination.x
+                        offset.y = event.y - angles.coordination.y
+                    }
+
+                    isTouchInside = true
+                }
             }
             ACTION_MOVE -> {
-                if (!isTouch) return true
-
-                fourAngles.find(AnglePoint::isSelected)?.apply {
-                    // Change the touching rectangle angle.
-                    coordination.x = event.x
-                    coordination.y = event.y
-                    // Change others related rectangle angle.
-                    fourAngles.forEach {
-                        when (direction and it.direction) {
-                            DIRECT_LEFT, DIRECT_RIGHT -> it.coordination.x = event.x
-                            DIRECT_TOP, DIRECT_BOTTOM -> it.coordination.y = event.y
+                when {
+                    isTouchAngle -> {
+                        fourAngles.find(AnglePoint::isSelected)?.apply {
+                            // Change the touching rectangle angle.
+                            coordination.x = event.x
+                            coordination.y = event.y
+                            // Change others related rectangle angle.
+                            fourAngles.forEach {
+                                when (direction and it.direction) {
+                                    DIRECT_LEFT, DIRECT_RIGHT -> it.coordination.x = event.x
+                                    DIRECT_TOP, DIRECT_BOTTOM -> it.coordination.y = event.y
+                                }
+                            }
                         }
                     }
-                    invalidate()
+                    isTouchInside -> {
+                        // Recalculate for the each angles position.
+                        fourAngles.zip(listOffset).forEach { (angle, offset) ->
+                            angle.coordination.x = event.x - offset.x
+                            angle.coordination.y = event.y - offset.y
+                        }
+                    }
                 }
+                invalidate()
             }
             ACTION_UP -> {
                 fourAngles.find(AnglePoint::isSelected)?.isSelected = false
-                isTouch = false
+                isTouchAngle = false
+                isTouchInside = false
             }
         }
 
