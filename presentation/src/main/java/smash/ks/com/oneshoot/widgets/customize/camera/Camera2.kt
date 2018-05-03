@@ -275,7 +275,8 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     override fun start(): Boolean {
-        if (!chooseCameraIdByFacing()) return false
+//        if (!chooseCameraIdByFacing()) return false
+        chooseCameraIdByFacing()
 
         collectCameraInfo()
         prepareImageReader()
@@ -461,6 +462,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                 if (internal == facing) {
                     cameraId = id
                     cameraCharacteristics = characteristics
+
                     return true
                 }
             }
