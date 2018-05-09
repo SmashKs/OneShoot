@@ -56,6 +56,9 @@ android {
             res.srcDirs += FeatureRes.dirs
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 androidExtensions { experimental = true }
