@@ -1,4 +1,7 @@
-language: android  
+language: android
+jdk: oraclejdk8
+sudo: false
+
 android:
   components:
     - tools
@@ -11,4 +14,4 @@ before_install:
   - chmod +x gradlew
   
 script:  
-  - ./gradlew build
+  - ./gradlew assembleRelease
