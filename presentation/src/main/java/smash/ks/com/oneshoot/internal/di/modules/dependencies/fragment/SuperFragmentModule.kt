@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
+package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
 import org.kodein.di.Kodein.Module
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.FakeModule.fakeModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.TakeAPicModule.takeAPicModule
 
-object MainModule {
-    fun mainModule() = Module {}
+object SuperFragmentModule {
+    fun fragmentModule() = Module {
+        // Import all of the fragment modules.
+        import(fakeModule())
+        import(takeAPicModule())
+    }
 }

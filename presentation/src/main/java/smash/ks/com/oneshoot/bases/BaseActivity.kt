@@ -25,7 +25,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.android.retainedKodein
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.ActivityModule.activityModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.SuperActivityModule.activityModule
 
 abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)

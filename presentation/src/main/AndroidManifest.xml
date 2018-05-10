@@ -34,6 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
         tools:replace="android:label">
+
         <activity android:name=".features.fake.FakeActivity">
         </activity>
         <activity android:name=".features.photograph.PhotographActivity">

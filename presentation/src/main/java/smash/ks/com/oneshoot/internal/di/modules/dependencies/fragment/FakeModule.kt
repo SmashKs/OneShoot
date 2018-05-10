@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
 import android.support.v4.app.FragmentActivity
+import android.support.v7.widget.RecyclerView
 import org.kodein.di.Kodein.Module
 import org.kodein.di.android.androidScope
 import org.kodein.di.generic.bind
@@ -31,10 +32,13 @@ import smash.ks.com.oneshoot.features.fake.FakeViewHolder
 import smash.ks.com.oneshoot.features.fake.FakeViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ENTITY
 import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
-object MainModule {
-    fun mainModule() = Module {
+object FakeModule {
+    fun fakeModule() = Module {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             FakeViewModel::class.java to FakeViewModel(instance(), instance())
@@ -43,14 +47,13 @@ object MainModule {
         bind<ViewHolderEntry>().inSet() with provider {
             KsEntity::class.hashCode() to Pair(R.layout.item_fake, ::FakeViewHolder)
         }
+
         // *** Others
-        bind<MutableList<KsMultiVisitable>>("ks entity") with scoped(androidScope<FragmentActivity>()).singleton {
-            mutableListOf(
-                KsEntity(),
-                KsEntity(),
-                KsEntity(),
-                KsEntity()
-            ) as MutableList<KsMultiVisitable>
+        bind<MutableList<KsMultiVisitable>>(KS_ENTITY) with scoped(androidScope<FragmentActivity>()).singleton {
+            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as MutableList<KsMultiVisitable>
+        }
+        bind<RecyclerView.Adapter<*>>(KS_ADAPTER) with scoped(androidScope<FragmentActivity>()).singleton {
+            MultiTypeAdapter(instance(KS_ENTITY), context)
         }
     }
 }

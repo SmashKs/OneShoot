@@ -17,14 +17,28 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearLayoutManager.HORIZONTAL
+import android.support.v7.widget.LinearLayoutManager.VERTICAL
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.setBinding
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_HORIZONTAL
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
 object RecyclerViewModule {
     fun recyclerViewModule(context: Context) = Module {
+        // Linear Layout Manager.
+        bind<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL) with provider {
+            LinearLayoutManager(context, VERTICAL, false)
+        }
+        bind<LinearLayoutManager>(LINEAR_LAYOUT_HORIZONTAL) with provider {
+            LinearLayoutManager(context, HORIZONTAL, false)
+        }
+
         bind<MultiTypeFactory>() with instance(MultiTypeFactory(context))
 
         /** ViewModel Set for [MultiTypeFactory] */

@@ -32,7 +32,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import org.kodein.di.generic.singleton
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.FragmentModule.fragmentModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.SuperFragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
 
 abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {

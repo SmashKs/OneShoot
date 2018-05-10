@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
+package smash.ks.com.oneshoot.internal.di.tag
 
-import org.kodein.di.Kodein.Module
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.MainModule.mainModule
+object ObjectLabel {
+    const val KS_ENTITY = "ks entity"
+    const val KS_ADAPTER = "fake adapter"
 
-object ActivityModule {
-    fun activityModule() = Module {
-        import(mainModule())
-    }
+    const val LINEAR_LAYOUT_VERTICAL = "vertical"
+    const val LINEAR_LAYOUT_HORIZONTAL = "horizontal"
 }

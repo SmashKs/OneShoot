@@ -18,7 +18,7 @@ package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.LinearLayout
+import android.support.v7.widget.RecyclerView
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_fake.rv_fake
 import kotlinx.android.synthetic.main.fragment_fake.tv_label
@@ -35,8 +35,8 @@ import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
-import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
-import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 
 class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Instance
@@ -56,7 +56,8 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     }
     //endregion
 
-    private val list by instance<MutableList<KsMultiVisitable>>("ks entity")
+    private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
+    private val adapter by instance<RecyclerView.Adapter<*>>(KS_ADAPTER)
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
@@ -68,9 +69,9 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
             retrieveId(randomId)
         }
 
-        rv_fake.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            adapter = MultiTypeAdapter(list, context)
+        rv_fake.also {
+            it.layoutManager = linearLayoutManager
+            it.adapter = adapter
         }
     }
 
