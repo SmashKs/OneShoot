@@ -40,7 +40,7 @@ object Versions {
 
     object KotlinAndroidExt {
         const val aac = "1.1.1"
-        const val anko = "0.10.4"
+        const val anko = "0.10.5"
         const val ktx = "0.3"
         const val kinfer = "1.5.7"
         const val shaver = "0.2.2"
@@ -51,7 +51,10 @@ object Versions {
     }
 
     object Firebase {
-        const val firebase = "15.0.0"
+        const val core = "15.0.2"
+        const val database = "15.0.0"
+        const val auth = "15.1.0"
+        const val messaging = "15.0.2"
     }
 
     object Database {
