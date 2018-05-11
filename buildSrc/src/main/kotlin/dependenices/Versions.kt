@@ -95,7 +95,7 @@ object Versions {
         const val mockito = "1.9.5"
         const val espresso = "3.0.1"
         const val mockitoKotlin = "1.5.0"
-        const val mockitoAndroid = "2.8.47"
+        const val mockitoAndroid = "2.9.0"
         const val androidSupportRunner = "1.0.1"
         const val androidSupportRules = "1.0.1"
     }

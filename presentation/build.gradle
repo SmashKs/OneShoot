@@ -116,9 +116,10 @@ dependencies {
     implementation(Presentation.rxBus, {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     })
-    implementation Presentation.rxLifecycleComponent
+    // We're not using now. This's just for the extensions.
     implementation Presentation.rxLifecycle
-    implementation Presentation.rxPermission
+//    implementation Presentation.rxLifecycleComponent
+//    implementation Presentation.rxPermission
 
     implementation Presentation.retrofit2
     implementation Presentation.retrofit2Gson
@@ -138,7 +139,9 @@ dependencies {
 
     testImplementation GlobalTest.junit
     testImplementation GlobalTest.kotlin
-    testImplementation GlobalTest.mockito
+    testImplementation(GlobalTest.mockito) {
+        exclude group: 'org.mockito', module: 'mockito-core'
+    }
     testImplementation GlobalTest.assertj
 
     androidTestImplementation PresentationTest.robolectric

@@ -34,7 +34,9 @@ dependencies {
 
     implementation Global.shaver
 
-    implementation Domain.rxLifecycle
+    implementation(Domain.rxLifecycle) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 sourceCompatibility = "1.8"
