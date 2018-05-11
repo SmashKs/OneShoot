@@ -34,4 +34,4 @@ script:
   - ./gradlew :presentation:createDebugAndroidTestCoverageReport --info --stacktrace
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -F nightly
