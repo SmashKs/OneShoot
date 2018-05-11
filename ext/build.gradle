@@ -15,6 +15,7 @@
  */
 
 import dependenices.Deps.Global
+import dependenices.Deps.GlobalTest
 
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
@@ -23,6 +24,11 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation Global.kotlin
     implementation Global.coroutine
+
+//    testImplementation GlobalTest.junit
+    testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.mockito
+    testImplementation GlobalTest.assertj
 }
 
 sourceCompatibility = "1.8"
