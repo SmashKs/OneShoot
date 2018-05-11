@@ -16,6 +16,7 @@
 
 import dependenices.Deps.Data
 import dependenices.Deps.Global
+import dependenices.Deps.GlobalTest
 
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
@@ -51,6 +52,10 @@ dependencies {
 
     implementation Data.retrofit2
     implementation Data.retrofit2AdapterRxJava2
+
+    testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.mockito
+    testImplementation GlobalTest.assertj
 }
 
 sourceCompatibility = "1.8"
