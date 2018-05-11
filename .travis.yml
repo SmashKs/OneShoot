@@ -30,5 +30,8 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:  
-  - ./gradlew test
-  - ./gradlew build
+  - ./gradlew assembleRelease
+  - ./gradlew :presentation:createDebugAndroidTestCoverageReport --info --stacktrace
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

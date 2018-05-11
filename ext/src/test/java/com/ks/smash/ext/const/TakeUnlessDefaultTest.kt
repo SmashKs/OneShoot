@@ -65,7 +65,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun makeLongTakeUnlessDefaultTrue() {
-        val defaultLong = -11L
+        val defaultLong = -1L
         val ans1 = num + added
         val ans2 = num - added
 

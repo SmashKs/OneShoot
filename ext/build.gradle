@@ -25,7 +25,6 @@ dependencies {
     implementation Global.kotlin
     implementation Global.coroutine
 
-//    testImplementation GlobalTest.junit
     testImplementation GlobalTest.kotlin
     testImplementation GlobalTest.mockito
     testImplementation GlobalTest.assertj
