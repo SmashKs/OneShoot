@@ -19,7 +19,7 @@ package smash.ks.com.domain.executors
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.SECONDS
 
 /**
  * Decorated [ThreadPoolExecutor]
@@ -31,7 +31,7 @@ class JobExecutor : ThreadExecutor {
         // Sets the amount of time an idle thread waits before terminating
         private const val KEEP_ALIVE_TIME = 10
         // Sets the Time Unit to seconds
-        private val KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS
+        private val KEEP_ALIVE_TIME_UNIT = SECONDS
     }
 
     // TODO(jieyi): 2018/03/13 To use DI here.
@@ -55,6 +55,6 @@ class JobExecutor : ThreadExecutor {
 
         private var counter = 0
 
-        override fun newThread(runnable: Runnable): Thread = Thread(runnable, THREAD_NAME + counter++)
+        override fun newThread(runnable: Runnable) = Thread(runnable, THREAD_NAME + counter++)
     }
 }
