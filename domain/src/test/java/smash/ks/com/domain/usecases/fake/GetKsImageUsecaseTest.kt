@@ -16,38 +16,58 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import smash.ks.com.domain.executors.PostExecutionThread
-import smash.ks.com.domain.executors.ThreadExecutor
+import com.nhaarman.mockito_kotlin.verify
+import io.reactivex.internal.operators.single.SingleCreate
+import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
 class GetKsImageUsecaseTest {
+    companion object {
+        private const val KS_URI = "this is a uri!"
+    }
+
     private lateinit var usecase: GetKsImageUsecase
     private lateinit var repository: DataRepository
-    private lateinit var threadExecutor: ThreadExecutor
-    private lateinit var postExecutionThread: PostExecutionThread
+    private val returnDate by lazy { KsObject(KS_URI) }
 
     @BeforeTest
     fun setUp() {
-        repository = mock()
-        threadExecutor = mock()
-        postExecutionThread = mock()
-        usecase = GetKsImageUsecase(repository, threadExecutor, postExecutionThread)
+        repository = mock {
+            on { retrieveKsImage() } doReturn SingleCreate<KsObject> { it.onSuccess(returnDate) }
+        }
+        usecase = GetKsImageUsecase(repository, mock(), mock())
     }
 
     @Test
-    fun checkWithoutParameters() {
+    fun usecaseWithoutParameters() {
         assertFailsWith<Exception> { usecase.fetchUseCase() }
     }
 
     @Test
-    fun checkWithParameters() {
-//        val param = Requests(mock())
-//        usecase.apply { requestValues = param }
-//
-//        assertThat(usecase.fetchUseCase()).isInstanceOf(Single::class.java)
+    fun usecaseWithParameters() {
+        buildUsecase()
+
+        // Assume [retrieveKsImage] was ran once time.
+        verify(repository).retrieveKsImage()
     }
+
+    @Test
+    fun usecaseComplete() {
+        buildUsecase().test().assertComplete()
+    }
+
+    @Test
+    fun usecaseObtainReturnData() {
+        buildUsecase().test().assertValue(returnDate)
+    }
+
+    private fun buildUsecase() =
+        usecase.apply { requestValues = Requests(KsParam()) }.fetchUseCase()
 }
