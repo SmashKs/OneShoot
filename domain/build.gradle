@@ -16,6 +16,7 @@
 
 import dependenices.Deps.Domain
 import dependenices.Deps.Global
+import dependenices.Deps.GlobalTest
 
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
@@ -37,6 +38,10 @@ dependencies {
     implementation(Domain.rxLifecycle) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
+    testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.mockito
+    testImplementation GlobalTest.assertj
 }
 
 sourceCompatibility = "1.8"

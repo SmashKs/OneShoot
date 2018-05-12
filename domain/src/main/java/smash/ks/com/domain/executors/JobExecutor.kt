@@ -46,7 +46,7 @@ class JobExecutor : ThreadExecutor {
                            threadFactory)
     }
 
-    override fun execute(runnable: Runnable): Unit = threadPoolExecutor.execute(runnable)
+    override fun execute(runnable: Runnable) = threadPoolExecutor.execute(runnable)
 
     private class JobThreadFactory : ThreadFactory {
         companion object {
