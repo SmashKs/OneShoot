@@ -33,6 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
+        android:id="@+id/sav_selection"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#00000000"

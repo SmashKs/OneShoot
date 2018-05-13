@@ -31,6 +31,7 @@ import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
+import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -67,13 +68,20 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
                 val bmp = BitmapFactory.decodeByteArray(data, 0, data.size)
-                iv_preview.imageBitmap = Bitmap.createBitmap(bmp, 40, 40, 50, 50)
+                selectedRectF.apply {
+                    iv_preview.imageBitmap = Bitmap.createBitmap(bmp, x, y, w, h)
+                }
 //                iv_preview.imageBitmap = Bitmap.createScaledBitmap(bmp, bmp.width, bmp.height, false)
                 bmp.recycle()
             }
         }
     }
-
+    private val selectedRectF = object {
+        var x = 0
+        var y = 0
+        var w = 0
+        var h = 0
+    }
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
@@ -108,6 +116,12 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
     override fun rendered(savedInstanceState: Bundle?) {
         cv_camera.addCallback(cameraCallback)
         ib_shot.onClick { cv_camera.takePicture() }
+        sav_selection.selectedAreaCallback = { x, y, w, h ->
+            selectedRectF.x = x
+            selectedRectF.y = y
+            selectedRectF.w = w
+            selectedRectF.h = h
+        }
     }
 
     override fun provideInflateView() = R.layout.fragment_take_a_pic
