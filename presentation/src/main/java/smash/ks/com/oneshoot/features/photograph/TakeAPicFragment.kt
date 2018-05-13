@@ -67,7 +67,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
                 val bmp = BitmapFactory.decodeByteArray(data, 0, data.size)
-                iv_preview.imageBitmap = Bitmap.createBitmap(bmp, 40, 40, 100, 100)
+                iv_preview.imageBitmap = Bitmap.createBitmap(bmp, 40, 40, 50, 50)
 //                iv_preview.imageBitmap = Bitmap.createScaledBitmap(bmp, bmp.width, bmp.height, false)
                 bmp.recycle()
             }
