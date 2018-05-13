@@ -33,10 +33,8 @@ class Camera2Api23(
     context: Context
 ) : Camera2(callback, preview, context) {
     override fun collectPictureSizes(sizes: SizeMap, map: StreamConfigurationMap) {
-        // Try to get hi-res output sizes
-        for (size in map.getHighResolutionOutputSizes(JPEG)) {
-            sizes.add(Size(size.width, size.height))
-        }
+        // Try to get hi-res output sizes.
+        map.getHighResolutionOutputSizes(JPEG)?.forEach { sizes.add(Size(it.width, it.height)) }
 
         if (sizes.isEmpty()) super.collectPictureSizes(sizes, map)
     }
