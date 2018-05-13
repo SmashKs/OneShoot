@@ -40,6 +40,8 @@ object Deps {
         const val kotlin = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.Kotlin.kotlin}"
         const val mockito = "com.nhaarman:mockito-kotlin:${Versions.Test.mockitoKotlin}"
         const val assertj = "org.assertj:assertj-core:${Versions.Test.assertJ}"
+        const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"
+        const val powerMockito = "org.powermock:powermock-api-mockito2:${Versions.Test.powerMockito}"
     }
 
     object Presentation {
