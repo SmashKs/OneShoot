@@ -67,18 +67,17 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
-                val bmp = BitmapFactory.decodeByteArray(data, 0, data.size)
-                selectedRectF.apply {
-                    // Round the x, y, width, and height for avoiding the range is over than bitmap size.
-                    var roundWidth = (x + w).let { if (it > bmp.width) bmp.width - x else w }
-                    var roundHeight = (y + h).let { if (it > bmp.height) bmp.height - y else h }
-                    val roundX = x.takeIf { 0 < it } ?: let { roundWidth = w + x; 0 }
-                    val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
+                BitmapFactory.decodeByteArray(data, 0, data.size).also { bmp ->
+                    selectedRectF.apply {
+                        // Round the x, y, width, and height for avoiding the range is over than bitmap size.
+                        var roundWidth = (x + w).let { if (it > bmp.width) bmp.width - x else w }
+                        var roundHeight = (y + h).let { if (it > bmp.height) bmp.height - y else h }
+                        val roundX = x.takeIf { 0 < it } ?: let { roundWidth = w + x; 0 }
+                        val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
 
-                    iv_preview.imageBitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
-                }
-//                iv_preview.imageBitmap = Bitmap.createScaledBitmap(bmp, bmp.width, bmp.height, false)
-                bmp.recycle()
+                        iv_preview.imageBitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
+                    }
+                }.recycle()
             }
         }
     }
