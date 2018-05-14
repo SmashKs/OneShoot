@@ -167,10 +167,12 @@ class SelectableAreaView @JvmOverloads constructor(
                 invalidate()
             }
             ACTION_UP -> {
-                if (isTouchAngle) selectedAreaCallback?.invoke(fourAngles[0].coordination.x.toInt(),
-                                                               fourAngles[0].coordination.y.toInt(),
-                                                               fourAngles[1].coordination.x.toInt() - fourAngles[0].coordination.x.toInt(),
-                                                               fourAngles[1].coordination.y.toInt() - fourAngles[0].coordination.y.toInt())
+                if (isTouchAngle || isTouchInside) {
+                    selectedAreaCallback?.invoke(fourAngles[0].coordination.x.toInt(),
+                                                 fourAngles[0].coordination.y.toInt(),
+                                                 fourAngles[1].coordination.x.toInt() - fourAngles[0].coordination.x.toInt(),
+                                                 fourAngles[1].coordination.y.toInt() - fourAngles[0].coordination.y.toInt())
+                }
                 fourAngles.find(AnglePoint::isSelected)?.isSelected = false
                 isTouchAngle = false
                 isTouchInside = false
