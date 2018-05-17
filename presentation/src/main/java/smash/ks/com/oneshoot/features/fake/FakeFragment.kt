@@ -28,8 +28,8 @@ import smash.ks.com.domain.objects.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.ext.aac.breakResponse
 import smash.ks.com.oneshoot.ext.aac.observe
-import smash.ks.com.oneshoot.ext.aac.responseReaction
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
@@ -92,7 +92,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
 
     //region Presenter Implementation.
     private fun updateTemp(response: KsResponse?) {
-        responseReaction(response) { showImageUri(it.data as String) }
+        breakResponse(response) { showImageUri(it.data as String) }
     }
 
     private fun showImageUri(uri: String) {

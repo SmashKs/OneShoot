@@ -28,7 +28,7 @@ import smash.ks.com.oneshoot.bases.LoadView
 inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =
     liveData.observe(this, Observer(block))
 
-fun LoadView.responseReaction(response: KsResponse?, successBlock: (KsResponse.Success<*>) -> Unit) =
+fun LoadView.breakResponse(response: KsResponse?, successBlock: (KsResponse.Success<*>) -> Unit) =
     response?.also {
         when (it) {
             is KsResponse.Loading<*> -> showLoading()

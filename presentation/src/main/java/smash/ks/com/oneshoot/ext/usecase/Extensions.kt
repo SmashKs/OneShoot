@@ -34,7 +34,7 @@ import smash.ks.com.domain.objects.Object
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 
-//region Those methods might be deprecated.
+//region ========== Those methods might be deprecated. ==========
 //region Observable
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
@@ -119,12 +119,27 @@ fun <O : Object, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
+/**
+ * Await the usecase with the mapper.
+ *
+ * @param mapper the mapper for translating from [Object] to [Entity].
+ * @param parameter the usecase's parameter.
+ */
 suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
 }
+
+/**
+ * Await the usecase without the mapper (Because the variables should be primitive variable).
+ *
+ * @param parameter the usecase's parameter.
+ */
+suspend fun <O : Any, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
+    parameter: V? = null
+) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
 
 //region Single
@@ -132,12 +147,27 @@ fun <O : Object, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
+/**
+ * Await the usecase with the mapper.
+ *
+ * @param mapper the mapper for translating from [Object] to [Entity].
+ * @param parameter the usecase's parameter.
+ */
 suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
 }
+
+/**
+ * Await the usecase without the mapper (Because the variables should be primitive variable).
+ *
+ * @param parameter the usecase's parameter.
+ */
+suspend fun <O : Any, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
+    parameter: V? = null
+) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
 
 //region Completable
