@@ -28,8 +28,8 @@ import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 typealias GetKsImageCase = SingleUseCase<KsObject, GetKsImageUsecase.Requests>
 //endregion
 
-typealias GetImageTagsCase = SingleUseCase<String, GetImageTagsUsecase.Requests>
+typealias GetImageTagsCase = SingleUseCase<List<String>, GetImageTagsUsecase.Requests>
 
-typealias GetImageContentWordsCase = SingleUseCase<List<String>, GetImageContentWordsUsecase.Requests>
+typealias GetImageContentWordsCase = SingleUseCase<String, GetImageContentWordsUsecase.Requests>
 
 typealias UploadImageToFirebaseCase = CompletableUseCase<UploadImageToFirebaseUsecase.Requests>

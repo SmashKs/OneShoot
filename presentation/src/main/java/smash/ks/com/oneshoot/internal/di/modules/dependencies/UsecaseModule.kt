@@ -16,20 +16,41 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies
 
-import android.support.v4.app.FragmentActivity
 import org.kodein.di.Kodein.Module
-import org.kodein.di.android.androidScope
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.scoped
 import org.kodein.di.generic.singleton
+import smash.ks.com.domain.usecases.GetImageContentWordsCase
+import smash.ks.com.domain.usecases.GetImageTagsCase
 import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.domain.usecases.UploadImageToFirebaseCase
+import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
+import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
+import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
 
 object UsecaseModule {
     fun usecaseModule() = Module {
-        bind<GetKsImageCase>() with scoped(androidScope<FragmentActivity>()).singleton {
+        //region For Fragments
+        //region Fake
+        bind<GetKsImageCase>() with scoped(fragmentScope).singleton {
             GetKsImageUsecase(instance(), instance(), instance())
         }
+        //endregion
+
+        bind<GetImageTagsCase>() with scoped(fragmentScope).singleton {
+            GetImageTagsUsecase(instance(), instance(), instance())
+        }
+
+        bind<GetImageContentWordsCase>() with scoped(fragmentScope).singleton {
+            GetImageContentWordsUsecase(instance(), instance(), instance())
+        }
+
+        bind<UploadImageToFirebaseCase>() with scoped(fragmentScope).singleton {
+            UploadImageToFirebaseUsecase(instance(), instance(), instance())
+        }
+        //endregion
     }
 }
