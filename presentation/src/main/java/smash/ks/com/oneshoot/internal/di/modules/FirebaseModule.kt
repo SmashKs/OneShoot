@@ -19,10 +19,10 @@ package smash.ks.com.oneshoot.internal.di.modules
 import com.google.firebase.database.FirebaseDatabase
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 
 object FirebaseModule {
     fun firebaseModule() = Module {
-        bind<FirebaseDatabase>() with instance(FirebaseDatabase.getInstance())
+        bind<FirebaseDatabase>() with provider { FirebaseDatabase.getInstance() }
     }
 }
