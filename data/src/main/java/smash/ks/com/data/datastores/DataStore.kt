@@ -16,13 +16,23 @@
 
 package smash.ks.com.data.datastores
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * This interface will be similar to [smash.ks.com.domain.repositories.DataRepository]
+ */
 interface DataStore {
     //region Fake
     fun fetchKsImage(params: Parameterable = KsParam()): Single<KsModel>
     //endregion
+
+    fun uploadImage(params: Parameterable): Completable
+
+    fun analyzeImageTagsByML(params: Parameterable): Single<List<String>>
+
+    fun analyzeImageWordContentByML(params: Parameterable): Single<String>
 }

@@ -16,13 +16,24 @@
 
 package smash.ks.com.data.datastores
 
+import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.single
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.SECONDS
 
 class LocalDataStoreImpl : DataStore {
+    // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
+
     //region Fake
-    override fun fetchKsImage(params: Parameterable) = single(KsModel("This is ks uri!!")).delay(1, TimeUnit.SECONDS)
+    override fun fetchKsImage(params: Parameterable) = single(KsModel("This is ks uri!!")).delay(1, SECONDS)
     //endregion
+
+    override fun uploadImage(params: Parameterable) = completable()
+
+    override fun analyzeImageTagsByML(params: Parameterable) =
+        single(listOf("ks", "smash", "killer")).delay(1, SECONDS)
+
+    override fun analyzeImageWordContentByML(params: Parameterable) =
+        single("This is test content sentences.").delay(1, SECONDS)
 }

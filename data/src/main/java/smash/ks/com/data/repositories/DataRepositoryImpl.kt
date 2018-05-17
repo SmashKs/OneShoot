@@ -32,4 +32,12 @@ class DataRepositoryImpl constructor(
     override fun retrieveKsImage(params: Parameterable) =
         (if (true) local else remote).fetchKsImage().map(mapper::toObjectFrom)
     //endregion
+
+    override fun uploadImage(params: Parameterable) = remote.uploadImage(params)
+
+    override fun retrieveImageTagsByML(params: Parameterable) =
+        (if (true) local else remote).analyzeImageTagsByML(params)
+
+    override fun retrieveImageWordContentByML(params: Parameterable) =
+        (if (true) local else remote).analyzeImageWordContentByML(params)
 }

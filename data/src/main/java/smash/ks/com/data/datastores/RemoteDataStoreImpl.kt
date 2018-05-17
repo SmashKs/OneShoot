@@ -26,4 +26,10 @@ class RemoteDataStoreImpl(
 ) : DataStore {
     override fun fetchKsImage(params: Parameterable) =
         if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchKsImage()
+
+    override fun uploadImage(params: Parameterable) = ksFirebase.uploadImage(params)
+
+    override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.obtainImageTagsByML(params)
+
+    override fun analyzeImageWordContentByML(params: Parameterable) = ksFirebase.obtainImageWordContentByML(params)
 }

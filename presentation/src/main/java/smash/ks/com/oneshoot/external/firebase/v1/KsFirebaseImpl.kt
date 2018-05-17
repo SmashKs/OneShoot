@@ -23,4 +23,10 @@ class KsFirebaseImpl : KsFirebase {
     //region Fake
     override fun fetchKsImage(params: Parameterable) = TODO()
     //endregion
+
+    override fun uploadImage(params: Parameterable) = TODO()
+
+    override fun obtainImageTagsByML(params: Parameterable) = TODO()
+
+    override fun obtainImageWordContentByML(params: Parameterable) = TODO()
 }
