@@ -34,7 +34,8 @@ object RepositoryModule {
     fun repositoryModule() = Module {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
         bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
-        bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl() }
+        bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance()) }
+
         bind<DataRepository>() with singleton {
             DataRepositoryImpl(instance(LOCAL), instance(LOCAL), instance(REMOTE), instance())
         }

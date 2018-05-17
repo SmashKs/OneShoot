@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.database
+package smash.ks.com.data.local.services
 
-object KsDatabase {
-    const val VERSION = 1
+import io.reactivex.Single
+import smash.ks.com.data.objects.KsModel
+import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.Parameterable
 
-    // Here we can code migration class.
+interface KsDatabase {
+    fun fetchKsData(params: Parameterable = KsParam()): Single<KsModel>
 }

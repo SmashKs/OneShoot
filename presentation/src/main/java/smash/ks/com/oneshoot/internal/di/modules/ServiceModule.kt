@@ -22,6 +22,8 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
+import smash.ks.com.data.local.database.KsDatabaseImpl
+import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.remote.RestfulApiFactory
 import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
@@ -31,6 +33,7 @@ import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 
 object ServiceModule {
     fun serviceModule(context: Context) = Module {
+        //region For the [Remote] data module.
         import(netModule(context))
 
         bind<KsConfig>() with instance(RestfulApiFactory().createKsConfig())
@@ -41,6 +44,11 @@ object ServiceModule {
             }.create(KsService::class.java)
         }
 
-        bind<KsFirebase>() with singleton { KsFirebaseImpl() }
+        bind<KsFirebase>() with instance(KsFirebaseImpl())
+        //endregion
+
+        //region For the [Local] data module.
+        bind<KsDatabase>() with instance(KsDatabaseImpl())
+        //endregion
     }
 }

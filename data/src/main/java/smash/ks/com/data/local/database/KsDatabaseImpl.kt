@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.datastores
+package smash.ks.com.data.local.database
 
+import com.devrapid.kotlinshaver.single
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
+import java.util.concurrent.TimeUnit
 
-class LocalDataStoreImpl(
-    private val database: KsDatabase
-) : DataStore {
-    // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
-
-    //region Fake
-    override fun fetchKsImage(params: Parameterable) = database.fetchKsData(params)
-    //endregion
-
-    override fun uploadImage(params: Parameterable) = throw UnsupportedOperationException()
-
-    override fun analyzeImageTagsByML(params: Parameterable) = throw UnsupportedOperationException()
-
-    override fun analyzeImageWordContentByML(params: Parameterable) = throw UnsupportedOperationException()
+class KsDatabaseImpl : KsDatabase {
+    override fun fetchKsData(params: Parameterable) =
+        single(KsModel("This is ks uri!!")).delay(1, TimeUnit.SECONDS)
 }
