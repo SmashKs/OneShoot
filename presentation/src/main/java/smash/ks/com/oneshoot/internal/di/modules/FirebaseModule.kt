@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.external.firebase.v1
+package smash.ks.com.oneshoot.internal.di.modules
 
 import com.google.firebase.database.FirebaseDatabase
-import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.domain.parameters.Parameterable
+import org.kodein.di.Kodein.Module
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
 
-class KsFirebaseImpl(
-    database: FirebaseDatabase
-) : KsFirebase {
-    private val reference by lazy { database.reference }
-
-    //region Fake
-    override fun fetchKsImage(params: Parameterable) = TODO()
-    //endregion
-
-    override fun uploadImage(params: Parameterable) = TODO()
-
-    override fun obtainImageTagsByML(params: Parameterable) = TODO()
-
-    override fun obtainImageWordContentByML(params: Parameterable) = TODO()
+object FirebaseModule {
+    fun firebaseModule() = Module {
+        bind<FirebaseDatabase>() with instance(FirebaseDatabase.getInstance())
+    }
 }

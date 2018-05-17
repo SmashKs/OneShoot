@@ -29,12 +29,14 @@ import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.oneshoot.external.firebase.v1.KsFirebaseImpl
+import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseModule
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 
 object ServiceModule {
     fun serviceModule(context: Context) = Module {
         //region For the [Remote] data module.
         import(netModule(context))
+        import(firebaseModule())
 
         bind<KsConfig>() with instance(RestfulApiFactory().createKsConfig())
         bind<KsService>() with singleton {
@@ -44,7 +46,7 @@ object ServiceModule {
             }.create(KsService::class.java)
         }
 
-        bind<KsFirebase>() with instance(KsFirebaseImpl())
+        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
         //endregion
 
         //region For the [Local] data module.
