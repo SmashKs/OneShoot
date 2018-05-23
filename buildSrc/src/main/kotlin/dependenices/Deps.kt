@@ -87,13 +87,11 @@ object Deps {
     }
 
     object PresentationTest {
+        const val espressoHelper = "com.github.Zhuinden:espresso-helper:${Versions.Test.espressoHelper}"
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
         const val runner = "com.android.support.test:runner:${Versions.Test.androidSupportRunner}"
         const val rules = "com.android.support.test:rules:${Versions.Test.androidSupportRules}"
         const val mockito = "org.mockito:mockito-android:${Versions.Test.mockitoAndroid}"
-        const val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.Test.espresso}"
-        const val espressoIntent = "com.android.support.test.espresso:espresso-intents:${Versions.Test.espresso}"
-        const val espressoContrib = "com.android.support.test.espresso:espresso-contrib:${Versions.Test.espresso}"
     }
 
     object Domain {

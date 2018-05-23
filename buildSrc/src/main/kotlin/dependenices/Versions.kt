@@ -90,10 +90,10 @@ object Versions {
 
     object Test {
         const val jUnit = "4.12"
+        const val espressoHelper = "0.1.3"
         const val robolectric = "3.4.2"
         const val assertJ = "3.8.0"
         const val powerMockito = "1.7.4"
-        const val espresso = "3.0.1"
         const val mockitoKotlin = "1.5.0"
         const val mockitoAndroid = "2.9.0"
         const val androidSupportRunner = "1.0.1"

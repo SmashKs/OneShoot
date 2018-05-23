@@ -148,6 +148,7 @@ dependencies {
     }
     testImplementation GlobalTest.assertj
 
+    androidTestImplementation PresentationTest.espressoHelper
     androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.mockito
     androidTestImplementation(PresentationTest.runner) {
@@ -155,21 +156,6 @@ dependencies {
     }
     androidTestImplementation(PresentationTest.rules) {
         exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestImplementation(PresentationTest.espressoCore) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestImplementation(PresentationTest.espressoIntent) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestImplementation(PresentationTest.espressoContrib) {
-        exclude module: 'appcompat'
-        exclude module: 'appcompat-v7'
-        exclude module: 'support-v4'
-        exclude module: 'support-v13'
-        exclude module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
-        exclude module: 'design'
     }
 }
 
