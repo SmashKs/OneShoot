@@ -14,39 +14,37 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases.fake
+package smash.ks.com.domain.usecases.upload
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.internal.operators.single.SingleCreate
-import smash.ks.com.domain.objects.KsObject
+import io.reactivex.internal.operators.completable.CompletableCreate
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
+import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class GetKsImageUsecaseTest {
-    companion object {
-        private const val KS_URI = "this is a uri!"
-    }
-
-    private lateinit var usecase: GetKsImageUsecase
+/**
+ * @author Jieyi Wu
+ * @since 2018/05/24
+ */
+class UploadImageToFirebaseUsecaseTest {
+    private lateinit var usecase: UploadImageToFirebaseUsecase
     private lateinit var repository: DataRepository
-    private val returnDate by lazy { KsObject(KS_URI) }
 
     @BeforeTest
     fun setUp() {
         repository = mock {
-            on { retrieveKsImage() } doReturn SingleCreate<KsObject> { it.onSuccess(returnDate) }
+            on { uploadImage(KsParam()) } doReturn CompletableCreate { it.onComplete() }
         }
-        usecase = GetKsImageUsecase(repository, mock(), mock())
+        usecase = UploadImageToFirebaseUsecase(repository, mock(), mock())
     }
 
     @Test
-    fun `create the usecase without parameters`() {
+    fun `create usecase without putting parameters`() {
         assertFailsWith<Exception> { usecase.fetchUseCase() }
     }
 
@@ -55,7 +53,7 @@ class GetKsImageUsecaseTest {
         buildUsecase()
 
         // Assume [retrieveKsImage] was ran once time.
-        verify(repository).retrieveKsImage()
+        verify(repository).uploadImage(KsParam())
     }
 
     @Test
@@ -63,11 +61,6 @@ class GetKsImageUsecaseTest {
         buildUsecase().test().assertComplete()
     }
 
-    @Test
-    fun `run the case and check the return data`() {
-        buildUsecase().test().assertValue(returnDate)
-    }
-
     private fun buildUsecase() =
-        usecase.apply { requestValues = Requests(KsParam()) }.fetchUseCase()
+        usecase.apply { requestValues = Requests() }.fetchUseCase()
 }
