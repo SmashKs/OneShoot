@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 
 class DefaultTest {
     @Test
-    fun makeDefaultIntTrue() {
+    fun `make default int true`() {
         val defaultNum = -1
 
         assertTrue { defaultNum.isDefault() }
@@ -30,7 +30,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultIntFalse() {
+    fun `make default int false`() {
         val zeroNum = 0
         val negNum = -4
         val posNum = 3
@@ -41,7 +41,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultLongTrue() {
+    fun `make default long true`() {
         val defaultNum = -1
 
         assertTrue { defaultNum.isDefault() }
@@ -49,7 +49,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultLongFalse() {
+    fun `make default long false`() {
         val zeroNum = 0L
         val negNum = -4L
         val posNum = 3L
@@ -60,7 +60,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultStringTrue() {
+    fun `make default string true`() {
         val defaultNum = ""
 
         assertTrue { defaultNum.isDefault() }
@@ -68,14 +68,14 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultStringFalse() {
+    fun `make default string false`() {
         val str = "smash ks"
 
         assertFalse { str.isDefault() }
     }
 
     @Test
-    fun makeDefaultDoubleTrue() {
+    fun `make default double true`() {
         val defaultNum = -1.0
 
         assertTrue { defaultNum.isDefault() }
@@ -83,7 +83,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultDoubleFalse() {
+    fun `make default double false`() {
         val zeroNum = 0.41
         val negNum = -4.12
         val posNum = 3.85
@@ -94,7 +94,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultFloatTrue() {
+    fun `make default float true`() {
         val defaultNum = -1f
 
         assertTrue { defaultNum.isDefault() }
@@ -102,7 +102,7 @@ class DefaultTest {
     }
 
     @Test
-    fun makeDefaultFloatFalse() {
+    fun `make default float false`() {
         val zeroNum = 0.3f
         val negNum = -4.11f
         val posNum = 3.98f

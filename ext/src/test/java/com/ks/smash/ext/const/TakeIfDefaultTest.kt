@@ -36,7 +36,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeIntTakeIfDefaultTrue() {
+    fun `make int takeIfDefault true`() {
         val defaultInt = -1
         val ans1 = num + added
         val ans2 = num
@@ -48,7 +48,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeIntTakeIfDefaultFalse() {
+    fun `make Int takeIfDefault false`() {
         val zeroNum = 0
         val negNum = -5
         val posNum = 2
@@ -64,7 +64,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeIntTakeIfDefaultFalseElse() {
+    fun `make int takeIfDefault false else`() {
         val zeroNum = 0
         val negNum = -5
         val posNum = 2
@@ -78,7 +78,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeLongTakeIfDefaultTrue() {
+    fun `make long takeIfDefault true`() {
         val defaultLong = -1L
         val ans1 = num + added
         val ans2 = num
@@ -90,7 +90,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeLongTakeIfDefaultFalse() {
+    fun `make long takeIfDefault false`() {
         val zeroNum = 0L
         val negNum = -5L
         val posNum = 2L
@@ -106,7 +106,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeLongTakeIfDefaultFalseElse() {
+    fun `make long takeIfDefault false else`() {
         val zeroNum = 0L
         val negNum = -5L
         val posNum = 2L
@@ -120,7 +120,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeStringTakeIfDefaultTrue() {
+    fun `make string takeIfDefault true`() {
         val defaultStr = ""
         val ans1 = num + added
         val ans2 = num
@@ -132,7 +132,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeStringTakeIfDefaultFalse() {
+    fun `make string takeIfDefault false`() {
         val str1 = "smash ks"
         val str2 = "        "
 
@@ -145,7 +145,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeStringTakeIfDefaultFalseElse() {
+    fun `make string takeIfDefault false else`() {
         val str1 = "smash ks"
         val str2 = "        "
 
@@ -156,7 +156,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeIfDefaultTrue() {
+    fun `make double takeIfDefault true`() {
         val defaultDouble = -1L
         val ans1 = num + added
         val ans2 = num
@@ -168,7 +168,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeIfDefaultFalse() {
+    fun `make double takeIfDefault false`() {
         val zeroNum = 0.34
         val negNum = -5.1
         val posNum = 2.32
@@ -184,7 +184,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeIfDefaultFalseElse() {
+    fun `make double takeIfDefault false else`() {
         val zeroNum = 0.34
         val negNum = -5.1
         val posNum = 2.32
@@ -198,7 +198,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeIfDefaultTrue() {
+    fun `make float takeIfDefault true`() {
         val defaultFloat = -1f
         val ans1 = num + added
         val ans2 = num
@@ -210,7 +210,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeIfDefaultFalse() {
+    fun `make float takeIfDefault false`() {
         val zeroNum = 0.00f
         val negNum = -5.12f
         val posNum = 2.4f
@@ -226,7 +226,7 @@ class TakeIfDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeIfDefaultFalseElse() {
+    fun `make float takeIfDefault false else`() {
         val zeroNum = 0.00f
         val negNum = -5.12f
         val posNum = 2.4f

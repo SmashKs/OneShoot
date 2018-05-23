@@ -33,7 +33,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeIntTakeUnlessDefaultTrue() {
+    fun `make int takeUnlessDefault true`() {
         val defaultInt = -1
         val ans1 = num + added
         val ans2 = num - added
@@ -45,7 +45,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeIntTakeUnlessDefaultTrueElse() {
+    fun `make int takeUnlessDefault true else`() {
         val defaultInt = -1
 
         assertThat(DEFAULT_INT.takeUnlessDefault { num += added } ?: added).isEqualTo(added)
@@ -53,7 +53,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeIntTakeUnlessDefaultFalse() {
+    fun `make int takeUnlessDefault false`() {
         val zeroNum = 0
         val negNum = -5
         val posNum = 2
@@ -64,7 +64,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeLongTakeUnlessDefaultTrue() {
+    fun `make long takeUnlessDefault true`() {
         val defaultLong = -1L
         val ans1 = num + added
         val ans2 = num - added
@@ -76,7 +76,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeLongTakeUnlessDefaultTrueElse() {
+    fun `make long takeUnlessDefault true else`() {
         val defaultLong = -1L
 
         assertThat(DEFAULT_LONG.takeUnlessDefault { num += added } ?: added).isEqualTo(added)
@@ -84,7 +84,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeLongTakeUnlessDefaultFalse() {
+    fun `make long takeUnlessDefault false`() {
         val zeroNum = 0L
         val negNum = -5L
         val posNum = 2L
@@ -95,7 +95,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeStringTakeUnlessDefaultTrue() {
+    fun `make string takeUnlessDefault true`() {
         val defaultStr = ""
         val ans1 = num + added
         val ans2 = num - added
@@ -107,7 +107,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeStringTakeUnlessDefaultTrueElse() {
+    fun `make string takeUnlessDefault true else`() {
         val defaultStr = ""
 
         assertThat(DEFAULT_STR.takeUnlessDefault { num += added } ?: added).isEqualTo(added)
@@ -115,7 +115,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeStringTakeUnlessDefaultFalse() {
+    fun `make string takeUnlessDefault false`() {
         val str1 = "smash ks"
         val str2 = "        "
 
@@ -129,7 +129,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeUnlessDefaultTrue() {
+    fun `make double takeUnlessDefault true`() {
         val defaultDouble = -1.0
         val ans1 = num + added
         val ans2 = num - added
@@ -141,7 +141,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeUnlessDefaultFalseElse() {
+    fun `make double takeUnlessDefault true else`() {
         val defaultDouble = -1.0
 
         assertThat(DEFAULT_DOUBLE.takeUnlessDefault { num += added } ?: added).isEqualTo(added)
@@ -149,7 +149,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeDoubleTakeUnlessDefaultFalse() {
+    fun `make double takeUnlessDefault false`() {
         val zeroNum = 0.0
         val negNum = -5.1
         val posNum = 2.32
@@ -160,7 +160,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeUnlessDefaultTrue() {
+    fun `make float takeUnlessDefault true`() {
         val defaultFloat = -1f
         val ans1 = num + added
         val ans2 = num - added
@@ -172,7 +172,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeUnlessDefaultFalseElse() {
+    fun `make float takeUnlessDefault true else`() {
         val defaultFloat = -1f
 
         assertThat(DEFAULT_FLOAT.takeUnlessDefault { num += added } ?: added).isEqualTo(added)
@@ -180,7 +180,7 @@ class TakeUnlessDefaultTest {
     }
 
     @Test
-    fun makeFloatTakeUnlessDefaultFalse() {
+    fun `make float takeUnlessDefault false`() {
         val zeroNum = 0.00f
         val negNum = -5.12f
         val posNum = 2.4f
