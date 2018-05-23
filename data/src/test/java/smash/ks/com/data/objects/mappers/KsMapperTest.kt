@@ -38,7 +38,7 @@ class KsMapperTest {
     }
 
     @Test
-    fun toObjectFrom() {
+    fun `mapping model to object`() {
         val model = KsModel(KS_URI)
         val newObj = ksMapper.toObjectFrom(model)
 
@@ -46,7 +46,7 @@ class KsMapperTest {
     }
 
     @Test
-    fun toModelFrom() {
+    fun `mapping object to model`() {
         val obj = KsObject(KS_URI)
         val newModel = ksMapper.toModelFrom(obj)
 

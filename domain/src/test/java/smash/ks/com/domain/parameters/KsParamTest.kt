@@ -35,24 +35,24 @@ class KsParamTest {
     }
 
     @Test
-    fun hashCount() {
+    fun `count of the hashmap after transition to the parameter`() {
         val fieldsSize = KsParam::class.java.declaredFields.size
 
         assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize)
     }
 
     @Test
-    fun checkToHashMap() {
+    fun `check the instance hashmap after transition to the parameter`() {
         assertThat(ksParam.toParameter()).isInstanceOf(HashMap::class.java)
     }
 
     @Test
-    fun checkTransitionNotNull() {
+    fun `check is not null after transition to the parameter`() {
         assertThat(ksParam.toParameter()).isNotNull
     }
 
     @Test
-    fun checkMapContent() {
+    fun `assign and check the content is the same`() {
         val map = ksParam.toParameter()
 
         assertNotNull(map["id"])
