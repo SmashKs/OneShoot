@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.external.sqlite.v1
 
 import com.devrapid.kotlinknifer.loge
+import com.raizlabs.android.dbflow.kotlinextensions.eq
 import com.raizlabs.android.dbflow.kotlinextensions.from
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.kotlinextensions.where
@@ -26,6 +27,7 @@ import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.KsEntity_Table
 
 class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =

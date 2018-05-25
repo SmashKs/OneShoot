@@ -54,7 +54,7 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.7'
+    gradleVersion = '4.5.1'
 }
 
 task clean(type: Delete) {
