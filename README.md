@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.com/SmashKs/OneShoot.svg?branch=master)](https://travis-ci.com/SmashKs/OneShoot)
-[![codecov](https://codecov.io/gh/SmashKs/OneShoot/branch/master/graph/badge.svg)](https://codecov.io/gh/SmashKs/OneShoot)
+[![Build Status](https://travis-ci.com/SmashKs/OneShoot.svg?branch=master&style=flat-square)](https://travis-ci.com/SmashKs/OneShoot)
+[![codecov](https://codecov.io/gh/SmashKs/OneShoot/branch/master/graph/badge.svg?style=flat-square)](https://codecov.io/gh/SmashKs/OneShoot)
+[![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat-square)](https://android-arsenal.com/api?level=21)
 
 # OneShoot
 
