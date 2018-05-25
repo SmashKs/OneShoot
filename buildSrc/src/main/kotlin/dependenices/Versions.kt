@@ -51,10 +51,10 @@ object Versions {
     }
 
     object Firebase {
-        const val core = "15.0.2"
-        const val database = "15.0.0"
-        const val auth = "15.1.0"
-        const val messaging = "15.0.2"
+        const val core = "16.0.0"
+        const val database = "16.0.1"
+        const val auth = "16.0.1"
+        const val messaging = "17.0.0"
     }
 
     object Database {

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+import dependenices.Deps.Data
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalTest
 import dependenices.Deps.Presentation
 import dependenices.Deps.PresentationTest
-import dependenices.Deps.Data
 import dependenices.Versions.Android
 import resources.FeatureRes
 
@@ -108,8 +108,12 @@ dependencies {
 
     implementation Presentation.lifecycle
 
-    implementation Presentation.firebaseCore
-    implementation Presentation.firebaseDB
+    implementation(Presentation.firebaseCore){
+        exclude group: 'com.android.support'
+    }
+    implementation(Presentation.firebaseDB){
+        exclude group: 'com.android.support'
+    }
 //    implementation Presentation.firebaseAuth
 //    implementation Presentation.firebaseMessaging
 
@@ -127,12 +131,14 @@ dependencies {
 
     implementation Presentation.modelMapper
 
-    implementation Global.kodeinAndroid
+    implementation(Global.kodeinAndroid){
+        exclude group: 'com.android.support'
+    }
     implementation Global.kodenJVM
 
-    implementation(Presentation.rxBus, {
+    implementation(Presentation.rxBus) {
         exclude group: 'com.jakewharton.timber', module: 'timber'
-    })
+    }
     // We're not using now. This's just for the extensions.
     implementation Presentation.rxLifecycle
 //    implementation Presentation.rxLifecycleComponent
