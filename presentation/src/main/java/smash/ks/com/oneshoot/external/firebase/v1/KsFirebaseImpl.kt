@@ -26,7 +26,7 @@ class KsFirebaseImpl(
     private val reference by lazy { database.reference }
 
     //region Fake
-    override fun fetchKsImage(params: Parameterable) = TODO()
+    override fun fetchImages(params: Parameterable) = TODO()
     //endregion
 
     override fun uploadImage(params: Parameterable) = TODO()

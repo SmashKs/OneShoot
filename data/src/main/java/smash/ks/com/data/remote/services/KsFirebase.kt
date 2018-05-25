@@ -23,9 +23,7 @@ import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
 interface KsFirebase {
-    //region Fake
-    fun fetchKsImage(params: Parameterable = KsParam()): Single<KsModel>
-    //endregion
+    fun fetchImages(params: Parameterable = KsParam()): Single<KsModel>
 
     fun uploadImage(params: Parameterable): Completable
 

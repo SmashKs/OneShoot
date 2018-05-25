@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.database
+package smash.ks.com.oneshoot.external.sqlite.v1
 
-import com.devrapid.kotlinshaver.single
+import com.raizlabs.android.dbflow.kotlinextensions.eq
+import com.raizlabs.android.dbflow.kotlinextensions.from
+import com.raizlabs.android.dbflow.kotlinextensions.select
+import com.raizlabs.android.dbflow.kotlinextensions.where
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
-import java.util.concurrent.TimeUnit
+import smash.ks.com.oneshoot.entities.KsEntity
+import smash.ks.com.oneshoot.entities.KsEntity_Table
 
-class KsDatabaseImpl : KsDatabase {
+class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
-        single(KsModel("This is ks uri!!")).delay(1, TimeUnit.SECONDS)
+        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
+            val (id, uri) = it.first()
+
+            KsModel(id, uri)
+        }
 }

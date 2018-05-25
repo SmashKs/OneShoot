@@ -23,5 +23,5 @@ class KsConfig : ApiConfig {
         private val BASE_URL = "http://www.taiwan.no.one"
     }
 
-    override val apiBaseUrl: String = BASE_URL
+    override val apiBaseUrl = BASE_URL
 }

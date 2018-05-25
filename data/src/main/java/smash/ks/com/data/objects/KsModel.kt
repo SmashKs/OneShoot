@@ -16,9 +16,15 @@
 
 package smash.ks.com.data.objects
 
+import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
 import smash.ks.com.domain.parameters.Parameterable
 
-data class KsModel(var uri: String = DEFAULT_STR) : Model, Parameterable {
-    override fun toParameter() = hashMapOf("uri" to uri)
+data class KsModel(
+    var id: Long = DEFAULT_LONG,
+    var uri: String = DEFAULT_STR
+) : Model, Parameterable {
+    override fun toParameter() = hashMapOf(
+        "id" to id.toString(),
+        "uri" to uri)
 }

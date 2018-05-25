@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.database
+package smash.ks.com.oneshoot.external.sqlite.v1.dbflow
 
+import com.raizlabs.android.dbflow.annotation.Database
+
+@Database(name = "KsDatabase", version = KsDatabaseConfig.VERSION)
 object KsDatabaseConfig {
     const val VERSION = 1
 

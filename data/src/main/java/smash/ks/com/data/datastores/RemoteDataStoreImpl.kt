@@ -25,7 +25,7 @@ class RemoteDataStoreImpl(
     private val ksFirebase: KsFirebase
 ) : DataStore {
     override fun fetchKsImage(params: Parameterable) =
-        if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchKsImage()
+        if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchImages()
 
     override fun uploadImage(params: Parameterable) = ksFirebase.uploadImage(params)
 

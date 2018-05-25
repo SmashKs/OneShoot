@@ -23,9 +23,9 @@ import android.net.Uri
 import android.support.annotation.DrawableRes
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
+import com.bumptech.glide.Priority.HIGH
 import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.DiskCacheStrategy.RESOURCE
 import com.bumptech.glide.request.RequestOptions
 import com.ks.smash.ext.const.DEFAULT_INT
 import com.ks.smash.ext.const.takeUnlessDefault
@@ -58,8 +58,8 @@ fun glideKsOptions(
         centerCrop()
             phResource.takeUnlessDefault(::placeholder)
             erSource.takeUnlessDefault(::error)
-        priority(Priority.HIGH)
-        diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        priority(HIGH)
+        diskCacheStrategy(RESOURCE)
     }
 
 fun glideObtaineBitmapFrom(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
