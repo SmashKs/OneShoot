@@ -25,6 +25,7 @@ import kotlin.test.assertEquals
 
 class KsMapperTest {
     companion object {
+        private const val KS_ID = 147L
         private const val KS_URI = "this is test uri!"
     }
 
@@ -39,7 +40,7 @@ class KsMapperTest {
 
     @Test
     fun `mapping model to object`() {
-        val model = KsModel(KS_URI)
+        val model = KsModel(KS_ID, KS_URI)
         val newObj = ksMapper.toObjectFrom(model)
 
         assertEqualsObject(newObj, model)

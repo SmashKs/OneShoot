@@ -20,7 +20,6 @@ import dependenices.Deps.GlobalTest
 
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -35,9 +34,6 @@ dependencies {
     implementation Global.rxKotlin
 
     implementation Global.shaver
-
-    kapt Data.dbflowProcessor
-    implementation Data.dbflowCore
 
     implementation Data.mapper
 

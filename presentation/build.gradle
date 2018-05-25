@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import dependenices.Deps.Data
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalTest
 import dependenices.Deps.Presentation
@@ -117,17 +116,17 @@ dependencies {
 //    implementation Presentation.firebaseAuth
 //    implementation Presentation.firebaseMessaging
 
-    kapt Data.dbflowProcessor
-    implementation Data.dbflowCore
-    implementation Data.dbflow
-    implementation Data.dbflowKotlinExt
-    implementation Data.dbflowRxJava2
-    implementation(Data.dbflowRxJava2KotlinExt) {
+    kapt Presentation.dbflowProcessor
+    implementation Presentation.dbflowCore
+    implementation Presentation.dbflow
+    implementation Presentation.dbflowKotlinExt
+    implementation Presentation.dbflowRxJava2
+    implementation(Presentation.dbflowRxJava2KotlinExt) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
     }
     // sql-cipher database encryption (optional)
-//    implementation Data.dbflowSqlEncrypt
-//    implementation Data.dbflowSqlCipher
+//    implementation Presentation.dbflowSqlEncrypt
+//    implementation Presentation.dbflowSqlCipher
 
     implementation Presentation.modelMapper
 

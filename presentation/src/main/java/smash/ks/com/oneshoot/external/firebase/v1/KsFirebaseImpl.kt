@@ -16,14 +16,11 @@
 
 package smash.ks.com.oneshoot.external.firebase.v1
 
-import com.google.firebase.database.FirebaseDatabase
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.parameters.Parameterable
 
-class KsFirebaseImpl(
-    database: FirebaseDatabase
-) : KsFirebase {
-    private val reference by lazy { database.reference }
+class KsFirebaseImpl : KsFirebase {
+//    private val reference by lazy { database.reference }
 
     //region Fake
     override fun fetchImages(params: Parameterable) = TODO()

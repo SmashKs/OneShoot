@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot
 
 import android.app.Application
 import android.content.Context
+import com.raizlabs.android.dbflow.config.FlowManager
 import org.kodein.di.Kodein.Companion.lazy
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.androidModule
@@ -55,5 +56,11 @@ class App : Application(), KodeinAware {
         import(usecaseModule())
         import(serviceModule(app))
         import(recyclerViewModule(app))
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        FlowManager.init(this)
     }
 }
