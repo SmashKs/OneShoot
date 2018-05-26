@@ -27,6 +27,8 @@ class RemoteDataStoreImpl(
     override fun fetchKsImage(params: Parameterable) =
         if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchImages()
 
+    override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()
+
     override fun uploadImage(params: Parameterable) = ksFirebase.uploadImage(params)
 
     override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.obtainImageTagsByML(params)

@@ -26,6 +26,8 @@ class LocalDataStoreImpl(
 
     //region Fake
     override fun fetchKsImage(params: Parameterable) = database.fetchKsData(params)
+
+    override fun keepKsImage(params: Parameterable) = database.keepKsData()
     //endregion
 
     override fun uploadImage(params: Parameterable) = throw UnsupportedOperationException()

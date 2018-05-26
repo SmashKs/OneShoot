@@ -67,6 +67,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
             observe(temp, ::updateTemp)
 
             retrieveId(randomId)
+            storeImage()
         }
 
         rv_fake.also {

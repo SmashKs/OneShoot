@@ -16,6 +16,9 @@
 
 package smash.ks.com.data.local.services
 
+import com.ks.smash.ext.const.DEFAULT_LONG
+import com.ks.smash.ext.const.DEFAULT_STR
+import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.KsParam
@@ -23,4 +26,14 @@ import smash.ks.com.domain.parameters.Parameterable
 
 interface KsDatabase {
     fun fetchKsData(params: Parameterable = KsParam()): Single<KsModel>
+
+    fun keepKsData(id: Long = DEFAULT_LONG, uri: String = DEFAULT_STR): Completable
+
+    /**
+     * Delete a row of the data from the database.
+     *
+     * @param model a model belongs to []
+     * @return Completable
+     */
+    fun removeKsData(model: KsModel? = null): Completable
 }

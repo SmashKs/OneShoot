@@ -24,10 +24,12 @@ import org.kodein.di.generic.singleton
 import smash.ks.com.domain.usecases.GetImageContentWordsCase
 import smash.ks.com.domain.usecases.GetImageTagsCase
 import smash.ks.com.domain.usecases.GetKsImageCase
+import smash.ks.com.domain.usecases.SaveKsImageCase
 import smash.ks.com.domain.usecases.UploadImageToFirebaseCase
 import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
 import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
 
@@ -37,6 +39,10 @@ object UsecaseModule {
         //region Fake
         bind<GetKsImageCase>() with scoped(fragmentScope).singleton {
             GetKsImageUsecase(instance(), instance(), instance())
+        }
+
+        bind<SaveKsImageCase>() with scoped(fragmentScope).singleton {
+            SaveKsImageUsecase(instance(), instance(), instance())
         }
         //endregion
 

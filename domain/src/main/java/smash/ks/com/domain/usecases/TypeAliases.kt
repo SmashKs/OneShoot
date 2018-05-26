@@ -22,10 +22,13 @@ import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
 import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
+import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 
 //region Fake
 typealias GetKsImageCase = SingleUseCase<KsObject, GetKsImageUsecase.Requests>
+
+typealias SaveKsImageCase = CompletableUseCase<SaveKsImageUsecase.Requests>
 //endregion
 
 typealias GetImageTagsCase = SingleUseCase<List<String>, GetImageTagsUsecase.Requests>

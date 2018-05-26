@@ -28,6 +28,8 @@ import smash.ks.com.domain.parameters.Parameterable
 interface DataRepository {
     //region Fake
     fun retrieveKsImage(params: Parameterable = KsParam()): Single<KsObject>
+
+    fun storeKsImage(params: Parameterable = KsParam()): Completable
     //endregion
 
     fun uploadImage(params: Parameterable): Completable

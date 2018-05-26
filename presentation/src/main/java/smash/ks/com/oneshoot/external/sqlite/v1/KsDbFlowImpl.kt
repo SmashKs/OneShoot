@@ -17,12 +17,18 @@
 package smash.ks.com.oneshoot.external.sqlite.v1
 
 import com.devrapid.kotlinknifer.loge
+import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.isNotNull
+import com.google.firebase.database.DatabaseException
+import com.raizlabs.android.dbflow.kotlinextensions.delete
 import com.raizlabs.android.dbflow.kotlinextensions.eq
 import com.raizlabs.android.dbflow.kotlinextensions.from
+import com.raizlabs.android.dbflow.kotlinextensions.save
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.kotlinextensions.where
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
+import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.objects.KsModel
 import smash.ks.com.domain.parameters.Parameterable
@@ -42,4 +48,15 @@ class KsDbFlowImpl : KsDatabase {
 
             KsModel(id, uri)
         }
+
+    override fun keepKsData(id: Long, uri: String) = completable {
+        if (KsModel(id, uri).save())
+            it.onComplete()
+        else
+            it.onError(DatabaseException("There's something happened, the data couldn't be saved."))
+    }
+
+    override fun removeKsData(model: KsModel?) = completable {
+        model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java)
+    }
 }

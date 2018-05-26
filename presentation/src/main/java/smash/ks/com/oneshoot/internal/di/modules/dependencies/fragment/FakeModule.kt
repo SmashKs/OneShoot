@@ -40,7 +40,7 @@ object FakeModule {
     fun fakeModule() = Module {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
-            FakeViewModel::class.java to FakeViewModel(instance(), instance())
+            FakeViewModel::class.java to FakeViewModel(instance(), instance(), instance())
         }
         // *** ViewHolder
         bind<ViewHolderEntry>().inSet() with provider {
