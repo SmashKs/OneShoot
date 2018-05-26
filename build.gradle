@@ -42,13 +42,6 @@ plugins {
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
-    }
-}
-
 allprojects {
     if (new File("/volumes/ramdisk").exists()) {
         buildDir = "/volumes/ramdisk/Android/${rootProject.name}/${project.name}"
