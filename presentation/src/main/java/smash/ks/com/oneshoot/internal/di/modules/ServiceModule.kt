@@ -47,11 +47,11 @@ object ServiceModule {
         }
 
 //        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
-        bind<KsFirebase>() with singleton { KsFirebaseImpl() }
+        bind<KsFirebase>() with instance(KsFirebaseImpl())
         //endregion
 
         //region For the [Local] data module.
-        bind<KsDatabase>() with instance(KsDbFlowImpl())
+        bind<KsDatabase>() with singleton { KsDbFlowImpl(instance(), instance()) }
         //endregion
     }
 }

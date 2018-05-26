@@ -19,9 +19,8 @@ package smash.ks.com.oneshoot.features.fake
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_fake.rv_fake
-import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.objects.KsResponse
@@ -66,8 +65,8 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         vm.apply {
             observe(temp, ::updateTemp)
 
-            retrieveId(randomId)
             storeImage()
+            retrieveId(randomId)
         }
 
         rv_fake.also {
@@ -93,7 +92,10 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
 
     //region Presenter Implementation.
     private fun updateTemp(response: KsResponse?) {
-        breakResponse(response) { showImageUri(it.data as String) }
+        breakResponse(response) {
+            logw(it.data)
+            showImageUri(it.data as String)
+        }
     }
 
     private fun showImageUri(uri: String) {
