@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/SmashKs/OneShoot.svg?branch=master&style=flat-square)](https://travis-ci.com/SmashKs/OneShoot)
-[![codecov](https://codecov.io/gh/SmashKs/OneShoot/branch/master/graph/badge.svg?style=flat-square)](https://codecov.io/gh/SmashKs/OneShoot)
 [![Coverage Status](https://coveralls.io/repos/github/SmashKs/OneShoot/badge.svg?branch=master)](https://coveralls.io/github/SmashKs/OneShoot?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/df651d8c66c64905b606d5627223b8e0)](https://www.codacy.com/app/pokk/OneShoot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SmashKs/OneShoot&amp;utm_campaign=Badge_Grade)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 
 # OneShoot
