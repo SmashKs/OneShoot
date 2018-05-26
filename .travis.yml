@@ -30,9 +30,8 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-#  - ./gradlew build jacocoTestReport assembleAndroidTest
-  - ./gradlew assembleRelease
-#  - ./gradlew :presentation:createDebugAndroidTestCoverageReport --info --stacktrace
+  - ./gradlew clean build -PdisablePreDex --continue --stacktrace
 
 after_success:
-  - ./gradlew cobertura coveralls
+  - ./gradlew test jacocoTestReport coveralls
+#  - ./gradlew test createDebugCoverageReport coveralls
