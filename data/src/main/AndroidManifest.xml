@@ -15,4 +15,5 @@
   -->
 
 <manifest
-        package="smash.ks.com.data"/>
+    package="smash.ks.com.data"
+    />
