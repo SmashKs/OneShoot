@@ -69,9 +69,8 @@ object Deps {
         const val glide = "com.github.bumptech.glide:glide:${Versions.Network.glide}"
 
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.Firebase.core}"
-        const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.database}"
         const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.Firebase.auth}"
-        const val firebaseMessaging = "com.google.firebase:firebase-database:${Versions.Firebase.messaging}"
+        const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.Firebase.messaging}"
 
         const val modelMapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"
 
@@ -84,18 +83,6 @@ object Deps {
         const val recyclerview = "com.android.support:recyclerview-v7:${Versions.AndroidComponent.support}"
         const val constraintLayout =
             "com.android.support.constraint:constraint-layout:${Versions.AndroidComponent.contraintLayout}"
-
-        // Database
-        const val dbflowProcessor = "com.github.Raizlabs.DBFlow:dbflow-processor:${Versions.Database.dbflow}"
-        const val dbflowCore = "com.github.Raizlabs.DBFlow:dbflow-core:${Versions.Database.dbflow}"
-        const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
-        const val dbflowKotlinExt = "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${Versions.Database.dbflow}"
-        const val dbflowRxJava2 = "com.github.Raizlabs.DBFlow:dbflow-rx2:${Versions.Database.dbflow}"
-        const val dbflowRxJava2KotlinExt =
-            "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${Versions.Database.dbflow}"
-        // sql-cipher database encryption (optional)
-        const val dbflowSqlEncrypt = "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${Versions.Database.dbflow}"
-        const val dbflowSqlCipher = "net.zetetic:android-database-sqlcipher:${Versions.Database.dbflow}@aar"
     }
 
     object PresentationTest {
@@ -120,6 +107,21 @@ object Deps {
         const val okhttp3InterceptorLog = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.okhttp3}"
         // Mapper
         const val mapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"
+        // Database
+        const val dbflowProcessor = "com.github.Raizlabs.DBFlow:dbflow-processor:${Versions.Database.dbflow}"
+        const val dbflowCore = "com.github.Raizlabs.DBFlow:dbflow-core:${Versions.Database.dbflow}"
+        const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
+        const val dbflowKotlinExt = "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${Versions.Database.dbflow}"
+        const val dbflowRxJava2 = "com.github.Raizlabs.DBFlow:dbflow-rx2:${Versions.Database.dbflow}"
+        const val dbflowRxJava2KotlinExt =
+            "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${Versions.Database.dbflow}"
+        // sql-cipher database encryption (optional)
+        const val dbflowSqlEncrypt = "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${Versions.Database.dbflow}"
+        const val dbflowSqlCipher = "net.zetetic:android-database-sqlcipher:${Versions.Database.dbflow}@aar"
+
+        const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.database}"
+
+        const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
     }
 
     object DataTest {

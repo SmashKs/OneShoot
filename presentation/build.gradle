@@ -110,23 +110,8 @@ dependencies {
     implementation(Presentation.firebaseCore){
         exclude group: 'com.android.support'
     }
-    implementation(Presentation.firebaseDB){
-        exclude group: 'com.android.support'
-    }
 //    implementation Presentation.firebaseAuth
 //    implementation Presentation.firebaseMessaging
-
-    kapt Presentation.dbflowProcessor
-    implementation Presentation.dbflowCore
-    implementation Presentation.dbflow
-    implementation Presentation.dbflowKotlinExt
-    implementation Presentation.dbflowRxJava2
-    implementation(Presentation.dbflowRxJava2KotlinExt) {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
-    }
-    // sql-cipher database encryption (optional)
-//    implementation Presentation.dbflowSqlEncrypt
-//    implementation Presentation.dbflowSqlCipher
 
     implementation Presentation.modelMapper
 
