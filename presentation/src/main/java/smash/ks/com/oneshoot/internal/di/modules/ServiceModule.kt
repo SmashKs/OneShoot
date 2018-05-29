@@ -23,12 +23,12 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.local.v1.KsDbFlowImpl
 import smash.ks.com.data.remote.RestfulApiFactory
 import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
-import smash.ks.com.oneshoot.external.firebase.v1.KsFirebaseImpl
-import smash.ks.com.oneshoot.external.sqlite.v1.KsDbFlowImpl
+import smash.ks.com.data.remote.v1.KsFirebaseImpl
 import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseModule
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 
@@ -51,7 +51,7 @@ object ServiceModule {
         //endregion
 
         //region For the [Local] data module.
-        bind<KsDatabase>() with singleton { KsDbFlowImpl(instance(), instance()) }
+        bind<KsDatabase>() with instance(KsDbFlowImpl())
         //endregion
     }
 }

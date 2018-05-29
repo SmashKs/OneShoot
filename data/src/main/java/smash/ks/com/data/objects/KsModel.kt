@@ -18,9 +18,14 @@ package smash.ks.com.data.objects
 
 import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
+import com.raizlabs.android.dbflow.annotation.PrimaryKey
+import com.raizlabs.android.dbflow.annotation.Table
+import smash.ks.com.data.local.v1.dbflow.KsDatabaseConfig
 import smash.ks.com.domain.parameters.Parameterable
 
+@Table(database = KsDatabaseConfig::class, allFields = true, name = "KsEntityTable")
 data class KsModel(
+    @PrimaryKey(autoincrement = true)
     var id: Long = DEFAULT_LONG,
     var uri: String = DEFAULT_STR
 ) : Model, Parameterable {

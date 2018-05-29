@@ -107,6 +107,7 @@ dependencies {
 
     implementation Presentation.lifecycle
 
+    implementation Presentation.dbflow
     implementation(Presentation.firebaseCore){
         exclude group: 'com.android.support'
     }

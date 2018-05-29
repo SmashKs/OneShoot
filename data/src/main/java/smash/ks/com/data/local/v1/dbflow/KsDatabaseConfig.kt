@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.external.firebase.v1
+package smash.ks.com.data.local.v1.dbflow
 
-import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.domain.parameters.Parameterable
+import com.raizlabs.android.dbflow.annotation.Database
 
-class KsFirebaseImpl : KsFirebase {
-//    private val reference by lazy { database.reference }
+@Database(name = "KsDatabase", version = KsDatabaseConfig.VERSION)
+object KsDatabaseConfig {
+    const val VERSION = 1
 
-    //region Fake
-    override fun fetchImages(params: Parameterable) = TODO()
-    //endregion
-
-    override fun uploadImage(params: Parameterable) = TODO()
-
-    override fun obtainImageTagsByML(params: Parameterable) = TODO()
-
-    override fun obtainImageWordContentByML(params: Parameterable) = TODO()
+    // Here we can code migration class.
 }

@@ -72,6 +72,8 @@ object Deps {
         const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.Firebase.auth}"
         const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.Firebase.messaging}"
 
+        const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
+
         const val modelMapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"
 
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"

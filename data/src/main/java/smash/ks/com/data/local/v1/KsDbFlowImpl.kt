@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.external.sqlite.v1
+package smash.ks.com.data.local.v1
 
-import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.isNotNull
 import com.raizlabs.android.dbflow.kotlinextensions.delete
@@ -27,36 +26,26 @@ import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.objects.KsModel
-import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.Parameterable
-import smash.ks.com.oneshoot.entities.KsEntity
-import smash.ks.com.data.objects.mappers.Mapper as ObjMapper
-import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
-class KsDbFlowImpl(
-    private val dataDomainMapper: ObjMapper<KsModel, KsObject>,
-    private val domainPresentMapper: EntityMapper<KsObject, KsEntity>
-) : KsDatabase {
+class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
 //        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
-        (select from KsEntity::class).rx().list.map {
+        (select from KsModel::class).rx().list.map {
             val (id, uri) = try {
                 it.first()
             }
             catch (exception: NoSuchElementException) {
-                loge(exception)
-                KsEntity(123, "taiwan no1")
+                KsModel(123, "taiwan no1")
             }
 
             KsModel(id, uri)
         }
 
-    override fun keepKsData(id: Long, uri: String) = modelToEntity(KsModel(id, uri)).save().toCompletable()
+    override fun keepKsData(id: Long, uri: String) = TODO()
+//        KsModel(id, uri).save().toCompletable()
 
     override fun removeKsData(model: KsModel?) = completable {
         model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java)
     }
-
-    private fun modelToEntity(model: KsModel) =
-        domainPresentMapper.toEntityFrom(dataDomainMapper.toObjectFrom(model))
 }
