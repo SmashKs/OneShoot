@@ -17,6 +17,7 @@
 package smash.ks.com.domain.usecases.analysis
 
 import smash.ks.com.domain.SingleUseCase
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.parameters.KsParam
@@ -29,7 +30,9 @@ class GetImageTagsUsecase(
     postExecutionThread: PostExecutionThread
 ) : SingleUseCase<List<String>, Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() =
-        requestValues?.run { repository.retrieveImageTagsByML(params) } ?: throw Exception()
+        requestValues?.run {
+            repository.retrieveImageTagsByML(params)
+        } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues
