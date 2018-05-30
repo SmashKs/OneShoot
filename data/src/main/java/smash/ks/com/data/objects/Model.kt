@@ -16,4 +16,8 @@
 
 package smash.ks.com.data.objects
 
+/**
+ * The basic data object in Data Layer. Also, this is for generic data type and
+ * preparing some advanced functions here.
+ */
 interface Model
