@@ -55,6 +55,11 @@ class SelectableAreaView @JvmOverloads constructor(
         private const val DIRECT_RIGHT = 0b0010
         private const val DIRECT_TOP = 0b0100
         private const val DIRECT_BOTTOM = 0b1000
+
+        private const val FLOAT_ZERO = 0f
+
+        private const val OUTER_ARGB_ALPHA = 150
+        private const val TOUCHABLE_RANGE_TIMES = 4
     }
 
     var selectedAreaCallback: ((x: Int, y: Int, width: Int, height: Int) -> Unit)? = null
@@ -70,7 +75,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintOuterRect by lazy {
         Paint().apply {
-            setARGB(150, 0, 0, 0)
+            setARGB(OUTER_ARGB_ALPHA, 0, 0, 0)
             isAntiAlias = true
             style = FILL
         }
@@ -111,7 +116,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val fourAngles by lazy { listOf(leftTopPoint, rightBottomPoint, leftBottomPoint, rightTopPoint) }
     /** This canvas rect object. */
-    private val wholeRectangle by lazy { RectF(0f, 0f, width.toFloat(), height.toFloat()) }
+    private val wholeRectangle by lazy { RectF(FLOAT_ZERO, FLOAT_ZERO, width.toFloat(), height.toFloat()) }
     /** Each angles' offset when touching the screen inside the rectangle. */
     private val listOffset by lazy { listOf(PointF(), PointF(), PointF(), PointF()) }
 
@@ -120,8 +125,12 @@ class SelectableAreaView @JvmOverloads constructor(
             ACTION_DOWN -> {
                 // Four angles' area.
                 fourAngles.forEach searching@{
-                    if (event.x in it.coordination.x - DEFAULT_TOUCH_RANGE * 4..it.coordination.x + DEFAULT_TOUCH_RANGE &&
-                        event.y in it.coordination.y - DEFAULT_TOUCH_RANGE..it.coordination.y + DEFAULT_TOUCH_RANGE) {
+                    val rangeLeft = it.coordination.x - DEFAULT_TOUCH_RANGE * TOUCHABLE_RANGE_TIMES
+                    val rangeRight = it.coordination.x + DEFAULT_TOUCH_RANGE
+                    val rangeTop = it.coordination.y - DEFAULT_TOUCH_RANGE
+                    val rangeBottom = it.coordination.y + DEFAULT_TOUCH_RANGE
+
+                    if (event.x in rangeLeft..rangeRight && event.y in rangeTop..rangeBottom) {
                         it.isSelected = true
                         isTouchAngle = true
                         return@searching
@@ -168,10 +177,13 @@ class SelectableAreaView @JvmOverloads constructor(
             }
             ACTION_UP -> {
                 if (isTouchAngle || isTouchInside) {
+                    val width = fourAngles[1].coordination.x.toInt() - fourAngles[0].coordination.x.toInt()
+                    val height = fourAngles[1].coordination.y.toInt() - fourAngles[0].coordination.y.toInt()
+
                     selectedAreaCallback?.invoke(fourAngles[0].coordination.x.toInt(),
                                                  fourAngles[0].coordination.y.toInt(),
-                                                 fourAngles[1].coordination.x.toInt() - fourAngles[0].coordination.x.toInt(),
-                                                 fourAngles[1].coordination.y.toInt() - fourAngles[0].coordination.y.toInt())
+                                                 width,
+                                                 height)
                 }
                 fourAngles.find(AnglePoint::isSelected)?.isSelected = false
                 isTouchAngle = false
