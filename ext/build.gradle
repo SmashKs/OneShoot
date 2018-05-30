@@ -25,6 +25,7 @@ dependencies {
     implementation Global.coroutine
 
     testImplementation GlobalTest.kotlin
+    // FIXME: mockito has old version reflect and others.
     testImplementation GlobalTest.mockito
     testImplementation GlobalTest.assertj
 }
