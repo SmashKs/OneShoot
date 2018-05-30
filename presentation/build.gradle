@@ -108,7 +108,12 @@ dependencies {
     implementation Presentation.lifecycle
 
     implementation Presentation.dbflow
-    implementation(Presentation.firebaseCore){
+    // TODO: This library shouldn't be here. I think because of the mapper I used.
+    implementation(Presentation.dbflowRxJava2KotlinExt) {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation(Presentation.firebaseCore) {
         exclude group: 'com.android.support'
     }
 //    implementation Presentation.firebaseAuth
@@ -116,7 +121,7 @@ dependencies {
 
     implementation Presentation.modelMapper
 
-    implementation(Global.kodeinAndroid){
+    implementation(Global.kodeinAndroid) {
         exclude group: 'com.android.support'
     }
     implementation Global.kodenJVM

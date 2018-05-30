@@ -17,6 +17,7 @@
 package dependenices
 
 object Deps {
+    //region Global
     object Global {
         const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.Kotlin.kotlin}"
         const val refelect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin.kotlin}"
@@ -43,7 +44,9 @@ object Deps {
         const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"
         const val powerMockito = "org.powermock:powermock-api-mockito2:${Versions.Test.powerMockito}"
     }
+    //endregion
 
+    //region Presentation
     object Presentation {
         const val anko = "org.jetbrains.anko:anko-commons:${Versions.KotlinAndroidExt.anko}"
         const val ankoSdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.KotlinAndroidExt.anko}"
@@ -73,6 +76,8 @@ object Deps {
         const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.Firebase.messaging}"
 
         const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
+        const val dbflowRxJava2KotlinExt =
+            "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${Versions.Database.dbflow}"
 
         const val modelMapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"
 
@@ -94,13 +99,17 @@ object Deps {
         const val rules = "com.android.support.test:rules:${Versions.Test.androidSupportRules}"
         const val mockito = "org.mockito:mockito-android:${Versions.Test.mockitoAndroid}"
     }
+    //endregion
 
+    //region Domain
     object Domain {
         const val rxLifecycle = "com.trello.rxlifecycle2:rxlifecycle-kotlin:${Versions.RxDep.rxLifecycle2}"
     }
 
     object DomainTest
+    //endregion
 
+    //region Data
     object Data {
         // Internet
         const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Network.retrofit2}"
@@ -129,8 +138,11 @@ object Deps {
     object DataTest {
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
     }
+    //endregion
 
+    //region Ext
     object Ext
 
     object ExtTest
+    //endregion
 }

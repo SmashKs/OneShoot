@@ -20,6 +20,7 @@ import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
+import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel
 import smash.ks.com.data.local.v1.dbflow.KsDatabaseConfig
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -28,7 +29,7 @@ data class KsModel(
     @PrimaryKey(autoincrement = true)
     var id: Long = DEFAULT_LONG,
     var uri: String = DEFAULT_STR
-) : Model, Parameterable {
+) : BaseRXModel(), Model, Parameterable {
     override fun toParameter() = hashMapOf(
         "id" to id.toString(),
         "uri" to uri)
