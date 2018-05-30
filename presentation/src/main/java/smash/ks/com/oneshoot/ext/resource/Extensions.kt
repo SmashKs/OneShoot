@@ -39,3 +39,4 @@ fun gResArray(@ArrayRes id: Int) =
 
 fun gResArrays(@ArrayRes vararg ids: Int) =
     ids.map(::gResArray).reduce { acc, new -> acc.addAll(new);acc }
+

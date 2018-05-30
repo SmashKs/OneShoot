@@ -40,6 +40,16 @@ buildscript {
 plugins {
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.6.3'
+    id 'io.gitlab.arturbosch.detekt' version '1.0.0.RC7'
+}
+
+detekt {
+    version = "1.0.0.RC7"
+    profile("main") {
+        input = file("presentation/src/main/java")
+        config = "$projectDir/default-detekt-config.yml"
+        filters = ".*/resources/.*,.*/build/.*"
+    }
 }
 
 allprojects {

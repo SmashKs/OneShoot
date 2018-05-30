@@ -28,13 +28,7 @@ import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
-import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
-import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
-import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.imageBitmap
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView

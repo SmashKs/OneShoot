@@ -179,4 +179,3 @@ suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.awaitCase(
     parameter: V? = null
 ) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
-
