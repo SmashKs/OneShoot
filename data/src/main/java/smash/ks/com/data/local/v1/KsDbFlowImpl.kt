@@ -24,7 +24,7 @@ import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
-import smash.ks.com.data.objects.KsModel
+import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.Parameterable
 
 class KsDbFlowImpl : KsDatabase {

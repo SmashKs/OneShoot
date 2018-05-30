@@ -17,7 +17,8 @@
 package smash.ks.com.data.objects.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.objects.KsModel
+import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.domain.objects.KsObject
 import kotlin.test.BeforeTest
 import kotlin.test.Test

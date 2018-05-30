@@ -19,7 +19,7 @@ package smash.ks.com.data.remote.services
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
-import smash.ks.com.data.objects.KsModel
+import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.config.KsConfig
 
 interface KsService {

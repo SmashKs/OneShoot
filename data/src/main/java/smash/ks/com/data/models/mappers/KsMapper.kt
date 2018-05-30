@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.executors
+package smash.ks.com.data.models.mappers
 
-import com.nhaarman.mockito_kotlin.mock
-import kotlin.test.BeforeTest
-import kotlin.test.Test
+import org.modelmapper.ModelMapper
+import smash.ks.com.data.models.KsModel
+import smash.ks.com.domain.objects.KsObject
 
-class JobExecutorTest {
-    private lateinit var jobExecutor: JobExecutor
+class KsMapper constructor(mapper: ModelMapper) : Mapper<KsModel, KsObject>(mapper) {
+    override fun toObjectFrom(model: KsModel) = mapper.map(model, KsObject::class.java)
 
-    @BeforeTest
-    fun setUp() {
-        jobExecutor = JobExecutor()
-    }
-
-    @Test
-    fun execute() {
-        val runnable = mock<Runnable>()
-
-        jobExecutor.execute(runnable)
-//        verify(runnable).run()
-    }
+    override fun toModelFrom(obj: KsObject) = mapper.map(obj, KsModel::class.java)
 }

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.executors
+package smash.ks.com.data
 
+import smash.ks.com.domain.executors.ThreadExecutor
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor

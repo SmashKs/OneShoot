@@ -26,12 +26,12 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.setBinding
 import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.objects.KsModel
-import smash.ks.com.data.objects.mappers.KsMapper
+import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
-import smash.ks.com.data.objects.mappers.Mapper as ObjMapper
+import smash.ks.com.data.models.mappers.Mapper as ObjMapper
 import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
 object UtilModule {
@@ -48,8 +48,12 @@ object UtilModule {
             }
         }
 
-        bind<ObjMapper<KsModel, KsObject>>() with singleton { KsMapper(instance()) }
-        bind<KsMapper>() with singleton { KsMapper(instance()) }
+        bind<ObjMapper<KsModel, KsObject>>() with singleton {
+            KsMapper(instance())
+        }
+        bind<KsMapper>() with singleton {
+            KsMapper(instance())
+        }
         bind<EntityMapper<KsObject, KsEntity>>() with singleton { KsEntityMapper(instance()) }
     }
 }

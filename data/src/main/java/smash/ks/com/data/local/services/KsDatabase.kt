@@ -20,7 +20,7 @@ import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
 import io.reactivex.Completable
 import io.reactivex.Single
-import smash.ks.com.data.objects.KsModel
+import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 

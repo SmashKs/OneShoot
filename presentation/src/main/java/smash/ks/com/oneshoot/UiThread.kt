@@ -25,5 +25,5 @@ import smash.ks.com.domain.executors.PostExecutionThread
  * Android UI thread.
  */
 class UiThread : PostExecutionThread {
-    override val scheduler: Scheduler = AndroidSchedulers.mainThread()
+    override val scheduler = AndroidSchedulers.mainThread()
 }

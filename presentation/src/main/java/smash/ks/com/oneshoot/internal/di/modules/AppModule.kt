@@ -21,7 +21,7 @@ import com.hwangjr.rxbus.RxBus
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import smash.ks.com.domain.executors.JobExecutor
+import smash.ks.com.data.JobExecutor
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.oneshoot.UiThread

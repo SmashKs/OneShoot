@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.objects
+package smash.ks.com.data.models
 
 import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
