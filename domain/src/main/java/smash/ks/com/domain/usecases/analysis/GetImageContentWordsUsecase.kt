@@ -29,10 +29,9 @@ class GetImageContentWordsUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : SingleUseCase<String, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() =
-        requestValues?.run {
-            repository.retrieveImageWordContentByML(params)
-        } ?: throw NoParameterException("No request parameter.")
+    override fun fetchUseCase() = requestValues?.run {
+        repository.retrieveImageWordContentByML(params)
+    } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues

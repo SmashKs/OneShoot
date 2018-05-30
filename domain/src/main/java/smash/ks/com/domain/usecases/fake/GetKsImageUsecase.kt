@@ -34,9 +34,9 @@ class GetKsImageUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : SingleUseCase<KsData, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() =
-        requestValues?.run { repository.retrieveKsImage(params) } ?: throw NoParameterException(
-            "No request parameter.")
+    override fun fetchUseCase() = requestValues?.run {
+        repository.retrieveKsImage(params)
+    } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues

@@ -29,10 +29,9 @@ class GetImageTagsUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : SingleUseCase<List<String>, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() =
-        requestValues?.run {
-            repository.retrieveImageTagsByML(params)
-        } ?: throw NoParameterException("No request parameter.")
+    override fun fetchUseCase() = requestValues?.run {
+        repository.retrieveImageTagsByML(params)
+    } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues

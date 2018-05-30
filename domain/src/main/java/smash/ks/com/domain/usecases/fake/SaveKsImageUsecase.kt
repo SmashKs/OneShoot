@@ -33,9 +33,9 @@ class SaveKsImageUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : CompletableUseCase<Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() =
-        requestValues?.run { repository.storeKsImage(params) } ?: throw NoParameterException(
-            "No request parameter.")
+    override fun fetchUseCase() = requestValues?.run {
+        repository.storeKsImage(params)
+    } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues
