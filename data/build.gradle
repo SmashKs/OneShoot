@@ -39,6 +39,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -58,30 +62,38 @@ dependencies {
     implementation Data.mapper
 
     kapt Data.dbflowProcessor
-    implementation Data.dbflowCore
-    implementation Data.dbflow
-    implementation Data.dbflowKotlinExt
-    implementation Data.dbflowRxJava2
+    implementation(Data.dbflowCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation(Data.dbflow) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation(Data.dbflowKotlinExt) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation(Data.dbflowRxJava2) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     implementation(Data.dbflowRxJava2KotlinExt) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'com.android.support', module: 'support-annotations'
     }
     // sql-cipher database encryption (optional)
-//    implementation Data.dbflowSqlEncrypt
-//    implementation Data.dbflowSqlCipher
+//    implementation(Data.dbflowSqlEncrypt) {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    }
+//    implementation(Data.dbflowSqlCipher) {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    }
 
-    implementation(Data.firebaseDB){
+    implementation(Data.firebaseDB) {
         exclude group: 'com.android.support'
     }
 
     implementation Data.retrofit2
     implementation Data.retrofit2AdapterRxJava2
 
-    implementation Data.appcompat
-
     testImplementation GlobalTest.kotlin
     testImplementation GlobalTest.mockito
     testImplementation GlobalTest.assertj
 }
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"

@@ -34,4 +34,4 @@ script:
 
 after_success:
   - ./gradlew test jacocoTestReport coveralls
-#  - ./gradlew test createDebugCoverageReport coveralls
+  - ./gradlew test createDebugCoverageReport coveralls
