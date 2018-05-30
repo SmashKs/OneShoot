@@ -30,7 +30,7 @@ import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.objects.Object
+import smash.ks.com.domain.datas.Data
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 
@@ -115,17 +115,17 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 //endregion
 
 //region Observable
-fun <O : Object, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
+fun <O : Data, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
  * Await the usecase with the mapper.
  *
- * @param mapper the mapper for translating from [Object] to [Entity].
+ * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
+suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {
@@ -143,17 +143,17 @@ suspend fun <O : Any, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awa
 //endregion
 
 //region Single
-fun <O : Object, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
+fun <O : Data, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
  * Await the usecase with the mapper.
  *
- * @param mapper the mapper for translating from [Object] to [Entity].
+ * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Object, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
+suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
     mapper: Mapper<O, E>,
     parameter: V? = null
 ) = async {

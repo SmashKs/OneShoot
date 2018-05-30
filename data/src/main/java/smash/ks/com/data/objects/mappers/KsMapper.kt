@@ -18,10 +18,14 @@ package smash.ks.com.data.objects.mappers
 
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.objects.KsModel
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 
-class KsMapper constructor(mapper: ModelMapper) : Mapper<KsModel, KsObject>(mapper) {
-    override fun toObjectFrom(model: KsModel) = mapper.map(model, KsObject::class.java)
+/**
+ * A transforming mapping between [KsModel] and [KsData]. The different layers have
+ * their own data objects, the objects should transform and fit each layers.
+ */
+class KsMapper constructor(mapper: ModelMapper) : Mapper<KsModel, KsData>(mapper) {
+    override fun toObjectFrom(model: KsModel) = mapper.map(model, KsData::class.java)
 
-    override fun toModelFrom(obj: KsObject) = mapper.map(obj, KsModel::class.java)
+    override fun toModelFrom(obj: KsData) = mapper.map(obj, KsModel::class.java)
 }

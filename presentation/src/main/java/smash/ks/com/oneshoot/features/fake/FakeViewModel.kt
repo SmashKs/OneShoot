@@ -18,8 +18,8 @@ package smash.ks.com.oneshoot.features.fake
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import smash.ks.com.domain.objects.KsObject
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase
@@ -33,7 +33,7 @@ import smash.ks.com.oneshoot.ext.usecase.awaitCase
 class FakeViewModel(
     private val getKsImageCase: GetKsImageCase,
     private val saveKsImageCase: SaveKsImageCase,
-    private val mapper: Mapper<KsObject, KsEntity>
+    private val mapper: Mapper<KsData, KsEntity>
 ) : ViewModel() {
     val temp by lazy { MutableLiveData<KsResponse>() }
     val saveRes by lazy { MutableLiveData<KsResponse>() }

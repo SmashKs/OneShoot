@@ -18,7 +18,7 @@ package smash.ks.com.domain.usecases
 
 import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
 import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
@@ -26,7 +26,7 @@ import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 
 //region Fake
-typealias GetKsImageCase = SingleUseCase<KsObject, GetKsImageUsecase.Requests>
+typealias GetKsImageCase = SingleUseCase<KsData, GetKsImageUsecase.Requests>
 
 typealias SaveKsImageCase = CompletableUseCase<SaveKsImageUsecase.Requests>
 //endregion

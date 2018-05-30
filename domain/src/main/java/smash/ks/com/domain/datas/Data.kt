@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.objects
+package smash.ks.com.domain.datas
 
-interface Object
+interface Data

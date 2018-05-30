@@ -16,6 +16,9 @@
 
 package smash.ks.com.oneshoot.internal.di.tag
 
+/**
+ * The tags for identifying the same object data type in Dependency Injection.
+ */
 object ObjectLabel {
     const val KS_ENTITY = "ks entity"
     const val KS_ADAPTER = "fake adapter"

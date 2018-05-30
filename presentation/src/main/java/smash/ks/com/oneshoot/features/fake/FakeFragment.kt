@@ -23,7 +23,7 @@ import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView

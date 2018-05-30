@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.objects
+package smash.ks.com.domain.datas
 
 import com.ks.smash.ext.const.DEFAULT_STR
 
-data class KsObject(var uri: String = DEFAULT_STR) : Object
+data class KsData(var uri: String = DEFAULT_STR) : Data

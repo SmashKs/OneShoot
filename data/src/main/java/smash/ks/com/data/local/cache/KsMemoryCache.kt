@@ -34,13 +34,13 @@ open class KsMemoryCache : KsCache() {
      * Structure is as like:
      * ======================================================
      * [Category WATCH_LIST(KEY), List(VALUE)]
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(KS)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(KS)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(KS)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(KS)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(KS)>
      * [Category FEATURE_WATCH_LIST(KEY), List(VALUE)]
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(SMASH)>
-     *   ↳ Triple<Parameters, Cached Time, Cached Object(SMASH)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(SMASH)>
+     *   ↳ Triple<Parameters, Cached Time, Cached Data(SMASH)>
      */
     protected val memory by lazy { HashMap<Int, MutableList<Triple<Any, Long, Any>>>(CAPACITY) }
 

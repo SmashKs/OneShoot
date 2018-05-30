@@ -22,7 +22,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.devrapid.kotlinknifer.ui
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsResponse
 
 fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
     block: suspend CoroutineScope.() -> Deferred<T>,

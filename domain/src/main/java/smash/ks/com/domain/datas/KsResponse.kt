@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.objects
+package smash.ks.com.domain.datas
 
 import com.ks.smash.ext.const.DEFAULT_STR
 
