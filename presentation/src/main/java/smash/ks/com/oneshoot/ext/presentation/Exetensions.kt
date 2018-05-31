@@ -20,9 +20,13 @@ package smash.ks.com.oneshoot.ext.presentation
 
 import android.arch.lifecycle.MutableLiveData
 import com.devrapid.kotlinknifer.ui
+import com.devrapid.kotlinshaver.isNotNull
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Error
+import smash.ks.com.domain.datas.KsResponse.Loading
+import smash.ks.com.domain.datas.KsResponse.Success
 
 fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
     block: suspend CoroutineScope.() -> Deferred<T>,
@@ -31,18 +35,18 @@ fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
     var entity: Deferred<T>? = null
 
     ui {
-        value = KsResponse.Loading<Any>()
+        value = Loading<Any>()
 
         try {
             entity = block()
         }
         catch (e: Exception) {
-            value = KsResponse.Error(null, e.message.orEmpty())
+            value = Error(null, e.message.orEmpty())
         }
 
-        if (null != entity) {
+        entity.takeIf(Any?::isNotNull)?.let {
             // This block already checked the entity isn't a null variable.
-            value = KsResponse.Success(successBlock(entity!!))
+            value = Success(successBlock(it))
         }
     }
 }

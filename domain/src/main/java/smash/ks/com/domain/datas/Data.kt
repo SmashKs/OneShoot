@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.objects
+package smash.ks.com.domain.datas
 
-import com.ks.smash.ext.const.DEFAULT_STR
-
-sealed class KsResponse {
-    class Loading<out T : Any>(val data: T? = null) : KsResponse()
-    class Success<out T>(val data: T? = null) : KsResponse()
-    class Error<out T>(val data: T? = null, val msg: String = DEFAULT_STR) : KsResponse()
-}
+/**
+ * The basic data object in Domain Layer. Also, this is for generic data type and
+ * preparing some advanced functions here.
+ */
+interface Data

@@ -29,12 +29,13 @@ import com.devrapid.kotlinknifer.gone
 import kotlinx.android.parcel.Parcelize
 import kotlin.math.pow
 
+private const val CIRCULAR_REVEAL_DURATION = 1000L
+
 fun View.registerCircularRevealAnimation(
     revealSettings: RevealAnimationSetting,
     startColor: Int,
     endColor: Int
 ) {
-    val duration = 1000L
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
@@ -54,12 +55,12 @@ fun View.registerCircularRevealAnimation(
                 // Simply use the diagonal of the view.
                 val radius = Math.sqrt((width.toDouble().pow(2) + height.toDouble().pow(2))).toFloat()
                 ViewAnimationUtils.createCircularReveal(v, cx, cy, 0f, radius).apply {
-                    this.duration = duration
+                    this.duration = CIRCULAR_REVEAL_DURATION
                     interpolator = FastOutSlowInInterpolator()
                 }.start()
             }
         })
-        startColorAnimation(startColor, endColor, duration)
+        startColorAnimation(startColor, endColor, CIRCULAR_REVEAL_DURATION)
     }
 }
 
@@ -69,14 +70,13 @@ fun View.startCircularExitAnimation(
     endColor: Int,
     listener: () -> Unit
 ) {
-    val duration = 1000L
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val (cx, cy, width, height) = revealSettings
 
         // Simply use the diagonal of the view.
         val radius = Math.sqrt((width.toDouble().pow(2) + height.toDouble().pow(2))).toFloat()
         ViewAnimationUtils.createCircularReveal(this, cx, cy, radius, 0f).apply {
-            this.duration = duration
+            this.duration = CIRCULAR_REVEAL_DURATION
             interpolator = FastOutSlowInInterpolator()
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
@@ -85,7 +85,7 @@ fun View.startCircularExitAnimation(
                 }
             })
         }.start()
-        startColorAnimation(startColor, endColor, duration)
+        startColorAnimation(startColor, endColor, CIRCULAR_REVEAL_DURATION)
     }
     else {
         listener()

@@ -18,7 +18,7 @@ package smash.ks.com.domain.repositories
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -27,7 +27,7 @@ import smash.ks.com.domain.parameters.Parameterable
  */
 interface DataRepository {
     //region Fake
-    fun retrieveKsImage(params: Parameterable = KsParam()): Single<KsObject>
+    fun retrieveKsImage(params: Parameterable = KsParam()): Single<KsData>
 
     fun storeKsImage(params: Parameterable = KsParam()): Completable
     //endregion

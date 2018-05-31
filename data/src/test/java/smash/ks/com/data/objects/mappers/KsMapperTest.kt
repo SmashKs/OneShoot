@@ -19,7 +19,7 @@ package smash.ks.com.data.objects.mappers
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.models.mappers.KsMapper
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -49,13 +49,13 @@ class KsMapperTest {
 
     @Test
     fun `mapping object to model`() {
-        val obj = KsObject(KS_URI)
+        val obj = KsData(KS_URI)
         val newModel = ksMapper.toModelFrom(obj)
 
         assertEqualsObject(obj, newModel)
     }
 
-    private fun assertEqualsObject(obj: KsObject, newModel: KsModel) {
+    private fun assertEqualsObject(obj: KsData, newModel: KsModel) {
         assertEquals(obj.uri, newModel.uri)
     }
 }

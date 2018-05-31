@@ -28,7 +28,7 @@ import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.models.mappers.KsMapper
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.data.models.mappers.Mapper as ObjMapper
@@ -48,12 +48,12 @@ object UtilModule {
             }
         }
 
-        bind<ObjMapper<KsModel, KsObject>>() with singleton {
+        bind<ObjMapper<KsModel, KsData>>() with singleton {
             KsMapper(instance())
         }
         bind<KsMapper>() with singleton {
             KsMapper(instance())
         }
-        bind<EntityMapper<KsObject, KsEntity>>() with singleton { KsEntityMapper(instance()) }
+        bind<EntityMapper<KsData, KsEntity>>() with singleton { KsEntityMapper(instance()) }
     }
 }

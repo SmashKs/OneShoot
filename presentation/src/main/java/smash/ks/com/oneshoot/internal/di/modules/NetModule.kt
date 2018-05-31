@@ -32,10 +32,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetModule {
+    private const val CacheMaxSize: Long = 10 * 1024 * 1024
+
     fun netModule(context: Context) = Module {
         bind<Converter.Factory>() with singleton { GsonConverterFactory.create(instance()) }
         bind<CallAdapter.Factory>() with singleton { RxJava2CallAdapterFactory.create() }
-        bind<Cache>() with singleton { Cache(context.cacheDir, 10 * 1024 * 1024 /* 10 MiB */) }
+        bind<Cache>() with singleton { Cache(context.cacheDir, CacheMaxSize /* 10 MiB */) }
         bind<OkHttpClient>() with singleton {
             OkHttpClient.Builder().apply {
                 addInterceptor(HttpLoggingInterceptor().setLevel(BODY))

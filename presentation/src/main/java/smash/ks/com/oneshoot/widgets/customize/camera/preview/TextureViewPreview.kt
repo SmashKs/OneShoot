@@ -32,6 +32,15 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 
 @TargetApi(ICE_CREAM_SANDWICH)
 internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview() {
+    companion object {
+        private const val FLOAT_ZERO = 0f
+
+        private const val NUMBER_OF_SQUARE_CONNER = 4
+
+        private const val DEGREE_90 = 90
+        private const val DEGREE_180 = 180
+    }
+
     private var displayOrientation = 0
     private val textureView by lazy {
         View.inflate(context, R.layout.texture_view, parent).findViewById(R.id.texture_view) as TextureView
@@ -83,35 +92,35 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
     fun configureTransform() {
         val matrix = Matrix()
 
-        if (90 == displayOrientation % 180) {
+        if (DEGREE_90 == displayOrientation % DEGREE_180) {
             val width = this.width
             val height = this.height
 
             // Rotate the camera preview when the screen is landscape.
             matrix.setPolyToPoly(
-                floatArrayOf(0f, 0f,  // top left
-                             width.toFloat(), 0f,  // top right
-                             0f, height.toFloat(),  // bottom left
+                floatArrayOf(FLOAT_ZERO, FLOAT_ZERO,  // top left
+                             width.toFloat(), FLOAT_ZERO,  // top right
+                             FLOAT_ZERO, height.toFloat(),  // bottom left
                              width.toFloat(), height.toFloat())  // bottom right
                 , 0,
-                if (displayOrientation == 90) {
+                if (displayOrientation == DEGREE_90) {
                     // Clockwise
-                    floatArrayOf(0f, height.toFloat(),  // top left
-                                 0f, 0f,  // top right
+                    floatArrayOf(FLOAT_ZERO, height.toFloat(),  // top left
+                                 FLOAT_ZERO, FLOAT_ZERO,  // top right
                                  width.toFloat(), height.toFloat(),  // bottom left
-                                 width.toFloat(), 0f)  // bottom right
+                                 width.toFloat(), FLOAT_ZERO)  // bottom right
                 }
                 else {
                     // displayOrientation == 270
                     // Counter-clockwise
-                    floatArrayOf(width.toFloat(), 0f,  // top left
+                    floatArrayOf(width.toFloat(), FLOAT_ZERO,  // top left
                                  width.toFloat(), height.toFloat(),  // top right
-                                 0f, 0f,  // bottom left
-                                 0f, height.toFloat())  // bottom right
-                }, 0, 4)
+                                 FLOAT_ZERO, FLOAT_ZERO,  // bottom left
+                                 FLOAT_ZERO, height.toFloat())  // bottom right
+                }, 0, NUMBER_OF_SQUARE_CONNER)
         }
-        else if (180 == displayOrientation) {
-            matrix.postRotate(180f, (width / 2).toFloat(), (height / 2).toFloat())
+        else if (DEGREE_180 == displayOrientation) {
+            matrix.postRotate(DEGREE_180.toFloat(), (width / 2).toFloat(), (height / 2).toFloat())
         }
         textureView.setTransform(matrix)
     }

@@ -22,7 +22,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.bases.LoadView
 
 inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =

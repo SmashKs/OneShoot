@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.domain.datas
 
-/**
- * The basic data object in Presentation Layer. Also, this is for generic data type and
- * preparing some advanced functions here.
- */
-interface Entity
+import com.ks.smash.ext.const.DEFAULT_STR
+
+data class KsData(var uri: String = DEFAULT_STR) : Data

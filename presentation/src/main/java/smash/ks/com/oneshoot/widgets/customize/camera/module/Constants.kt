@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 internal object Constants {
-    val DEFAULT_ASPECT_RATIO by lazy { AspectRatio.of(4, 3) }
+    val DEFAULT_ASPECT_RATIO by lazy { AspectRatio.of(HEIGHT_RATIO, WIDTH_RATIO) }
 
     /** The camera device faces the opposite direction as the device's screen.  */
     const val FACING_BACK = 0
@@ -37,4 +37,7 @@ internal object Constants {
 
     const val LANDSCAPE_90 = 90
     const val LANDSCAPE_270 = 270
+
+    private const val HEIGHT_RATIO = 4
+    private const val WIDTH_RATIO = 3
 }

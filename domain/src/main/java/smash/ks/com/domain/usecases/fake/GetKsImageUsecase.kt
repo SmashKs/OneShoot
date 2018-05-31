@@ -18,9 +18,10 @@ package smash.ks.com.domain.usecases.fake
 
 import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.SingleUseCase
+import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.objects.KsObject
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
@@ -32,9 +33,10 @@ class GetKsImageUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<KsObject, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() =
-        requestValues?.run { repository.retrieveKsImage(params) } ?: throw Exception()
+) : SingleUseCase<KsData, Requests>(threadExecutor, postExecutionThread) {
+    override fun fetchUseCase() = requestValues?.run {
+        repository.retrieveKsImage(params)
+    } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues

@@ -18,9 +18,9 @@ package smash.ks.com.data.models.mappers
 
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.models.Model
-import smash.ks.com.domain.objects.Object
+import smash.ks.com.domain.datas.Data
 
-abstract class Mapper<M : Model, O : Object>(protected val mapper: ModelMapper) {
+abstract class Mapper<M : Model, O : Data>(protected val mapper: ModelMapper) {
     abstract fun toObjectFrom(model: M): O
     abstract fun toModelFrom(obj: O): M
 }

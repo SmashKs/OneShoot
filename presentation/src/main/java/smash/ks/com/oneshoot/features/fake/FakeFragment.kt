@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_fake.rv_fake
 import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
-import smash.ks.com.domain.objects.KsResponse
+import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
@@ -67,6 +67,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         vm.apply {
             observe(temp, ::updateTemp)
 
+            // For testing, that's why they are called in the beginning.
             storeImage()
             retrieveId(randomId)
         }

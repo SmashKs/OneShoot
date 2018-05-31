@@ -30,14 +30,18 @@ import android.view.Surface.ROTATION_90
  */
 abstract class DisplayOrientationDetector(context: Context) {
     companion object {
+        private const val DEGREE_0 = 0
+        private const val DEGREE_90 = 0
+        private const val DEGREE_180 = 0
+        private const val DEGREE_270 = 0
         /** Mapping from Surface.Rotation_n to degrees.  */
         val DISPLAY_ORIENTATIONS = SparseIntArray()
 
         init {
-            DISPLAY_ORIENTATIONS.put(ROTATION_0, 0)
-            DISPLAY_ORIENTATIONS.put(ROTATION_90, 90)
-            DISPLAY_ORIENTATIONS.put(ROTATION_180, 180)
-            DISPLAY_ORIENTATIONS.put(ROTATION_270, 270)
+            DISPLAY_ORIENTATIONS.put(ROTATION_0, DEGREE_0)
+            DISPLAY_ORIENTATIONS.put(ROTATION_90, DEGREE_90)
+            DISPLAY_ORIENTATIONS.put(ROTATION_180, DEGREE_180)
+            DISPLAY_ORIENTATIONS.put(ROTATION_270, DEGREE_270)
         }
     }
 

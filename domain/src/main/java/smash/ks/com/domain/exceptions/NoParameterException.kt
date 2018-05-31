@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.objects
+package smash.ks.com.domain.exceptions
 
-import com.ks.smash.ext.const.DEFAULT_STR
-
-data class KsObject(var uri: String = DEFAULT_STR) : Object
+/**
+ * No assignment a parameter variable when using a usecase.
+ */
+class NoParameterException(message: String) : Exception(message)

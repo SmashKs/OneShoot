@@ -20,7 +20,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.internal.operators.single.SingleCreate
-import smash.ks.com.domain.objects.KsObject
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
@@ -35,12 +35,12 @@ class GetKsImageUsecaseTest {
 
     private lateinit var usecase: GetKsImageUsecase
     private lateinit var repository: DataRepository
-    private val returnDate by lazy { KsObject(KS_URI) }
+    private val returnDate by lazy { KsData(KS_URI) }
 
     @BeforeTest
     fun setUp() {
         repository = mock {
-            on { retrieveKsImage() } doReturn SingleCreate<KsObject> { it.onSuccess(returnDate) }
+            on { retrieveKsImage() } doReturn SingleCreate<KsData> { it.onSuccess(returnDate) }
         }
         usecase = GetKsImageUsecase(repository, mock(), mock())
     }
