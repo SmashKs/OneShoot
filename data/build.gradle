@@ -22,7 +22,7 @@ import dependenices.Versions.Android
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion Android.compileSdk
@@ -38,6 +38,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
