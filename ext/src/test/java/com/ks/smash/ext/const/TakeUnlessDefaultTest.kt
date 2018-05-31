@@ -16,6 +16,7 @@
 
 package com.ks.smash.ext.const
 
+import com.ks.smash.ext.const.generate.GeneratorFactory
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -28,8 +29,8 @@ class TakeUnlessDefaultTest {
 
     @BeforeTest
     fun init() {
-        num = 32
-        added = 4
+        num = GeneratorFactory.randomInt
+        added = GeneratorFactory.randomInt
     }
 
     @Test
@@ -55,8 +56,8 @@ class TakeUnlessDefaultTest {
     @Test
     fun `make int takeUnlessDefault false`() {
         val zeroNum = 0
-        val negNum = -5
-        val posNum = 2
+        val negNum = -GeneratorFactory.randomInt
+        val posNum = GeneratorFactory.randomInt
 
         assertThat(zeroNum.takeUnlessDefault { num + it }).isEqualTo(num)
         assertThat(negNum.takeUnlessDefault { num + it }).isEqualTo(num + negNum)
@@ -86,8 +87,8 @@ class TakeUnlessDefaultTest {
     @Test
     fun `make long takeUnlessDefault false`() {
         val zeroNum = 0L
-        val negNum = -5L
-        val posNum = 2L
+        val negNum = -GeneratorFactory.randomLong
+        val posNum = GeneratorFactory.randomLong
 
         assertThat(zeroNum.takeUnlessDefault { num + it }).isEqualTo(num.toLong())
         assertThat(negNum.takeUnlessDefault { num + it }).isEqualTo((num + negNum))
@@ -151,8 +152,8 @@ class TakeUnlessDefaultTest {
     @Test
     fun `make double takeUnlessDefault false`() {
         val zeroNum = 0.0
-        val negNum = -5.1
-        val posNum = 2.32
+        val negNum = -GeneratorFactory.randomDouble
+        val posNum = GeneratorFactory.randomDouble
 
         assertThat(zeroNum.takeUnlessDefault { num + it }).isEqualTo(num.toDouble())
         assertThat(negNum.takeUnlessDefault { num + it }).isEqualTo((num + negNum))
@@ -182,8 +183,8 @@ class TakeUnlessDefaultTest {
     @Test
     fun `make float takeUnlessDefault false`() {
         val zeroNum = 0.00f
-        val negNum = -5.12f
-        val posNum = 2.4f
+        val negNum = -GeneratorFactory.randomFloat
+        val posNum = GeneratorFactory.randomFloat
 
         assertThat(zeroNum.takeUnlessDefault { num + it }).isEqualTo(num.toFloat())
         assertThat(negNum.takeUnlessDefault { num + it }).isEqualTo((num + negNum))

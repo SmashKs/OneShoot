@@ -26,6 +26,7 @@ import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.Parameterable
+import java.util.UUID
 
 class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
@@ -35,7 +36,7 @@ class KsDbFlowImpl : KsDatabase {
                 it.first()
             }
             catch (exception: NoSuchElementException) {
-                KsModel(123, "taiwan no1")
+                KsModel(UUID.randomUUID().toString().toLong(), UUID.randomUUID().toString())
             }
 
             KsModel(id, uri)

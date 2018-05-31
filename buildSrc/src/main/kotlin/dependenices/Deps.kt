@@ -19,8 +19,8 @@ package dependenices
 object Deps {
     //region Global
     object Global {
-        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.Kotlin.kotlin}"
-        const val refelect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin.kotlin}"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.Kotlin.kotlinLib}"
+        const val refelect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin.kotlinLib}"
         const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlin.kotlinCoroutine}"
         const val coroutinesRx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${Versions.Kotlin.kotlinCoroutine}"
 
@@ -38,7 +38,7 @@ object Deps {
 
     object GlobalTest {
         const val junit = "junit:junit:${Versions.Test.jUnit}"
-        const val kotlin = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.Kotlin.kotlin}"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.Kotlin.kotlinLib}"
         const val mockito = "com.nhaarman:mockito-kotlin:${Versions.Test.mockitoKotlin}"
         const val assertj = "org.assertj:assertj-core:${Versions.Test.assertJ}"
         const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"

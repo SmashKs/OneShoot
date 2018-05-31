@@ -30,7 +30,7 @@ object Versions {
     }
 
     object Kotlin {
-        const val kotlin = "1.2.41"
+        const val kotlinLib = "1.2.41"
         const val kotlinCoroutine = "0.22.5"
     }
 
