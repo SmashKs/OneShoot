@@ -17,11 +17,17 @@
 package com.ks.smash.ext.const.generate
 
 import java.util.Random
+import java.util.UUID
 import kotlin.math.absoluteValue
 
+/**
+ * Generate a random variable for each data types.
+ */
 object GeneratorFactory {
+    val zero = 0
     val randomInt get() = Random().nextInt().absoluteValue
     val randomLong get() = Random().nextLong().absoluteValue
     val randomFloat get() = Random().nextFloat().absoluteValue
     val randomDouble get() = Random().nextDouble().absoluteValue
+    val randomString get() = UUID.randomUUID().toString()
 }

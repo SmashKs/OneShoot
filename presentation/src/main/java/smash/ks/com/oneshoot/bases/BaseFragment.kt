@@ -61,7 +61,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         retainInstance = true
         // FIXED: https://www.zybuluo.com/kimo/note/255244
         rootView ?: let { rootView = inflater.inflate(provideInflateView(), null) }
-        val parent: ViewGroup? = rootView?.parent as ViewGroup?
+        val parent: ViewGroup? = rootView?.parent as? ViewGroup
         parent?.removeView(rootView)
 
         return rootView

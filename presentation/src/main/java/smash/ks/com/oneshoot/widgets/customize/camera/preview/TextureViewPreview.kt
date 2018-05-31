@@ -43,7 +43,9 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
 
     private var displayOrientation = 0
     private val textureView by lazy {
-        View.inflate(context, R.layout.texture_view, parent).findViewById(R.id.texture_view) as TextureView
+        View.inflate(context,
+                     R.layout.texture_view,
+                     parent).findViewById(R.id.texture_view) as? TextureView ?: throw ClassCastException()
     }
     override var surfaceTexture: SurfaceTexture? = null
         get() = textureView.surfaceTexture

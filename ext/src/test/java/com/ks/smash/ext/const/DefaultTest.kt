@@ -20,6 +20,8 @@ import com.ks.smash.ext.const.generate.GeneratorFactory.randomDouble
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomFloat
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomInt
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomLong
+import com.ks.smash.ext.const.generate.GeneratorFactory.randomString
+import com.ks.smash.ext.const.generate.GeneratorFactory.zero
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -32,7 +34,7 @@ class DefaultTest {
 
     @Test
     fun `make default int false`() {
-        val zeroNum = 0
+        val zeroNum = zero
         val negNum = -randomInt
         val posNum = randomInt
 
@@ -48,7 +50,7 @@ class DefaultTest {
 
     @Test
     fun `make default long false`() {
-        val zeroNum = 0L
+        val zeroNum = zero.toLong()
         val negNum = -randomLong
         val posNum = randomLong
 
@@ -59,15 +61,12 @@ class DefaultTest {
 
     @Test
     fun `make default string true`() {
-        val defaultNum = ""
-
-        assertTrue { defaultNum.isDefault() }
         assertTrue { DEFAULT_STR.isDefault() }
     }
 
     @Test
     fun `make default string false`() {
-        val str = "smash ks"
+        val str = randomString
 
         assertFalse { str.isDefault() }
     }
@@ -79,7 +78,7 @@ class DefaultTest {
 
     @Test
     fun `make default double false`() {
-        val zeroNum = 0.000
+        val zeroNum = zero.toDouble()
         val negNum = -randomDouble
         val posNum = randomDouble
 
@@ -95,7 +94,7 @@ class DefaultTest {
 
     @Test
     fun `make default float false`() {
-        val zeroNum = 0.3f
+        val zeroNum = zero.toDouble()
         val negNum = -randomFloat
         val posNum = randomFloat
 

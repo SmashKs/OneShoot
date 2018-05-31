@@ -17,7 +17,8 @@
 package smash.ks.com.data.local.cache
 
 abstract class KsCache : Cache {
-    inline fun <reified T> digCachedData(which: Int, params: Any) = obtainCachedObj(which, params) as T
+    inline fun <reified T> digCachedData(which: Int, params: Any) =
+        obtainCachedObj(which, params) as? T ?: throw ClassCastException()
 
     fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
 }

@@ -17,6 +17,8 @@
 package com.ks.smash.ext.const
 
 import com.ks.smash.ext.const.generate.GeneratorFactory
+import com.ks.smash.ext.const.generate.GeneratorFactory.randomString
+import com.ks.smash.ext.const.generate.GeneratorFactory.zero
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -24,8 +26,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 class TakeUnlessDefaultTest {
-    private var num = 0
-    private var added = 0
+    private var num = zero
+    private var added = zero
 
     @BeforeTest
     fun init() {
@@ -55,7 +57,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun `make int takeUnlessDefault false`() {
-        val zeroNum = 0
+        val zeroNum = zero
         val negNum = -GeneratorFactory.randomInt
         val posNum = GeneratorFactory.randomInt
 
@@ -86,7 +88,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun `make long takeUnlessDefault false`() {
-        val zeroNum = 0L
+        val zeroNum = zero.toLong()
         val negNum = -GeneratorFactory.randomLong
         val posNum = GeneratorFactory.randomLong
 
@@ -117,7 +119,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun `make string takeUnlessDefault false`() {
-        val str1 = "smash ks"
+        val str1 = randomString
         val str2 = "        "
 
         val ans1 = num + added
@@ -151,7 +153,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun `make double takeUnlessDefault false`() {
-        val zeroNum = 0.0
+        val zeroNum = zero.toDouble()
         val negNum = -GeneratorFactory.randomDouble
         val posNum = GeneratorFactory.randomDouble
 
@@ -182,7 +184,7 @@ class TakeUnlessDefaultTest {
 
     @Test
     fun `make float takeUnlessDefault false`() {
-        val zeroNum = 0.00f
+        val zeroNum = zero.toFloat()
         val negNum = -GeneratorFactory.randomFloat
         val posNum = GeneratorFactory.randomFloat
 

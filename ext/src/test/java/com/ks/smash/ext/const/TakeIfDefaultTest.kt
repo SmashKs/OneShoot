@@ -20,18 +20,16 @@ import com.ks.smash.ext.const.generate.GeneratorFactory.randomDouble
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomFloat
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomInt
 import com.ks.smash.ext.const.generate.GeneratorFactory.randomLong
+import com.ks.smash.ext.const.generate.GeneratorFactory.randomString
+import com.ks.smash.ext.const.generate.GeneratorFactory.zero
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 class TakeIfDefaultTest {
-    companion object {
-        private const val ZERO_NUM = 0
-    }
-
-    private var num = ZERO_NUM
-    private var added = ZERO_NUM
+    private var num = zero
+    private var added = zero
 
     private val fail1 = randomInt
     private val fail2 = randomInt
@@ -57,7 +55,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make Int takeIfDefault false`() {
-        val zeroNum = ZERO_NUM
+        val zeroNum = zero
         val negNum = -randomInt
         val posNum = randomInt
 
@@ -73,7 +71,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make int takeIfDefault false else`() {
-        val zeroNum = ZERO_NUM
+        val zeroNum = zero
         val negNum = -randomInt
         val posNum = randomInt
 
@@ -99,7 +97,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make long takeIfDefault false`() {
-        val zeroNum = ZERO_NUM.toLong()
+        val zeroNum = zero.toLong()
         val negNum = -randomLong
         val posNum = randomLong
 
@@ -115,7 +113,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make long takeIfDefault false else`() {
-        val zeroNum = ZERO_NUM.toLong()
+        val zeroNum = zero.toLong()
         val negNum = -randomLong
         val posNum = randomLong
 
@@ -141,7 +139,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make string takeIfDefault false`() {
-        val str1 = "smash ks"
+        val str1 = randomString
         val str2 = "        "
 
         val ans = num + added
@@ -154,7 +152,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make string takeIfDefault false else`() {
-        val str1 = "smash ks"
+        val str1 = randomString
         val str2 = "        "
 
         str1.takeIfDefault { num += added } ?: run { num = fail1 }
@@ -177,7 +175,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make double takeIfDefault false`() {
-        val zeroNum = ZERO_NUM.toDouble()
+        val zeroNum = zero.toDouble()
         val negNum = -randomDouble
         val posNum = randomDouble
 
@@ -193,7 +191,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make double takeIfDefault false else`() {
-        val zeroNum = ZERO_NUM.toDouble()
+        val zeroNum = zero.toDouble()
         val negNum = -randomDouble
         val posNum = randomDouble
 
@@ -219,7 +217,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make float takeIfDefault false`() {
-        val zeroNum = ZERO_NUM.toFloat()
+        val zeroNum = zero.toFloat()
         val negNum = -randomFloat
         val posNum = randomFloat
 
@@ -235,7 +233,7 @@ class TakeIfDefaultTest {
 
     @Test
     fun `make float takeIfDefault false else`() {
-        val zeroNum = ZERO_NUM.toFloat()
+        val zeroNum = zero.toFloat()
         val negNum = -randomFloat
         val posNum = randomFloat
 
