@@ -27,14 +27,44 @@ import smash.ks.com.domain.parameters.Parameterable
  */
 interface DataStore {
     //region Fake
+    /**
+     * Fetching an image object [KsModel] by parameter.
+     *
+     * @param params
+     * @return Rx [Single] object to the presentation layer.
+     */
     fun fetchKsImage(params: Parameterable = KsParam()): Single<KsModel>
 
+    /**
+     * Keep an image object [KsModel] by parameter.
+     *
+     * @param params
+     * @return Rx [Completable] and no response to the presentation layer.
+     */
     fun keepKsImage(params: Parameterable = KsParam()): Completable
     //endregion
 
+    /**
+     * Upload an image object to Firebase service.
+     *
+     * @param params
+     * @return Rx [Completable] and no response to the presentation layer.
+     */
     fun uploadImage(params: Parameterable): Completable
 
+    /**
+     * Send an image object to machine learning model and get the tags of an image automatically.
+     *
+     * @param params
+     * @return Rx [Single] with tag list to the presentation layer.
+     */
     fun analyzeImageTagsByML(params: Parameterable): Single<List<String>>
 
+    /**
+     * Send an image object to machine learning model and get the content of an image automatically.
+     *
+     * @param params
+     * @return Rx [Single] with the image content to the presentation layer.
+     */
     fun analyzeImageWordContentByML(params: Parameterable): Single<String>
 }
