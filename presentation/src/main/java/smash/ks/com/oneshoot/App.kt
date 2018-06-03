@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot
 
 import android.app.Application
 import android.content.Context
+import com.google.firebase.FirebaseApp
 import com.raizlabs.android.dbflow.config.FlowManager
 import org.kodein.di.Kodein.Companion.lazy
 import org.kodein.di.KodeinAware
@@ -61,6 +62,7 @@ class App : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
 
+        FirebaseApp.initializeApp(this)
         FlowManager.init(this)
     }
 }

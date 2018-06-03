@@ -72,6 +72,7 @@ object Deps {
         const val glide = "com.github.bumptech.glide:glide:${Versions.Network.glide}"
 
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.Firebase.core}"
+        const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.database}"
         const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.Firebase.auth}"
         const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.Firebase.messaging}"
 

@@ -46,8 +46,7 @@ object ServiceModule {
             }.create(KsService::class.java)
         }
 
-//        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
-        bind<KsFirebase>() with instance(KsFirebaseImpl())
+        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
         //endregion
 
         //region For the [Local] data module.

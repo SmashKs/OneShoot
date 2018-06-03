@@ -116,6 +116,9 @@ dependencies {
     implementation(Presentation.firebaseCore) {
         exclude group: 'com.android.support'
     }
+    implementation(Presentation.firebaseDB) {
+        exclude group: 'com.android.support'
+    }
 //    implementation Presentation.firebaseAuth
 //    implementation Presentation.firebaseMessaging
 
@@ -169,4 +172,4 @@ dependencies {
     }
 }
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
