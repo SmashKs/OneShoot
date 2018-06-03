@@ -26,17 +26,21 @@ import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.Parameterable
+import java.util.Random
 import java.util.UUID
 
 class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
 //        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
         (select from KsModel::class).rx().list.map {
+            println("=========================")
+            println(it)
+            println("=========================")
             val (id, uri) = try {
                 it.first()
             }
             catch (exception: NoSuchElementException) {
-                KsModel(UUID.randomUUID().toString().toLong(), UUID.randomUUID().toString())
+                KsModel(Random().nextLong(), UUID.randomUUID().toString())
             }
 
             KsModel(id, uri)

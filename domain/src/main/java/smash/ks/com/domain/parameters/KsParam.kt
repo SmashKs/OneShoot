@@ -16,8 +16,20 @@
 
 package smash.ks.com.domain.parameters
 
-import com.ks.smash.ext.const.DEFAULT_INT
+import com.ks.smash.ext.const.DEFAULT_LONG
+import com.ks.smash.ext.const.DEFAULT_STR
 
-data class KsParam(val imageId: Int = DEFAULT_INT) : Parameterable {
-    override fun toParameter() = hashMapOf("id" to imageId.toString())
+data class KsParam(
+    val imageId: Long = DEFAULT_LONG,
+    val imageUri: String = DEFAULT_STR
+) : Parameterable {
+    companion object {
+        const val PARAM_ID = "id"
+        const val PARAM_URI = "uri"
+    }
+
+    override fun toParameter() = hashMapOf(
+        PARAM_ID to imageId.toString(),
+        PARAM_URI to imageUri
+    )
 }

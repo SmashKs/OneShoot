@@ -17,6 +17,7 @@
 package smash.ks.com.data.datastores
 
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
 class LocalDataStoreImpl(
@@ -27,7 +28,9 @@ class LocalDataStoreImpl(
     //region Fake
     override fun fetchKsImage(params: Parameterable) = database.fetchKsData(params)
 
-    override fun keepKsImage(params: Parameterable) = database.keepKsData()
+    override fun keepKsImage(params: Parameterable) = params.toParameter().run {
+        database.keepKsData(get(KsParam.PARAM_ID)!!.toLong(), get(KsParam.PARAM_URI)!!)
+    }
     //endregion
 
     override fun uploadImage(params: Parameterable) = throw UnsupportedOperationException()

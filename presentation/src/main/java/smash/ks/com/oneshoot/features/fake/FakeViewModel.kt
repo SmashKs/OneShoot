@@ -23,12 +23,12 @@ import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 import smash.ks.com.oneshoot.ext.presentation.askingData
 import smash.ks.com.oneshoot.ext.usecase.awaitCase
+import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests as FetchImageRequest
+import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests as SaveImageRequest
 
 class FakeViewModel(
     private val getKsImageCase: GetKsImageCase,
@@ -39,13 +39,14 @@ class FakeViewModel(
     val saveRes by lazy { MutableLiveData<KsResponse>() }
 
     fun retrieveId(imageId: Int) {
-        temp.askingData({ getKsImageCase.awaitCase(mapper, Requests(KsParam(imageId))) }) { res ->
+        temp.askingData({ getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))) }) { res ->
             res.await().uri
         }
     }
 
     fun storeImage() {
-        saveRes.askingData({ saveKsImageCase.awaitCase(SaveKsImageUsecase.Requests(KsParam())) }) { res ->
+        // TODO(jieyi): 2018/06/03 If we don't return value to ui activity/fragment, we shouldn't use an variable.
+        saveRes.askingData({ saveKsImageCase.awaitCase(SaveImageRequest(KsParam(imageUri = "This is my name"))) }) { res ->
             res.await()
         }
     }
