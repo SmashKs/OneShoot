@@ -98,6 +98,7 @@ object Deps {
         const val runner = "com.android.support.test:runner:${Versions.Test.androidSupportRunner}"
         const val rules = "com.android.support.test:rules:${Versions.Test.androidSupportRules}"
         const val mockito = "org.mockito:mockito-android:${Versions.Test.mockitoAndroid}"
+        const val kakao = "com.agoda.kakao:kakao:${Versions.Test.kakao}"
     }
     //endregion
 
