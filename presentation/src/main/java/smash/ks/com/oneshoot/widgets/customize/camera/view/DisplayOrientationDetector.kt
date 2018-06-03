@@ -60,7 +60,7 @@ abstract class DisplayOrientationDetector(context: Context) {
 
                 if (lastKnownRotation != rotation) {
                     lastKnownRotation = rotation
-                    dispatchOnDisplayOrientationChanged(DISPLAY_ORIENTATIONS.get(rotation))
+                    dispatchOrientationChanged(DISPLAY_ORIENTATIONS.get(rotation))
                 }
             }
         }
@@ -77,7 +77,7 @@ abstract class DisplayOrientationDetector(context: Context) {
         this.display = display
         orientationEventListener.enable()
         // Immediately dispatch the first callback.
-        dispatchOnDisplayOrientationChanged(DISPLAY_ORIENTATIONS.get(display.rotation))
+        dispatchOrientationChanged(DISPLAY_ORIENTATIONS.get(display.rotation))
     }
 
     fun disable() {
@@ -85,7 +85,7 @@ abstract class DisplayOrientationDetector(context: Context) {
         display = null
     }
 
-    fun dispatchOnDisplayOrientationChanged(displayOrientation: Int) {
+    fun dispatchOrientationChanged(displayOrientation: Int) {
         lastKnownDisplayOrientation = displayOrientation
         onDisplayOrientationChanged(displayOrientation)
     }

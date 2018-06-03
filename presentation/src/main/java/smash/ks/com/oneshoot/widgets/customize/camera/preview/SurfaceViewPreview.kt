@@ -28,7 +28,9 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 
 internal class SurfaceViewPreview(context: Context, parent: ViewGroup) : Preview() {
     val surfaceView by lazy {
-        View.inflate(context, R.layout.surface_view, parent).findViewById(R.id.surface_view) as SurfaceView
+        View.inflate(context,
+                     R.layout.surface_view,
+                     parent).findViewById(R.id.surface_view) as? SurfaceView ?: throw ClassCastException()
     }
     override var surfaceHolder: SurfaceHolder? = null
         get() = surfaceView.holder

@@ -26,6 +26,7 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import android.view.ViewAnimationUtils
 import com.devrapid.kotlinknifer.gone
+import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.parcel.Parcelize
 import kotlin.math.pow
 
@@ -101,7 +102,7 @@ fun View.startColorAnimation(
         this.duration = duration
         setIntValues(startColor, endColor)
         setEvaluator(ArgbEvaluator())
-        addUpdateListener { setBackgroundColor(it.animatedValue as Int) }
+        addUpdateListener { setBackgroundColor(it.animatedValue as? Int ?: DEFAULT_INT) }
     }.start()
 }
 

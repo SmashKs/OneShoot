@@ -30,7 +30,7 @@ object Versions {
     }
 
     object Kotlin {
-        const val kotlin = "1.2.41"
+        const val kotlinLib = "1.2.41"
         const val kotlinCoroutine = "0.22.5"
     }
 
@@ -91,6 +91,7 @@ object Versions {
     object Test {
         const val jUnit = "4.12"
         const val espressoHelper = "0.1.3"
+        const val kakao = "1.3.0"
         const val robolectric = "3.4.2"
         const val assertJ = "3.8.0"
         const val powerMockito = "1.7.4"

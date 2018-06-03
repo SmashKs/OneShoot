@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.cache
+package smash.ks.com.domain.objects
 
-abstract class KsCache : Cache {
-    inline fun <reified T> digCachedData(which: Int, params: Any) =
-        obtainCachedObj(which, params) as? T ?: throw ClassCastException()
+import com.ks.smash.ext.const.DEFAULT_STR
 
-    fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
-}
+data class KsData(var uri: String = DEFAULT_STR) : Data

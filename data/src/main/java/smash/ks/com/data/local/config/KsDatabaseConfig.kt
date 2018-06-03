@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.cache
+package smash.ks.com.data.local.config
 
-abstract class KsCache : Cache {
-    inline fun <reified T> digCachedData(which: Int, params: Any) =
-        obtainCachedObj(which, params) as? T ?: throw ClassCastException()
+import com.raizlabs.android.dbflow.annotation.Database
 
-    fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
+@Database(name = "KsDatabase", version = KsDatabaseConfig.VERSION)
+object KsDatabaseConfig {
+    const val VERSION = 1
+
+    // Here we can code migration class.
 }

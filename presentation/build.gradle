@@ -159,6 +159,7 @@ dependencies {
 
     androidTestImplementation PresentationTest.espressoHelper
 //    androidTestImplementation PresentationTest.robolectric
+    androidTestImplementation PresentationTest.kakao
     androidTestImplementation PresentationTest.mockito
     androidTestImplementation(PresentationTest.runner) {
         exclude group: 'com.android.support', module: 'support-annotations'

@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.cache
+package com.ks.smash.ext.const.generate
 
-abstract class KsCache : Cache {
-    inline fun <reified T> digCachedData(which: Int, params: Any) =
-        obtainCachedObj(which, params) as? T ?: throw ClassCastException()
+import java.util.Random
+import java.util.UUID
+import kotlin.math.absoluteValue
 
-    fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
+/**
+ * Generate a random variable for each data types.
+ */
+object GeneratorFactory {
+    val zero = 0
+    val randomInt get() = Random().nextInt().absoluteValue
+    val randomLong get() = Random().nextLong().absoluteValue
+    val randomFloat get() = Random().nextFloat().absoluteValue
+    val randomDouble get() = Random().nextDouble().absoluteValue
+    val randomString get() = UUID.randomUUID().toString()
 }
