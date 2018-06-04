@@ -31,6 +31,9 @@ import retrofit2.Retrofit.Builder
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * To provide the necessary object for the internet model.
+ */
 object NetModule {
     private const val CacheMaxSize: Long = 10 * 1024 * 1024
 

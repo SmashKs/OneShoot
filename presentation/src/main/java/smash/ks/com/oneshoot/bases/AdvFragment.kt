@@ -22,6 +22,9 @@ import android.arch.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
+/**
+ * The basic fragment is in MVVM architecture which prepares all necessary variables or functions.
+ */
 abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>() {
     /** Add the AAC [ViewModel] for each fragments. */
     @Suppress("UNCHECKED_CAST")

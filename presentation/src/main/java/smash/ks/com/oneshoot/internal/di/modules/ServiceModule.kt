@@ -32,6 +32,9 @@ import smash.ks.com.data.remote.v1.KsFirebaseImpl
 import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseModule
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
 
+/**
+ * To provide the necessary objects for the remote/local data store service.
+ */
 object ServiceModule {
     fun serviceModule(context: Context) = Module {
         //region For the [Remote] data module.

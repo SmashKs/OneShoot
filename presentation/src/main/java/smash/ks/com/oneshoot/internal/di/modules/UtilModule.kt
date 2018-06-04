@@ -34,6 +34,9 @@ import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.data.models.mappers.Mapper as ObjMapper
 import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
+/**
+ * To provide the necessary utility objects for the whole app.
+ */
 object UtilModule {
     fun utilModule(context: Context) = Module {
         /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */

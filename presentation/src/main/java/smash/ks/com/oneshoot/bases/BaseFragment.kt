@@ -35,6 +35,9 @@ import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.SuperFragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
 
+/**
+ * The basic fragment is for the normal activity which prepares all necessary variables or functions.
+ */
 abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     override val kodeinContext get() = kcontext(activity)
     override val kodein = Kodein.lazy {

@@ -22,6 +22,15 @@ import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 
+/**
+ * The data repository for being responsible for selecting an appropriate data store to access
+ * the data.
+ *
+ * @property cache cache data store.
+ * @property local from database/file/memory data store.
+ * @property remote from remote service/firebase/third-party service data store.
+ * @property mapper
+ */
 class DataRepositoryImpl constructor(
     private val cache: KsCache,
     private val local: DataStore,

@@ -26,6 +26,9 @@ import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.oneshoot.UiThread
 
+/**
+ * To provide the necessary objects for whole global app module.
+ */
 object AppModule {
     fun appModule() = Module {
         bind<Bus>() with instance(RxBus.get())

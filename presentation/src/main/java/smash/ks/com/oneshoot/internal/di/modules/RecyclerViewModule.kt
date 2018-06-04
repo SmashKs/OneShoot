@@ -29,6 +29,9 @@ import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_HORIZONTA
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
+/**
+ * To provide the necessary objects into the recycler view.
+ */
 object RecyclerViewModule {
     fun recyclerViewModule(context: Context) = Module {
         // Linear Layout Manager.

@@ -27,6 +27,9 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.SuperActivityModule.activityModule
 
+/**
+ * The basic activity is for the normal activity which prepares all necessary variables or functions.
+ */
 abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     override val kodeinContext get() = kcontext(this)
     override val kodein by retainedKodein {

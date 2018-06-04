@@ -30,6 +30,9 @@ import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.LOCAL
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
 
+/**
+ * To provide the necessary objects into the repository.
+ */
 object RepositoryModule {
     fun repositoryModule() = Module {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
