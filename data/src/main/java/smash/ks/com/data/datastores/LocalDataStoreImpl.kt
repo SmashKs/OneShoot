@@ -30,7 +30,7 @@ class LocalDataStoreImpl(
     // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
 
     //region Fake
-    override fun fetchKsImage(params: Parameterable) = database.fetchKsData(params)
+    override fun fetchKsImage(params: Parameterable?) = database.fetchKsData(params)
 
     override fun keepKsImage(params: Parameterable) = params.toParameter().run {
         database.keepKsData(get(KsParam.PARAM_ID)!!.toLong(), get(KsParam.PARAM_URI)!!)

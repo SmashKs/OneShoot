@@ -28,7 +28,7 @@ class RemoteDataStoreImpl(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
 ) : DataStore {
-    override fun fetchKsImage(params: Parameterable) =
+    override fun fetchKsImage(params: Parameterable?) =
         if (true) ksService.fetchKsData(params.toParameter()) else ksFirebase.fetchImages()
 
     override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()

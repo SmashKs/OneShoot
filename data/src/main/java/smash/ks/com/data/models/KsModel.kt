@@ -18,6 +18,7 @@ package smash.ks.com.data.models
 
 import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
+import com.ks.smash.ext.const.DataBaseId
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
 import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel
@@ -27,7 +28,7 @@ import smash.ks.com.domain.parameters.Parameterable
 @Table(database = KsDatabaseConfig::class, allFields = true, name = "KsEntityTable")
 data class KsModel(
     @PrimaryKey(autoincrement = true)
-    var id: Long = DEFAULT_LONG,
+    var id: DataBaseId = DEFAULT_LONG,
     var uri: String = DEFAULT_STR
 ) : BaseRXModel(), Model, Parameterable {
     override fun toParameter() = hashMapOf(

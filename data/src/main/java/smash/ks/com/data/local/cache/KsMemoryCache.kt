@@ -45,7 +45,7 @@ open class KsMemoryCache : KsCache() {
      *   ↳ Triple<Parameters, Cached Time, Cached Data(SMASH)>
      *   ↳ Triple<Parameters, Cached Time, Cached Data(SMASH)>
      */
-    protected val memory by lazy { HashMap<Int, MutableList<Triple<Any, Long, Any>>>(CAPACITY) }
+    protected val memory by lazy { CacheMap(CAPACITY) }
 
     override fun isDirty(which: Int, params: Any) =
         if (isCached(which, params)) {

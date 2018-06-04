@@ -18,6 +18,7 @@ package smash.ks.com.data.local.v1
 
 import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.toSingle
+import com.ks.smash.ext.const.DataBaseId
 import com.raizlabs.android.dbflow.kotlinextensions.from
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
@@ -33,7 +34,7 @@ import java.util.UUID
  * The implementation for accessing the data by dbflow with [io.reactivex.plugins.RxJavaPlugins].
  */
 class KsDbFlowImpl : KsDatabase {
-    override fun fetchKsData(params: Parameterable) =
+    override fun fetchKsData(params: Parameterable?) =
 //        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
         (select from KsModel::class).rx().list.map {
             val (id, uri) = try {
@@ -46,7 +47,7 @@ class KsDbFlowImpl : KsDatabase {
             KsModel(id, uri)
         }
 
-    override fun keepKsData(id: Long, uri: String) = KsModel(id, uri).save().toCompletable()
+    override fun keepKsData(id: DataBaseId, uri: String) = KsModel(id, uri).save().toCompletable()
 
     override fun removeKsData(model: KsModel?) =
         (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).toCompletable()
