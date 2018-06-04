@@ -16,6 +16,9 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
+/**
+ * The abstract for camera view model. We don't implement the methods and variables here.
+ */
 abstract class CameraViewModule(
     protected val callback: CameraViewModule.Callback?,
     protected val preview: Preview
@@ -44,6 +47,10 @@ abstract class CameraViewModule(
 
     abstract fun setDisplayOrientation(displayOrientation: Int)
 
+    /**
+     * The event callbacks will be triggered when the camera open, close, or take a pic.
+     * Also, we can obtain the photo raw data after the user took a pic.
+     */
     interface Callback {
         fun onCameraOpened()
         fun onCameraClosed()

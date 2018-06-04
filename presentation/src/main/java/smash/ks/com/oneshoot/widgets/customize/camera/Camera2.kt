@@ -87,6 +87,9 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
 
+/**
+ * The Camera2 Api below Android api [LOLLIPOP] 22.
+ */
 @TargetApi(LOLLIPOP)
 open class Camera2(callback: Callback?, preview: Preview, context: Context) : CameraViewModule(callback, preview) {
     companion object {

@@ -29,6 +29,9 @@ import smash.ks.com.domain.parameters.Parameterable
 import java.util.Random
 import java.util.UUID
 
+/**
+ * The implementation for accessing the data by dbflow with [io.reactivex.plugins.RxJavaPlugins].
+ */
 class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
 //        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {

@@ -26,6 +26,9 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
 
+/**
+ * The Camera2 Api above Android api [M] 23.
+ */
 @TargetApi(M)
 class Camera2Api23(
     callback: CameraViewModule.Callback?,
