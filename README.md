@@ -37,6 +37,8 @@ Here's totally pure Kotlin library without Android SDK.
 We're still using **Retrofit2 + RxJava** here. This layer is including the Android SDK in order to
 using the database and Firebase service.
 
+![data layer](https://user-images.githubusercontent.com/5198104/40910615-8ec6dd6c-6827-11e8-8265-28511082f95e.png)
+
 ## Whole Architecture
 
 
