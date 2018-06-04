@@ -16,7 +16,13 @@
 
 package dependenices
 
+/**
+ * Collect all libs of the version number.
+ */
 object Versions {
+    /**
+     * Gradle android version.
+     */
     object Android {
         const val buildTools = "27.0.3"
         const val minSdk = 21
@@ -24,20 +30,32 @@ object Versions {
         const val compileSdk = 27
     }
 
+    /**
+     * Related Android component lib version.
+     */
     object AndroidComponent {
         const val support = "27.1.1"
         const val contraintLayout = "1.1.0"
     }
 
+    /**
+     * Related Kotlin lib version.
+     */
     object Kotlin {
         const val kotlinLib = "1.2.41"
         const val kotlinCoroutine = "0.22.5"
     }
 
+    /**
+     * Related view component lib version.
+     */
     object ViewComponent {
         const val adaptiveRecyclerView = "0.0.8"
     }
 
+    /**
+     * Related Kotlin extensions lib version.
+     */
     object KotlinAndroidExt {
         const val aac = "1.1.1"
         const val anko = "0.10.5"
@@ -46,10 +64,16 @@ object Versions {
         const val shaver = "0.2.2"
     }
 
+    /**
+     * Related dependency injection lib version.
+     */
     object DI {
         const val kodein = "5.0.0"
     }
 
+    /**
+     * Related Firebase lib version.
+     */
     object Firebase {
         const val core = "16.0.0"
         const val database = "16.0.1"
@@ -57,16 +81,25 @@ object Versions {
         const val messaging = "17.0.0"
     }
 
+    /**
+     * Related database lib version.
+     */
     object Database {
         const val dbflow = "4.2.4"
     }
 
+    /**
+     * Related network lib version.
+     */
     object Network {
         const val glide = "4.7.1"
         const val retrofit2 = "2.4.0"
         const val okhttp3 = "3.10.0"
     }
 
+    /**
+     * Related reactive lib version.
+     */
     object RxDep {
         const val rxJava2 = "2.1.12"
         const val rxKotlin2 = "2.2.0"
@@ -75,19 +108,31 @@ object Versions {
         const val rxBus = "2.0.0"
     }
 
+    /**
+     * Related parser lib version.
+     */
     object Parser {
         const val gson = "2.8.2"
         const val jsoup = "1.10.3"
     }
 
+    /**
+     * Related mapping lib version.
+     */
     object Mapping {
         const val modelmapper = "1.1.0"
     }
 
+    /**
+     * Related Android UI lib version.
+     */
     object Ui {
         const val dialog = "0.1.1"
     }
 
+    /**
+     * Related Android unit test lib version.
+     */
     object Test {
         const val jUnit = "4.12"
         const val espressoHelper = "0.1.3"
