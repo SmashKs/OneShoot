@@ -20,6 +20,9 @@ import org.kodein.di.Kodein.Module
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.FakeModule.fakeModule
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.TakeAPicModule.takeAPicModule
 
+/**
+ * To provide the necessary objects for the specific fragments.
+ */
 object SuperFragmentModule {
     fun fragmentModule() = Module {
         // Import all of the fragment modules.

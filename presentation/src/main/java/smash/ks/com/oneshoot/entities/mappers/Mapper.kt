@@ -20,7 +20,10 @@ import org.modelmapper.ModelMapper
 import smash.ks.com.domain.datas.Data
 import smash.ks.com.oneshoot.entities.Entity
 
-abstract class Mapper<O : Data, E : Entity>(protected val mapper: ModelMapper) {
-    abstract fun toEntityFrom(obj: O): E
-    abstract fun toObjectFrom(entity: E): O
+/**
+ * The mapper is used to transition the object between [Data] and [Entity].
+ */
+abstract class Mapper<D : Data, E : Entity>(protected val mapper: ModelMapper) {
+    abstract fun toEntityFrom(obj: D): E
+    abstract fun toDataFrom(entity: E): D
 }

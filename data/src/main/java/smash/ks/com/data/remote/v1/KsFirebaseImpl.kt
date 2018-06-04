@@ -20,6 +20,9 @@ import com.google.firebase.database.FirebaseDatabase
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * The implementation for accessing the data from Firebase.
+ */
 class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFirebase {
     private val reference by lazy { database.reference }
 

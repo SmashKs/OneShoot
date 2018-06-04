@@ -39,6 +39,10 @@ import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.Ang
 import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.RB
 import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView.AnglePoint.RT
 
+/**
+ * A customize view for selecting a rectangle area. It has four angles which be able to
+ * let us control and adjust the size and the position of the rectangle.
+ */
 class SelectableAreaView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

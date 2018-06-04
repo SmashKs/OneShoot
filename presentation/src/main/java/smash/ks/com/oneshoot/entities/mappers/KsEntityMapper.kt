@@ -27,5 +27,5 @@ import smash.ks.com.oneshoot.entities.KsEntity
 class KsEntityMapper(mapper: ModelMapper) : Mapper<KsData, KsEntity>(mapper) {
     override fun toEntityFrom(obj: KsData) = mapper.map(obj, KsEntity::class.java)
 
-    override fun toObjectFrom(entity: KsEntity) = mapper.map(entity, KsData::class.java)
+    override fun toDataFrom(entity: KsEntity) = mapper.map(entity, KsData::class.java)
 }

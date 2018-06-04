@@ -42,7 +42,7 @@ class KsMapperTest {
     @Test
     fun `mapping model to object`() {
         val model = KsModel(KS_ID, KS_URI)
-        val newObj = ksMapper.toObjectFrom(model)
+        val newObj = ksMapper.toDataFrom(model)
 
         assertEqualsObject(newObj, model)
     }

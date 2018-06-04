@@ -25,14 +25,14 @@ import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 
 /**
- * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
+ * Abstract class for a Use Case [Observable] (Interactor in terms of Clean Architecture).
  * This interface represents a execution unit for different use cases (this means any use case in the
  * application should implement this contract).
  *
  * By convention each UseCase implementation will return the result using a [org.reactivestreams.Subscriber]
  * that will execute its job in a background thread and will post the result in the UI thread.
  *
- * For passing a request parameters [smash.ks.com.domain.usecases.BaseUseCase.RequestValues] to data layer
+ * For passing a request parameters [smash.ks.com.domain.BaseUseCase.RequestValues] to data layer
  * that set a generic type for wrapping vary data.
  */
 abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
