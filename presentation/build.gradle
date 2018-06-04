@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+
 import dependenices.Deps.Global
+import dependenices.Deps.GlobalDebug
 import dependenices.Deps.GlobalTest
 import dependenices.Deps.Presentation
 import dependenices.Deps.PresentationTest
@@ -170,6 +172,8 @@ dependencies {
     androidTestImplementation(PresentationTest.rules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
+    debugImplementation GlobalDebug.database
 }
 
 apply plugin: 'com.google.gms.google-services'

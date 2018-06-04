@@ -53,6 +53,13 @@ object Deps {
         const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"
         const val powerMockito = "org.powermock:powermock-api-mockito2:${Versions.Test.powerMockito}"
     }
+
+    /**
+     * The necessary debug libs for all modules.
+     */
+    object GlobalDebug {
+        const val database = "com.amitshekhar.android:debug-db:${Versions.Database.debug}"
+    }
     //endregion
 
     //region Presentation

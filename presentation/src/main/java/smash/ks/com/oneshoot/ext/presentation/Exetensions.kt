@@ -24,9 +24,7 @@ import com.devrapid.kotlinshaver.isNotNull
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Error
-import smash.ks.com.domain.datas.KsResponse.Loading
-import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.domain.datas.KsResponse.*
 
 fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
     block: suspend CoroutineScope.() -> Deferred<T>,
@@ -39,14 +37,32 @@ fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
 
         try {
             entity = block()
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             value = Error(null, e.message.orEmpty())
         }
 
         entity.takeIf(Any?::isNotNull)?.let {
             // This block already checked the entity isn't a null variable.
             value = Success(successBlock(it))
+        }
+    }
+}
+
+fun MutableLiveData<KsResponse>.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
+    var entity: Deferred<Unit>? = null
+
+    ui {
+        value = Loading<Any>()
+
+        try {
+            entity = block()
+        } catch (e: Exception) {
+            value = Error(null, e.message.orEmpty())
+        }
+
+        entity.takeIf(Any?::isNotNull)?.let {
+            // This block already checked the entity isn't a null variable.
+            value = Success(it.await())
         }
     }
 }

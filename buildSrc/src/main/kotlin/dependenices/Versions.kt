@@ -86,6 +86,7 @@ object Versions {
      */
     object Database {
         const val dbflow = "4.2.4"
+        const val debug = "1.0.3"
     }
 
     /**
