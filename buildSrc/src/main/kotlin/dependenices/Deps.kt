@@ -16,8 +16,14 @@
 
 package dependenices
 
+/**
+ * Central control the dependency libraries. All dependency paths and versions here.
+ */
 object Deps {
     //region Global
+    /**
+     * The necessary libs for all modules.
+     */
     object Global {
         const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.Kotlin.kotlinLib}"
         const val refelect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin.kotlinLib}"
@@ -36,6 +42,9 @@ object Deps {
         const val jsoup = "org.jsoup:jsoup:${Versions.Parser.jsoup}"
     }
 
+    /**
+     * The necessary unit test libs for all modules.
+     */
     object GlobalTest {
         const val junit = "junit:junit:${Versions.Test.jUnit}"
         const val kotlin = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.Kotlin.kotlinLib}"
@@ -47,6 +56,9 @@ object Deps {
     //endregion
 
     //region Presentation
+    /**
+     * The necessary libs only for presentation layer.
+     */
     object Presentation {
         const val anko = "org.jetbrains.anko:anko-commons:${Versions.KotlinAndroidExt.anko}"
         const val ankoSdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.KotlinAndroidExt.anko}"
@@ -93,6 +105,9 @@ object Deps {
             "com.android.support.constraint:constraint-layout:${Versions.AndroidComponent.contraintLayout}"
     }
 
+    /**
+     * The necessary unit test libs only for the presentation layer.
+     */
     object PresentationTest {
         const val espressoHelper = "com.github.Zhuinden:espresso-helper:${Versions.Test.espressoHelper}"
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
@@ -104,14 +119,23 @@ object Deps {
     //endregion
 
     //region Domain
+    /**
+     * The necessary libs only for the domain layer.
+     */
     object Domain {
         const val rxLifecycle = "com.trello.rxlifecycle2:rxlifecycle-kotlin:${Versions.RxDep.rxLifecycle2}"
     }
 
+    /**
+     * The necessary unit test libs only for the domain layer.
+     */
     object DomainTest
     //endregion
 
     //region Data
+    /**
+     * The necessary libs only for the data layer.
+     */
     object Data {
         // Internet
         const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Network.retrofit2}"
@@ -137,14 +161,23 @@ object Deps {
         const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
     }
 
+    /**
+     * The necessary unit test libs only for the data layer.
+     */
     object DataTest {
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
     }
     //endregion
 
     //region Ext
+    /**
+     * The necessary libs only for the extension module.
+     */
     object Ext
 
+    /**
+     * The necessary unit test libs only for the extension module.
+     */
     object ExtTest
     //endregion
 }
