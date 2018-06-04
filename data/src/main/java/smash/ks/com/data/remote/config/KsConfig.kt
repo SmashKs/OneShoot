@@ -16,6 +16,9 @@
 
 package smash.ks.com.data.remote.config
 
+/**
+ * The configuration of a remote service.
+ */
 class KsConfig : ApiConfig {
     companion object {
         const val API_REQUEST = "/ks/v1"

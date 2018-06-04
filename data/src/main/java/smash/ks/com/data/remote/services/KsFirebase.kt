@@ -22,6 +22,9 @@ import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * The access operations for Firebase service.
+ */
 interface KsFirebase {
     fun fetchImages(params: Parameterable = KsParam()): Single<KsModel>
 

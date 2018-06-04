@@ -24,6 +24,9 @@ import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * The access operations to a database.
+ */
 interface KsDatabase {
     fun fetchKsData(params: Parameterable = KsParam()): Single<KsModel>
 

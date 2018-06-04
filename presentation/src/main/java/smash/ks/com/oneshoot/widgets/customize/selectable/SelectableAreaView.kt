@@ -221,27 +221,47 @@ class SelectableAreaView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * The angle point's properties of a rectangle.
+     *
+     * @property isSelected check myself is clicked or selected.
+     * @property coordination the coordination.
+     * @property direction the point's position. Ref: [DIRECT_LEFT], [DIRECT_RIGHT], [DIRECT_TOP], [DIRECT_BOTTOM].
+     *                     Using bit to keep the position is easy to check by code.
+     */
     sealed class AnglePoint(
         var isSelected: Boolean,
         var coordination: PointF,
         var direction: Int
     ) {
+        /**
+         * The left top point of a rectangle.
+         */
         class LT(
             isSelected: Boolean,
             coordination: PointF,
             direction: Int
         ) : AnglePoint(isSelected, coordination, direction)
 
+        /**
+         * The left bottom point of a rectangle.
+         */
         class LB(
             isSelected: Boolean,
             coordination: PointF, direction: Int
         ) : AnglePoint(isSelected, coordination, direction)
 
+        /**
+         * The right top point of a rectangle.
+         */
         class RT(
             isSelected: Boolean,
             coordination: PointF, direction: Int
         ) : AnglePoint(isSelected, coordination, direction)
 
+        /**
+         * The right bottom point of a rectangle.
+         */
         class RB(
             isSelected: Boolean,
             coordination: PointF, direction: Int

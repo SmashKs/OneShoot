@@ -106,6 +106,9 @@ fun View.startColorAnimation(
     }.start()
 }
 
+/**
+ * To keep the properties for the reveal animation settings.
+ */
 @Parcelize
 data class RevealAnimationSetting(
     var centerX: Int = 0,

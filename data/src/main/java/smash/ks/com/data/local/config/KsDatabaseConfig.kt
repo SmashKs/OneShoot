@@ -17,8 +17,13 @@
 package smash.ks.com.data.local.config
 
 import com.raizlabs.android.dbflow.annotation.Database
+import smash.ks.com.data.local.config.KsDatabaseConfig.VERSION
 
-@Database(name = "KsDatabase", version = KsDatabaseConfig.VERSION)
+/**
+ * The setting for creating a database by dbflow library with the database version
+ * and migration setting.
+ */
+@Database(name = "KsDatabase", version = VERSION)
 object KsDatabaseConfig {
     const val VERSION = 1
 

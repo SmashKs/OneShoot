@@ -16,6 +16,9 @@
 
 package smash.ks.com.data.local.cache
 
+/**
+ * An abstract class for this project and pre-defined the some functions for this app keeping the data.
+ */
 abstract class KsCache : Cache {
     inline fun <reified T> digCachedData(which: Int, params: Any) =
         obtainCachedObj(which, params) as? T ?: throw ClassCastException()

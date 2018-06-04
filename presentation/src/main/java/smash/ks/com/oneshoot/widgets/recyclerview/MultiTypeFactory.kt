@@ -23,6 +23,9 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntries
 
+/**
+ * A factory for providing the viewholder from an object data type to the recyclerview.
+ */
 class MultiTypeFactory(context: Context) : ViewTypeFactory(), KodeinAware {
     override var transformMap
         get() = viewHolderEntries.toMap().toMutableMap()

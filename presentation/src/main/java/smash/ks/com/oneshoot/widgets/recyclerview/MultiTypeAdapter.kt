@@ -23,6 +23,10 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
+/**
+ * The common recyclerview adapter for the multi-type object. Avoid that we create
+ * a lots similar boilerplate adapters.
+ */
 open class MultiTypeAdapter(
     override var dataList: MutableList<KsMultiVisitable>,
     context: Context

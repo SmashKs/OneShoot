@@ -20,6 +20,10 @@ import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * The implementation of the local data store. The responsibility is selecting a correct
+ * local service(Database/Local file) to access the data.
+ */
 class LocalDataStoreImpl(
     private val database: KsDatabase
 ) : DataStore {

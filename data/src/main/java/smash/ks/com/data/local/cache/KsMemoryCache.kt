@@ -20,6 +20,9 @@ import com.devrapid.kotlinshaver.currentTime
 import com.devrapid.kotlinshaver.isNotNull
 import com.ks.smash.ext.const.takeIfDefault
 
+/**
+ * A cache class for keeping the data temporally into the memory([HashMap]).
+ */
 open class KsMemoryCache : KsCache() {
     companion object {
         private const val CAPACITY = 200

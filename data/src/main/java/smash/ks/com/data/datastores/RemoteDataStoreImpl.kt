@@ -20,6 +20,10 @@ import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.parameters.Parameterable
 
+/**
+ * The implementation of the remote data store. The responsibility is selecting a correct
+ * remote service to access the data.
+ */
 class RemoteDataStoreImpl(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
