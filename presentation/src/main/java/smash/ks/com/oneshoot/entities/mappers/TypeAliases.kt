@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.fake
+package smash.ks.com.oneshoot.entities.mappers
 
-import android.view.View
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.oneshoot.entities.KsEntity
-import smash.ks.com.oneshoot.widgets.viewmodel.FakeVH
 
-class FakeViewHolder(view: View) : FakeVH(view) {
-    override fun initView(model: KsEntity, position: Int, adapter: Any) {
-    }
-}
+typealias PresentationFakeMapper = Mapper<KsData, KsEntity>

@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features.fake
+package smash.ks.com.oneshoot.features
 
-import android.view.View
-import smash.ks.com.oneshoot.entities.KsEntity
-import smash.ks.com.oneshoot.widgets.viewmodel.FakeVH
+import android.arch.lifecycle.MutableLiveData
+import smash.ks.com.domain.datas.KsResponse
 
-class FakeViewHolder(view: View) : FakeVH(view) {
-    override fun initView(model: KsEntity, position: Int, adapter: Any) {
-    }
-}
+typealias ResponseLiveData = MutableLiveData<KsResponse>

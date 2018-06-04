@@ -17,6 +17,7 @@
 package smash.ks.com.data.models.mappers
 
 import org.modelmapper.ModelMapper
+import smash.ks.com.data.models.DataFakeMapper
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.datas.KsData
 
@@ -24,7 +25,7 @@ import smash.ks.com.domain.datas.KsData
  * A transforming mapping between [KsModel] and [KsData]. The different layers have
  * their own data objects, the objects should transform and fit each layers.
  */
-class KsMapper constructor(mapper: ModelMapper) : Mapper<KsModel, KsData>(mapper) {
+class KsMapper constructor(mapper: ModelMapper) : DataFakeMapper(mapper) {
     override fun toDataFrom(model: KsModel) = mapper.map(model, KsData::class.java)
 
     override fun toModelFrom(obj: KsData) = mapper.map(obj, KsModel::class.java)

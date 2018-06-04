@@ -28,7 +28,7 @@ import org.kodein.di.generic.instance
  * a lots similar boilerplate adapters.
  */
 open class MultiTypeAdapter(
-    override var dataList: MutableList<KsMultiVisitable>,
+    override var dataList: MultiData,
     context: Context
 ) : KsAdapter(), KodeinAware {
     override var typeFactory: MultiTypeFactory

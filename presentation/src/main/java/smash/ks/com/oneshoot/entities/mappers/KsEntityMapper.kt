@@ -24,7 +24,7 @@ import smash.ks.com.oneshoot.entities.KsEntity
  * A transforming mapping between [KsData] and [KsEntity]. The different layers have
  * their own data objects, the objects should transform and fit each layers.
  */
-class KsEntityMapper(mapper: ModelMapper) : Mapper<KsData, KsEntity>(mapper) {
+class KsEntityMapper(mapper: ModelMapper) : PresentationFakeMapper(mapper) {
     override fun toEntityFrom(data: KsData) = mapper.map(data, KsEntity::class.java)
 
     override fun toDataFrom(entity: KsEntity) = mapper.map(entity, KsData::class.java)

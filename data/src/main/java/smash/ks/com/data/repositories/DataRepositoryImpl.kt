@@ -18,7 +18,7 @@ package smash.ks.com.data.repositories
 
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
-import smash.ks.com.data.models.mappers.KsMapper
+import smash.ks.com.data.models.DataFakeMapper
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 
@@ -35,7 +35,7 @@ class DataRepositoryImpl constructor(
     private val cache: KsCache,
     private val local: DataStore,
     private val remote: DataStore,
-    private val mapper: KsMapper
+    private val mapper: DataFakeMapper
 ) : DataRepository {
     //region Fake
     override fun retrieveKsImage(params: Parameterable) =

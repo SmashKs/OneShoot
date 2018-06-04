@@ -18,15 +18,14 @@
 
 package smash.ks.com.oneshoot.ext.presentation
 
-import android.arch.lifecycle.MutableLiveData
 import com.devrapid.kotlinknifer.ui
 import com.devrapid.kotlinshaver.isNotNull
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.datas.KsResponse.*
+import smash.ks.com.oneshoot.features.ResponseLiveData
 
-fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
+fun <T, Y : Any> ResponseLiveData.askingData(
     block: suspend CoroutineScope.() -> Deferred<T>,
     successBlock: suspend CoroutineScope.(res: Deferred<T>) -> Y
 ) {
@@ -48,7 +47,7 @@ fun <T, Y : Any> MutableLiveData<KsResponse>.askingData(
     }
 }
 
-fun MutableLiveData<KsResponse>.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
+fun ResponseLiveData.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
     var entity: Deferred<Unit>? = null
 
     ui {

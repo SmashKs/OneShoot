@@ -18,12 +18,7 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
 import android.support.v7.widget.RecyclerView
 import org.kodein.di.Kodein.Module
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.inSet
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.scoped
-import org.kodein.di.generic.singleton
+import org.kodein.di.generic.*
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.features.fake.FakeViewHolder
@@ -33,7 +28,7 @@ import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ENTITY
-import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiData
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
 object FakeModule {
@@ -48,8 +43,8 @@ object FakeModule {
         }
 
         // *** Others
-        bind<MutableList<KsMultiVisitable>>(KS_ENTITY) with scoped(fragmentScope).singleton {
-            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as MutableList<KsMultiVisitable>
+        bind<MultiData>(KS_ENTITY) with scoped(fragmentScope).singleton {
+            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as MultiData
         }
         bind<RecyclerView.Adapter<*>>(KS_ADAPTER) with scoped(fragmentScope).singleton {
             MultiTypeAdapter(instance(KS_ENTITY), context)

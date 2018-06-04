@@ -25,3 +25,5 @@ typealias KsViewHolder = AdaptiveViewHolder<MultiTypeFactory, KsMultiVisitable>
 typealias KsMultiVisitable = IVisitable<MultiTypeFactory>
 
 typealias KsAdapter = AdaptiveAdapter<MultiTypeFactory, KsMultiVisitable, KsViewHolder>
+
+typealias MultiData = MutableList<KsMultiVisitable>
