@@ -37,8 +37,8 @@ class FakeViewModel(
     val saveRes by lazy { ResponseLiveData() }
 
     fun retrieveId(imageId: Int) {
-        temp.askingData({ getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))) }) { res ->
-            res.await().uri
+        temp.askingData({ getKsImageCase.awaitCase(FetchImageRequest(KsParam(imageId.toLong()))) }) { res ->
+            res.await()
         }
     }
 
