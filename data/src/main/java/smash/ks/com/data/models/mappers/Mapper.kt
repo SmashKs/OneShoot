@@ -24,6 +24,19 @@ import smash.ks.com.domain.datas.Data
  * The mapper is used to transition the object between [Model] and [Data].
  */
 abstract class Mapper<M : Model, D : Data>(protected val mapper: ModelMapper) {
+    /**
+     * Transition the [Model] object to [Data] object.
+     *
+     * @param model a [Model] data object.
+     * @return the same content's [Data] object.
+     */
     abstract fun toDataFrom(model: M): D
+
+    /**
+     * Transition the [Data] object to [Model] object.
+     *
+     * @param obj a [Data] data object.
+     * @return the same content's [Model] object.
+     */
     abstract fun toModelFrom(obj: D): M
 }

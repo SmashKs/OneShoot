@@ -36,9 +36,6 @@ class KsDbFlowImpl : KsDatabase {
     override fun fetchKsData(params: Parameterable) =
 //        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
         (select from KsModel::class).rx().list.map {
-            println("=========================")
-            println(it)
-            println("=========================")
             val (id, uri) = try {
                 it.first()
             }
