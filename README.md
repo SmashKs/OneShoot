@@ -7,10 +7,38 @@
 
 This is an application for analyzing a picture you took or are selected from the photo. If you give
 app a scenic photo then app might give you the information of the **place name**, the **similar
-place photo**, ... etc.
-In the near future, we'll add more function for anaylzing the picture.
+place photo**, ... etc. In the near future, we'll add more function for anaylzing the picture.
 
 # Show Case
+
+# Architecture
+
+We're using Clean Architecture to build this App. There're few layers as well-known
+**Presentation**, **Domain**, **Data** layer. Also, I add an extra universal module *ext* for making
+extension library in Kotlin.
+
+
+### Presentation
+
+As long as you know Clean Architecture, this layer is responsible in showing the data from the
+**Data layer** and handle thread to UI thread for changing the UI state and here is including
+Android SDK.
+
+We're using the **coroutine** not **RxJava** here because the coroutines are lighter than thread,
+
+### Domain
+
+Here's totally pure Kotlin library without Android SDK.
+
+
+### Data
+
+We're still using **Retrofit2 + RxJava** here. This layer is including the Android SDK in order to
+using the database and Firebase service.
+
+## Whole Architecture
+
+
 
 # Used libraries
 
@@ -44,3 +72,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
