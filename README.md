@@ -30,14 +30,14 @@ We're using the **coroutine** not **RxJava** here because the coroutines are lig
 
 Here's totally pure Kotlin library without Android SDK.
 
-![domain layer](https://user-images.githubusercontent.com/5198104/40908231-1baef130-6821-11e8-91c7-ca7031987428.png)
+![domain layer](https://user-images.githubusercontent.com/5198104/40908231-1baef130-6821-11e8-91c7-ca7031987428.png =300x300)
 
 ### Data
 
 We're still using **Retrofit2 + RxJava** here. This layer is including the Android SDK in order to
 using the database and Firebase service.
 
-![data layer](https://user-images.githubusercontent.com/5198104/40910615-8ec6dd6c-6827-11e8-8265-28511082f95e.png)
+![data layer](https://user-images.githubusercontent.com/5198104/40910615-8ec6dd6c-6827-11e8-8265-28511082f95e.png =300x300)
 
 ## Whole Architecture
 
