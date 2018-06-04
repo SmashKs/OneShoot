@@ -33,6 +33,9 @@ import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
 
+/**
+ * To provide the necessary usecase objects for the specific activities or fragments.
+ */
 object UsecaseModule {
     fun usecaseModule() = Module {
         //region For Fragments

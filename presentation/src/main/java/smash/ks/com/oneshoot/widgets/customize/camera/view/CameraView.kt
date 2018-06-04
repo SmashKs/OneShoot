@@ -50,6 +50,9 @@ import smash.ks.com.oneshoot.widgets.customize.camera.preview.SurfaceViewPreview
 import smash.ks.com.oneshoot.widgets.customize.camera.preview.TextureViewPreview
 import kotlin.annotation.AnnotationRetention.SOURCE
 
+/**
+ * A customize view of the camera view and thru this view.
+ */
 open class CameraView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

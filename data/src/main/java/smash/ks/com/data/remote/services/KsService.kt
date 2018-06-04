@@ -22,6 +22,9 @@ import retrofit2.http.QueryMap
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.config.KsConfig
 
+/**
+ * Thru [retrofit2.Retrofit] we can just define the interfaces which we want to access for.
+ */
 interface KsService {
     //region Fake
     @GET("${KsConfig.API_REQUEST}/test/api")
