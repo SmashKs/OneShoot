@@ -67,10 +67,12 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         vm.apply {
             //            observe(temp, ::updateTemp)
             observe(temp) {
+                logw(it)
+                logw(it?.data)
             }
 
             // For testing, that's why they are called in the beginning.
-//            storeImage()
+            storeImage()
             retrieveId(randomId)
         }
 

@@ -16,14 +16,18 @@
 
 package smash.ks.com.oneshoot.features.fake
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase
+import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
-import smash.ks.com.oneshoot.ext.presentation.askingData
-import smash.ks.com.oneshoot.ext.usecase.awaitCase
-import smash.ks.com.oneshoot.features.ResponseLiveData
+import smash.ks.com.oneshoot.ext.presentation.requestData
+import smash.ks.com.oneshoot.ext.presentation.requestWithoutResponse
+import smash.ks.com.oneshoot.ext.usecase.toAwait
+import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests as FetchImageRequest
 import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests as SaveImageRequest
 
@@ -32,16 +36,17 @@ class FakeViewModel(
     private val saveKsImageCase: SaveKsImageCase,
     private val mapper: PresentationFakeMapper
 ) : ViewModel() {
-    val temp by lazy { ResponseLiveData() }
-    val saveRes by lazy { ResponseLiveData() }
+    val temp by lazy { MutableLiveData<KsResponse<String>>() }
+    private val saveRes by lazy { UntilPresenterLiveData() }
 
     fun retrieveId(imageId: Int) {
-        temp.askingData({ getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))) })
-//        temp.value = getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))).await()
+        temp.requestData({ getKsImageCase.toAwait(mapper, FetchImageRequest(KsParam(imageId.toLong()))) },
+                         KsEntity::uri)
     }
 
     fun storeImage() {
-        // TODO(jieyi): 2018/06/03 If we don't return value to ui activity/fragment, we shouldn't use an variable.
-//        saveRes.noResponseRequest { saveKsImageCase.awaitCase(SaveImageRequest(KsParam(imageUri = "This is my name"))) }
+        saveRes.requestWithoutResponse {
+            saveKsImageCase.toAwait(SaveImageRequest(KsParam(imageUri = "!??!?!?!?!?!??!")))
+        }
     }
 }

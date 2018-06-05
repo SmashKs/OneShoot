@@ -118,7 +118,7 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 //endregion
 
 //region Observable
-fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -128,11 +128,11 @@ fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.ayncCase(
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.awaitCase(
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
-    this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
+    this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle().run { mapToEntity(mapper) }
 }
 
 /**
@@ -140,13 +140,13 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseC
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.awaitCase(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.toAwait(
     parameter: V? = null
-) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
+) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
 
 //region Single
-fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<D, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -156,15 +156,15 @@ fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<D, V>.ayncCase(
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.awaitCase(
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
-    this@awaitCase
+    this@toAwait
         .apply { requestValues = parameter }
         .fetchUseCase()
         .await()
-        .let { it.data?.run { Success(mapper.toEntityFrom(this)) } ?: Error("No response result") }
+        .run { mapToEntity(mapper) }
 }
 
 /**
@@ -172,17 +172,24 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleUseCase<D, V>.awaitCase(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.toAwait(
     parameter: V? = null
-) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
+) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
+
+private fun <D : Data, E : Entity> KsResponse<D>.mapToEntity(mapper: Mapper<D, E>) =
+    data?.let(mapper::toEntityFrom)?.wrapInSuccess() ?: "No response result".wrapInError<E>()
 
 //region Completable
 fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
-suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.awaitCase(
+suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.toAwait(
     parameter: V? = null
-) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
+) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await().let { Success(it) } }
 //endregion
+
+private inline fun <E> E.wrapInSuccess() = Success(this)
+
+private inline fun <E> String.wrapInError() = Error<E>(msg = this)
