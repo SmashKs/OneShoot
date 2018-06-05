@@ -32,17 +32,11 @@ import android.view.View.MeasureSpec.getMode
 import android.view.View.MeasureSpec.getSize
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
-import smash.ks.com.oneshoot.R.style.Widget_CameraView
-import smash.ks.com.oneshoot.R.styleable.CameraView_android_adjustViewBounds
-import smash.ks.com.oneshoot.R.styleable.CameraView_aspectRatio
-import smash.ks.com.oneshoot.R.styleable.CameraView_autoFocus
-import smash.ks.com.oneshoot.R.styleable.CameraView_facing
-import smash.ks.com.oneshoot.R.styleable.CameraView_flash
+import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
 import smash.ks.com.oneshoot.widgets.customize.camera.module.CameraViewModule
-import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.DEFAULT_ASPECT_RATIO
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FACING_BACK
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FACING_FRONT
@@ -100,13 +94,13 @@ open class CameraView @JvmOverloads constructor(
 
     init {
         // Attributes
-        context.obtainStyledAttributes(attrs, CameraView, defStyleAttr, Widget_CameraView).apply {
-            val aspectRatio = getString(CameraView_aspectRatio)
+        context.obtainStyledAttributes(attrs, R.styleable.CameraView, defStyleAttr, R.style.Widget_CameraView).apply {
+            val aspectRatio = getString(R.styleable.CameraView_aspectRatio)
             setAspectRatio(aspectRatio.takeIf { null != it }?.let { AspectRatio.parse(aspectRatio) } ?: DEFAULT_ASPECT_RATIO)
-            adjustViewBounds = getBoolean(CameraView_android_adjustViewBounds, false)
-            setFacing(getInt(CameraView_facing, FACING_BACK))
-            setAutoFocus(getBoolean(CameraView_autoFocus, true))
-            setFlash(getInt(CameraView_flash, Constants.FLASH_AUTO))
+            adjustViewBounds = getBoolean(R.styleable.CameraView_android_adjustViewBounds, false)
+            setFacing(getInt(R.styleable.CameraView_facing, FACING_BACK))
+            setAutoFocus(getBoolean(R.styleable.CameraView_autoFocus, true))
+            setFlash(getInt(R.styleable.CameraView_flash, FLASH_AUTO))
         }.recycle()
     }
 
