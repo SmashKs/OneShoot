@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
-import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.find
@@ -29,8 +28,8 @@ import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
-import smash.ks.com.oneshoot.ext.aac.breakResponse
-import smash.ks.com.oneshoot.ext.aac.observe
+import smash.ks.com.oneshoot.ext.aac.observeNonNull
+import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
@@ -65,11 +64,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         vm.apply {
-            //            observe(temp, ::updateTemp)
-            observe(temp) {
-                logw(it)
-                logw(it?.data)
-            }
+            observeNonNull(temp, ::updateTemp)
 
             // For testing, that's why they are called in the beginning.
             storeImage()
@@ -77,7 +72,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         }
 
         find<RecyclerView>(R.id.rv_fake).also {
-            //        rv_fake.also {
+            // rv_fake.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
         }
@@ -99,11 +94,8 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //endregion
 
     //region Presenter Implementation.
-    private fun updateTemp(response: KsResponse<String>?) {
-        breakResponse(response) {
-            logw(it.data)
-//            showImageUri(it.data as String)
-        }
+    private fun updateTemp(response: KsResponse<String>) {
+        peelResponse(response, this@FakeFragment::showImageUri)
     }
 
     private fun showImageUri(uri: String) {
