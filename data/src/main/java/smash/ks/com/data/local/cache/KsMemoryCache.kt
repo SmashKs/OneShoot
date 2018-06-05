@@ -61,9 +61,11 @@ open class KsMemoryCache : KsCache() {
         // TODO(jieyi): 2018/03/08 Currently here is no refresh function.
         if (isHit(which, params).isNotNull()) {
             // *** [isHit(which, params)] must not null object.
-            val originData = isHit(which, params)!!.third
+            val originData = isHit(which, params)?.third ?: throw NoSuchElementException()
 
-            memory[which]!!.add(Triple(params, currentTime, obj.takeIf(Any?::isNotNull) ?: originData))
+            memory[which]?.add(Triple(params,
+                                      currentTime,
+                                      obj.takeIf(Any?::isNotNull) ?: originData)) ?: throw NoSuchElementException()
         }
         else {
             obj.takeIf(Any?::isNotNull)?.let {

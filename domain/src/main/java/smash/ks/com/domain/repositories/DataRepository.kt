@@ -27,14 +27,43 @@ import smash.ks.com.domain.parameters.Parameterable
  */
 interface DataRepository {
     //region Fake
+    /**
+     * Retrieve a specific image/all images from the remote/local database.
+     * @param params when `null` means that it'll retrieve all images, otherwise, will be a specific image.
+     * @return
+     */
     fun retrieveKsImage(params: Parameterable?): Single<KsData>
 
+    /**
+     * Store an image to the database.
+     *
+     * @param params
+     * @return
+     */
     fun storeKsImage(params: Parameterable = KsParam()): Completable
     //endregion
 
+    /**
+     * Upload an image to Firebase for analysis the image.
+     *
+     * @param params
+     * @return
+     */
     fun uploadImage(params: Parameterable): Completable
 
+    /**
+     * Retrieve the tags of an image info after it passed ML model.
+     *
+     * @param params
+     * @return
+     */
     fun retrieveImageTagsByML(params: Parameterable): Single<List<String>>
 
+    /**
+     * Retrieve the key words of an image info after it passed ML model.
+     *
+     * @param params
+     * @return
+     */
     fun retrieveImageWordContentByML(params: Parameterable): Single<String>
 }

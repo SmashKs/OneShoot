@@ -82,5 +82,8 @@ fun <D> LoadView.peelResponse(response: KsResponse<D>, successBlock: (D) -> Unit
         }
     }
 
+/**
+ * Abort the await request.
+ */
 inline fun <T> Deferred<T>?.abort(cause: Throwable? = null) =
     takeIf { null != it && it.isActive }?.cancel(cause)
