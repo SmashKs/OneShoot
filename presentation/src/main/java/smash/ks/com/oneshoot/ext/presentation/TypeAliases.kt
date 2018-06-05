@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.features
+package smash.ks.com.oneshoot.ext.presentation
 
-import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
+import android.arch.lifecycle.MutableLiveData
+import smash.ks.com.domain.datas.KsResponse
 
-typealias UntilPresenterLiveData = ResponseLiveData<Unit>
+typealias ResponseLiveData<D> = MutableLiveData<KsResponse<D>>

@@ -28,13 +28,13 @@ import io.reactivex.Single
 import io.reactivex.SingleSource
 
 // Generic with Type Parameters
-typealias LookUp<T> = HashMap<T, T>
 
+typealias LookUp<T> = HashMap<T, T>
 typealias Parameters = LookUp<String>
 
 // Usecase with Function Parameters
-typealias ExtraObservableOpOnBkg<T, F> = Observable<T>.() -> ObservableSource<F>
 
+typealias ExtraObservableOpOnBkg<T, F> = Observable<T>.() -> ObservableSource<F>
 typealias ExtraSingleOpOnBkg<T, F> = Single<T>.() -> SingleSource<F>
 typealias ExtraCompletableOpOnBkg = Completable.() -> CompletableSource
 typealias MaybeLifeProvider = LifecycleProvider<*>?

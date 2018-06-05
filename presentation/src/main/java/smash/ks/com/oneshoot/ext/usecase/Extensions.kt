@@ -117,12 +117,17 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 //endregion
 
 //region Observable
+/**
+ * Connected [ObservableUseCase] and unwrapping and letting the usecase become a async
+ * [kotlinx.coroutines.experimental.Deferred] object.
+ */
 fun <D : Data, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
- * Await the usecase with the mapper.
+ * Connected [ObservableUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object with the mapper.
  *
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
@@ -135,7 +140,9 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableCase
 }
 
 /**
- * Await the usecase without the mapper (Because the variables should be primitive variable).
+ * Connected [ObservableUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object without the mapper (Because the
+ * variables should be primitive variable).
  *
  * @param parameter the usecase's parameter.
  */
@@ -145,12 +152,17 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<
 //endregion
 
 //region Single
+/**
+ * Connected [SingleUseCase] and unwrapping and letting the usecase become a async
+ * [kotlinx.coroutines.experimental.Deferred] object.
+ */
 fun <D : Data, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
- * Await the usecase with the mapper.
+ * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object. with the mapper.
  *
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
@@ -167,7 +179,9 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWith
 }
 
 /**
- * Await the usecase without the mapper (Because the variables should be primitive variable).
+ * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object. without the mapper (Because the
+ * variables should be primitive variable).
  *
  * @param parameter the usecase's parameter.
  */
@@ -176,19 +190,37 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
 
+/**
+ * A mapper which unboxing the [KsResponse]<[Data]> then getting items we needs. Make a [KsResponse]
+ * again and boxing the [Entity] which mapping from [Data] to [Entity] to be a [KsResponse]<[Entity]>.
+ */
 private fun <D : Data, E : Entity> KsResponse<D>.mapToEntity(mapper: Mapper<D, E>) =
     data?.let(mapper::toEntityFrom)?.wrapInSuccess() ?: "No response result".wrapInError<E>()
 
 //region Completable
+/**
+ * Connected [CompletableUseCase] and unwrapping and letting the usecase become a async
+ * [kotlinx.coroutines.experimental.Deferred] object.
+ */
 fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
+/**
+ * Connected [CompletableUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object.
+ */
 suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.toAwait(
     parameter: V? = null
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await().let { Success(it) } }
 //endregion
 
+/**
+ * Wrapping the [this] into [Success].
+ */
 private inline fun <E> E.wrapInSuccess() = Success(this)
 
+/**
+ * Wrapping the [String] msg into [Error].
+ */
 private inline fun <E> String.wrapInError() = Error<E>(msg = this)

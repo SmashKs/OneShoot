@@ -18,7 +18,6 @@
 
 package smash.ks.com.oneshoot.ext.presentation
 
-import android.arch.lifecycle.MutableLiveData
 import com.devrapid.kotlinknifer.ui
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
@@ -29,7 +28,14 @@ import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
-fun <E : Entity, R> MutableLiveData<KsResponse<R>>.requestData(
+/**
+ * A transformer wrapper for encapsulating the [android.arch.lifecycle.LiveData]<[KsResponse]>'s state
+ * changing and the state becomes [Success] when retrieving a data from Data layer by Kotlin coroutine.
+ *
+ * Also, unboxing the [KsResponse] and obtaining the data inside of the [KsResponse], then return the
+ * data to [android.arch.lifecycle.LiveData].
+ */
+fun <E : Entity, R> ResponseLiveData<R>.requestData(
     usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>,
     transformBlock: (E) -> R
 ) = ui {
@@ -43,16 +49,26 @@ fun <E : Entity, R> MutableLiveData<KsResponse<R>>.requestData(
     }
 }
 
-fun <E> MutableLiveData<KsResponse<E>>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = ui {
+/**
+ * A transformer wrapper for encapsulating the [android.arch.lifecycle.LiveData]<[KsResponse]>'s state
+ * changing and the state becomes [Success] when retrieving a data from Data layer by Kotlin coroutine.
+ */
+fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = ui {
     // Opening the loading view.
     value = Loading()
     // Fetching the data from the data layer.
     value = tryResponse { usecase().await() }
 }
 
+/**
+ * In order to run the [RxJava], using the `await`/`async` and informing the View layer.
+ */
 fun UntilPresenterLiveData.requestWithoutResponse(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>) =
     ui { value = tryResponse { usecase().await() } }
 
+/**
+ * Wrapping the `try catch` and ignoring the return value.
+ */
 private inline fun <E> tryResponse(block: () -> KsResponse<E>) = try {
     block()
 }
