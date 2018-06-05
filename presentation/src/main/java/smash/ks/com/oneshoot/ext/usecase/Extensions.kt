@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package smash.ks.com.oneshoot.ext.usecase
 
-import com.devrapid.kotlinshaver.CompletablePlugin
-import com.devrapid.kotlinshaver.ObserverPlugin
-import com.devrapid.kotlinshaver.SinglePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.rx2.await
 import kotlinx.coroutines.experimental.rx2.awaitSingle
 import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.CompletableUseCase
+import smash.ks.com.domain.ExtraCompletableOpOnUi
+import smash.ks.com.domain.ExtraObservableOpOnUi
+import smash.ks.com.domain.ExtraSingleOpOnUi
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.datas.Data
@@ -42,25 +41,25 @@ import smash.ks.com.oneshoot.entities.mappers.Mapper
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
     parameter: V,
-    block: Observable<T>.() -> Observable<F>,
-    observer: ObserverPlugin<F>.() -> Unit
+    block: ObservableTransformer<T, F>,
+    observer: ExtraObservableOpOnUi<F>
 ) = usecase.execute(parameter, this, block, observer)
 
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
-    block: Observable<T>.() -> Observable<F>,
-    observer: ObserverPlugin<F>.() -> Unit
+    block: ObservableTransformer<T, F>,
+    observer: ExtraObservableOpOnUi<F>
 ) = usecase.execute(this, block, observer)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
     parameter: V,
-    observer: ObserverPlugin<T>.() -> Unit
+    observer: ExtraObservableOpOnUi<T>
 ) = usecase.execute(parameter, this, observer)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: ObservableUseCase<T, V>,
-    observer: ObserverPlugin<T>.() -> Unit
+    observer: ExtraObservableOpOnUi<T>
 ) = usecase.execute(this, observer)
 //endregion
 
@@ -68,25 +67,25 @@ fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: SingleUseCase<T, V>,
     parameter: V,
-    block: Single<T>.() -> Single<F>,
-    singleObserver: SinglePlugin<F>.() -> Unit
+    block: SingleTransformer<T, F>,
+    singleObserver: ExtraSingleOpOnUi<F>
 ) = usecase.execute(parameter, this, block, singleObserver)
 
 fun <T, F, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: SingleUseCase<T, V>,
-    block: Single<T>.() -> Single<F>,
-    singleObserver: SinglePlugin<F>.() -> Unit
+    block: SingleTransformer<T, F>,
+    singleObserver: ExtraSingleOpOnUi<F>
 ) = usecase.execute(this, block, singleObserver)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: SingleUseCase<T, V>,
     parameter: V,
-    singleObserver: SinglePlugin<T>.() -> Unit
+    singleObserver: ExtraSingleOpOnUi<T>
 ) = usecase.execute(parameter, this, singleObserver)
 
 fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: SingleUseCase<T, V>,
-    singleObserver: SinglePlugin<T>.() -> Unit
+    singleObserver: ExtraSingleOpOnUi<T>
 ) = usecase.execute(this, singleObserver)
 //endregion
 
@@ -94,31 +93,31 @@ fun <T, V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: CompletableUseCase<V>,
     parameter: V,
-    block: Completable.() -> Completable,
-    completableObserver: CompletablePlugin.() -> Unit
+    block: CompletableTransformer,
+    completableObserver: ExtraCompletableOpOnUi
 ) = usecase.execute(parameter, this, block, completableObserver)
 
 fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: CompletableUseCase<V>,
-    block: Completable.() -> Completable,
-    completableObserver: CompletablePlugin.() -> Unit
+    block: CompletableTransformer,
+    completableObserver: ExtraCompletableOpOnUi
 ) = usecase.execute(this, block, completableObserver)
 
 fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: CompletableUseCase<V>,
     parameter: V,
-    completableObserver: CompletablePlugin.() -> Unit
+    completableObserver: ExtraCompletableOpOnUi
 ) = usecase.execute(parameter, this, completableObserver)
 
 fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
     usecase: CompletableUseCase<V>,
-    completableObserver: CompletablePlugin.() -> Unit
+    completableObserver: ExtraCompletableOpOnUi
 ) = usecase.execute(this, completableObserver)
 //endregion
 //endregion
 
 //region Observable
-fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -128,7 +127,7 @@ fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.toAwait(
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
@@ -140,13 +139,13 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseC
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableUseCase<KsResponse<D>, V>.toAwait(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
     parameter: V? = null
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
 
 //region Single
-fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -156,7 +155,7 @@ fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.ay
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.toAwait(
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
@@ -172,7 +171,7 @@ suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.toAwait(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
     parameter: V? = null
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion

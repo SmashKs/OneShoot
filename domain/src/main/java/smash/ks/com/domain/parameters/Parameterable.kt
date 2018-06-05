@@ -16,9 +16,11 @@
 
 package smash.ks.com.domain.parameters
 
+import smash.ks.com.domain.Parameters
+
 /**
  * The interface fo a data class's variables changes to the [HashMap].
  */
 interface Parameterable {
-    fun toParameter(): HashMap<String, String>
+    fun toParameter(): Parameters
 }

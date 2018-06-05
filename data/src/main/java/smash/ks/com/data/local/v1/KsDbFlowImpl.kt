@@ -18,7 +18,7 @@ package smash.ks.com.data.local.v1
 
 import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.toSingle
-import com.ks.smash.ext.const.DataBaseId
+import com.ks.smash.ext.const.UniqueId
 import com.raizlabs.android.dbflow.kotlinextensions.from
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
@@ -47,7 +47,7 @@ class KsDbFlowImpl : KsDatabase {
             KsModel(id, uri)
         }
 
-    override fun keepKsData(id: DataBaseId, uri: String) = KsModel(id, uri).save().toCompletable()
+    override fun keepKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().toCompletable()
 
     override fun removeKsData(model: KsModel?) =
         (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).toCompletable()

@@ -16,4 +16,4 @@
 
 package com.ks.smash.ext.const
 
-typealias DataBaseId = Long
+typealias UniqueId = Long

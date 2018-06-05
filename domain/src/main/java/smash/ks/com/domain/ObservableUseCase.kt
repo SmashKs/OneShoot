@@ -19,7 +19,6 @@ package smash.ks.com.domain
 import com.devrapid.kotlinshaver.ObserverPlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
@@ -48,8 +47,8 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
      */
     fun <F> execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> ObservableSource<F>,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraObservableOpOnBkg<T, F>,
         observer: Observer<F>
     ) = buildUseCaseObservable(block).compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
@@ -63,8 +62,8 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> ObservableSource<F>,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraObservableOpOnBkg<T, F>,
         observer: Observer<F>
     ) {
         requestValues = parameter
@@ -79,9 +78,9 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
      */
     fun <F> execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> ObservableSource<F>,
-        observer: ObserverPlugin<F>.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraObservableOpOnBkg<T, F>,
+        observer: ExtraObservableOpOnUi<F>
     ) = execute(lifecycleProvider, block, ObserverPlugin<F>().apply(observer))
 
     /**
@@ -94,9 +93,9 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Observable<T>.() -> ObservableSource<F>,
-        observer: ObserverPlugin<F>.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraObservableOpOnBkg<T, F>,
+        observer: ExtraObservableOpOnUi<F>
     ) {
         requestValues = parameter
         execute(lifecycleProvider, block, observer)
@@ -113,7 +112,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Observable] for connecting with a [Observer] from the kotlin layer.
      */
-    private fun <F> buildUseCaseObservable(block: (Observable<T>.() -> ObservableSource<F>)) =
+    private fun <F> buildUseCaseObservable(block: ExtraObservableOpOnBkg<T, F>) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
             .compose(block)
@@ -127,7 +126,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
      * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: Observer<T>) =
         buildUseCaseObservable().compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
     /**
@@ -137,7 +136,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
      * @param observer a reaction of [Observer] from presentation, the data are omitted from database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: Observer<T>) {
+    fun execute(parameter: R, lifecycleProvider: MaybeLifeProvider = null, observer: Observer<T>) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
     }
@@ -148,7 +147,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: ObserverPlugin<T>.() -> Unit) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: ExtraObservableOpOnUi<T>) =
         execute(lifecycleProvider, ObserverPlugin<T>().apply(observer))
 
     /**
@@ -158,7 +157,7 @@ abstract class ObservableUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [ObserverPlugin] from presentation, the data are omitted from database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: ObserverPlugin<T>.() -> Unit) {
+    fun execute(parameter: R, lifecycleProvider: MaybeLifeProvider = null, observer: ExtraObservableOpOnUi<T>) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
         fetchUseCase()

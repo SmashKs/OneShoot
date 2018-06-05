@@ -20,7 +20,6 @@ import com.devrapid.kotlinshaver.SinglePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Single
 import io.reactivex.SingleObserver
-import io.reactivex.SingleSource
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 
@@ -49,8 +48,8 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      *                       database or remote.
      */
     fun <F> execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> SingleSource<F>,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraSingleOpOnBkg<T, F>,
         singleObserver: SingleObserver<F>
     ) = buildUseCaseSingle(block).compose(lifecycleProvider?.bindToLifecycle()).subscribe(singleObserver)
 
@@ -64,8 +63,8 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> SingleSource<F>,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraSingleOpOnBkg<T, F>,
         singleObserver: SingleObserver<F>
     ) {
         requestValues = parameter
@@ -81,9 +80,9 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      *                       database or remote.
      */
     fun <F> execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> SingleSource<F>,
-        singleObserver: SinglePlugin<F>.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraSingleOpOnBkg<T, F>,
+        singleObserver: ExtraSingleOpOnUi<F>
     ) = execute(lifecycleProvider, block, SinglePlugin<F>().apply(singleObserver))
 
     /**
@@ -96,9 +95,9 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      */
     fun <F> execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Single<T>.() -> SingleSource<F>,
-        singleObserver: SinglePlugin<F>.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraSingleOpOnBkg<T, F>,
+        singleObserver: ExtraSingleOpOnUi<F>
     ) {
         requestValues = parameter
         execute(lifecycleProvider, block, singleObserver)
@@ -115,7 +114,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Single] for connecting with a [SingleObserver] from the kotlin layer.
      */
-    private fun <F> buildUseCaseSingle(block: (Single<T>.() -> SingleSource<F>)) =
+    private fun <F> buildUseCaseSingle(block: ExtraSingleOpOnBkg<T, F>) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
             .compose(block)
@@ -130,7 +129,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted
      *                 from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: SingleObserver<T>) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: SingleObserver<T>) =
         buildUseCaseSingle().compose(lifecycleProvider?.bindToLifecycle()).subscribe(observer)
 
     /**
@@ -141,7 +140,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted from
      *                 database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: SingleObserver<T>) {
+    fun execute(parameter: R, lifecycleProvider: MaybeLifeProvider = null, observer: SingleObserver<T>) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
     }
@@ -152,7 +151,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: SinglePlugin<T>.() -> Unit) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: ExtraSingleOpOnUi<T>) =
         execute(lifecycleProvider, SinglePlugin<T>().apply(observer))
 
     /**
@@ -162,7 +161,7 @@ abstract class SingleUseCase<T, R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [SingleObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(parameter: R, lifecycleProvider: LifecycleProvider<*>? = null, observer: SinglePlugin<T>.() -> Unit) {
+    fun execute(parameter: R, lifecycleProvider: MaybeLifeProvider = null, observer: ExtraSingleOpOnUi<T>) {
         requestValues = parameter
         execute(lifecycleProvider, observer)
         fetchUseCase()

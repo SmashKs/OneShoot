@@ -18,12 +18,12 @@ package smash.ks.com.oneshoot.entities
 
 import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.DataBaseId
+import com.ks.smash.ext.const.UniqueId
 import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
 data class KsEntity(
-    var id: DataBaseId = DEFAULT_LONG,
+    var id: UniqueId = DEFAULT_LONG,
     var uri: String = DEFAULT_STR
 ) : Entity, KsMultiVisitable {
     override fun type(typeFactory: MultiTypeFactory) = typeFactory.type(this)

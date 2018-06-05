@@ -20,7 +20,6 @@ import com.devrapid.kotlinshaver.CompletablePlugin
 import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
-import io.reactivex.CompletableSource
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 
@@ -49,8 +48,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      *                            database or remote.
      */
     fun execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> CompletableSource,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraCompletableOpOnBkg,
         completableObserver: CompletableObserver
     ) = buildCompletableUseCase(block)
         .compose(lifecycleProvider?.bindToLifecycle<Completable>())
@@ -66,8 +65,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> CompletableSource,
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraCompletableOpOnBkg,
         completableObserver: CompletableObserver
     ) {
         requestValues = parameter
@@ -83,9 +82,9 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      *                       database or remote.
      */
     fun execute(
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> CompletableSource,
-        completableObserver: CompletablePlugin.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraCompletableOpOnBkg,
+        completableObserver: ExtraCompletableOpOnUi
     ) = execute(lifecycleProvider, block, CompletablePlugin().apply(completableObserver))
 
     /**
@@ -98,9 +97,9 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        block: Completable.() -> CompletableSource,
-        completableObserver: CompletablePlugin.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        block: ExtraCompletableOpOnBkg,
+        completableObserver: ExtraCompletableOpOnUi
     ) {
         requestValues = parameter
         execute(lifecycleProvider, block, completableObserver)
@@ -117,7 +116,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param block add some chain actions between [subscribeOn] and [observeOn].
      * @return [Completable] for connecting with a [CompletableObserver] from the kotlin layer.
      */
-    private fun buildCompletableUseCase(block: (Completable.() -> CompletableSource)) =
+    private fun buildCompletableUseCase(block: ExtraCompletableOpOnBkg) =
         fetchUseCase()
             .subscribeOn(subscribeScheduler)
             .compose(block)
@@ -132,7 +131,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param completableObserver a reaction of [] from presentation, the data are omitted
      *                 from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, completableObserver: CompletableObserver) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, completableObserver: CompletableObserver) =
         buildCompletableUseCase()
             .compose(lifecycleProvider?.bindToLifecycle<Completable>())
             .subscribe(completableObserver)
@@ -147,7 +146,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
+        lifecycleProvider: MaybeLifeProvider = null,
         completableObserver: CompletableObserver
     ) {
         requestValues = parameter
@@ -160,7 +159,7 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
      */
-    fun execute(lifecycleProvider: LifecycleProvider<*>? = null, observer: CompletablePlugin.() -> Unit) =
+    fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: ExtraCompletableOpOnUi) =
         execute(lifecycleProvider, CompletablePlugin().apply(observer))
 
     /**
@@ -172,8 +171,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      */
     fun execute(
         parameter: R,
-        lifecycleProvider: LifecycleProvider<*>? = null,
-        observer: CompletablePlugin.() -> Unit
+        lifecycleProvider: MaybeLifeProvider = null,
+        observer: ExtraCompletableOpOnUi
     ) {
         requestValues = parameter
         execute(lifecycleProvider, observer)

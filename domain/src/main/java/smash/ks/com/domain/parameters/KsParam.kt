@@ -18,10 +18,10 @@ package smash.ks.com.domain.parameters
 
 import com.ks.smash.ext.const.DEFAULT_LONG
 import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.DataBaseId
+import com.ks.smash.ext.const.UniqueId
 
 data class KsParam(
-    val imageId: DataBaseId = DEFAULT_LONG,
+    val imageId: UniqueId = DEFAULT_LONG,
     val imageUri: String = DEFAULT_STR
 ) : Parameterable {
     companion object {
