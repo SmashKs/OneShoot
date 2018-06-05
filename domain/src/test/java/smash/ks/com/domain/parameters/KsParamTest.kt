@@ -24,7 +24,7 @@ import kotlin.test.assertNotNull
 
 class KsParamTest {
     companion object {
-        private const val IMAGE_ID = 52
+        private const val IMAGE_ID = 52L
     }
 
     private lateinit var ksParam: KsParam
