@@ -1,3 +1,6 @@
+<p align="center"><img src="logo/1024px.png" alt="OneShoot" height="200px"></p>
+
+
 [![Build Status](https://travis-ci.com/SmashKs/OneShoot.svg?branch=master&style=flat-square)](https://travis-ci.com/SmashKs/OneShoot)
 [![codecov](https://codecov.io/gh/SmashKs/OneShoot/branch/master/graph/badge.svg)](https://codecov.io/gh/SmashKs/OneShoot)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/df651d8c66c64905b606d5627223b8e0)](https://www.codacy.com/app/pokk/OneShoot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SmashKs/OneShoot&amp;utm_campaign=Badge_Grade)
