@@ -22,7 +22,6 @@ import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
 import smash.ks.com.oneshoot.ext.presentation.askingData
-import smash.ks.com.oneshoot.ext.presentation.noResponseRequest
 import smash.ks.com.oneshoot.ext.usecase.awaitCase
 import smash.ks.com.oneshoot.features.ResponseLiveData
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests as FetchImageRequest
@@ -37,13 +36,12 @@ class FakeViewModel(
     val saveRes by lazy { ResponseLiveData() }
 
     fun retrieveId(imageId: Int) {
-        temp.askingData({ getKsImageCase.awaitCase(FetchImageRequest(KsParam(imageId.toLong()))) }) { res ->
-            res.await()
-        }
+        temp.askingData({ getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))) })
+//        temp.value = getKsImageCase.awaitCase(mapper, FetchImageRequest(KsParam(imageId.toLong()))).await()
     }
 
     fun storeImage() {
         // TODO(jieyi): 2018/06/03 If we don't return value to ui activity/fragment, we shouldn't use an variable.
-        saveRes.noResponseRequest { saveKsImageCase.awaitCase(SaveImageRequest(KsParam(imageUri = "This is my name"))) }
+//        saveRes.noResponseRequest { saveKsImageCase.awaitCase(SaveImageRequest(KsParam(imageUri = "This is my name"))) }
     }
 }

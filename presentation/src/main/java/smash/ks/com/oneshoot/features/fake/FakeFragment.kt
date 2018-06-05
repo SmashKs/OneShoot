@@ -19,11 +19,11 @@ package smash.ks.com.oneshoot.features.fake
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.TextView
 import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
-import kotlinx.android.synthetic.main.fragment_fake.rv_fake
-import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.R
@@ -65,14 +65,17 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         vm.apply {
-            observe(temp, ::updateTemp)
+            //            observe(temp, ::updateTemp)
+            observe(temp) {
+            }
 
             // For testing, that's why they are called in the beginning.
-            storeImage()
+//            storeImage()
             retrieveId(randomId)
         }
 
-        rv_fake.also {
+        find<RecyclerView>(R.id.rv_fake).also {
+            //        rv_fake.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
         }
@@ -94,15 +97,16 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //endregion
 
     //region Presenter Implementation.
-    private fun updateTemp(response: KsResponse?) {
+    private fun updateTemp(response: KsResponse<String>?) {
         breakResponse(response) {
             logw(it.data)
-            showImageUri(it.data as String)
+//            showImageUri(it.data as String)
         }
     }
 
     private fun showImageUri(uri: String) {
-        tv_label.text = uri
+        find<TextView>(R.id.tv_label).text = uri
+//        tv_label.text = uri
     }
     //endregion
 }

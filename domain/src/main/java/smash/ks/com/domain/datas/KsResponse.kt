@@ -25,19 +25,19 @@ import smash.ks.com.domain.datas.KsResponse.Success
  * The super class response from the data layer. There're three result of the response [Loading],
  * [Success], and [Error] for HTTP result.
  */
-sealed class KsResponse {
+sealed class KsResponse<T> constructor(val data: T? = null) {
     /**
      * A request is still processing from a remote/local service.
      */
-    class Loading<out T : Any>(val data: T? = null) : KsResponse()
+    class Loading<T>(data: T? = null) : KsResponse<T>(data)
 
     /**
      * A request success getting a result from a remote/local service.
      */
-    class Success<out T>(val data: T? = null) : KsResponse()
+    class Success<T>(data: T? = null) : KsResponse<T>(data)
 
     /**
      * A request sent then a remote/local service has happened an error.
      */
-    class Error<out T>(val data: T? = null, val msg: String = DEFAULT_STR) : KsResponse()
+    class Error<T>(data: T? = null, val msg: String = DEFAULT_STR) : KsResponse<T>(data)
 }

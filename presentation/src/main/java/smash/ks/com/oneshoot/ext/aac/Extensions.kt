@@ -25,14 +25,14 @@ import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.oneshoot.bases.LoadView
 
-inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =
+inline fun <reified T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =
     liveData.observe(this, Observer(block))
 
-fun LoadView.breakResponse(response: KsResponse?, successBlock: (KsResponse.Success<*>) -> Unit) =
+fun <D> LoadView.breakResponse(response: KsResponse<D>?, successBlock: (KsResponse.Success<D>) -> Unit) =
     response?.also {
         when (it) {
             is KsResponse.Loading<*> -> showLoading()
-            is KsResponse.Success<*> -> {
+            is KsResponse.Success<D> -> {
                 successBlock(it)
                 hideLoading()
             }

@@ -31,6 +31,9 @@ import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.datas.Data
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Error
+import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 
@@ -115,7 +118,7 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
 //endregion
 
 //region Observable
-fun <O : Data, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -125,8 +128,8 @@ fun <O : Data, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.ayncCase(
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
-    mapper: Mapper<O, E>,
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.awaitCase(
+    mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
     this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle().let(mapper::toEntityFrom)
@@ -137,13 +140,13 @@ suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableUseC
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Any, V : BaseUseCase.RequestValues> ObservableUseCase<O, V>.awaitCase(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableUseCase<D, V>.awaitCase(
     parameter: V? = null
 ) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
 
 //region Single
-fun <O : Data, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
+fun <D : Data, V : BaseUseCase.RequestValues> SingleUseCase<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -153,11 +156,15 @@ fun <O : Data, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.ayncCase(
  * @param mapper the mapper for translating from [Data] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
-    mapper: Mapper<O, E>,
+suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<KsResponse<D>, V>.awaitCase(
+    mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
-    this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await().let(mapper::toEntityFrom)
+    this@awaitCase
+        .apply { requestValues = parameter }
+        .fetchUseCase()
+        .await()
+        .let { it.data?.run { Success(mapper.toEntityFrom(this)) } ?: Error("No response result") }
 }
 
 /**
@@ -165,7 +172,7 @@ suspend fun <O : Data, E : Entity, V : BaseUseCase.RequestValues> SingleUseCase<
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <O : Any, V : BaseUseCase.RequestValues> SingleUseCase<O, V>.awaitCase(
+suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleUseCase<D, V>.awaitCase(
     parameter: V? = null
 ) = async { this@awaitCase.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion

@@ -22,46 +22,46 @@ import com.devrapid.kotlinknifer.ui
 import com.devrapid.kotlinshaver.isNotNull
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.datas.KsResponse.*
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Error
 import smash.ks.com.oneshoot.features.ResponseLiveData
 
-fun <T, Y : Any> ResponseLiveData.askingData(
-    block: suspend CoroutineScope.() -> Deferred<T>,
-    successBlock: suspend CoroutineScope.(res: Deferred<T>) -> Y
-) {
-    var entity: Deferred<T>? = null
+fun <T> ResponseLiveData.askingData(block: suspend CoroutineScope.() -> Deferred<KsResponse<T>>) {
+    var entity: Deferred<KsResponse<T>>? = null
 
     ui {
-        value = Loading<Any>()
+        value = KsResponse.Loading<T>()
 
         try {
             entity = block()
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             value = Error(null, e.message.orEmpty())
         }
 
         entity.takeIf(Any?::isNotNull)?.let {
             // This block already checked the entity isn't a null variable.
-            value = Success(successBlock(it))
+            value = it.await()
         }
     }
 }
 
-fun ResponseLiveData.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
-    var entity: Deferred<Unit>? = null
-
-    ui {
-        value = Loading<Any>()
-
-        try {
-            entity = block()
-        } catch (e: Exception) {
-            value = Error(null, e.message.orEmpty())
-        }
-
-        entity.takeIf(Any?::isNotNull)?.let {
-            // This block already checked the entity isn't a null variable.
-            value = Success(it.await())
-        }
-    }
-}
+//fun ResponseLiveData.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
+//    var entity: Deferred<Unit>? = null
+//
+//    ui {
+//        value = Loading<Any>()
+//
+//        try {
+//            entity = block()
+//        }
+//        catch (e: Exception) {
+//            value = Error(null, e.message.orEmpty())
+//        }
+//
+//        entity.takeIf(Any?::isNotNull)?.let {
+//            // This block already checked the entity isn't a null variable.
+//            value = Success(it.await())
+//        }
+//    }
+//}
