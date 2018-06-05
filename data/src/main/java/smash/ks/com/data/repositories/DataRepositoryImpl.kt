@@ -38,8 +38,8 @@ class DataRepositoryImpl constructor(
     private val mapper: DataFakeMapper
 ) : DataRepository {
     //region Fake
-    override fun retrieveKsImage(params: Parameterable) =
-        (if (true) local else remote).fetchKsImage().map(mapper::toDataFrom)
+    override fun retrieveKsImage(params: Parameterable?) =
+        (if (true) local else remote).fetchKsImage(params).map(mapper::toDataFrom)
 
     override fun storeKsImage(params: Parameterable) = (if (true) local else remote).keepKsImage(params)
     //endregion

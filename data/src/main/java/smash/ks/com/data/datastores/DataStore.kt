@@ -33,7 +33,7 @@ interface DataStore {
      * @param params
      * @return Rx [Single] object to the presentation layer.
      */
-    fun fetchKsImage(params: Parameterable = KsParam()): Single<KsModel>
+    fun fetchKsImage(params: Parameterable?): Single<KsModel>
 
     /**
      * Keep an image object [KsModel] by parameter.

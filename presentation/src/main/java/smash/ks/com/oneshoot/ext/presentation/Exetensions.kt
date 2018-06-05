@@ -18,50 +18,44 @@
 
 package smash.ks.com.oneshoot.ext.presentation
 
+import android.arch.lifecycle.MutableLiveData
 import com.devrapid.kotlinknifer.ui
-import com.devrapid.kotlinshaver.isNotNull
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.datas.KsResponse.*
-import smash.ks.com.oneshoot.features.ResponseLiveData
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Error
+import smash.ks.com.domain.datas.KsResponse.Loading
+import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.oneshoot.entities.Entity
+import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
-fun <T, Y : Any> ResponseLiveData.askingData(
-    block: suspend CoroutineScope.() -> Deferred<T>,
-    successBlock: suspend CoroutineScope.(res: Deferred<T>) -> Y
-) {
-    var entity: Deferred<T>? = null
+fun <E : Entity, R> MutableLiveData<KsResponse<R>>.requestData(
+    usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>,
+    transformBlock: (E) -> R
+) = ui {
+    // Opening the loading view.
+    value = Loading()
+    // Fetching the data from the data layer.
+    value = tryResponse {
+        val entity = usecase().await()
 
-    ui {
-        value = Loading<Any>()
-
-        try {
-            entity = block()
-        } catch (e: Exception) {
-            value = Error(null, e.message.orEmpty())
-        }
-
-        entity.takeIf(Any?::isNotNull)?.let {
-            // This block already checked the entity isn't a null variable.
-            value = Success(successBlock(it))
-        }
+        entity.data?.let(transformBlock)?.let { Success(it) } ?: Error<R>(msg = "Don't have any response.")
     }
 }
 
-fun ResponseLiveData.noResponseRequest(block: suspend CoroutineScope.() -> Deferred<Unit>) {
-    var entity: Deferred<Unit>? = null
+fun <E> MutableLiveData<KsResponse<E>>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = ui {
+    // Opening the loading view.
+    value = Loading()
+    // Fetching the data from the data layer.
+    value = tryResponse { usecase().await() }
+}
 
-    ui {
-        value = Loading<Any>()
+fun UntilPresenterLiveData.requestWithoutResponse(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>) =
+    ui { value = tryResponse { usecase().await() } }
 
-        try {
-            entity = block()
-        } catch (e: Exception) {
-            value = Error(null, e.message.orEmpty())
-        }
-
-        entity.takeIf(Any?::isNotNull)?.let {
-            // This block already checked the entity isn't a null variable.
-            value = Success(it.await())
-        }
-    }
+private inline fun <E> tryResponse(block: () -> KsResponse<E>) = try {
+    block()
+}
+catch (e: Exception) {
+    Error<E>(msg = e.message ?: "Unknown error has happened.")
 }

@@ -14,23 +14,8 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.parameters
+package smash.ks.com.data.local.cache
 
-import com.ks.smash.ext.const.DEFAULT_LONG
-import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.DataBaseId
-
-data class KsParam(
-    val imageId: DataBaseId = DEFAULT_LONG,
-    val imageUri: String = DEFAULT_STR
-) : Parameterable {
-    companion object {
-        const val PARAM_ID = "id"
-        const val PARAM_URI = "uri"
-    }
-
-    override fun toParameter() = hashMapOf(
-        PARAM_ID to imageId.toString(),
-        PARAM_URI to imageUri
-    )
-}
+typealias BasicParameter = Triple<Any, Long, Any>
+typealias CacheParameters = MutableList<BasicParameter>
+typealias CacheMap = HashMap<Int, CacheParameters>
