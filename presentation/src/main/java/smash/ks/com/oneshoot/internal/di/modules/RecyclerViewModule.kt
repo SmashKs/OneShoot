@@ -33,7 +33,7 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
  * To provide the necessary objects into the recycler view.
  */
 object RecyclerViewModule {
-    fun recyclerViewModule(context: Context) = Module {
+    fun recyclerViewProvider(context: Context) = Module {
         // Linear Layout Manager.
         bind<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL) with provider {
             LinearLayoutManager(context, VERTICAL, false)

@@ -17,8 +17,8 @@
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 
 import org.kodein.di.Kodein.Module
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.FakeModule.fakeModule
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.PhotographModule.photographModule
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.FakeModule.fakeProvider
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.PhotographModule.photographProvider
 
 /**
  * To provide the necessary objects for the specific activities.
@@ -26,7 +26,7 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.Photograp
 object SuperActivityModule {
     fun activityModule() = Module {
         // Import all of the activity modules.
-        import(fakeModule())
-        import(photographModule())
+        import(fakeProvider())
+        import(photographProvider())
     }
 }

@@ -24,7 +24,7 @@ import smash.ks.com.oneshoot.features.photograph.TakeAPicViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 
 object TakeAPicModule {
-    fun takeAPicModule() = Module {
+    fun takeAPicProvider() = Module {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             TakeAPicViewModel::class.java to TakeAPicViewModel()

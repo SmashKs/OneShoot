@@ -30,14 +30,12 @@ import smash.ks.com.data.models.DataFakeMapper
 import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
-import smash.ks.com.data.models.mappers.Mapper as DataMapper
-import smash.ks.com.oneshoot.entities.mappers.Mapper as EntityMapper
 
 /**
  * To provide the necessary utility objects for the whole app.
  */
 object UtilModule {
-    fun utilModule(context: Context) = Module {
+    fun utilProvider(context: Context) = Module {
         /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
         bind() from setBinding<ViewModelEntry>()
 

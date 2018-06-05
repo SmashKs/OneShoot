@@ -20,7 +20,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Parcelable
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
@@ -37,7 +38,7 @@ fun View.registerCircularRevealAnimation(
     startColor: Int,
     endColor: Int
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (SDK_INT >= LOLLIPOP) {
         addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
                 v: View,
@@ -54,7 +55,7 @@ fun View.registerCircularRevealAnimation(
                 val (cx, cy, width, height) = revealSettings
 
                 // Simply use the diagonal of the view.
-                val radius = Math.sqrt((width.toDouble().pow(2) + height.toDouble().pow(2))).toFloat()
+                val radius = Math.sqrt(width.toDouble().pow(2) + height.toDouble().pow(2)).toFloat()
                 ViewAnimationUtils.createCircularReveal(v, cx, cy, 0f, radius).apply {
                     this.duration = CIRCULAR_REVEAL_DURATION
                     interpolator = FastOutSlowInInterpolator()
@@ -71,7 +72,7 @@ fun View.startCircularExitAnimation(
     endColor: Int,
     listener: () -> Unit
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (SDK_INT >= LOLLIPOP) {
         val (cx, cy, width, height) = revealSettings
 
         // Simply use the diagonal of the view.

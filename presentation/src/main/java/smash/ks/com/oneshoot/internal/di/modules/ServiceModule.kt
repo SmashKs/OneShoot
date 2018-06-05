@@ -29,17 +29,17 @@ import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.remote.v1.KsFirebaseImpl
-import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseModule
-import smash.ks.com.oneshoot.internal.di.modules.NetModule.netModule
+import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseProvider
+import smash.ks.com.oneshoot.internal.di.modules.NetModule.netProvider
 
 /**
  * To provide the necessary objects for the remote/local data store service.
  */
 object ServiceModule {
-    fun serviceModule(context: Context) = Module {
+    fun serviceProvider(context: Context) = Module {
         //region For the [Remote] data module.
-        import(netModule(context))
-        import(firebaseModule())
+        import(netProvider(context))
+        import(firebaseProvider())
 
         bind<KsConfig>() with instance(RestfulApiFactory().createKsConfig())
         bind<KsService>() with singleton {

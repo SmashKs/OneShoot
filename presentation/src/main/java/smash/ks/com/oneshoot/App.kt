@@ -23,12 +23,12 @@ import com.raizlabs.android.dbflow.config.FlowManager
 import org.kodein.di.Kodein.Companion.lazy
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.androidModule
-import smash.ks.com.oneshoot.internal.di.modules.AppModule.appModule
-import smash.ks.com.oneshoot.internal.di.modules.RecyclerViewModule.recyclerViewModule
-import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryModule
-import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceModule
-import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilModule
-import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseModule
+import smash.ks.com.oneshoot.internal.di.modules.AppModule.appProvider
+import smash.ks.com.oneshoot.internal.di.modules.RecyclerViewModule.recyclerViewProvider
+import smash.ks.com.oneshoot.internal.di.modules.RepositoryModule.repositoryProvider
+import smash.ks.com.oneshoot.internal.di.modules.ServiceModule.serviceProvider
+import smash.ks.com.oneshoot.internal.di.modules.UtilModule.utilProvider
+import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usecaseProvider
 
 /**
  * Android Main Application
@@ -50,13 +50,13 @@ class App : Application(), KodeinAware {
 
         import(androidModule(app))
         /** bindings */
-        import(appModule())
-        import(utilModule(app))
-        import(repositoryModule())
+        import(appProvider())
+        import(utilProvider(app))
+        import(repositoryProvider())
         /** usecases are bind here but the scope is depending on each layers.  */
-        import(usecaseModule())
-        import(serviceModule(app))
-        import(recyclerViewModule(app))
+        import(usecaseProvider())
+        import(serviceProvider(app))
+        import(recyclerViewProvider(app))
     }
 
     override fun onCreate() {

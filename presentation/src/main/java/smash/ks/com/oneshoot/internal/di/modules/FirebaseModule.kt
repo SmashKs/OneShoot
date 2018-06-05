@@ -25,7 +25,7 @@ import org.kodein.di.generic.provider
  * To provide the necessary objects into the repository.
  */
 object FirebaseModule {
-    fun firebaseModule() = Module {
+    fun firebaseProvider() = Module {
         bind<FirebaseDatabase>() with provider { FirebaseDatabase.getInstance() }
     }
 }

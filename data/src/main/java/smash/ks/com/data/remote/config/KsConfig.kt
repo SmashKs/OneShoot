@@ -23,7 +23,7 @@ class KsConfig : ApiConfig {
     companion object {
         const val API_REQUEST = "/ks/v1"
         // All basic http api url of Search Music.
-        private val BASE_URL = "http://www.taiwan.no.one"
+        private const val BASE_URL = "http://www.taiwan.no.one"
     }
 
     override val apiBaseUrl = BASE_URL

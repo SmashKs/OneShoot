@@ -96,17 +96,15 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
 
         when {
             checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
-            shouldShowRequestPermissionRationale(parent, CAMERA) -> {
-                QuickDialogFragment.Builder(this) {
-                    message = gStrings(R.string.camera_permission_confirmation)
-                    btnPositiveText = "Ok" to { _ ->
-                        requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
-                    }
-                    btnNegativeText = "Deny" to { _ ->
-                        makeText(parent, gStrings(R.string.camera_permission_not_granted), LENGTH_SHORT).show()
-                    }
-                }.build().show()
-            }
+            shouldShowRequestPermissionRationale(parent, CAMERA) -> QuickDialogFragment.Builder(this) {
+                message = gStrings(R.string.camera_permission_confirmation)
+                btnPositiveText = "Ok" to { _ ->
+                    requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
+                }
+                btnNegativeText = "Deny" to { _ ->
+                    makeText(parent, gStrings(R.string.camera_permission_not_granted), LENGTH_SHORT).show()
+                }
+            }.build().show()
             else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
         }
     }

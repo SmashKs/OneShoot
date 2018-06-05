@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH
+import android.os.Build.VERSION_CODES.M
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.IntDef
@@ -32,7 +33,11 @@ import android.view.View.MeasureSpec.getSize
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import smash.ks.com.oneshoot.R.style.Widget_CameraView
-import smash.ks.com.oneshoot.R.styleable.*
+import smash.ks.com.oneshoot.R.styleable.CameraView_android_adjustViewBounds
+import smash.ks.com.oneshoot.R.styleable.CameraView_aspectRatio
+import smash.ks.com.oneshoot.R.styleable.CameraView_autoFocus
+import smash.ks.com.oneshoot.R.styleable.CameraView_facing
+import smash.ks.com.oneshoot.R.styleable.CameraView_flash
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
@@ -71,7 +76,7 @@ open class CameraView @JvmOverloads constructor(
     private val cameraViewModule by lazy {
         val preview = createPreview(context)
 
-        if (SDK_INT < 23) {
+        if (SDK_INT < M) {
             Camera2(callbacks, preview, context)
         }
         else {

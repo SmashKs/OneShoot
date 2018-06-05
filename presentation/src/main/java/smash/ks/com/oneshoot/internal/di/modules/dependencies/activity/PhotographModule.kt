@@ -19,5 +19,5 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.activity
 import org.kodein.di.Kodein.Module
 
 object PhotographModule {
-    fun photographModule() = Module {}
+    fun photographProvider() = Module {}
 }
