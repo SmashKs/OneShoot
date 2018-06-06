@@ -39,7 +39,7 @@ class FakeViewModel(
     private val saveRes by lazy { UntilPresenterLiveData() }
 
     fun retrieveId(imageId: Int) {
-        temp.requestData({ getKsImageCase.toAwait(mapper, FetchImageRequest(KsParam(imageId.toLong()))) },
+        temp.requestData({ getKsImageCase.toAwait(mapper, FetchImageRequest(KsParam(imageId.toLong(), "Jieyi Wu"))) },
                          KsEntity::uri)
     }
 

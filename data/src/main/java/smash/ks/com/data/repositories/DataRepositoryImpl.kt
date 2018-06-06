@@ -16,9 +16,11 @@
 
 package smash.ks.com.data.repositories
 
+import io.reactivex.Single
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
 import smash.ks.com.data.models.DataFakeMapper
+import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 
@@ -37,18 +39,23 @@ class DataRepositoryImpl constructor(
     private val remote: DataStore,
     private val mapper: DataFakeMapper
 ) : DataRepository {
-    //region Fake
-    override fun retrieveKsImage(params: Parameterable?) =
-        (if (true) local else remote).fetchKsImage(params).map(mapper::toDataFrom)
+    companion object {
+        const val SWITCH = true
+    }
 
-    override fun storeKsImage(params: Parameterable) = (if (true) local else remote).keepKsImage(params)
+    //region Fake
+    override fun retrieveKsImage(params: Parameterable?): Single<KsData> {
+        return (if (SWITCH) local else remote).fetchKsImage(params).map(mapper::toDataFrom)
+    }
+
+    override fun storeKsImage(params: Parameterable) = (if (SWITCH) local else remote).keepKsImage(params)
     //endregion
 
     override fun uploadImage(params: Parameterable) = remote.uploadImage(params)
 
     override fun retrieveImageTagsByML(params: Parameterable) =
-        (if (true) local else remote).analyzeImageTagsByML(params)
+        (if (SWITCH) local else remote).analyzeImageTagsByML(params)
 
     override fun retrieveImageWordContentByML(params: Parameterable) =
-        (if (true) local else remote).analyzeImageWordContentByML(params)
+        (if (SWITCH) local else remote).analyzeImageWordContentByML(params)
 }

@@ -22,15 +22,18 @@ import com.ks.smash.ext.const.UniqueId
 
 data class KsParam(
     val imageId: UniqueId = DEFAULT_LONG,
+    val name: String = DEFAULT_STR,
     val imageUri: String = DEFAULT_STR
 ) : Parameterable {
     companion object {
         const val PARAM_ID = "id"
+        const val PARAM_NAME = "name"
         const val PARAM_URI = "uri"
     }
 
     override fun toParameter() = hashMapOf(
         PARAM_ID to imageId.toString(),
+        PARAM_NAME to name,
         PARAM_URI to imageUri
     )
 }

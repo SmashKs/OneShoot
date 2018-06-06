@@ -16,23 +16,49 @@
 
 package smash.ks.com.data.remote.v1
 
+import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.single
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
+import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_NAME
 import smash.ks.com.domain.parameters.Parameterable
 
 /**
  * The implementation for accessing the data from Firebase.
  */
 class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFirebase {
-    private val reference by lazy { database.reference }
+    companion object {
+        private const val V1_CHILD_PROPERTIES = "image_v1"
+    }
+
+    private val ref by lazy { database.reference }
 
     //region Fake
-    override fun fetchImages(params: Parameterable) = TODO()
+    override fun fetchImages(params: Parameterable) = single<KsModel> {
+        val param = params.toParameter()
+        val name = param[PARAM_NAME].orEmpty()
+
+        ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val entry = dataSnapshot.children.toList().first().value as Map<String, Any>
+
+                it.onSuccess(KsModel(uri = entry["url"] as String))
+            }
+
+            override fun onCancelled(error: DatabaseError) = it.onError(error.toException())
+        })
+    }
     //endregion
 
-    override fun uploadImage(params: Parameterable) = TODO()
+    override fun uploadImage(params: Parameterable) = completable {
+        ref.child(V1_CHILD_PROPERTIES)
+    }
 
-    override fun obtainImageTagsByML(params: Parameterable) = TODO()
+    override fun obtainImageTagsByML(params: Parameterable) = single<List<String>> { }
 
-    override fun obtainImageWordContentByML(params: Parameterable) = TODO()
+    override fun obtainImageWordContentByML(params: Parameterable) = single<String> { }
 }

@@ -18,6 +18,7 @@ package smash.ks.com.data.datastores
 
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
+import smash.ks.com.data.repositories.DataRepositoryImpl.Companion.SWITCH
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -29,13 +30,12 @@ class RemoteDataStoreImpl(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
 ) : DataStore {
-    override fun fetchKsImage(params: Parameterable?) =
-        if (true) {
-            params?.toParameter()?.let(ksService::fetchKsData) ?: throw NoParameterException("")
-        }
-        else {
-            ksFirebase.fetchImages()
-        }
+    override fun fetchKsImage(params: Parameterable?) = params?.toParameter()?.let {
+        if (SWITCH)
+            ksService.fetchKsData(it)
+        else
+            ksFirebase.fetchImages(params)
+    } ?: throw NoParameterException("")
 
     override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()
 
