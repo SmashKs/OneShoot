@@ -44,9 +44,10 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
 
         ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val entry = dataSnapshot.children.toList().first().value as Map<String, Any>
+                val entry = dataSnapshot.children.toList().first().value as? Map<String, Any>
 
-                it.onSuccess(KsModel(uri = entry["url"] as String))
+                (entry?.get("url") as? String)
+                    ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
             }
 
             override fun onCancelled(error: DatabaseError) = it.onError(error.toException())

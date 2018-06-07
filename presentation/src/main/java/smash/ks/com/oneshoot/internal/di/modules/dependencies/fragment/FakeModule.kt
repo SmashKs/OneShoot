@@ -49,7 +49,7 @@ object FakeModule {
 
         // *** Others
         bind<MultiData>(KS_ENTITY) with scoped(fragmentScope).singleton {
-            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as MultiData
+            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as? MultiData ?: throw ClassCastException()
         }
         bind<RecyclerView.Adapter<*>>(KS_ADAPTER) with scoped(fragmentScope).singleton {
             MultiTypeAdapter(instance(KS_ENTITY), context)

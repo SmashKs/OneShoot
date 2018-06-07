@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot.widgets.customize.camera
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Context.CAMERA_SERVICE
 import android.graphics.ImageFormat.JPEG
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCaptureSession
@@ -191,7 +192,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     override val supportedAspectRatios get() = previewSizes.ratios()
     private val previewSizes by lazy { SizeMap() }
     private val pictureSizes by lazy { SizeMap() }
-    private val cameraManager by lazy { context.getSystemService(Context.CAMERA_SERVICE) as CameraManager }
+    private val cameraManager by lazy {
+        context.getSystemService(CAMERA_SERVICE) as? CameraManager ?: throw ClassCastException()
+    }
     private val cameraDeviceCallback by lazy {
         object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
@@ -644,9 +647,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                         }
                     }
                 }
-                STATE_PRECAPTURE -> if ((CONTROL_AE_STATE_PRECAPTURE == ae ||
-                                         CONTROL_AE_STATE_FLASH_REQUIRED == ae ||
-                                         CONTROL_AE_STATE_CONVERGED == ae)) {
+                STATE_PRECAPTURE -> if (CONTROL_AE_STATE_PRECAPTURE == ae ||
+                                        CONTROL_AE_STATE_FLASH_REQUIRED == ae ||
+                                        CONTROL_AE_STATE_CONVERGED == ae) {
                     setState(STATE_WAITING)
                 }
                 STATE_WAITING -> if (CONTROL_AE_STATE_PRECAPTURE != ae) {
