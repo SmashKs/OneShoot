@@ -309,7 +309,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
 
     override fun setAspectRatio(ratio: AspectRatio): Boolean {
         if (ratio == mAspectRatio || !previewSizes.ratios().contains(ratio)) {
-            // TODO: Better error handling
+            // TODO(jieyi): 2018/06/07 Better error handling
             return false
         }
         mAspectRatio = ratio
@@ -484,12 +484,14 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             for (index in 0 until FACINGS.size()) {
                 if (FACINGS.valueAt(index) == internal) {
                     mFacing = FACINGS.keyAt(index)
+
                     return true
                 }
             }
             // The operation can reach here when the only camera device is an external one.
             // We treat it as facing back.
             mFacing = FACING_BACK
+
             return true
         }
         catch (e: CameraAccessException) {
