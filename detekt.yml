@@ -462,7 +462,7 @@ style:
   UnusedImports:
     active: true
   UnusedPrivateMember:
-    active: true
+    active: false
     allowedNames: "(_|ignored|expected)"
   UseDataClass:
     active: true

@@ -61,7 +61,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider the life cycle provider for cutting RxJava runs.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are
+     * omitted from database or remote.
      */
     fun execute(
         parameter: R,
@@ -157,7 +158,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * Executes the current use case.
      *
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
-     * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
+     * @param observer a reaction of [CompletableObserver] from presentation, the data are
+     * omitted from database or remote.
      */
     fun execute(lifecycleProvider: MaybeLifeProvider = null, observer: ExtraCompletableOpOnUi) =
         execute(lifecycleProvider, CompletablePlugin().apply(observer))
@@ -167,7 +169,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      *
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
-     * @param observer a reaction of [CompletableObserver] from presentation, the data are omitted from database or remote.
+     * @param observer a reaction of [CompletableObserver] from presentation, the data are
+     * omitted from database or remote.
      */
     fun execute(
         parameter: R,
