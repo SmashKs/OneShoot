@@ -97,7 +97,9 @@ open class CameraView @JvmOverloads constructor(
         // Attributes
         context.obtainStyledAttributes(attrs, R.styleable.CameraView, defStyleAttr, R.style.Widget_CameraView).apply {
             val aspectRatio = getString(R.styleable.CameraView_aspectRatio)
-            setAspectRatio(aspectRatio.takeIf { null != it }?.let { AspectRatio.parse(aspectRatio) } ?: DEFAULT_ASPECT_RATIO)
+            setAspectRatio(aspectRatio
+                               .takeIf { null != it }
+                               ?.let { AspectRatio.parse(aspectRatio) } ?: DEFAULT_ASPECT_RATIO)
             adjustViewBounds = getBoolean(R.styleable.CameraView_android_adjustViewBounds, false)
             setFacing(getInt(R.styleable.CameraView_facing, FACING_BACK))
             setAutoFocus(getBoolean(R.styleable.CameraView_autoFocus, true))

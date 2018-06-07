@@ -16,6 +16,7 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera
 
+import android.accounts.AuthenticatorException
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Context.CAMERA_SERVICE
@@ -349,7 +350,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             camera!!.createCaptureSession(listOf(surface, imageReader!!.surface), sessionCallback, null)
         }
         catch (e: CameraAccessException) {
-            throw RuntimeException("Failed to start camera session")
+            throw AuthenticatorException("Failed to start camera session")
         }
     }
 
@@ -405,7 +406,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                 // Calculate JPEG orientation.
                 val sensorOrientation = cameraCharacteristics!![SENSOR_ORIENTATION]!!
                 set(JPEG_ORIENTATION,
-                    (sensorOrientation + displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + DEGREE_360) % DEGREE_360)
+                    (sensorOrientation +
+                     displayOrientation *
+                     (if (FACING_FRONT == mFacing) 1 else -1) + DEGREE_360) % DEGREE_360)
                 // Stop preview and capture a still picture.
                 captureSession!!.apply {
                     stopRepeating()
@@ -456,7 +459,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             val facing = FACINGS[mFacing]
             val ids = cameraManager.cameraIdList
             // No camera
-            if (ids.isEmpty()) throw RuntimeException("No camera available.")
+            if (ids.isEmpty()) throw AuthenticatorException("No camera available.")
 
             for (id in ids) {
                 val characteristics = cameraManager.getCameraCharacteristics(id)
@@ -505,8 +508,8 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
      * This rewrites [previewSizes], [pictureSizes], and optionally, [mAspectRatio].
      */
     private fun collectCameraInfo() {
-        val map =
-            cameraCharacteristics!![SCALER_STREAM_CONFIGURATION_MAP] ?: throw IllegalStateException("Failed to get configuration map: " + cameraId!!)
+        val map = cameraCharacteristics!![SCALER_STREAM_CONFIGURATION_MAP]
+                  ?: throw IllegalStateException("Failed to get configuration map: " + cameraId!!)
 
         previewSizes.clear()
         for (size in map.getOutputSizes(preview.outputClass)) {
@@ -545,7 +548,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             cameraManager.openCamera(cameraId!!, cameraDeviceCallback, null)
         }
         catch (e: CameraAccessException) {
-            throw RuntimeException("Failed to open camera: " + cameraId!!, e)
+            throw AuthenticatorException("Failed to open camera: " + cameraId!!, e)
         }
         catch (e: SecurityException) {
             throw RuntimeException("You need to open the permission: ", e)
