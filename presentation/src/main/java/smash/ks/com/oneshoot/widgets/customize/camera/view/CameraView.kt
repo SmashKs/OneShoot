@@ -47,6 +47,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_RED
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_TORCH
 import smash.ks.com.oneshoot.widgets.customize.camera.preview.SurfaceViewPreview
 import smash.ks.com.oneshoot.widgets.customize.camera.preview.TextureViewPreview
+import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_180
 import kotlin.annotation.AnnotationRetention.SOURCE
 
 /**
@@ -166,7 +167,7 @@ open class CameraView @JvmOverloads constructor(
 
         displayOrientationDetector
             ?.lastKnownDisplayOrientation
-            ?.takeIf { 0 == it % 180 }
+            ?.takeIf { 0 == it % DEGREE_180 }
             ?.let { ratio = ratio.inverse() }
 
         if (height < width * ratio.y / ratio.x) {

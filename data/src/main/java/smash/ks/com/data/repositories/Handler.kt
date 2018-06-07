@@ -19,9 +19,9 @@ package smash.ks.com.data.repositories
 import smash.ks.com.data.datastores.DataStore
 
 abstract class Handler(next: Handler) {
-    protected var handler = next
+    protected var seeker = next
 
-    fun doNext(dataStore: DataStore) = handler.handle()
+    fun doNext(dataStore: DataStore) = seeker.handle()
 
     abstract fun handle()
 }

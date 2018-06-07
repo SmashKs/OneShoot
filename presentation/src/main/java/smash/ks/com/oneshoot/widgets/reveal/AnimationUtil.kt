@@ -33,7 +33,7 @@ import kotlin.math.pow
 
 private const val CIRCULAR_REVEAL_DURATION = 1000L
 
-fun View.registerCircularRevealAnimation(
+fun View.addCircularRevealAnimation(
     revealSettings: RevealAnimationSetting,
     startColor: Int,
     endColor: Int
@@ -76,7 +76,7 @@ fun View.startCircularExitAnimation(
         val (cx, cy, width, height) = revealSettings
 
         // Simply use the diagonal of the view.
-        val radius = Math.sqrt((width.toDouble().pow(2) + height.toDouble().pow(2))).toFloat()
+        val radius = Math.sqrt(width.toDouble().pow(2) + height.toDouble().pow(2)).toFloat()
         ViewAnimationUtils.createCircularReveal(this, cx, cy, radius, 0f).apply {
             this.duration = CIRCULAR_REVEAL_DURATION
             interpolator = FastOutSlowInInterpolator()

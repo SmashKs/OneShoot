@@ -29,6 +29,8 @@ import android.view.View
 import android.view.ViewGroup
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
+import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_180
+import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_90
 
 @TargetApi(ICE_CREAM_SANDWICH)
 internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview() {
@@ -36,9 +38,6 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
         private const val FLOAT_ZERO = 0f
 
         private const val NUMBER_OF_SQUARE_CONNER = 4
-
-        private const val DEGREE_90 = 90
-        private const val DEGREE_180 = 180
     }
 
     private var displayOrientation = 0

@@ -42,7 +42,7 @@ abstract class Preview {
 
     protected fun dispatchSurfaceChanged() = onSurfaceChanged?.invoke() ?: Unit
 
-    open fun setBufferSize(width: Int, height: Int): Unit = TODO()
+    open fun setBufferSize(width: Int, height: Int) = Unit
 
     fun setSize(width: Int, height: Int) {
         this.width = width

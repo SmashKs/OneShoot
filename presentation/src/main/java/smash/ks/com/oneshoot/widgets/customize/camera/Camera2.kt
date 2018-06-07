@@ -86,6 +86,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_TOR
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Size
 import smash.ks.com.oneshoot.widgets.customize.camera.module.SizeMap
+import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_360
 
 /**
  * The Camera2 Api below Android api [LOLLIPOP] 22.
@@ -401,7 +402,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                 // Calculate JPEG orientation.
                 val sensorOrientation = cameraCharacteristics!![SENSOR_ORIENTATION]!!
                 set(JPEG_ORIENTATION,
-                    ((sensorOrientation + displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + 360) % 360))
+                    (sensorOrientation + displayOrientation * (if (FACING_FRONT == mFacing) 1 else -1) + DEGREE_360) % DEGREE_360)
                 // Stop preview and capture a still picture.
                 captureSession!!.apply {
                     stopRepeating()
@@ -631,7 +632,8 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
             when (state) {
                 STATE_LOCKING -> {
                     val af = result[CONTROL_AF_STATE] ?: return
-                    if ((CONTROL_AF_STATE_FOCUSED_LOCKED == af || CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == af)) {
+
+                    if (CONTROL_AF_STATE_FOCUSED_LOCKED == af || CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == af) {
                         if (CONTROL_AE_STATE_CONVERGED == ae) {
                             setState(STATE_CAPTURING)
                             onReady()
@@ -642,17 +644,14 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
                         }
                     }
                 }
-                STATE_PRECAPTURE -> {
-                    if ((CONTROL_AE_STATE_PRECAPTURE == ae ||
-                         CONTROL_AE_STATE_FLASH_REQUIRED == ae ||
-                         CONTROL_AE_STATE_CONVERGED == ae)
-                    ) setState(STATE_WAITING)
+                STATE_PRECAPTURE -> if ((CONTROL_AE_STATE_PRECAPTURE == ae ||
+                                         CONTROL_AE_STATE_FLASH_REQUIRED == ae ||
+                                         CONTROL_AE_STATE_CONVERGED == ae)) {
+                    setState(STATE_WAITING)
                 }
-                STATE_WAITING -> {
-                    if (CONTROL_AE_STATE_PRECAPTURE != ae) {
-                        setState(STATE_CAPTURING)
-                        onReady()
-                    }
+                STATE_WAITING -> if (CONTROL_AE_STATE_PRECAPTURE != ae) {
+                    setState(STATE_CAPTURING)
+                    onReady()
                 }
             }
         }
