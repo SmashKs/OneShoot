@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.ks.smash.ext.const
+package smash.ks.com.ext.const
 
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomDouble
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomFloat
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomInt
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomLong
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomString
-import com.ks.smash.ext.const.generate.GeneratorFactory.zero
+import smash.ks.com.ext.const.GeneratorFactory.randomDouble
+import smash.ks.com.ext.const.GeneratorFactory.randomFloat
+import smash.ks.com.ext.const.GeneratorFactory.randomInt
+import smash.ks.com.ext.const.GeneratorFactory.randomLong
+import smash.ks.com.ext.const.GeneratorFactory.randomString
+import smash.ks.com.ext.const.GeneratorFactory.zero
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

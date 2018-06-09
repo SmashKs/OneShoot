@@ -18,7 +18,7 @@ package smash.ks.com.data.local.cache
 
 import com.devrapid.kotlinshaver.currentTime
 import com.devrapid.kotlinshaver.isNotNull
-import com.ks.smash.ext.const.takeIfDefault
+import smash.ks.com.ext.const.takeIfDefault
 
 /**
  * A cache class for keeping the data temporally into the memory([HashMap]).

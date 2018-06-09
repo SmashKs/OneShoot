@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
+package smash.ks.com.domain
 
-import smash.ks.com.ext.const.DEFAULT_STR
+import net.bytebuddy.utility.RandomString
+import java.util.Random
+import kotlin.math.absoluteValue
 
 /**
- * Data object in domain layer to be a bridge object.
+ * Generate a random variable for each data types.
  */
-data class KsData(var uri: String = DEFAULT_STR) : Data
+object GeneratorFactory {
+    const val zero = 0
+    val randomInt get() = Random().nextInt().absoluteValue
+    val randomLong get() = Random().nextLong().absoluteValue
+    val randomFloat get() = Random().nextFloat().absoluteValue
+    val randomDouble get() = Random().nextDouble().absoluteValue
+    val randomString get() = RandomString.make()
+}

@@ -27,8 +27,8 @@ import com.bumptech.glide.Priority.HIGH
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy.RESOURCE
 import com.bumptech.glide.request.RequestOptions
-import com.ks.smash.ext.const.DEFAULT_INT
-import com.ks.smash.ext.const.takeUnlessDefault
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.takeUnlessDefault
 import smash.ks.com.oneshoot.ext.resource.gContext
 
 fun ImageView.loadByString(str: String, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =

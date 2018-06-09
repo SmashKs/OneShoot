@@ -20,11 +20,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
-import com.ks.smash.ext.const.DEFAULT_INT
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView

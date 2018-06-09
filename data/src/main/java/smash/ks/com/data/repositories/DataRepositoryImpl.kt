@@ -40,7 +40,7 @@ class DataRepositoryImpl constructor(
     private val mapper: DataFakeMapper
 ) : DataRepository {
     companion object {
-        const val SWITCH = true
+        const val SWITCH = false
     }
 
     //region Fake

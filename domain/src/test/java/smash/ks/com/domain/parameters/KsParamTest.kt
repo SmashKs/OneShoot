@@ -17,29 +17,36 @@
 package smash.ks.com.domain.parameters
 
 import org.assertj.core.api.Assertions.assertThat
+import smash.ks.com.domain.GeneratorFactory.randomLong
+import smash.ks.com.domain.GeneratorFactory.randomString
+import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_ID
+import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_NAME
+import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_URI
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class KsParamTest {
-    companion object {
-        private const val IMAGE_ID = 52L
-    }
-
+    private var id = randomLong
+    private lateinit var name: String
+    private lateinit var uri: String
     private lateinit var ksParam: KsParam
 
     @BeforeTest
     fun setup() {
-        ksParam = KsParam(IMAGE_ID)
+        id = randomLong
+        name = randomString
+        uri = randomString
+        ksParam = KsParam(id, name, uri)
     }
 
     @Test
     fun `count of the hashmap after transition to the parameter`() {
         val fieldsSize = KsParam::class.java.declaredFields.size
+        val publicFieldsSize = KsParam::class.java.fields.size
 
-        // Here might be strange.
-//        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize)
+        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize - publicFieldsSize)
     }
 
     @Test
@@ -56,7 +63,11 @@ class KsParamTest {
     fun `assign and check the content is the same`() {
         val map = ksParam.toParameter()
 
-        assertNotNull(map["id"])
-        assertEquals(IMAGE_ID.toString(), map["id"])
+        assertNotNull(map[PARAM_ID])
+        assertNotNull(map[PARAM_NAME])
+        assertNotNull(map[PARAM_URI])
+        assertEquals(id.toString(), map[PARAM_ID])
+        assertEquals(name, map[PARAM_NAME])
+        assertEquals(uri, map[PARAM_URI])
     }
 }

@@ -16,10 +16,10 @@
 
 package smash.ks.com.domain.datas
 
-import com.ks.smash.ext.const.DEFAULT_STR
 import smash.ks.com.domain.datas.KsResponse.Error
 import smash.ks.com.domain.datas.KsResponse.Loading
 import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.ext.const.DEFAULT_STR
 
 /**
  * The super class response from the data layer. There're three result of the response [Loading],

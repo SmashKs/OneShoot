@@ -16,9 +16,9 @@
 
 package smash.ks.com.oneshoot.entities
 
-import com.ks.smash.ext.const.DEFAULT_LONG
-import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.UniqueId
+import smash.ks.com.ext.const.DEFAULT_LONG
+import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.const.UniqueId
 import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 

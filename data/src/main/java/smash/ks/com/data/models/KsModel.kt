@@ -16,14 +16,14 @@
 
 package smash.ks.com.data.models
 
-import com.ks.smash.ext.const.DEFAULT_LONG
-import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.UniqueId
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
 import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel
 import smash.ks.com.data.local.v1.dbflow.KsDatabaseConfig
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.const.DEFAULT_LONG
+import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.const.UniqueId
 
 @Table(database = KsDatabaseConfig::class, allFields = true, name = "KsEntityTable")
 data class KsModel(

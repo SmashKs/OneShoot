@@ -26,9 +26,9 @@ import android.widget.Button
 import android.widget.TextView
 import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.visiable
-import com.ks.smash.ext.const.DEFAULT_STR
 import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
+import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 
 fun Activity.showViewStub(@IdRes stub: Int, @IdRes realView: Int, options: (View.() -> Unit)? = null) {

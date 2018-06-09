@@ -16,9 +16,9 @@
 
 package smash.ks.com.domain.parameters
 
-import com.ks.smash.ext.const.DEFAULT_LONG
-import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.UniqueId
+import smash.ks.com.ext.const.DEFAULT_LONG
+import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.const.UniqueId
 
 data class KsParam(
     val imageId: UniqueId = DEFAULT_LONG,

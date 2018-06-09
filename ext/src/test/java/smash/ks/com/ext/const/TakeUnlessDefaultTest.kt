@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.ks.smash.ext.const
+package smash.ks.com.ext.const
 
-import com.ks.smash.ext.const.generate.GeneratorFactory
-import com.ks.smash.ext.const.generate.GeneratorFactory.randomString
-import com.ks.smash.ext.const.generate.GeneratorFactory.zero
 import org.assertj.core.api.Assertions.assertThat
+import smash.ks.com.ext.const.GeneratorFactory.randomString
+import smash.ks.com.ext.const.GeneratorFactory.zero
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

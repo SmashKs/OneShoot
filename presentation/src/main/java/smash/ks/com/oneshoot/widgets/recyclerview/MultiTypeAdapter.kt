@@ -18,10 +18,10 @@ package smash.ks.com.oneshoot.widgets.recyclerview
 
 import android.content.Context
 import android.view.ViewGroup
-import com.ks.smash.ext.const.DEFAULT_INT
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import smash.ks.com.ext.const.DEFAULT_INT
 
 /**
  * The common recyclerview adapter for the multi-type object. Avoid that we create

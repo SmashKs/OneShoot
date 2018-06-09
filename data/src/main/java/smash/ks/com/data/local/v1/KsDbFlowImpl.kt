@@ -18,7 +18,6 @@ package smash.ks.com.data.local.v1
 
 import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.toSingle
-import com.ks.smash.ext.const.UniqueId
 import com.raizlabs.android.dbflow.kotlinextensions.from
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
@@ -27,6 +26,7 @@ import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.const.UniqueId
 import java.util.Random
 import java.util.UUID
 

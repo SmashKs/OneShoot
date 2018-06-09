@@ -16,13 +16,13 @@
 
 package smash.ks.com.data.local.services
 
-import com.ks.smash.ext.const.DEFAULT_LONG
-import com.ks.smash.ext.const.DEFAULT_STR
-import com.ks.smash.ext.const.UniqueId
 import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.const.DEFAULT_LONG
+import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.const.UniqueId
 
 /**
  * The access operations to a database.

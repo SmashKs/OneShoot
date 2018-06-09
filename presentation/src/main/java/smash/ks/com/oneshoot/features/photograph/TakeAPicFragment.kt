@@ -27,8 +27,6 @@ import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.logw
-import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
@@ -51,17 +49,12 @@ import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
     //region Instance
     companion object Factory {
-        // The key name of the fragment initialization parameters.
-        const val ARG_RANDOM_ID = "param random image id"
-
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
          *
          * @return A new instance of fragment [TakeAPicFragment].
          */
-        fun newInstance(arg1: Int = DEFAULT_INT) = TakeAPicFragment().apply {
-            arguments = bundleOf(ARG_RANDOM_ID to arg1)
-        }
+        fun newInstance() = TakeAPicFragment().apply { arguments = bundleOf() }
     }
     //endregion
 
@@ -88,14 +81,10 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
         var w = 0
         var h = 0
     }
-    // The fragment initialization parameters.
-    private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
     //region Fragment Lifecycle
     override fun onResume() {
         super.onResume()
-
-        logw(randomId)
 
         when {
             checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()

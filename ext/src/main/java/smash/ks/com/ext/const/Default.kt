@@ -16,7 +16,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.ks.smash.ext.const
+package smash.ks.com.ext.const
 
 const val DEFAULT_INT = -1
 const val DEFAULT_LONG = -1L

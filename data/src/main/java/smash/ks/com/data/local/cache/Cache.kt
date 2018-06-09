@@ -16,7 +16,7 @@
 
 package smash.ks.com.data.local.cache
 
-import com.ks.smash.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_INT
 
 /**
  * This is first layer cache for retrieving from the remote.

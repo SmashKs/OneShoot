@@ -37,6 +37,7 @@ dependencies {
     implementation project(':ext')
 
     implementation Global.kotlin
+    implementation Global.refelect
     implementation Global.coroutine
 
     implementation Global.rxJava2
