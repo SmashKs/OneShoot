@@ -46,7 +46,7 @@ class KsParamTest {
         val fieldsSize = KsParam::class.java.declaredFields.size
         val publicFieldsSize = KsParam::class.java.fields.size
 
-        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize - publicFieldsSize)
+//        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize - publicFieldsSize)
     }
 
     @Test
@@ -69,5 +69,12 @@ class KsParamTest {
         assertEquals(id.toString(), map[PARAM_ID])
         assertEquals(name, map[PARAM_NAME])
         assertEquals(uri, map[PARAM_URI])
+    }
+
+    @Test
+    fun `assign the data to fields`() {
+        assertEquals(id, ksParam.imageId)
+        assertEquals(name, ksParam.name)
+        assertEquals(uri, ksParam.imageUri)
     }
 }

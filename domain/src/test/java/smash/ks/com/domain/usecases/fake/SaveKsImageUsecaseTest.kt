@@ -16,34 +16,27 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import com.devrapid.kotlinshaver.completable
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.internal.operators.single.SingleCreate
-import smash.ks.com.domain.GeneratorFactory.randomLong
-import smash.ks.com.domain.GeneratorFactory.randomString
-import smash.ks.com.domain.datas.KsData
-import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
+import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class GetKsImageUsecaseTest {
-    private lateinit var usecase: GetKsImageUsecase
+class SaveKsImageUsecaseTest {
+    private lateinit var usecase: SaveKsImageUsecase
     private lateinit var repository: DataRepository
-    private val returnDate by lazy { Success(returnInsideDate) as KsResponse<KsData> }
-    private val returnInsideDate by lazy { KsData(randomLong, randomString) }
 
     @BeforeTest
     fun setUp() {
         repository = mock {
-            on { retrieveKsImage(KsParam()) } doReturn SingleCreate<KsData> { it.onSuccess(returnInsideDate) }
+            on { storeKsImage(KsParam()) } doReturn completable { it.onComplete() }
         }
-        usecase = GetKsImageUsecase(repository, mock(), mock())
+        usecase = SaveKsImageUsecase(repository, mock(), mock())
     }
 
     @Test
@@ -61,17 +54,12 @@ class GetKsImageUsecaseTest {
         buildUsecase()
 
         // Assume [retrieveKsImage] was ran once time.
-        verify(repository).retrieveKsImage(KsParam())
+        verify(repository).storeKsImage(KsParam())
     }
 
     @Test
     fun `run the case and completed`() {
         buildUsecase().test().assertComplete()
-    }
-
-    @Test
-    fun `run the case and check the return data`() {
-//        buildUsecase().test().assertValue(returnDate)
     }
 
     private fun buildUsecase() =
