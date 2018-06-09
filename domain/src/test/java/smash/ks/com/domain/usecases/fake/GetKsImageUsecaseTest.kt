@@ -20,7 +20,11 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.internal.operators.single.SingleCreate
+import smash.ks.com.domain.GeneratorFactory.randomLong
+import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
@@ -29,18 +33,15 @@ import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
 class GetKsImageUsecaseTest {
-    companion object {
-        private const val KS_URI = "this is a uri!"
-    }
-
     private lateinit var usecase: GetKsImageUsecase
     private lateinit var repository: DataRepository
-    private val returnDate by lazy { KsData(KS_URI) }
+    private val returnDate by lazy { Success(returnInsideDate) as KsResponse<KsData> }
+    private val returnInsideDate by lazy { KsData(randomLong, randomString) }
 
     @BeforeTest
     fun setUp() {
         repository = mock {
-            on { retrieveKsImage(KsParam()) } doReturn SingleCreate<KsData> { it.onSuccess(returnDate) }
+            on { retrieveKsImage(KsParam()) } doReturn SingleCreate<KsData> { it.onSuccess(returnInsideDate) }
         }
         usecase = GetKsImageUsecase(repository, mock(), mock())
     }

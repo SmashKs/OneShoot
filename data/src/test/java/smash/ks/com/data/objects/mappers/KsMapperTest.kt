@@ -17,31 +17,33 @@
 package smash.ks.com.data.objects.mappers
 
 import org.modelmapper.ModelMapper
+import smash.ks.com.data.GeneratorFactory.randomLong
+import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.domain.datas.KsData
+import smash.ks.com.ext.const.DEFAULT_LONG
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class KsMapperTest {
-    companion object {
-        private const val KS_ID = 147L
-        private const val KS_URI = "this is test uri!"
-    }
-
+    private var ksId = DEFAULT_LONG
+    private lateinit var ksUri: String
     private lateinit var mapper: ModelMapper
     private lateinit var ksMapper: KsMapper
 
     @BeforeTest
     fun setup() {
+        ksId = randomLong
+        ksUri = randomString
         mapper = ModelMapper()
         ksMapper = KsMapper(mapper)
     }
 
     @Test
     fun `mapping model to object`() {
-        val model = KsModel(KS_ID, KS_URI)
+        val model = KsModel(ksId, ksUri)
         val newObj = ksMapper.toDataFrom(model)
 
         assertEqualsObject(newObj, model)
@@ -49,7 +51,7 @@ class KsMapperTest {
 
     @Test
     fun `mapping object to model`() {
-        val obj = KsData(KS_URI)
+        val obj = KsData(ksId, ksUri)
         val newModel = ksMapper.toModelFrom(obj)
 
         assertEqualsObject(obj, newModel)

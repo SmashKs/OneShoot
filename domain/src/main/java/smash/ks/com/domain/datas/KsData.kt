@@ -16,9 +16,14 @@
 
 package smash.ks.com.domain.datas
 
+import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.const.UniqueId
 
 /**
  * Data object in domain layer to be a bridge object.
  */
-data class KsData(var uri: String = DEFAULT_STR) : Data
+data class KsData(
+    var id: UniqueId = DEFAULT_LONG,
+    var uri: String = DEFAULT_STR
+) : Data
