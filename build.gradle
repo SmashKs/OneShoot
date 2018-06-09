@@ -47,7 +47,7 @@ detekt {
     version = "1.0.0.RC7"
     profile("main") {
         input = file("presentation/src/main/java")
-        config = "$projectDir/detekt-config.yml"
+        config = "$projectDir/detekt.yml"
         filters = ".*/resources/.*,.*/build/.*"
     }
 }

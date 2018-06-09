@@ -27,6 +27,7 @@ import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
+import com.devrapid.kotlinknifer.logw
 import com.ks.smash.ext.const.DEFAULT_INT
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
@@ -93,6 +94,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
     //region Fragment Lifecycle
     override fun onResume() {
         super.onResume()
+
+        logw(randomId)
 
         when {
             checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
