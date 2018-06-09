@@ -32,14 +32,14 @@ import smash.ks.com.oneshoot.bases.LoadView
 /**
  * Observe the [LiveData]'s nullable value from [android.arch.lifecycle.ViewModel].
  */
-inline fun <reified T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: (T?) -> Unit) =
-    liveData.observe(this, Observer(block))
+inline fun <reified T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: ((T?) -> Unit)? = null) =
+    block?.let { liveData.observe(this, Observer(it)) }
 
 /**
  * Observe the [LiveData]'s nonnull value from [android.arch.lifecycle.ViewModel].
  */
-inline fun <reified T> LifecycleOwner.observeNonNull(liveData: LiveData<T>, noinline block: (T) -> Unit) =
-    liveData.observe(this, Observer { it?.let(block) })
+inline fun <reified T> LifecycleOwner.observeNonNull(liveData: LiveData<T>, noinline block: ((T) -> Unit)? = null) =
+    block?.run { liveData.observe(this@observeNonNull, Observer { it?.let(this) }) }
 
 /**
  * Observe the [LiveData]'s nullable value which comes from the un-boxed [KsResponse] value
@@ -47,8 +47,8 @@ inline fun <reified T> LifecycleOwner.observeNonNull(liveData: LiveData<T>, noin
  */
 inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnbox(
     liveData: LiveData<T>,
-    noinline block: (E?) -> Unit
-) = liveData.observe(this, Observer { it?.data.let(block) })
+    noinline block: ((E?) -> Unit)? = null
+) = block?.run { liveData.observe(this@observeUnbox, Observer { it?.data.let(this) }) }
 
 /**
  * Observe the [LiveData]'s nonnull value which comes from the un-boxed [KsResponse] value
@@ -56,8 +56,8 @@ inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnbox(
  */
 inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnboxNonNull(
     liveData: LiveData<T>,
-    noinline block: (E) -> Unit
-) = liveData.observe(this, Observer { it?.data?.let(block) })
+    noinline block: ((E) -> Unit)? = null
+) = block?.run { liveData.observe(this@observeUnboxNonNull, Observer { it?.data?.let(block) }) }
 
 /**
  * Check the [KsResponse]'s changing and do the corresponding reaction.Here're three data

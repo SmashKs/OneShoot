@@ -35,17 +35,14 @@ class FakeViewModel(
     private val saveKsImageCase: SaveKsImageCase,
     private val mapper: PresentationFakeMapper
 ) : ViewModel() {
-    val temp by lazy { ResponseLiveData<String>() }
+    private val temp by lazy { ResponseLiveData<String>() }
     private val saveRes by lazy { UntilPresenterLiveData() }
 
-    fun retrieveId(imageId: Int) {
+    fun retrieveId(imageId: Int) =
         temp.requestData({ getKsImageCase.toAwait(mapper, FetchImageRequest(KsParam(imageId.toLong(), "Jieyi Wu"))) },
                          KsEntity::uri)
-    }
 
-    fun storeImage() {
-        saveRes.requestWithoutResponse {
-            saveKsImageCase.toAwait(SaveImageRequest(KsParam(imageUri = "!??!?!?!?!?!??!")))
-        }
+    fun storeImage() = saveRes.requestWithoutResponse {
+        saveKsImageCase.toAwait(SaveImageRequest(KsParam(imageUri = "!??!?!?!?!?!??!")))
     }
 }

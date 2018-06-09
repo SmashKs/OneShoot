@@ -64,11 +64,9 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         vm.apply {
-            observeNonNull(temp, ::updateTemp)
-
             // For testing, that's why they are called in the beginning.
-            storeImage()
-            retrieveId(randomId)
+            observeNonNull(retrieveId(randomId), ::updateTemp)
+//            observe(storeImage())
         }
 
         find<RecyclerView>(R.id.rv_fake).also {
