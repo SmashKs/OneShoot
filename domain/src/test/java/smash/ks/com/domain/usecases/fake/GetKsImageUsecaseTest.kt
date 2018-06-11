@@ -16,15 +16,20 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import com.devrapid.kotlinshaver.isNotNull
+import com.devrapid.kotlinshaver.single
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.internal.operators.single.SingleCreate
+import io.reactivex.Single
+import io.reactivex.internal.operators.single.SingleJust
+import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests
@@ -35,45 +40,78 @@ import kotlin.test.assertFailsWith
 class GetKsImageUsecaseTest {
     private lateinit var usecase: GetKsImageUsecase
     private lateinit var repository: DataRepository
-    private val returnDate by lazy { Success(returnInsideDate) as KsResponse<KsData> }
-    private val returnInsideDate by lazy { KsData(randomLong, randomString) }
+    private lateinit var data: KsData
+    private lateinit var parameter: KsParam
+
+    private val returnDate by lazy { Success(data) as KsResponse<KsData> }
 
     @BeforeTest
     fun setUp() {
-        repository = mock {
-            on { retrieveKsImage(KsParam()) } doReturn SingleCreate<KsData> { it.onSuccess(returnInsideDate) }
-        }
-        usecase = GetKsImageUsecase(repository, mock(), mock())
+        data = KsData(randomLong, randomString)
+        parameter = KsParam(randomLong, randomString, randomString)
+        buildUsecaseWithAction()
     }
 
     @Test
     fun `create the usecase without parameters`() {
-        assertFailsWith<Exception> { usecase.fetchUseCase() }
-    }
-
-    @Test
-    fun `run the usecase without parameters`() {
-        assertFailsWith<Exception> { usecase.fetchUseCase().test() }
+        assertFailsWith<NoParameterException> { buildSingle() }
     }
 
     @Test
     fun `run through a creating usecase`() {
-        buildUsecase()
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter)
 
         // Assume [retrieveKsImage] was ran once time.
-        verify(repository).retrieveKsImage(KsParam())
+        verify(repository).retrieveKsImage(parameter)
     }
 
     @Test
     fun `run the case and completed`() {
-        buildUsecase().test().assertComplete()
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter).test().assertComplete()
     }
 
     @Test
     fun `run the case and check the return data`() {
-//        buildUsecase().test().assertValue(returnDate)
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter).test().assertValue { it.data == returnDate.data }
     }
 
-    private fun buildUsecase() =
-        usecase.apply { requestValues = Requests(KsParam()) }.fetchUseCase()
+    @Test
+    fun `run the case and check the loading data`() {
+        buildSimpleSuccessUsecase()
+    }
+
+    @Test
+    fun `run the case and let it send on error event`() {
+        val exception = Exception("There's something wrong.")
+
+        buildUsecaseWithAction(parameter) { single { it.onError(exception) } }
+        buildSingle(parameter).test().assertError(exception)
+    }
+
+    @Test
+    fun `check the rxjava is dispose`() {
+        buildSimpleSuccessUsecase()
+        val single = buildSingle(parameter).test()
+
+        single.dispose()
+
+        assertThat(single.isDisposed).isTrue()
+    }
+
+    private fun buildUsecaseWithAction(ksParam: KsParam? = null, returnBlock: (() -> Single<KsData>)? = null) {
+        repository = mock {
+            returnBlock.takeIf { null != it }?.let { on { retrieveKsImage(ksParam) } doReturn it.invoke() }
+        }
+        usecase = GetKsImageUsecase(repository, mock(), mock())
+    }
+
+    private fun buildSimpleSuccessUsecase() = buildUsecaseWithAction(parameter) { SingleJust(data) }
+
+    private fun buildSingle(ksParam: KsParam? = null) =
+        usecase.apply {
+            ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) }
+        }.fetchUseCase()
 }

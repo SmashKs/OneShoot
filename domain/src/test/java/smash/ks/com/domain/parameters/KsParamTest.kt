@@ -42,21 +42,17 @@ class KsParamTest {
     }
 
     @Test
+    fun `assign the data to fields`() {
+        assertEquals(id, ksParam.imageId)
+        assertEquals(name, ksParam.name)
+        assertEquals(uri, ksParam.imageUri)
+    }
+
+    @Test
     fun `count of the hashmap after transition to the parameter`() {
-        val fieldsSize = KsParam::class.java.declaredFields.size
-        val publicFieldsSize = KsParam::class.java.fields.size
+        val fieldsSize = KsParam::class.java.declaredFields.filter { "private final" in it.toGenericString() }.size
 
-//        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize - publicFieldsSize)
-    }
-
-    @Test
-    fun `check the instance hashmap after transition to the parameter`() {
-        assertThat(ksParam.toParameter()).isInstanceOf(HashMap::class.java)
-    }
-
-    @Test
-    fun `check is not null after transition to the parameter`() {
-        assertThat(ksParam.toParameter()).isNotNull
+        assertThat(ksParam.toParameter().values.size).isEqualTo(fieldsSize)
     }
 
     @Test
@@ -72,9 +68,12 @@ class KsParamTest {
     }
 
     @Test
-    fun `assign the data to fields`() {
-        assertEquals(id, ksParam.imageId)
-        assertEquals(name, ksParam.name)
-        assertEquals(uri, ksParam.imageUri)
+    fun `check the instance hashmap after transition to the parameter`() {
+        assertThat(ksParam.toParameter()).isInstanceOf(HashMap::class.java)
+    }
+
+    @Test
+    fun `check is not null after transition to the parameter`() {
+        assertThat(ksParam.toParameter()).isNotNull
     }
 }

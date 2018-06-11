@@ -40,11 +40,9 @@ class GetKsImageUsecase(
     override fun fetchUseCase() = requestValues?.run {
         repository
             .retrieveKsImage(params)
-            .map {
-                Success(it) as? KsResponse<KsData> ?: Error(msg = ClassCastException().message.orEmpty())
-            }
+            .map { Success(it) as? KsResponse<KsData> ?: Error(msg = ClassCastException().message.orEmpty()) }
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsParam = KsParam()) : RequestValues
+    class Requests(val params: KsParam) : RequestValues
 }
