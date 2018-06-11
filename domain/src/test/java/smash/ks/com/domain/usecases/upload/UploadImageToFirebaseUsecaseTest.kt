@@ -57,7 +57,7 @@ class UploadImageToFirebaseUsecaseTest {
         buildCompletable(parameter)
 
         // Assume [retrieveKsImage] was ran once time.
-        verify(repository).storeKsImage(parameter)
+        verify(repository).uploadImage(parameter)
     }
 
     @Test
@@ -84,7 +84,7 @@ class UploadImageToFirebaseUsecaseTest {
 
     private fun buildUsecaseWithAction(ksParam: KsParam, returnBlock: (() -> Completable)? = null) {
         repository = mock {
-            returnBlock.takeIf { null != it }?.let { on { storeKsImage(ksParam) } doReturn it.invoke() }
+            returnBlock.takeIf { null != it }?.let { on { uploadImage(ksParam) } doReturn it.invoke() }
         }
         usecase = UploadImageToFirebaseUsecase(repository, mock(), mock())
     }
