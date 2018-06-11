@@ -26,8 +26,6 @@ import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.datas.KsData
-import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
@@ -41,8 +39,6 @@ class SaveKsImageUsecaseTest {
     private lateinit var repository: DataRepository
     private lateinit var data: KsData
     private lateinit var parameter: KsParam
-
-    private val returnDate by lazy { Success(data) as KsResponse<KsData> }
 
     @BeforeTest
     fun setUp() {

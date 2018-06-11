@@ -16,10 +16,17 @@
 
 package smash.ks.com.domain.usecases.upload
 
+import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.isNotNull
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.internal.operators.completable.CompletableCreate
+import io.reactivex.Completable
+import org.assertj.core.api.Assertions.assertThat
+import smash.ks.com.domain.GeneratorFactory.randomLong
+import smash.ks.com.domain.GeneratorFactory.randomString
+import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
@@ -27,40 +34,61 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-/**
- * @author Jieyi Wu
- * @since 2018/05/24
- */
 class UploadImageToFirebaseUsecaseTest {
     private lateinit var usecase: UploadImageToFirebaseUsecase
     private lateinit var repository: DataRepository
+    private lateinit var data: KsData
+    private lateinit var parameter: KsParam
 
     @BeforeTest
     fun setUp() {
-        repository = mock {
-            on { uploadImage(KsParam()) } doReturn CompletableCreate { it.onComplete() }
-        }
-        usecase = UploadImageToFirebaseUsecase(repository, mock(), mock())
+        data = KsData(randomLong, randomString)
+        parameter = KsParam(randomLong, randomString, randomString)
+        buildUsecaseWithAction(parameter) { completable() }
     }
 
     @Test
-    fun `create usecase without putting parameters`() {
-        assertFailsWith<Exception> { usecase.fetchUseCase() }
+    fun `create the usecase without parameters`() {
+        assertFailsWith<NoParameterException> { buildCompletable() }
     }
 
     @Test
     fun `run through a creating usecase`() {
-        buildUsecase()
+        buildCompletable(parameter)
 
         // Assume [retrieveKsImage] was ran once time.
-        verify(repository).uploadImage(KsParam())
+        verify(repository).storeKsImage(parameter)
     }
 
     @Test
     fun `run the case and completed`() {
-        buildUsecase().test().assertComplete()
+        buildCompletable(parameter).test().assertComplete()
     }
 
-    private fun buildUsecase() =
-        usecase.apply { requestValues = Requests() }.fetchUseCase()
+    @Test
+    fun `run the case and let it send on error event`() {
+        val exception = Exception("There's something wrong.")
+
+        buildUsecaseWithAction(parameter) { completable { it.onError(exception) } }
+        buildCompletable(parameter).test().assertError(exception)
+    }
+
+    @Test
+    fun `check the rxjava is dispose`() {
+        val single = buildCompletable(parameter).test()
+
+        single.dispose()
+
+        assertThat(single.isDisposed).isTrue()
+    }
+
+    private fun buildUsecaseWithAction(ksParam: KsParam, returnBlock: (() -> Completable)? = null) {
+        repository = mock {
+            returnBlock.takeIf { null != it }?.let { on { storeKsImage(ksParam) } doReturn it.invoke() }
+        }
+        usecase = UploadImageToFirebaseUsecase(repository, mock(), mock())
+    }
+
+    private fun buildCompletable(ksParam: KsParam? = null) =
+        usecase.apply { ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) } }.fetchUseCase()
 }

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
+package smash.ks.com.data.models
 
-import smash.ks.com.domain.GeneratorFactory.randomLong
-import smash.ks.com.domain.GeneratorFactory.randomString
+import smash.ks.com.data.GeneratorFactory.randomLong
+import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.DEFAULT_STR
 import kotlin.test.BeforeTest
@@ -25,32 +25,32 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-class KsDataTest {
+class KsModelTest {
     private var id = DEFAULT_LONG
     private lateinit var uri: String
-    private lateinit var data: KsData
+    private lateinit var model: KsModel
 
     @BeforeTest
-    fun setUp() {
+    fun setup() {
         id = randomLong
         uri = randomString
-
-        data = KsData(id, uri)
     }
 
     @Test
-    fun `assign the variables into ks data class`() {
-        assertEquals(id, data.id)
-        assertEquals(uri, data.uri)
+    fun `assign all variable to new object and get them`() {
+        model = KsModel(id, uri)
+
+        assertEquals(id, model.id)
+        assertEquals(uri, model.uri)
     }
 
     @Test
     fun `create a new object then assign new variables`() {
-        data = KsData()
-        data.id = id
-        data.uri = uri
+        model = KsModel()
+        model.id = id
+        model.uri = uri
 
-        assertNotEquals(DEFAULT_LONG, data.id)
-        assertNotEquals(DEFAULT_STR, data.uri)
+        assertNotEquals(DEFAULT_LONG, model.id)
+        assertNotEquals(DEFAULT_STR, model.uri)
     }
 }

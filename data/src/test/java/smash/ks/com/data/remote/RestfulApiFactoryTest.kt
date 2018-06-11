@@ -16,11 +16,9 @@
 
 package smash.ks.com.data.remote
 
-import smash.ks.com.data.remote.config.KsConfig
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class RestfulApiFactoryTest {
     private lateinit var factory: RestfulApiFactory
@@ -32,9 +30,6 @@ class RestfulApiFactoryTest {
 
     @Test
     fun `create a ks config product`() {
-        val config = factory.createKsConfig()
-
-        assertNotNull(config)
-        assertTrue { config is KsConfig }
+        assertNotNull(factory.createKsConfig())
     }
 }
