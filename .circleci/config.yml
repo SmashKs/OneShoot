@@ -1,13 +1,27 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/code
+    working_directory: ~/workspace
+    environment:
+          JVM_OPTS: -Xmx3200m
+          ANDROID_API_LEVEL: 26
+          EMULATOR_API_LEVEL: 22
+          ANDROID_BUILD_TOOLS_VERSION: 27.0.3
+          ANDROID_ABI: armeabi-v7a
+          ANDROID_TAG: google_apis
+          ANDROID_TARGET: android-$ANDROID_API_LEVEL
+          ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
-      - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-27-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - run:
+          name: Update android sdk
+          command: |
+            echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-google-google_play_services,extra-google-m2repository,android-${ANDROID_API_LEVEL}
+            echo y | android update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS_VERSION}
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
@@ -31,3 +45,18 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+  test:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/android:api-27-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Run Tests JaCoCo
+          command: ./gradlew connectedCheck
+      - run:
+          name: Send coverage
+          command: bash <(curl -s https://codecov.io/bash)
