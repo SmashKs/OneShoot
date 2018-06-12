@@ -25,3 +25,23 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+
+test:
+  pre:
+    # start emulator for instrumentation tests
+    - emulator -avd circleci-android21 -no-audio -no-window:
+        background: true
+
+    - circle-android wait-for-boot
+    - sleep 60
+    - adb shell input keyevent 82
+    - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+
+  override:
+   - ./gradlew connectedCheck
+
+deployment:
+  coverage:
+    branch: [master]
+    commands:
+      - bash <(curl -s https://codecov.io/bash)

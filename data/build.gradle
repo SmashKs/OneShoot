@@ -99,5 +99,7 @@ dependencies {
 
     testImplementation GlobalTest.kotlin
     testImplementation GlobalTest.mockito
+    testImplementation GlobalTest.powerMockJunit
+    testImplementation GlobalTest.powerMockito
     testImplementation GlobalTest.assertj
 }

@@ -16,11 +16,12 @@
 
 package smash.ks.com.data.datastores
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
-import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.parameters.Parameterable
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -40,41 +41,51 @@ class RemoteDataStoreImplTest {
         remoteDataStore = RemoteDataStoreImpl(service, firebase)
     }
 
+    @Test(NoParameterException::class)
+    fun `fetch an image without the parameters`() {
+        remoteDataStore.fetchKsImage(null)
+    }
+
     @Test
-    fun `the flow of fetching an image from the local database`() {
-        val param = any<KsParam>()
-
-//        whenever(database.fetchKsData(param)).thenReturn(SingleJust(any()))
-//        remoteDataStore.fetchKsImage(param)
-
-//        verify(database).fetchKsData(param)
+    fun `fetch an image with the parameters`() {
+//        val parameter = mock<Parameterable>()
+//        val map = whenever(parameter.toParameter()).thenCallRealMethod()
+//
+//        whenever(firebase.fetchImages(parameter)).thenReturn(SingleJust(any()))
+//        remoteDataStore.fetchKsImage(parameter)
+//
+//        verify(firebase).fetchImages(parameter)
     }
 
-    //    @Test(UnsupportedOperationException::class)
+    @Test(UnsupportedOperationException::class)
     fun `the flow of storing an image to the local database`() {
-//        val id = GeneratorFactory.randomLong
-//        val uri = GeneratorFactory.randomString
-//        val parameter = spy(KsParam(id, GeneratorFactory.randomString, uri))
-//
-//        whenever(database.keepKsData()).thenReturn(completable())
-//        remoteDataStore.keepKsImage(parameter)
-//
-//        verify(parameter).toParameter()
-//        verify(database).keepKsData(id, uri)
+        remoteDataStore.keepKsImage(mock())
     }
 
-    //    @Test(UnsupportedOperationException::class)
-    fun `local data store doesn't support uploadImage method`() {
-//        remoteDataStore.uploadImage(mock())
+    @Test
+    fun `firebase did call the upload an image function`() {
+        val parameter = mock<Parameterable>()
+
+        remoteDataStore.uploadImage(parameter)
+
+        verify(firebase).uploadImage(parameter)
     }
 
-    //    @Test(UnsupportedOperationException::class)
-    fun `local data store doesn't support analyzeImageTagsByML method`() {
-//        remoteDataStore.analyzeImageTagsByML(mock())
+    @Test
+    fun `firebase did call the analyzing an image tags by ML function`() {
+        val parameter = mock<Parameterable>()
+
+        remoteDataStore.analyzeImageTagsByML(parameter)
+
+        verify(firebase).obtainImageTagsByML(parameter)
     }
 
-    //    @Test(UnsupportedOperationException::class)
-    fun `local data store doesn't support analyzeImageWordContentByML method`() {
-//        remoteDataStore.analyzeImageWordContentByML(mock())
+    @Test
+    fun `firebase did call the analyzing an image word content by ML function`() {
+        val parameter = mock<Parameterable>()
+
+        remoteDataStore.analyzeImageWordContentByML(parameter)
+
+        verify(firebase).obtainImageWordContentByML(parameter)
     }
 }
