@@ -16,14 +16,14 @@
 
 package smash.ks.com.data.models
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_LONG
-import smash.ks.com.ext.const.DEFAULT_STR
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 class KsModelTest {
     private var id = DEFAULT_LONG
@@ -34,6 +34,12 @@ class KsModelTest {
     fun setup() {
         id = randomLong
         uri = randomString
+
+        model = mock()
+        model.also {
+            it.id = id
+            it.uri = uri
+        }
     }
 
     @Test
@@ -46,11 +52,7 @@ class KsModelTest {
 
     @Test
     fun `create a new object then assign new variables`() {
-        model = KsModel()
-        model.id = id
-        model.uri = uri
-
-        assertNotEquals(DEFAULT_LONG, model.id)
-        assertNotEquals(DEFAULT_STR, model.uri)
+        verify(model).id = id
+        verify(model).uri = uri
     }
 }

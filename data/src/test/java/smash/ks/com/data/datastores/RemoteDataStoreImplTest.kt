@@ -16,65 +16,65 @@
 
 package smash.ks.com.data.datastores
 
-import com.devrapid.kotlinshaver.completable
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.internal.operators.single.SingleJust
-import smash.ks.com.data.GeneratorFactory.randomLong
-import smash.ks.com.data.GeneratorFactory.randomString
-import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.remote.services.KsFirebase
+import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.parameters.KsParam
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class LocalDataStoreImplTest {
-    private lateinit var localDataStore: DataStore
-    private lateinit var database: KsDatabase
+/**
+ * @author Jieyi Wu
+ * @since 2018/06/12
+ */
+class RemoteDataStoreImplTest {
+    private lateinit var remoteDataStore: DataStore
+    private lateinit var service: KsService
+    private lateinit var firebase: KsFirebase
 
     @BeforeTest
     fun setUp() {
-        database = mock()
-        localDataStore = LocalDataStoreImpl(database)
+        service = mock()
+        firebase = mock()
+        remoteDataStore = RemoteDataStoreImpl(service, firebase)
     }
 
     @Test
     fun `the flow of fetching an image from the local database`() {
         val param = any<KsParam>()
 
-        whenever(database.fetchKsData(param)).thenReturn(SingleJust(any()))
-        localDataStore.fetchKsImage(param)
+//        whenever(database.fetchKsData(param)).thenReturn(SingleJust(any()))
+//        remoteDataStore.fetchKsImage(param)
 
-        verify(database).fetchKsData(param)
+//        verify(database).fetchKsData(param)
     }
 
-    @Test
+    @Test(UnsupportedOperationException::class)
     fun `the flow of storing an image to the local database`() {
-        val id = randomLong
-        val uri = randomString
-        val parameter = spy(KsParam(id, randomString, uri))
-
-        whenever(database.keepKsData()).thenReturn(completable())
-        localDataStore.keepKsImage(parameter)
-
-        verify(parameter).toParameter()
-        verify(database).keepKsData(id, uri)
+//        val id = GeneratorFactory.randomLong
+//        val uri = GeneratorFactory.randomString
+//        val parameter = spy(KsParam(id, GeneratorFactory.randomString, uri))
+//
+//        whenever(database.keepKsData()).thenReturn(completable())
+//        remoteDataStore.keepKsImage(parameter)
+//
+//        verify(parameter).toParameter()
+//        verify(database).keepKsData(id, uri)
     }
 
     @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support uploadImage method`() {
-        localDataStore.uploadImage(mock())
+//        remoteDataStore.uploadImage(mock())
     }
 
     @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support analyzeImageTagsByML method`() {
-        localDataStore.analyzeImageTagsByML(mock())
+//        remoteDataStore.analyzeImageTagsByML(mock())
     }
 
     @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support analyzeImageWordContentByML method`() {
-        localDataStore.analyzeImageWordContentByML(mock())
+//        remoteDataStore.analyzeImageWordContentByML(mock())
     }
 }
