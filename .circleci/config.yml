@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/workspace
     environment:
           JVM_OPTS: -Xmx3200m
-          ANDROID_API_LEVEL: 26
+          ANDROID_API_LEVEL: 27
           EMULATOR_API_LEVEL: 22
           ANDROID_BUILD_TOOLS_VERSION: 27.0.3
           ANDROID_ABI: armeabi-v7a
@@ -17,11 +17,6 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - run:
-          name: Update android sdk
-          command: |
-            echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-google-google_play_services,extra-google-m2repository,android-${ANDROID_API_LEVEL}
-            echo y | android update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS_VERSION}
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
