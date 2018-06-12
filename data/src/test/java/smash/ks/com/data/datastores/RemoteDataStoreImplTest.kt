@@ -50,7 +50,7 @@ class RemoteDataStoreImplTest {
 //        verify(database).fetchKsData(param)
     }
 
-    @Test(UnsupportedOperationException::class)
+    //    @Test(UnsupportedOperationException::class)
     fun `the flow of storing an image to the local database`() {
 //        val id = GeneratorFactory.randomLong
 //        val uri = GeneratorFactory.randomString
@@ -63,17 +63,17 @@ class RemoteDataStoreImplTest {
 //        verify(database).keepKsData(id, uri)
     }
 
-    @Test(UnsupportedOperationException::class)
+    //    @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support uploadImage method`() {
 //        remoteDataStore.uploadImage(mock())
     }
 
-    @Test(UnsupportedOperationException::class)
+    //    @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support analyzeImageTagsByML method`() {
 //        remoteDataStore.analyzeImageTagsByML(mock())
     }
 
-    @Test(UnsupportedOperationException::class)
+    //    @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support analyzeImageWordContentByML method`() {
 //        remoteDataStore.analyzeImageWordContentByML(mock())
     }
