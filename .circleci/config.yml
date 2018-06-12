@@ -15,33 +15,19 @@ jobs:
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
-            - ~/.gradle
+            - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew lint test
+      - run:
+          name: Generate JaCoCo report
+          command: ./gradlew connectedCheck
+      - run:
+          name: Upload coverage report to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: app/build/reports
           destination: reports
       - store_test_results:
           path: app/build/test-results
-
-test:
-  pre:
-    # start emulator for instrumentation tests
-    - emulator -avd circleci-android21 -no-audio -no-window:
-        background: true
-
-    - circle-android wait-for-boot
-    - sleep 60
-    - adb shell input keyevent 82
-    - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
-
-  override:
-   - ./gradlew connectedCheck
-
-deployment:
-  coverage:
-    branch: [master]
-    commands:
-      - bash <(curl -s https://codecov.io/bash)
