@@ -52,7 +52,10 @@ android {
         }
     }
     dexOptions { javaMaxHeapSize "4g" }
-    packagingOptions { exclude 'META-INF/rxjava.properties' }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/main.kotlin_module'
+    }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -155,13 +158,16 @@ dependencies {
 
     implementation Presentation.arv
 
-    testImplementation GlobalTest.junit
     testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.junit
     testImplementation(GlobalTest.mockito) {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
     testImplementation GlobalTest.assertj
+    testImplementation GlobalTest.powerMockJunit
+    testImplementation GlobalTest.powerMockito
 
+    androidTestImplementation GlobalTest.kotlin
     androidTestImplementation PresentationTest.espressoHelper
 //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
