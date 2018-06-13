@@ -19,14 +19,13 @@ package smash.ks.com.data.remote.services
 import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.models.KsModel
-import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
 /**
  * The access operations for Firebase service.
  */
 interface KsFirebase {
-    fun fetchImages(params: Parameterable = KsParam()): Single<KsModel>
+    fun fetchImages(name: String): Single<KsModel>
 
     fun uploadImage(params: Parameterable): Completable
 

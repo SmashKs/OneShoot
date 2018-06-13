@@ -19,7 +19,6 @@ package smash.ks.com.data.local.services
 import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.models.KsModel
-import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.ext.const.UniqueId
@@ -28,7 +27,7 @@ import smash.ks.com.ext.const.UniqueId
  * The access operations to a database.
  */
 interface KsDatabase {
-    fun fetchKsData(params: Parameterable?): Single<KsModel>
+    fun fetchKsData(id: UniqueId?): Single<KsModel>
 
     fun keepKsData(id: UniqueId = DEFAULT_LONG, uri: String = DEFAULT_STR): Completable
 

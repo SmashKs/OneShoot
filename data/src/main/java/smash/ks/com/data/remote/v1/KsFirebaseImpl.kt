@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
-import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_NAME
 import smash.ks.com.domain.parameters.Parameterable
 
 /**
@@ -38,10 +37,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
     private val ref by lazy { database.reference }
 
     //region Fake
-    override fun fetchImages(params: Parameterable) = single<KsModel> {
-        val param = params.toParameter()
-        val name = param[PARAM_NAME].orEmpty()
-
+    override fun fetchImages(name: String) = single<KsModel> {
         ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val entry = dataSnapshot.children.toList().first().value as? Map<String, Any>

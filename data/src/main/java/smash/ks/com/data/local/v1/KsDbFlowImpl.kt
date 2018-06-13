@@ -18,14 +18,16 @@ package smash.ks.com.data.local.v1
 
 import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.toSingle
+import com.raizlabs.android.dbflow.kotlinextensions.eq
 import com.raizlabs.android.dbflow.kotlinextensions.from
 import com.raizlabs.android.dbflow.kotlinextensions.select
+import com.raizlabs.android.dbflow.kotlinextensions.where
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.Delete
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.models.KsModel
-import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.data.models.KsModel_Table
 import smash.ks.com.ext.const.UniqueId
 import java.util.Random
 import java.util.UUID
@@ -34,17 +36,19 @@ import java.util.UUID
  * The implementation for accessing the data by dbflow with [io.reactivex.plugins.RxJavaPlugins].
  */
 class KsDbFlowImpl : KsDatabase {
-    override fun fetchKsData(params: Parameterable?) =
-//        (select from KsEntity::class where (KsEntity_Table.id eq 4)).rx().list.map {
-        (select from KsModel::class).rx().list.map {
-            val (id, uri) = try {
+    override fun fetchKsData(id: UniqueId?) = (id?.let {
+        (select from KsModel::class where (KsModel_Table.id eq it)).rx()
+    } ?: let { (select from KsModel::class).rx() })
+        .list
+        .map {
+            val (uid, uri) = try {
                 it.first()
             }
             catch (exception: NoSuchElementException) {
                 KsModel(Random().nextLong(), UUID.randomUUID().toString())
             }
 
-            KsModel(id, uri)
+            KsModel(uid, uri)
         }
 
     override fun keepKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().toCompletable()

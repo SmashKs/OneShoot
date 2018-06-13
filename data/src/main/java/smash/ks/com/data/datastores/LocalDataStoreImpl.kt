@@ -17,6 +17,7 @@
 package smash.ks.com.data.datastores
 
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -30,10 +31,19 @@ class LocalDataStoreImpl(
     // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
 
     //region Fake
-    override fun fetchKsImage(params: Parameterable?) = database.fetchKsData(params)
+    override fun fetchKsImage(params: Parameterable?) = params?.toParameter()?.run {
+        val id = get(KsParam.PARAM_ID)?.toLong()
+
+        database.fetchKsData(id)
+    } ?: throw NoParameterException()
 
     override fun keepKsImage(params: Parameterable) = params.toParameter().run {
-        database.keepKsData(get(KsParam.PARAM_ID)!!.toLong(), get(KsParam.PARAM_URI)!!)
+        val id = get(KsParam.PARAM_ID)
+        val uri = get(KsParam.PARAM_URI)
+
+        if (null == id || null == uri) throw NullPointerException()
+
+        database.keepKsData(id.toLong(), uri)
     }
     //endregion
 

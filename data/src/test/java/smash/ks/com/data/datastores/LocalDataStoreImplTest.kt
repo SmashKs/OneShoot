@@ -28,6 +28,7 @@ import io.reactivex.internal.operators.single.SingleJust
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -42,14 +43,41 @@ class LocalDataStoreImplTest {
         localDataStore = LocalDataStoreImpl(database)
     }
 
+    @Test(NoParameterException::class)
+    fun `the flow of fetching an image from the local database without parameter`() {
+        whenever(database.fetchKsData(any())).thenReturn(SingleJust(mock()))
+        localDataStore.fetchKsImage(null)
+    }
+
     @Test
     fun `the flow of fetching an image from the local database`() {
-        val param = any<KsParam>()
+        val id = randomLong
+        val parameterMap = mock<HashMap<String, String>> {
+            on { get(KsParam.PARAM_ID) } doReturn id.toString()
+        }
+        val param = mock<KsParam> {
+            on { toParameter() } doReturn parameterMap
+        }
 
-        whenever(database.fetchKsData(param)).thenReturn(SingleJust(any()))
+        whenever(database.fetchKsData(id)).thenReturn(SingleJust(mock()))
         localDataStore.fetchKsImage(param)
 
-        verify(database).fetchKsData(param)
+        verify(database).fetchKsData(id)
+    }
+
+    @Test
+    fun `the flow of fetching an image from the local database without id`() {
+        val parameterMap = mock<HashMap<String, String>> {
+            on { get(KsParam.PARAM_ID) }.thenReturn(null)
+        }
+        val param = mock<KsParam> {
+            on { toParameter() } doReturn parameterMap
+        }
+
+        whenever(database.fetchKsData(null)).thenReturn(SingleJust(mock()))
+        localDataStore.fetchKsImage(param)
+
+        verify(database).fetchKsData(null)
     }
 
     @Test

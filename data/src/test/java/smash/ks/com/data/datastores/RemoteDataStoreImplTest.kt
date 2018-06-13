@@ -16,14 +16,17 @@
 
 package smash.ks.com.data.datastores
 
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.internal.operators.single.SingleJust
+import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -55,19 +58,38 @@ class RemoteDataStoreImplTest {
             on { toParameter() }.thenReturn(null)
         }
 
-        remoteDataStore.fetchKsImage(mock())
+        remoteDataStore.fetchKsImage(parameter)
     }
 
     @Test
     fun `fetch an image with the parameters`() {
+        val name = randomString
+        val parameterMap = mock<HashMap<String, String>> {
+            on { get(KsParam.PARAM_NAME) } doReturn name
+        }
         val parameter = mock<Parameterable> {
-            on { toParameter() } doReturn mock<HashMap<String, String>>()
+            on { toParameter() } doReturn parameterMap
         }
 
-        whenever(firebase.fetchImages(parameter)).thenReturn(SingleJust(mock()))
+        whenever(firebase.fetchImages(name)).thenReturn(SingleJust(mock()))
         remoteDataStore.fetchKsImage(parameter)
 
-        verify(firebase).fetchImages(parameter)
+        verify(firebase).fetchImages(name)
+    }
+
+    @Test(NullPointerException::class)
+    fun `fetch an image with the parameters without name variable`() {
+        val parameterMap = mock<HashMap<String, String>> {
+            on { get(KsParam.PARAM_NAME) }.thenReturn(null)
+        }
+        val parameter = mock<Parameterable> {
+            on { toParameter() } doReturn parameterMap
+        }
+
+        whenever(firebase.fetchImages(any())).thenReturn(SingleJust(mock()))
+        remoteDataStore.fetchKsImage(parameter)
+
+        verify(firebase).fetchImages(any())
     }
 
     @Test(UnsupportedOperationException::class)

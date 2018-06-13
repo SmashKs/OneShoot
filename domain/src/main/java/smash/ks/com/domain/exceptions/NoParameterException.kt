@@ -19,4 +19,4 @@ package smash.ks.com.domain.exceptions
 /**
  * No assignment a parameter variable when using a usecase.
  */
-class NoParameterException(message: String) : Exception(message)
+class NoParameterException(message: String = "No kind of parameter.") : Exception(message)
