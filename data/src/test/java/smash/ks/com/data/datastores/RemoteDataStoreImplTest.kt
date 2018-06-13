@@ -49,7 +49,7 @@ class RemoteDataStoreImplTest {
 
     @Test(NoParameterException::class)
     fun `fetch an image without the parameters`() {
-        remoteDataStore.fetchKsImage(null)
+        remoteDataStore.getKsImage(null)
     }
 
     @Test(NoParameterException::class)
@@ -58,7 +58,7 @@ class RemoteDataStoreImplTest {
             on { toParameter() }.thenReturn(null)
         }
 
-        remoteDataStore.fetchKsImage(parameter)
+        remoteDataStore.getKsImage(parameter)
     }
 
     @Test
@@ -71,10 +71,10 @@ class RemoteDataStoreImplTest {
             on { toParameter() } doReturn parameterMap
         }
 
-        whenever(firebase.fetchImages(name)).thenReturn(SingleJust(mock()))
-        remoteDataStore.fetchKsImage(parameter)
+        whenever(firebase.retrieveImages(name)).thenReturn(SingleJust(mock()))
+        remoteDataStore.getKsImage(parameter)
 
-        verify(firebase).fetchImages(name)
+        verify(firebase).retrieveImages(name)
     }
 
     @Test(NullPointerException::class)
@@ -86,10 +86,10 @@ class RemoteDataStoreImplTest {
             on { toParameter() } doReturn parameterMap
         }
 
-        whenever(firebase.fetchImages(any())).thenReturn(SingleJust(mock()))
-        remoteDataStore.fetchKsImage(parameter)
+        whenever(firebase.retrieveImages(any())).thenReturn(SingleJust(mock()))
+        remoteDataStore.getKsImage(parameter)
 
-        verify(firebase).fetchImages(any())
+        verify(firebase).retrieveImages(any())
     }
 
     @Test(UnsupportedOperationException::class)
@@ -101,7 +101,7 @@ class RemoteDataStoreImplTest {
     fun `firebase did call the upload an image function`() {
         val parameter = mock<Parameterable>()
 
-        remoteDataStore.uploadImage(parameter)
+        remoteDataStore.pushImageToCloud(parameter)
 
         verify(firebase).uploadImage(parameter)
     }
@@ -112,7 +112,7 @@ class RemoteDataStoreImplTest {
 
         remoteDataStore.analyzeImageTagsByML(parameter)
 
-        verify(firebase).obtainImageTagsByML(parameter)
+        verify(firebase).retrieveImageTagsByML(parameter)
     }
 
     @Test
@@ -121,6 +121,6 @@ class RemoteDataStoreImplTest {
 
         remoteDataStore.analyzeImageWordContentByML(parameter)
 
-        verify(firebase).obtainImageWordContentByML(parameter)
+        verify(firebase).retrieveImageWordContentByML(parameter)
     }
 }

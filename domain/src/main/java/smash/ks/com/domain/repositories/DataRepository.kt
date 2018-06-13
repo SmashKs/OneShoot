@@ -32,7 +32,7 @@ interface DataRepository {
      * @param params when `null` means that it'll retrieve all images, otherwise, will be a specific image.
      * @return
      */
-    fun retrieveKsImage(params: Parameterable?): Single<KsData>
+    fun fetchKsImage(params: Parameterable?): Single<KsData>
 
     /**
      * Store an image to the database.
@@ -57,7 +57,7 @@ interface DataRepository {
      * @param params
      * @return
      */
-    fun retrieveImageTagsByML(params: Parameterable): Single<List<String>>
+    fun fetchImageTagsByML(params: Parameterable): Single<List<String>>
 
     /**
      * Retrieve the key words of an image info after it passed ML model.
@@ -65,5 +65,5 @@ interface DataRepository {
      * @param params
      * @return
      */
-    fun retrieveImageWordContentByML(params: Parameterable): Single<String>
+    fun fetchImageWordContentByML(params: Parameterable): Single<String>
 }

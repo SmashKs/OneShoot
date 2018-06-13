@@ -44,18 +44,18 @@ class DataRepositoryImpl constructor(
     }
 
     //region Fake
-    override fun retrieveKsImage(params: Parameterable?): Single<KsData> {
-        return (if (SWITCH) local else remote).fetchKsImage(params).map(mapper::toDataFrom)
+    override fun fetchKsImage(params: Parameterable?): Single<KsData> {
+        return (if (SWITCH) local else remote).getKsImage(params).map(mapper::toDataFrom)
     }
 
     override fun storeKsImage(params: Parameterable) = (if (SWITCH) local else remote).keepKsImage(params)
     //endregion
 
-    override fun uploadImage(params: Parameterable) = remote.uploadImage(params)
+    override fun uploadImage(params: Parameterable) = remote.pushImageToCloud(params)
 
-    override fun retrieveImageTagsByML(params: Parameterable) =
+    override fun fetchImageTagsByML(params: Parameterable) =
         (if (SWITCH) local else remote).analyzeImageTagsByML(params)
 
-    override fun retrieveImageWordContentByML(params: Parameterable) =
+    override fun fetchImageWordContentByML(params: Parameterable) =
         (if (SWITCH) local else remote).analyzeImageWordContentByML(params)
 }

@@ -36,7 +36,7 @@ import java.util.UUID
  * The implementation for accessing the data by dbflow with [io.reactivex.plugins.RxJavaPlugins].
  */
 class KsDbFlowImpl : KsDatabase {
-    override fun fetchKsData(id: UniqueId?) = (id?.let {
+    override fun retrieveKsData(id: UniqueId?) = (id?.let {
         (select from KsModel::class where (KsModel_Table.id eq it)).rx()
     } ?: let { (select from KsModel::class).rx() })
         .list
@@ -51,8 +51,8 @@ class KsDbFlowImpl : KsDatabase {
             KsModel(uid, uri)
         }
 
-    override fun keepKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().toCompletable()
+    override fun storeKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().toCompletable()
 
-    override fun removeKsData(model: KsModel?) =
+    override fun deleteKsData(model: KsModel?) =
         (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).toCompletable()
 }

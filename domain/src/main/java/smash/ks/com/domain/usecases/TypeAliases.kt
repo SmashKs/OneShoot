@@ -20,17 +20,18 @@ import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
-import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
+import smash.ks.com.domain.usecases.analysis.FindImageContentWordsUsecase
+import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase
+import smash.ks.com.domain.usecases.fake.FindKsImageUsecase
+import smash.ks.com.domain.usecases.fake.PersistKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 
 //region Fake
-typealias GetKsImageCase = SingleUseCase<KsResponse<KsData>, GetKsImageUsecase.Requests>
-typealias SaveKsImageCase = CompletableUseCase<SaveKsImageUsecase.Requests>
+typealias GetKsImageCase = SingleUseCase<KsResponse<KsData>, FindKsImageUsecase.Requests>
+
+typealias SaveKsImageCase = CompletableUseCase<PersistKsImageUsecase.Requests>
 //endregion
 
-typealias GetImageTagsCase = SingleUseCase<List<String>, GetImageTagsUsecase.Requests>
-typealias GetImageContentWordsCase = SingleUseCase<String, GetImageContentWordsUsecase.Requests>
+typealias GetImageTagsCase = SingleUseCase<List<String>, FindImageTagsUsecase.Requests>
+typealias GetImageContentWordsCase = SingleUseCase<String, FindImageContentWordsUsecase.Requests>
 typealias UploadImageToFirebaseCase = CompletableUseCase<UploadImageToFirebaseUsecase.Requests>

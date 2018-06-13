@@ -17,26 +17,32 @@
 package smash.ks.com.domain.usecases.fake
 
 import smash.ks.com.domain.BaseUseCase
-import smash.ks.com.domain.CompletableUseCase
+import smash.ks.com.domain.SingleUseCase
+import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Error
+import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests
+import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
 
 /**
  * This class is an implementation of [BaseUseCase] that represents a use case for an example.
  */
-class SaveKsImageUsecase(
+class FindKsImageUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : CompletableUseCase<Requests>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<KsResponse<KsData>, Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() = requestValues?.run {
-        repository.storeKsImage(params)
+        repository
+            .fetchKsImage(params)
+            .map { Success(it) as? KsResponse<KsData> ?: Error(msg = ClassCastException().message.orEmpty()) }
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsParam = KsParam()) : RequestValues
+    class Requests(val params: KsParam) : RequestValues
 }

@@ -27,8 +27,8 @@ import smash.ks.com.oneshoot.ext.presentation.requestData
 import smash.ks.com.oneshoot.ext.presentation.requestWithoutResponse
 import smash.ks.com.oneshoot.ext.usecase.toAwait
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase.Requests as FetchImageRequest
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests as SaveImageRequest
+import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests as FetchImageRequest
+import smash.ks.com.domain.usecases.fake.PersistKsImageUsecase.Requests as SaveImageRequest
 
 class FakeViewModel(
     private val getKsImageCase: GetKsImageCase,

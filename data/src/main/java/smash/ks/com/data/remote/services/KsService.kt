@@ -28,6 +28,6 @@ import smash.ks.com.data.remote.config.KsConfig
 interface KsService {
     //region Fake
     @GET("${KsConfig.API_REQUEST}/test/api")
-    fun fetchKsData(@QueryMap params: HashMap<String, String>): Single<KsModel>
+    fun retrieveKsData(@QueryMap params: HashMap<String, String>): Single<KsModel>
     //endregion
 }

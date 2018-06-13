@@ -27,9 +27,9 @@ import smash.ks.com.ext.const.UniqueId
  * The access operations to a database.
  */
 interface KsDatabase {
-    fun fetchKsData(id: UniqueId?): Single<KsModel>
+    fun retrieveKsData(id: UniqueId?): Single<KsModel>
 
-    fun keepKsData(id: UniqueId = DEFAULT_LONG, uri: String = DEFAULT_STR): Completable
+    fun storeKsData(id: UniqueId = DEFAULT_LONG, uri: String = DEFAULT_STR): Completable
 
     /**
      * Delete a row of the data from the database.
@@ -37,5 +37,5 @@ interface KsDatabase {
      * @param model a model belongs to []
      * @return Completable
      */
-    fun removeKsData(model: KsModel? = null): Completable
+    fun deleteKsData(model: KsModel? = null): Completable
 }

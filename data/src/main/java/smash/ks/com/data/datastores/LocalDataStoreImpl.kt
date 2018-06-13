@@ -31,10 +31,10 @@ class LocalDataStoreImpl(
     // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
 
     //region Fake
-    override fun fetchKsImage(params: Parameterable?) = params?.toParameter()?.run {
+    override fun getKsImage(params: Parameterable?) = params?.toParameter()?.run {
         val id = get(KsParam.PARAM_ID)?.toLong()
 
-        database.fetchKsData(id)
+        database.retrieveKsData(id)
     } ?: throw NoParameterException()
 
     override fun keepKsImage(params: Parameterable) = params.toParameter().run {
@@ -43,11 +43,11 @@ class LocalDataStoreImpl(
 
         if (null == id || null == uri) throw NullPointerException()
 
-        database.keepKsData(id.toLong(), uri)
+        database.storeKsData(id.toLong(), uri)
     }
     //endregion
 
-    override fun uploadImage(params: Parameterable) = throw UnsupportedOperationException()
+    override fun pushImageToCloud(params: Parameterable) = throw UnsupportedOperationException()
 
     override fun analyzeImageTagsByML(params: Parameterable) = throw UnsupportedOperationException()
 

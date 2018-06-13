@@ -47,13 +47,13 @@ class LocalDataStoreImplTest {
 
     @Test
     fun `the flow of fetching an image from the local database without parameter`() {
-        whenever(database.fetchKsData(any())).thenReturn(SingleJust(mock()))
+        whenever(database.retrieveKsData(any())).thenReturn(SingleJust(mock()))
 
-        assertFailsWith<NoParameterException> { localDataStore.fetchKsImage(null) }
+        assertFailsWith<NoParameterException> { localDataStore.getKsImage(null) }
 
         val parameter = mock<Parameterable> { on { toParameter() }.thenReturn(null) }
 
-        assertFailsWith<NoParameterException> { localDataStore.fetchKsImage(parameter) }
+        assertFailsWith<NoParameterException> { localDataStore.getKsImage(parameter) }
     }
 
     @Test
@@ -66,10 +66,10 @@ class LocalDataStoreImplTest {
             on { toParameter() } doReturn parameterMap
         }
 
-        whenever(database.fetchKsData(id)).thenReturn(SingleJust(mock()))
-        localDataStore.fetchKsImage(param)
+        whenever(database.retrieveKsData(id)).thenReturn(SingleJust(mock()))
+        localDataStore.getKsImage(param)
 
-        verify(database).fetchKsData(id)
+        verify(database).retrieveKsData(id)
     }
 
     @Test
@@ -81,10 +81,10 @@ class LocalDataStoreImplTest {
             on { toParameter() } doReturn parameterMap
         }
 
-        whenever(database.fetchKsData(null)).thenReturn(SingleJust(mock()))
-        localDataStore.fetchKsImage(param)
+        whenever(database.retrieveKsData(null)).thenReturn(SingleJust(mock()))
+        localDataStore.getKsImage(param)
 
-        verify(database).fetchKsData(null)
+        verify(database).retrieveKsData(null)
     }
 
     @Test
@@ -93,11 +93,11 @@ class LocalDataStoreImplTest {
         val uri = randomString
         val parameter = spy(KsParam(id, randomString, uri))
 
-        whenever(database.keepKsData()).thenReturn(completable())
+        whenever(database.storeKsData()).thenReturn(completable())
         localDataStore.keepKsImage(parameter)
 
         verify(parameter).toParameter()
-        verify(database).keepKsData(id, uri)
+        verify(database).storeKsData(id, uri)
     }
 
     @Test(NullPointerException::class)
@@ -108,15 +108,15 @@ class LocalDataStoreImplTest {
             on { toParameter()[KsParam.PARAM_URI] } doThrow NullPointerException()
         }
 
-        whenever(database.keepKsData()).thenReturn(mock())
+        whenever(database.storeKsData()).thenReturn(mock())
         localDataStore.keepKsImage(parameter)
 
-        verify(database).keepKsData(any(), any())
+        verify(database).storeKsData(any(), any())
     }
 
     @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support uploadImage method`() {
-        localDataStore.uploadImage(mock())
+        localDataStore.pushImageToCloud(mock())
     }
 
     @Test(UnsupportedOperationException::class)

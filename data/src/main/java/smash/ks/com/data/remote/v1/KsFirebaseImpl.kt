@@ -37,7 +37,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
     private val ref by lazy { database.reference }
 
     //region Fake
-    override fun fetchImages(name: String) = single<KsModel> {
+    override fun retrieveImages(name: String) = single<KsModel> {
         ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val entry = dataSnapshot.children.toList().first().value as? Map<String, Any>
@@ -55,7 +55,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
         ref.child(V1_CHILD_PROPERTIES)
     }
 
-    override fun obtainImageTagsByML(params: Parameterable) = single<List<String>> { }
+    override fun retrieveImageTagsByML(params: Parameterable) = single<List<String>> { }
 
-    override fun obtainImageWordContentByML(params: Parameterable) = single<String> { }
+    override fun retrieveImageWordContentByML(params: Parameterable) = single<String> { }
 }

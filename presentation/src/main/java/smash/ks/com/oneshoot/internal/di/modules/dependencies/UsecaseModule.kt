@@ -26,10 +26,10 @@ import smash.ks.com.domain.usecases.GetImageTagsCase
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase
 import smash.ks.com.domain.usecases.UploadImageToFirebaseCase
-import smash.ks.com.domain.usecases.analysis.GetImageContentWordsUsecase
-import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase
-import smash.ks.com.domain.usecases.fake.GetKsImageUsecase
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase
+import smash.ks.com.domain.usecases.analysis.FindImageContentWordsUsecase
+import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase
+import smash.ks.com.domain.usecases.fake.FindKsImageUsecase
+import smash.ks.com.domain.usecases.fake.PersistKsImageUsecase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase
 import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
 
@@ -41,20 +41,20 @@ object UsecaseModule {
         //region For Fragments
         //region Fake
         bind<GetKsImageCase>() with scoped(fragmentScope).singleton {
-            GetKsImageUsecase(instance(), instance(), instance())
+            FindKsImageUsecase(instance(), instance(), instance())
         }
 
         bind<SaveKsImageCase>() with scoped(fragmentScope).singleton {
-            SaveKsImageUsecase(instance(), instance(), instance())
+            PersistKsImageUsecase(instance(), instance(), instance())
         }
         //endregion
 
         bind<GetImageTagsCase>() with scoped(fragmentScope).singleton {
-            GetImageTagsUsecase(instance(), instance(), instance())
+            FindImageTagsUsecase(instance(), instance(), instance())
         }
 
         bind<GetImageContentWordsCase>() with scoped(fragmentScope).singleton {
-            GetImageContentWordsUsecase(instance(), instance(), instance())
+            FindImageContentWordsUsecase(instance(), instance(), instance())
         }
 
         bind<UploadImageToFirebaseCase>() with scoped(fragmentScope).singleton {

@@ -31,21 +31,21 @@ class RemoteDataStoreImpl(
     private val ksService: KsService,
     private val ksFirebase: KsFirebase
 ) : DataStore {
-    override fun fetchKsImage(params: Parameterable?) = params?.toParameter()?.let {
+    override fun getKsImage(params: Parameterable?) = params?.toParameter()?.let {
         if (SWITCH)
-            ksService.fetchKsData(it)
+            ksService.retrieveKsData(it)
         else {
             val name = it[PARAM_NAME] ?: throw NullPointerException()
 
-            ksFirebase.fetchImages(name)
+            ksFirebase.retrieveImages(name)
         }
     } ?: throw NoParameterException()
 
     override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()
 
-    override fun uploadImage(params: Parameterable) = ksFirebase.uploadImage(params)
+    override fun pushImageToCloud(params: Parameterable) = ksFirebase.uploadImage(params)
 
-    override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.obtainImageTagsByML(params)
+    override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.retrieveImageTagsByML(params)
 
-    override fun analyzeImageWordContentByML(params: Parameterable) = ksFirebase.obtainImageWordContentByML(params)
+    override fun analyzeImageWordContentByML(params: Parameterable) = ksFirebase.retrieveImageWordContentByML(params)
 }

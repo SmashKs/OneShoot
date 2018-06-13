@@ -33,7 +33,7 @@ interface DataStore {
      * @param params
      * @return Rx [Single] object to the presentation layer.
      */
-    fun fetchKsImage(params: Parameterable?): Single<KsModel>
+    fun getKsImage(params: Parameterable?): Single<KsModel>
 
     /**
      * Keep an image object [KsModel] by parameter.
@@ -50,7 +50,7 @@ interface DataStore {
      * @param params
      * @return Rx [Completable] and no response to the presentation layer.
      */
-    fun uploadImage(params: Parameterable): Completable
+    fun pushImageToCloud(params: Parameterable): Completable
 
     /**
      * Send an image object to machine learning model and get the tags of an image automatically.

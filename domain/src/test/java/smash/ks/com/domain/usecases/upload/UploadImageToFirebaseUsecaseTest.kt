@@ -56,7 +56,7 @@ class UploadImageToFirebaseUsecaseTest {
     fun `run through a creating usecase`() {
         buildCompletable(parameter)
 
-        // Assume [retrieveKsImage] was ran once time.
+        // Assume [fetchKsImage] was ran once time.
         verify(repository).uploadImage(parameter)
     }
 

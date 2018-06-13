@@ -53,10 +53,10 @@ class DataRepositoryImplTest {
     fun `check upload an image`() {
         val param = parameter
 
-        whenever(remote.uploadImage(param)).thenReturn(completable())
+        whenever(remote.pushImageToCloud(param)).thenReturn(completable())
         dataRepositoryImpl.uploadImage(param)
 
-        verify(remote).uploadImage(param)
+        verify(remote).pushImageToCloud(param)
     }
 
     @Test

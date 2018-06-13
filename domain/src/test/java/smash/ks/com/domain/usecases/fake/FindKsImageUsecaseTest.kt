@@ -16,79 +16,102 @@
 
 package smash.ks.com.domain.usecases.fake
 
-import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.isNotNull
+import com.devrapid.kotlinshaver.single
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.internal.operators.single.SingleJust
 import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.fake.SaveKsImageUsecase.Requests
+import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class SaveKsImageUsecaseTest {
-    private lateinit var usecase: SaveKsImageUsecase
+class FindKsImageUsecaseTest {
+    private lateinit var usecase: FindKsImageUsecase
     private lateinit var repository: DataRepository
     private lateinit var data: KsData
     private lateinit var parameter: KsParam
+
+    private val returnDate by lazy { Success(data) as KsResponse<KsData> }
 
     @BeforeTest
     fun setUp() {
         data = KsData(randomLong, randomString)
         parameter = KsParam(randomLong, randomString, randomString)
-        buildUsecaseWithAction(parameter) { completable() }
+        buildUsecaseWithAction()
     }
 
     @Test
     fun `create the usecase without parameters`() {
-        assertFailsWith<NoParameterException> { buildCompletable() }
+        assertFailsWith<NoParameterException> { buildSingle() }
     }
 
     @Test
     fun `run through a creating usecase`() {
-        buildCompletable(parameter)
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter)
 
-        // Assume [retrieveKsImage] was ran once time.
-        verify(repository).storeKsImage(parameter)
+        // Assume [fetchKsImage] was ran once time.
+        verify(repository).fetchKsImage(parameter)
     }
 
     @Test
     fun `run the case and completed`() {
-        buildCompletable(parameter).test().assertComplete()
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter).test().assertComplete()
+    }
+
+    @Test
+    fun `run the case and check the return data`() {
+        buildSimpleSuccessUsecase()
+        buildSingle(parameter).test().assertValue { it.data == returnDate.data }
+    }
+
+    @Test
+    fun `run the case and check the loading data`() {
+        buildSimpleSuccessUsecase()
     }
 
     @Test
     fun `run the case and let it send on error event`() {
         val exception = Exception("There's something wrong.")
 
-        buildUsecaseWithAction(parameter) { completable { it.onError(exception) } }
-        buildCompletable(parameter).test().assertError(exception)
+        buildUsecaseWithAction(parameter) { single { it.onError(exception) } }
+        buildSingle(parameter).test().assertError(exception)
     }
 
     @Test
     fun `check the rxjava is dispose`() {
-        val single = buildCompletable(parameter).test()
+        buildSimpleSuccessUsecase()
+        val single = buildSingle(parameter).test()
 
         single.dispose()
 
         assertThat(single.isDisposed).isTrue()
     }
 
-    private fun buildUsecaseWithAction(ksParam: KsParam, returnBlock: (() -> Completable)? = null) {
+    private fun buildUsecaseWithAction(ksParam: KsParam? = null, returnBlock: (() -> Single<KsData>)? = null) {
         repository = mock {
-            returnBlock.takeIf { null != it }?.let { on { storeKsImage(ksParam) } doReturn it.invoke() }
+            returnBlock.takeIf { null != it }?.let { on { fetchKsImage(ksParam) } doReturn it.invoke() }
         }
-        usecase = SaveKsImageUsecase(repository, mock(), mock())
+        usecase = FindKsImageUsecase(repository, mock(), mock())
     }
 
-    private fun buildCompletable(ksParam: KsParam? = null) =
-        usecase.apply { ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) } }.fetchUseCase()
+    private fun buildSimpleSuccessUsecase() = buildUsecaseWithAction(parameter) { SingleJust(data) }
+
+    private fun buildSingle(ksParam: KsParam? = null) =
+        usecase.apply {
+            ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) }
+        }.fetchUseCase()
 }

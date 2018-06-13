@@ -22,15 +22,15 @@ import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.analysis.GetImageTagsUsecase.Requests
+import smash.ks.com.domain.usecases.analysis.FindImageContentWordsUsecase.Requests
 
-class GetImageTagsUsecase(
+class FindImageContentWordsUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<List<String>, Requests>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<String, Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() = requestValues?.run {
-        repository.retrieveImageTagsByML(params)
+        repository.fetchImageWordContentByML(params)
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/

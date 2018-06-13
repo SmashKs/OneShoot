@@ -25,11 +25,11 @@ import smash.ks.com.domain.parameters.Parameterable
  * The access operations for Firebase service.
  */
 interface KsFirebase {
-    fun fetchImages(name: String): Single<KsModel>
+    fun retrieveImages(name: String): Single<KsModel>
 
     fun uploadImage(params: Parameterable): Completable
 
-    fun obtainImageTagsByML(params: Parameterable): Single<List<String>>
+    fun retrieveImageTagsByML(params: Parameterable): Single<List<String>>
 
-    fun obtainImageWordContentByML(params: Parameterable): Single<String>
+    fun retrieveImageWordContentByML(params: Parameterable): Single<String>
 }
