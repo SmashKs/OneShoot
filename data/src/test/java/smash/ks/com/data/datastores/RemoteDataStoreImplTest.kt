@@ -16,8 +16,11 @@
 
 package smash.ks.com.data.datastores
 
+import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.internal.operators.single.SingleJust
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.exceptions.NoParameterException
@@ -46,15 +49,25 @@ class RemoteDataStoreImplTest {
         remoteDataStore.fetchKsImage(null)
     }
 
+    @Test(NoParameterException::class)
+    fun `fetch an image with the parameters but toParameter is null`() {
+        val parameter = mock<Parameterable> {
+            on { toParameter() }.thenReturn(null)
+        }
+
+        remoteDataStore.fetchKsImage(mock())
+    }
+
     @Test
     fun `fetch an image with the parameters`() {
-//        val parameter = mock<Parameterable>()
-//        val map = whenever(parameter.toParameter()).thenCallRealMethod()
-//
-//        whenever(firebase.fetchImages(parameter)).thenReturn(SingleJust(any()))
-//        remoteDataStore.fetchKsImage(parameter)
-//
-//        verify(firebase).fetchImages(parameter)
+        val parameter = mock<Parameterable> {
+            on { toParameter() } doReturn mock<HashMap<String, String>>()
+        }
+
+        whenever(firebase.fetchImages(parameter)).thenReturn(SingleJust(mock()))
+        remoteDataStore.fetchKsImage(parameter)
+
+        verify(firebase).fetchImages(parameter)
     }
 
     @Test(UnsupportedOperationException::class)

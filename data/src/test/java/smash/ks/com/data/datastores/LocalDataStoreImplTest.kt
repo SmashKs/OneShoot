@@ -18,6 +18,8 @@ package smash.ks.com.data.datastores
 
 import com.devrapid.kotlinshaver.completable
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
@@ -61,6 +63,20 @@ class LocalDataStoreImplTest {
 
         verify(parameter).toParameter()
         verify(database).keepKsData(id, uri)
+    }
+
+    @Test(NullPointerException::class)
+    fun `keep ks data's toParameter is a null hash map`() {
+        val parameter = mock<KsParam> {
+            on { toParameter() } doReturn mock<HashMap<String, String>>()
+            on { toParameter()[KsParam.PARAM_ID] } doThrow NullPointerException()
+            on { toParameter()[KsParam.PARAM_URI] } doThrow NullPointerException()
+        }
+
+        whenever(database.keepKsData()).thenReturn(mock())
+        localDataStore.keepKsImage(parameter)
+
+        verify(database).keepKsData(any(), any())
     }
 
     @Test(UnsupportedOperationException::class)
