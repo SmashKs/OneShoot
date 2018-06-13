@@ -22,7 +22,7 @@ import dependenices.Versions.Android
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion Android.compileSdk
@@ -40,12 +40,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            testCoverageEnabled = true
+            testCoverageEnabled true
         }
     }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+    ext {
+        coverageSourceDirs = 'src/test/java'
     }
 }
 
@@ -102,4 +105,25 @@ dependencies {
     testImplementation GlobalTest.powerMockJunit
     testImplementation GlobalTest.powerMockito
     testImplementation GlobalTest.assertj
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
 }

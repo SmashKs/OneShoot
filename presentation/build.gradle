@@ -27,7 +27,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion Android.compileSdk
@@ -52,7 +52,10 @@ android {
         }
     }
     dexOptions { javaMaxHeapSize "4g" }
-    packagingOptions { exclude 'META-INF/rxjava.properties' }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/main.kotlin_module'
+    }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -64,6 +67,9 @@ android {
     }
     lintOptions {
         abortOnError false
+    }
+    ext {
+        coverageSourceDirs = 'src/test/java'
     }
 }
 
@@ -155,13 +161,16 @@ dependencies {
 
     implementation Presentation.arv
 
-    testImplementation GlobalTest.junit
     testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.junit
     testImplementation(GlobalTest.mockito) {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
     testImplementation GlobalTest.assertj
+    testImplementation GlobalTest.powerMockJunit
+    testImplementation GlobalTest.powerMockito
 
+    androidTestImplementation GlobalTest.kotlin
     androidTestImplementation PresentationTest.espressoHelper
 //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
@@ -174,6 +183,27 @@ dependencies {
     }
 
     debugImplementation GlobalDebug.database
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
 }
 
 apply plugin: 'com.google.gms.google-services'

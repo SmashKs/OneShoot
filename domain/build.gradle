@@ -24,10 +24,10 @@ apply plugin: 'jacoco'
 
 jacocoTestReport {
     reports {
-        xml.enabled = true
-        csv.enabled = true
-        html.enabled = true
-        html.setDestination("${buildDir}/jacocoHtml")
+        xml.enabled true
+        csv.enabled true
+        html.enabled true
+        html.destination file("${buildDir}/jacocoHtml")
     }
 }
 
