@@ -30,8 +30,10 @@ import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.Parameterable
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 
 class LocalDataStoreImplTest {
     private lateinit var localDataStore: DataStore
@@ -43,10 +45,15 @@ class LocalDataStoreImplTest {
         localDataStore = LocalDataStoreImpl(database)
     }
 
-    @Test(NoParameterException::class)
+    @Test
     fun `the flow of fetching an image from the local database without parameter`() {
         whenever(database.fetchKsData(any())).thenReturn(SingleJust(mock()))
-        localDataStore.fetchKsImage(null)
+
+        assertFailsWith<NoParameterException> { localDataStore.fetchKsImage(null) }
+
+        val parameter = mock<Parameterable> { on { toParameter() }.thenReturn(null) }
+
+        assertFailsWith<NoParameterException> { localDataStore.fetchKsImage(parameter) }
     }
 
     @Test
