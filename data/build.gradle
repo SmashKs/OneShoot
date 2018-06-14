@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 import dependenices.Deps.Data
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalTest
@@ -101,19 +102,17 @@ dependencies {
     implementation Data.retrofit2AdapterRxJava2
 
     testImplementation GlobalTest.kotlin
+    testImplementation GlobalTest.junit
     testImplementation(GlobalTest.mockito) {
-        exclude group: 'net.bytebuddy', module: 'byte-buddy'
-        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
+        exclude group: 'org.mockito', module: 'mockito-core'
     }
-    testImplementation(GlobalTest.powerMockJunit) {
-        exclude group: 'net.bytebuddy', module: 'byte-buddy'
-        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
-    }
-    testImplementation(GlobalTest.powerMockito) {
-        exclude group: 'net.bytebuddy', module: 'byte-buddy'
-        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
-    }
+    testImplementation GlobalTest.powerMockJunit
+    testImplementation GlobalTest.powerMockito
+    testImplementation GlobalTest.byteBuddyAgent
+    //region For the the newest version.
+    testImplementation GlobalTest.byteBuddyAndroid
     testImplementation GlobalTest.assertj
+    //endregion
 }
 
 tasks.withType(Test) {

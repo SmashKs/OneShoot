@@ -145,5 +145,6 @@ object Versions {
         const val mockitoAndroid = "2.9.0"
         const val androidSupportRunner = "1.0.1"
         const val androidSupportRules = "1.0.1"
+        const val byteBuddy = "1.8.12"
     }
 }

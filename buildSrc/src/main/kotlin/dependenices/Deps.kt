@@ -52,6 +52,8 @@ object Deps {
         const val assertj = "org.assertj:assertj-core:${Versions.Test.assertJ}"
         const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"
         const val powerMockito = "org.powermock:powermock-api-mockito2:${Versions.Test.powerMockito}"
+        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Versions.Test.byteBuddy}"
+        const val byteBuddyAndroid = "net.bytebuddy:byte-buddy-android:${Versions.Test.byteBuddy}"
     }
 
     /**

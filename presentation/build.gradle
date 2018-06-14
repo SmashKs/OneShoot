@@ -167,14 +167,12 @@ dependencies {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
     testImplementation GlobalTest.assertj
-    testImplementation(GlobalTest.powerMockJunit) {
-        exclude group: 'net.bytebuddy', module: 'byte-buddy'
-        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
-    }
-    testImplementation(GlobalTest.powerMockito) {
-        exclude group: 'net.bytebuddy', module: 'byte-buddy'
-        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
-    }
+    testImplementation GlobalTest.powerMockJunit
+    testImplementation GlobalTest.powerMockito
+    //region For the the newest version.
+    testImplementation GlobalTest.byteBuddyAgent
+    testImplementation GlobalTest.byteBuddyAndroid
+    //endregion
 
     androidTestImplementation GlobalTest.kotlin
     androidTestImplementation(PresentationTest.espressoHelper) {
@@ -189,6 +187,10 @@ dependencies {
     androidTestImplementation(PresentationTest.rules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    //region For the the newest version.
+    androidTestImplementation GlobalTest.byteBuddyAgent
+    androidTestImplementation GlobalTest.byteBuddyAndroid
+    //endregion
 
     debugImplementation GlobalDebug.database
 }
