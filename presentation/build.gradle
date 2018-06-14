@@ -167,11 +167,19 @@ dependencies {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
     testImplementation GlobalTest.assertj
-    testImplementation GlobalTest.powerMockJunit
-    testImplementation GlobalTest.powerMockito
+    testImplementation(GlobalTest.powerMockJunit) {
+        exclude group: 'net.bytebuddy', module: 'byte-buddy'
+        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
+    }
+    testImplementation(GlobalTest.powerMockito) {
+        exclude group: 'net.bytebuddy', module: 'byte-buddy'
+        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
+    }
 
     androidTestImplementation GlobalTest.kotlin
-    androidTestImplementation PresentationTest.espressoHelper
+    androidTestImplementation(PresentationTest.espressoHelper) {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+    }
 //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
     androidTestImplementation PresentationTest.mockito

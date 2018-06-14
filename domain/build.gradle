@@ -50,7 +50,9 @@ dependencies {
     }
 
     testImplementation GlobalTest.kotlin
-    testImplementation GlobalTest.mockito
+    testImplementation(GlobalTest.mockito) {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
+    }
     testImplementation GlobalTest.assertj
 }
 
