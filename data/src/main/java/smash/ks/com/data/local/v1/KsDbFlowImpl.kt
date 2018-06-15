@@ -51,8 +51,8 @@ class KsDbFlowImpl : KsDatabase {
             KsModel(uid, uri)
         }
 
-    override fun storeKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().toCompletable()
+    override fun storeKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().ignoreElement()
 
     override fun deleteKsData(model: KsModel?) =
-        (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).toCompletable()
+        (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).ignoreElement()
 }

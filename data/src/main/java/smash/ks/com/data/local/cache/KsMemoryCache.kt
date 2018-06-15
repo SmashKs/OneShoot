@@ -85,4 +85,3 @@ open class KsMemoryCache : KsCache() {
 
     protected fun isHit(which: Int, params: Any) = memory[which]?.find { it.first == params }
 }
-

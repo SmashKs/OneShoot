@@ -21,6 +21,7 @@ import com.devrapid.kotlinshaver.single
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
@@ -40,7 +41,8 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
     override fun retrieveImages(name: String) = single<KsModel> {
         ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val entry = dataSnapshot.children.toList().first().value as? Map<String, Any>
+                val ti = object : GenericTypeIndicator<Map<String, @JvmSuppressWildcards Any>>() {}
+                val entry = dataSnapshot.children.toList().first().getValue(ti)
 
                 (entry?.get("url") as? String)
                     ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
