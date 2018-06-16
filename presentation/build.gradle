@@ -36,8 +36,8 @@ android {
         minSdkVersion Android.minSdk
         targetSdkVersion Android.targetSdk
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
+//        versionCode 1
+//        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptSupportModeEnabled true    // Enable RS support
     }
@@ -124,6 +124,7 @@ dependencies {
     implementation(Presentation.firebaseDB) {
         exclude group: 'com.android.support'
     }
+    implementation 'org.tensorflow:tensorflow-lite:0.1.7'
     //endregion
 
     //region Mapper
