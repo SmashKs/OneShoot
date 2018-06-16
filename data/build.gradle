@@ -32,7 +32,6 @@ android {
         targetSdkVersion Android.targetSdk
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,9 +47,7 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
-    ext {
-        coverageSourceDirs = 'src/test/java'
-    }
+    ext { coverageSourceDirs = 'src/test/java' }
 }
 
 dependencies {
@@ -69,6 +66,7 @@ dependencies {
 
     implementation Data.mapper
 
+    //region DBFlow
     kapt Data.dbflowProcessor
     implementation(Data.dbflowCore) {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -93,6 +91,7 @@ dependencies {
 //    implementation(Data.dbflowSqlCipher) {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    }
+    //endregion
 
     implementation(Data.firebaseDB) {
         exclude group: 'com.android.support'
@@ -101,6 +100,7 @@ dependencies {
     implementation Data.retrofit2
     implementation Data.retrofit2AdapterRxJava2
 
+    //region Test Libraries
     testImplementation GlobalTest.kotlin
     testImplementation GlobalTest.junit
     testImplementation(GlobalTest.mockito) {
@@ -113,12 +113,10 @@ dependencies {
     testImplementation GlobalTest.byteBuddyAndroid
     testImplementation GlobalTest.assertj
     //endregion
+    //endregion
 }
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
+tasks.withType(Test) { jacoco.includeNoLocationClasses = true }
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
     reports {
         xml.enabled = true
