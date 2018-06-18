@@ -91,7 +91,8 @@ public class TFLiteImageClassifier implements Classifier {
         // Read the label names into memory.
         // TODO(andrewharp): make this handle non-assets.
         Log.i(TAG, "Reading labels from: " + labelFilename);
-        BufferedReader br = null;
+        BufferedReader br;
+
         try {
             br = new BufferedReader(new InputStreamReader(assetManager.open(labelFilename)));
             String line;
@@ -131,6 +132,7 @@ public class TFLiteImageClassifier implements Classifier {
             return;
         }
         imgData.rewind();
+        Log.w(TAG, "convertBitmapToByteBuffer: " + bitmap.getWidth());
         bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         // Convert the image to floating point.
         int pixel = 0;
