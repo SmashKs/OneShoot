@@ -76,7 +76,8 @@ object Deps {
         const val ankoV7Coroutine = "org.jetbrains.anko:anko-appcompat-v7-coroutines:${Versions.KotlinAndroidExt.anko}"
         const val ktx = "androidx.core:core-ktx:${Versions.KotlinAndroidExt.ktx}"
         const val knifer = "com.devrapid.jieyi:kotlinknifer:${Versions.KotlinAndroidExt.kinfer}"
-        const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.kotlinCoroutine}"
+        const val androidCoroutine =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.kotlinCoroutine}"
 
         const val lifecycle = "android.arch.lifecycle:extensions:${Versions.KotlinAndroidExt.aac}"
 

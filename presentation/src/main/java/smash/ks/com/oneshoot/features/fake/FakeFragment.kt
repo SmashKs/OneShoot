@@ -17,10 +17,15 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
+import android.os.SystemClock.uptimeMillis
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
+import com.devrapid.kotlinknifer.logi
+import com.devrapid.kotlinknifer.toBitmap
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
@@ -28,6 +33,7 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier.create
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -44,6 +50,9 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         const val REQUEST_CAMERA_PERMISSION = 1
         // The key name of the fragment initialization parameters.
         const val ARG_RANDOM_ID = "param random image id"
+        private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
+        private const val LABEL_FILE = "labels.txt"
+        private const val INPUT_SIZE = 3224
 
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
@@ -74,6 +83,19 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
         }
+
+        // Machine learning.
+        val classifier = create(act.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
+        val croppedBitmap = R.drawable.basketball.toBitmap(act)
+        var lastProcessingTimeMs = 0L
+
+        launch {
+            val startTime = uptimeMillis()
+            val results = classifier.recognizeImage(croppedBitmap)
+            lastProcessingTimeMs = uptimeMillis() - startTime
+            logi("Detect: ", results)
+        }
+
     }
 
     override fun provideInflateView() = R.layout.fragment_fake
