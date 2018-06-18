@@ -16,13 +16,12 @@
 
 package smash.ks.com.oneshoot.classifiers;
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.os.SystemClock;
-import android.os.Trace;
-import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
 import org.tensorflow.lite.Interpreter;
 
 import java.io.BufferedReader;
@@ -36,170 +35,114 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Vector;
 
 /** A classifier specialized to label images using TensorFlow. */
 public class TFLiteImageClassifier implements Classifier {
-    private static final String TAG = "TFLiteImageClassifier";
-
-    // Only return this many results with at least this confidence.
     private static final int MAX_RESULTS = 3;
+    private static final int BATCH_SIZE = 1;
+    private static final int PIXEL_SIZE = 3;
+    private static final float THRESHOLD = 0.1f;
 
-    private Interpreter tfLite;
+    private Interpreter interpreter;
+    private int inputSize;
+    private List<String> labelList;
 
-    /** Dimensions of inputs. */
-    private static final int DIM_BATCH_SIZE = 1;
+    private TFLiteImageClassifier() { }
 
-    private static final int DIM_PIXEL_SIZE = 3;
+    public static Classifier create(AssetManager assetManager, String modelPath, String labelPath, int inputSize)
+            throws IOException {
+        TFLiteImageClassifier classifier = new TFLiteImageClassifier();
+        classifier.interpreter = new Interpreter(classifier.loadModelFile(assetManager, modelPath));
+        classifier.labelList = classifier.loadLabelList(assetManager, labelPath);
+        classifier.inputSize = inputSize;
 
-    private static final int DIM_IMG_SIZE_X = 224;
-    private static final int DIM_IMG_SIZE_Y = 224;
-
-    byte[][] labelProb;
-
-    // Pre-allocated buffers.
-    private Vector<String> labels = new Vector<String>();
-    private int[] intValues;
-    private ByteBuffer imgData = null;
-
-    private TFLiteImageClassifier() {}
-
-    /** Memory-map the model file in Assets. */
-    private static MappedByteBuffer loadModelFile(AssetManager assets, String modelFilename) throws IOException {
-        AssetFileDescriptor fileDescriptor = assets.openFd(modelFilename);
-        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-        FileChannel fileChannel = inputStream.getChannel();
-        long startOffset = fileDescriptor.getStartOffset();
-        long declaredLength = fileDescriptor.getDeclaredLength();
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
-    }
-
-    /**
-     * Initializes a native TensorFlow session for classifying images.
-     *
-     * @param assetManager  The asset manager to be used to load assets.
-     * @param modelFilename The filepath of the model GraphDef protocol buffer.
-     * @param labelFilename The filepath of label file for classes.
-     * @param inputSize     The input size. A square image of inputSize x inputSize is assumed.
-     *
-     * @throws IOException
-     */
-    public static Classifier create(AssetManager assetManager, String modelFilename, String labelFilename,
-                                    int inputSize) {
-        TFLiteImageClassifier c = new TFLiteImageClassifier();
-
-        // Read the label names into memory.
-        // TODO(andrewharp): make this handle non-assets.
-        Log.i(TAG, "Reading labels from: " + labelFilename);
-        BufferedReader br;
-
-        try {
-            br = new BufferedReader(new InputStreamReader(assetManager.open(labelFilename)));
-            String line;
-            while ((line = br.readLine()) != null) {
-                c.labels.add(line);
-            }
-            br.close();
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Problem reading label file!", e);
-        }
-
-        c.imgData = ByteBuffer.allocateDirect(DIM_BATCH_SIZE * DIM_IMG_SIZE_X * DIM_IMG_SIZE_Y * DIM_PIXEL_SIZE);
-
-        c.imgData.order(ByteOrder.nativeOrder());
-        try {
-            c.tfLite = new Interpreter(loadModelFile(assetManager, modelFilename));
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        // The shape of the output is [N, NUM_CLASSES], where N is the batch size.
-        Log.i(TAG, "Read " + c.labels.size() + " labels");
-
-        // Pre-allocate buffers.
-        c.intValues = new int[inputSize * inputSize];
-
-        c.labelProb = new byte[1][c.labels.size()];
-
-        return c;
-    }
-
-    /** Writes Image data into a {@code ByteBuffer}. */
-    private void convertBitmapToByteBuffer(Bitmap bitmap) {
-        if (imgData == null) {
-            return;
-        }
-        imgData.rewind();
-        Log.w(TAG, "convertBitmapToByteBuffer: " + bitmap.getWidth());
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-        // Convert the image to floating point.
-        int pixel = 0;
-        long startTime = SystemClock.uptimeMillis();
-        for (int i = 0 ; i < DIM_IMG_SIZE_X ; ++i) {
-            for (int j = 0 ; j < DIM_IMG_SIZE_Y ; ++j) {
-                final int val = intValues[pixel++];
-                imgData.put((byte) ((val >> 16) & 0xFF));
-                imgData.put((byte) ((val >> 8) & 0xFF));
-                imgData.put((byte) (val & 0xFF));
-            }
-        }
-        long endTime = SystemClock.uptimeMillis();
-        Log.d(TAG, "Timecost to put values into ByteBuffer: " + Long.toString(endTime - startTime));
+        return classifier;
     }
 
     @Override
-    public List<Recognition> recognizeImage(final Bitmap bitmap) {
-        // Log this method so that it can be analyzed with systrace.
-        Trace.beginSection("recognizeImage");
+    public List<Recognition> recognizeImage(Bitmap bitmap) {
+        ByteBuffer byteBuffer = convertBitmapToByteBuffer(bitmap);
+        byte[][] result = new byte[1][labelList.size()];
+        interpreter.run(byteBuffer, result);
 
-        Trace.beginSection("preprocessBitmap");
-
-        long startTime;
-        long endTime;
-        startTime = SystemClock.uptimeMillis();
-
-        convertBitmapToByteBuffer(bitmap);
-
-        // Run the inference call.
-        Trace.beginSection("run");
-        startTime = SystemClock.uptimeMillis();
-        tfLite.run(imgData, labelProb);
-        endTime = SystemClock.uptimeMillis();
-        Log.i(TAG, "Inf time: " + (endTime - startTime));
-        Trace.endSection();
-
-        // Find the best classifications.
-        PriorityQueue<Recognition> pq = new PriorityQueue<Recognition>(3, (lhs, rhs) -> {
-            // Intentionally reversed to put high confidence at the head of the queue.
-            return Float.compare(rhs.getConfidence(), lhs.getConfidence());
-        });
-        for (int i = 0 ; i < labels.size() ; ++i) {
-            pq.add(new Recognition("" + i,
-                                   labels.size() > i ? labels.get(i) : "unknown",
-                                   (float) labelProb[0][i],
-                                   null));
-        }
-        final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
-        int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
-        for (int i = 0 ; i < recognitionsSize ; ++i) {
-            recognitions.add(pq.poll());
-        }
-        Trace.endSection(); // "recognizeImage"
-        return recognitions;
-    }
-
-    @Override
-    public void enableStatLogging(boolean logStats) {
-    }
-
-    @Override
-    public String getStatString() {
-        return "";
+        return getSortedResult(result);
     }
 
     @Override
     public void close() {
+        interpreter.close();
+        interpreter = null;
     }
+
+    private MappedByteBuffer loadModelFile(AssetManager assetManager, String modelPath) throws IOException {
+        AssetFileDescriptor fileDescriptor = assetManager.openFd(modelPath);
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+    }
+
+    private List<String> loadLabelList(AssetManager assetManager, String labelPath) throws IOException {
+        List<String> labelList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(labelPath)));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            labelList.add(line);
+        }
+        reader.close();
+
+        return labelList;
+    }
+
+    private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(BATCH_SIZE * inputSize * inputSize * PIXEL_SIZE);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        int[] intValues = new int[inputSize * inputSize];
+        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        int pixel = 0;
+        for (int i = 0 ; i < inputSize ; ++i) {
+            for (int j = 0 ; j < inputSize ; ++j) {
+                final int val = intValues[pixel++];
+                byteBuffer.put((byte) ((val >> 16) & 0xFF));
+                byteBuffer.put((byte) ((val >> 8) & 0xFF));
+                byteBuffer.put((byte) (val & 0xFF));
+            }
+        }
+
+        return byteBuffer;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private List<Recognition> getSortedResult(byte[][] labelProbArray) {
+
+        PriorityQueue<Recognition> pq = new PriorityQueue<>(MAX_RESULTS,
+                                                            (lhs, rhs) -> Float.compare(rhs.getConfidence(),
+                                                                                        lhs.getConfidence()));
+
+        for (int i = 0 ; i < labelList.size() ; ++i) {
+            float confidence = (labelProbArray[0][i] & 0xff) / 255.0f;
+            if (confidence > THRESHOLD) {
+                pq.add(new Recognition("" + i, labelList.size() > i ? labelList.get(i) : "unknown", confidence, null));
+            }
+        }
+
+        final ArrayList<Recognition> recognitions = new ArrayList<>();
+        int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
+        for (int i = 0 ; i < recognitionsSize ; ++i) {
+            recognitions.add(pq.poll());
+        }
+
+        return recognitions;
+    }
+
+    @NotNull
+    @Override
+    public String getStatString() {
+        return null;
+    }
+
+    @Override
+    public void enableStatLogging(boolean debug) { }
 }

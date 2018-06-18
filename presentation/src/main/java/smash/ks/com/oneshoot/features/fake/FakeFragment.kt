@@ -16,12 +16,14 @@
 
 package smash.ks.com.oneshoot.features.fake
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.SystemClock.uptimeMillis
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
-import com.devrapid.kotlinknifer.logi
+import com.devrapid.kotlinknifer.logv
+import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
@@ -33,7 +35,7 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
-import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier.create
+import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -50,9 +52,10 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         const val REQUEST_CAMERA_PERMISSION = 1
         // The key name of the fragment initialization parameters.
         const val ARG_RANDOM_ID = "param random image id"
+
         private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
         private const val LABEL_FILE = "labels.txt"
-        private const val INPUT_SIZE = 3224
+        private const val INPUT_SIZE = 224
 
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
@@ -85,17 +88,18 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         }
 
         // Machine learning.
-        val classifier = create(act.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
-        val croppedBitmap = R.drawable.basketball.toBitmap(act)
-        var lastProcessingTimeMs = 0L
+        val bitmap = R.drawable.basketball.toBitmap(act)
+        val croppedBitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+        val classifier = TFLiteImageClassifier.create(act.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
+        var lastProcessingTimeMs: Long
 
         launch {
             val startTime = uptimeMillis()
             val results = classifier.recognizeImage(croppedBitmap)
             lastProcessingTimeMs = uptimeMillis() - startTime
-            logi("Detect: ", results)
+            logw(lastProcessingTimeMs)
+            logv("Detect: ", results)
         }
-
     }
 
     override fun provideInflateView() = R.layout.fragment_fake
