@@ -79,6 +79,13 @@ object Versions {
         const val database = "16.0.1"
         const val auth = "16.0.1"
         const val messaging = "17.0.0"
+
+        const val mlVision = "16.0.0"
+        const val mlImageLabel = "15.0.0"
+    }
+
+    object TensorFlow {
+        const val lite = "0.1.7"
     }
 
     /**

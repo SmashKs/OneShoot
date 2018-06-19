@@ -38,12 +38,16 @@
         tools:replace="android:label">
 
         <activity android:name=".features.fake.FakeActivity">
+        </activity>
+        <activity android:name=".features.photograph.PhotographActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".features.photograph.PhotographActivity">
-        </activity>
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="label"/>
     </application>
 </manifest>

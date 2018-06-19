@@ -97,6 +97,11 @@ object Deps {
         const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.database}"
         const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.Firebase.auth}"
         const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.Firebase.messaging}"
+        const val firebaseVision = "com.google.firebase:firebase-ml-vision:${Versions.Firebase.mlVision}"
+        const val firebaseMLImageLabel =
+            "com.google.firebase:firebase-ml-vision-image-label-model:${Versions.Firebase.mlImageLabel}"
+
+        const val tensorflowLite = "org.tensorflow:tensorflow-lite:${Versions.TensorFlow.lite}"
 
         const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
         const val dbflowRxJava2KotlinExt =

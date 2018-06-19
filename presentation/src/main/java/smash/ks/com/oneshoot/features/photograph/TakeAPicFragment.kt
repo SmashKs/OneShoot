@@ -21,22 +21,33 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale
 import android.support.v4.content.ContextCompat.checkSelfPermission
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
-import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
-import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
-import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
+import com.devrapid.kotlinknifer.logv
+import com.devrapid.kotlinknifer.logw
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.find
 import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.R.id.cv_camera
+import smash.ks.com.oneshoot.R.id.ib_shot
+import smash.ks.com.oneshoot.R.id.iv_preview
+import smash.ks.com.oneshoot.R.id.sav_selection
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
@@ -45,10 +56,15 @@ import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
     //region Instance
     companion object Factory {
+        private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
+        private const val LABEL_FILE = "labels.txt"
+        private const val INPUT_SIZE = 224
+
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
          *
@@ -69,7 +85,31 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
                         val roundX = x.takeIf { 0 < it } ?: let { roundWidth = w + x; 0 }
                         val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
 
-                        iv_preview.imageBitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
+                        val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
+                        find<ImageView>(iv_preview).imageBitmap = bitmap
+
+                        // Tensorflow Lite.
+                        val croppedBitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+                        val classifier = TFLiteImageClassifier.create(act.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
+
+                        launch {
+                            val startTime = SystemClock.uptimeMillis()
+                            val results = classifier.recognizeImage(croppedBitmap)
+                            logw(SystemClock.uptimeMillis() - startTime)
+                            logv("Detect: ", results)
+                        }
+
+                        // Firebase ML Kit.
+                        val textImage = FirebaseVisionImage.fromBitmap(croppedBitmap)
+                        val detector = FirebaseVision.getInstance().visionLabelDetector
+
+                        detector.detectInImage(textImage).addOnCompleteListener {
+                            it.result.forEach {
+                                logw("[${it.entityId}]${it.label}: ${it.confidence * 100}%")
+                            }
+                        }
+
+                        croppedBitmap.recycle()
                     }
                 }.recycle()
             }
@@ -87,7 +127,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
         super.onResume()
 
         when {
-            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
+            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> find<CameraView>(cv_camera).start()
             shouldShowRequestPermissionRationale(parent, CAMERA) -> QuickDialogFragment.Builder(this) {
                 message = gStrings(R.string.camera_permission_confirmation)
                 btnPositiveText = "Ok" to { _ ->
@@ -103,15 +143,15 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
 
     override fun onPause() {
         super.onPause()
-        cv_camera.stop()
+        find<CameraView>(cv_camera).stop()
     }
     //endregion
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        cv_camera.addCallback(cameraCallback)
-        ib_shot.onClick { cv_camera.takePicture() }
-        sav_selection.selectedAreaCallback = { x, y, w, h ->
+        find<CameraView>(cv_camera).addCallback(cameraCallback)
+        find<ImageButton>(ib_shot).onClick { find<CameraView>(cv_camera).takePicture() }
+        find<SelectableAreaView>(sav_selection).selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
             selectedRectF.w = w

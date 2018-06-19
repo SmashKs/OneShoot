@@ -125,7 +125,13 @@ dependencies {
     implementation(Presentation.firebaseDB) {
         exclude group: 'com.android.support'
     }
-    implementation 'org.tensorflow:tensorflow-lite:0.1.7'
+    implementation(Presentation.firebaseVision) {
+        exclude group: 'com.android.support'
+    }
+    implementation(Presentation.firebaseMLImageLabel) {
+        exclude group: 'com.android.support'
+    }
+    implementation Presentation.tensorflowLite
     //endregion
 
     //region Mapper

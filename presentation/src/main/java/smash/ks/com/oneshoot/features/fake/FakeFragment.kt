@@ -16,26 +16,20 @@
 
 package smash.ks.com.oneshoot.features.fake
 
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.SystemClock.uptimeMillis
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
-import com.devrapid.kotlinknifer.logv
-import com.devrapid.kotlinknifer.logw
-import com.devrapid.kotlinknifer.toBitmap
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.R.id.rv_fake
+import smash.ks.com.oneshoot.R.id.tv_label
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
-import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -81,24 +75,10 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
 //            observe(storeImage())
         }
 
-        find<RecyclerView>(R.id.rv_fake).also {
+        find<RecyclerView>(rv_fake).also {
             // rv_fake.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
-        }
-
-        // Machine learning.
-        val bitmap = R.drawable.basketball.toBitmap(act)
-        val croppedBitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
-        val classifier = TFLiteImageClassifier.create(act.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
-        var lastProcessingTimeMs: Long
-
-        launch {
-            val startTime = uptimeMillis()
-            val results = classifier.recognizeImage(croppedBitmap)
-            lastProcessingTimeMs = uptimeMillis() - startTime
-            logw(lastProcessingTimeMs)
-            logv("Detect: ", results)
         }
     }
 
@@ -123,7 +103,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     }
 
     private fun showImageUri(uri: String) {
-        find<TextView>(R.id.tv_label).text = uri
+        find<TextView>(tv_label).text = uri
 //        tv_label.text = uri
     }
     //endregion

@@ -67,6 +67,15 @@ class SelectableAreaView @JvmOverloads constructor(
     }
 
     var selectedAreaCallback: ((x: Int, y: Int, width: Int, height: Int) -> Unit)? = null
+        set(value) {
+            val x = fourAngles[0].coordination.x.toInt()
+            val y = fourAngles[0].coordination.y.toInt()
+            val width = fourAngles[1].coordination.x.toInt() - x
+            val height = fourAngles[1].coordination.y.toInt() - y
+
+            value?.invoke(x, y, width, height)
+            field = value
+        }
     private var isTouchAngle = false
     private var isTouchInside = false
     private val paintRect by lazy {
@@ -181,13 +190,12 @@ class SelectableAreaView @JvmOverloads constructor(
             }
             ACTION_UP -> {
                 if (isTouchAngle || isTouchInside) {
-                    val width = fourAngles[1].coordination.x.toInt() - fourAngles[0].coordination.x.toInt()
-                    val height = fourAngles[1].coordination.y.toInt() - fourAngles[0].coordination.y.toInt()
+                    val x = fourAngles[0].coordination.x.toInt()
+                    val y = fourAngles[0].coordination.y.toInt()
+                    val width = fourAngles[1].coordination.x.toInt() - x
+                    val height = fourAngles[1].coordination.y.toInt() - y
 
-                    selectedAreaCallback?.invoke(fourAngles[0].coordination.x.toInt(),
-                                                 fourAngles[0].coordination.y.toInt(),
-                                                 width,
-                                                 height)
+                    selectedAreaCallback?.invoke(x, y, width, height)
                 }
                 fourAngles.find(AnglePoint::isSelected)?.isSelected = false
                 isTouchAngle = false

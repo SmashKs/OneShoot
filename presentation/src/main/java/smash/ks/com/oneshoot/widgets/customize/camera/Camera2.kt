@@ -260,15 +260,16 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
     private val mOnImageAvailableListener by lazy {
         OnImageAvailableListener { reader ->
-            reader.acquireNextImage().let { image ->
+            reader.acquireNextImage().also { image ->
                 val planes = image.planes
+
                 if (planes.isNotEmpty()) {
                     val buffer = planes[0].buffer
                     val data = ByteArray(buffer.remaining())
                     buffer[data]
                     this.callback?.onPictureTaken(data)
                 }
-            }
+            }.close()
         }
     }
 
