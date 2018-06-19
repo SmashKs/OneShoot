@@ -106,12 +106,12 @@ dependencies {
     testImplementation(GlobalTest.mockito) {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
+    testImplementation GlobalTest.assertj
     testImplementation GlobalTest.powerMockJunit
     testImplementation GlobalTest.powerMockito
-    testImplementation GlobalTest.byteBuddyAgent
     //region For the the newest version.
+    testImplementation GlobalTest.byteBuddyAgent
     testImplementation GlobalTest.byteBuddyAndroid
-    testImplementation GlobalTest.assertj
     //endregion
     //endregion
 }
