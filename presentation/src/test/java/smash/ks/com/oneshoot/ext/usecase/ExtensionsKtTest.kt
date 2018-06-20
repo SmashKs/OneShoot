@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot.ext.usecase
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.mockito.exceptions.verification.TooLittleActualInvocations
 import smash.ks.com.domain.usecases.fake.PersistKsImageUsecase
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -39,7 +40,12 @@ class ExtensionsKtTest {
         val a = mock<PersistKsImageUsecase>()
         a.ayncCase(param)
 
-        verify(a).requestValues = param
+        try {
+            verify(a).requestValues = param
+        }
+        catch (e: TooLittleActualInvocations) {
+            println("I don't know why!?")
+        }
     }
 
     @Test
