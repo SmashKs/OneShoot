@@ -14,36 +14,26 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.v1
+package smash.ks.com.data.remote.config
 
-import com.devrapid.kotlinshaver.completable
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
-import smash.ks.com.data.local.services.KsDatabase
-import smash.ks.com.ext.const.UniqueId
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class KsDbFlowImplTest {
-    private lateinit var database: KsDatabase
+class KsConfigTest {
+    private lateinit var config: ApiConfig
 
     @BeforeTest
-    fun setUp() {
-        database = mock()
+    fun setup() {
+        config = KsConfig()
     }
 
     @Test
-    fun retrieveKsData() {
-    }
+    fun getApiBaseUrl() {
+        val url = config::class.java.getDeclaredField("BASE_URL").apply {
+            isAccessible = true
+        }
 
-    @Test
-    fun storeKsData() {
-        val id = any<UniqueId>()
-        val uri = any<String>()
-
-        whenever(database.storeKsData(id, uri)) doReturn completable()
-        database.storeKsData(id, uri)
+        assertEquals(url.get(config), config.apiBaseUrl)
     }
 }

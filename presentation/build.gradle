@@ -36,8 +36,6 @@ android {
         minSdkVersion Android.minSdk
         targetSdkVersion Android.targetSdk
         multiDexEnabled true
-//        versionCode 1
-//        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptSupportModeEnabled true    // Enable RS support
     }

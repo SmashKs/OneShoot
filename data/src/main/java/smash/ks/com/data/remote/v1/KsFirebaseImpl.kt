@@ -55,6 +55,8 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
 
     override fun uploadImage(params: Parameterable) = completable {
         ref.child(V1_CHILD_PROPERTIES)
+
+        it.onComplete()
     }
 
     override fun retrieveImageTagsByML(params: Parameterable) = single<List<String>> { }

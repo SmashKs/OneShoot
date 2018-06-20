@@ -24,7 +24,6 @@ object Versions {
      * Gradle android version.
      */
     object Android {
-        const val buildTools = "27.0.3"
         const val minSdk = 21
         const val targetSdk = 27
         const val compileSdk = 27
