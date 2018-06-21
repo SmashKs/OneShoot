@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/workspace
     environment:
-          JVM_OPTS: -Xmx4096m
+          JVM_OPTS: -Xms512m -Xmx4096m
           ANDROID_API_LEVEL: 28
           EMULATOR_API_LEVEL: 22
           ANDROID_ABI: armeabi-v7a
@@ -17,11 +17,6 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
-#      - run:
-#          name: Update android sdk
-#          command: |
-#            echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-google-google_play_services,extra-google-m2repository,android-${ANDROID_API_LEVEL}
-#            echo y | android update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS_VERSION}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies

@@ -88,13 +88,11 @@ dependencies {
     implementation Global.coroutinesRx2
     implementation Global.refelect
     implementation Presentation.androidCoroutine
-
     //endregion
 
     //region Reactive
     implementation Global.rxJava2
     implementation Global.rxKotlin
-
     //endregion
 
     //region Jieyi Libraries
@@ -102,7 +100,6 @@ dependencies {
     implementation Presentation.knifer
     implementation Presentation.arv
     implementation Presentation.quickDialog
-
     //endregion
 
     //region Anko
@@ -111,13 +108,11 @@ dependencies {
     implementation Presentation.ankoV7
     implementation Presentation.ankoCoroutine
     implementation Presentation.ankoV7Coroutine
-
     //endregion
 
     //region Android extension
     implementation Presentation.ktx
     implementation Presentation.lifecycle
-
     //endregion
 
     //region Firebase & Database
@@ -135,12 +130,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation Presentation.tensorflowLite
-
     //endregion
 
     //region Mapper
     implementation Presentation.modelMapper
-
     //endregion
 
     //region DI
@@ -148,21 +141,16 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation Global.kodenJVM
-
     //endregion
     implementation(Presentation.rxBus) {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }
-
     //region Rx Lifecycle
 
     // We're not using now. This's just for the extensions.
     implementation Presentation.rxLifecycle
-
     //    implementation Presentation.rxLifecycleComponent
-
     //    implementation Presentation.rxPermission
-
     //endregion
 
     //region Internet & Image loading
@@ -171,7 +159,6 @@ dependencies {
     implementation Presentation.retrofit2RxJava2
     implementation Presentation.okhttpLogging
     implementation Presentation.glide
-
     //endregion
 
     //region Android SDK
@@ -179,7 +166,6 @@ dependencies {
     implementation Presentation.recyclerview
     implementation Presentation.annot
     implementation Presentation.constraintLayout
-
     //endregion
 
     //region Test
@@ -195,9 +181,7 @@ dependencies {
     //region For the the newest version.
     testImplementation GlobalTest.byteBuddyAgent
     testImplementation GlobalTest.byteBuddyAndroid
-
     //endregion
-
     //endregion
 
     //region Android Test
@@ -210,7 +194,6 @@ dependencies {
     //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
     androidTestImplementation PresentationTest.mockkAndroid
-
     //endregion
     debugImplementation GlobalDebug.database
 }
