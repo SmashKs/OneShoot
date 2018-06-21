@@ -21,7 +21,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.SystemClock
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast.LENGTH_SHORT
@@ -55,6 +54,7 @@ import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
+import kotlin.system.measureTimeMillis
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
     //region Instance
@@ -92,10 +92,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
                             TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
 
                         launch {
-                            val startTime = SystemClock.uptimeMillis()
-                            val results = classifier.recognizeImage(croppedBitmap)
-                            logw(SystemClock.uptimeMillis() - startTime)
-                            logv("Detect: ", results)
+                            val time = measureTimeMillis {
+                                val results = classifier.recognizeImage(croppedBitmap)
+                                logv("Detect: $results")
+                            }
+                            logw(time)
                         }
 
                         // Firebase ML Kit.
