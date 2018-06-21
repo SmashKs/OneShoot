@@ -5,20 +5,23 @@ jobs:
     working_directory: ~/workspace
     environment:
           JVM_OPTS: -Xmx4096m
-          ANDROID_API_LEVEL: 27
+          ANDROID_API_LEVEL: 28
           EMULATOR_API_LEVEL: 22
           ANDROID_ABI: armeabi-v7a
           ANDROID_TAG: google_apis
           ANDROID_TARGET: android-$ANDROID_API_LEVEL
           ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
-      - image: circleci/android:api-27-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
+      - image: circleci/android:api-28-alpha
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
+      - run:
+          name: Update android sdk
+          command: |
+            echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-google-google_play_services,extra-google-m2repository,android-${ANDROID_API_LEVEL}
+            echo y | android update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS_VERSION}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -26,44 +29,28 @@ jobs:
           paths:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
-#      - run:
-#          name: Setup emulator
-#          command: sdkmanager "system-images;android-21;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;armeabi-v7a"
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-#          background: true
-#      - run:
-#          name: Change permission
-#          command: |
-#            sudo chmod +x /bin/circle-android
-#            sudo chown circleci:circleci /bin/circle-android
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            # wait for it to have booted
-#            circle-android wait-for-boot
-#            # unlock the emulator screen
-#            sleep 30
-#            adb shell input keyevent 82
       - run:
-          name: Create AVD
-          command: |
-            echo "n" | avdmanager -v create avd -n androidlearn -k "system-images;android-25;google_apis;armeabi-v7a" -c 512M -g google_apis  -d "Nexus 7 2013"
+          name: Setup emulator
+          command: sdkmanager "system-images;android-21;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;armeabi-v7a"
       - run:
-          name: Run Emulator
+          name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
-          command: |
-            $ANDROID_SDK_ROOT/tools/emulator -no-window -noaudio -no-boot-anim -gpu swiftshader @androidlearn
       - run:
-          name: Wait for Emulator
-          no_output_timeout: 15m
+          name: Change permission
           command: |
-            sleep 15
-            $ANDROID_SDK_ROOT/platform-tools/adb devices
-            sleep 10
+            sudo chmod +x /bin/circle-android
+            sudo chown circleci:circleci /bin/circle-android
       - run:
-          name: Run Tests
+          name: Wait emulator
+          command: |
+            # wait for it to have booted
+            circle-android wait-for-boot
+            # unlock the emulator screen
+            sleep 30
+            adb shell input keyevent 82
+      - run:
+          name: Run Lint Tests
           command: ./gradlew lint test
       - run:
           name: Generate JaCoCo report
