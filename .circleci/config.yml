@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     working_directory: ~/workspace
@@ -59,3 +60,15 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+
+# Disable emulator audio
+machine:
+  environment:
+    QEMU_AUDIO_DRV: none
+
+test:
+  pre:
+    - emulator -avd circleci-android24 -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
