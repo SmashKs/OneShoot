@@ -47,6 +47,22 @@ jobs:
 #            sleep 30
 #            adb shell input keyevent 82
       - run:
+          name: Start emulator
+          command: /opt/android-sdk-linux/emulator/emulator -avd testEmulator -no-audio -no-window
+          background: true
+          environment:
+            TERM: dumb
+      - run:
+          name: Wait for emulator
+          command: ./android-wait-for-boot.sh
+          environment:
+            TERM: dumb
+      - run:
+          name: Remove lock screen
+          command: adb shell input keyevent 82
+          environment:
+            TERM: dumb
+      - run:
           name: Run Tests
           command: ./gradlew lint test
       - run:
@@ -60,15 +76,3 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-
-# Disable emulator audio
-machine:
-  environment:
-    QEMU_AUDIO_DRV: none
-
-test:
-  pre:
-    - emulator -avd circleci-android24 -no-window:
-        background: true
-        parallel: true
-    - circle-android wait-for-boot
