@@ -48,22 +48,23 @@ android {
             testCoverageEnabled = true
         }
     }
-    dexOptions { javaMaxHeapSize "4g" }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
         exclude 'META-INF/main.kotlin_module'
-    }
-    aaptOptions { noCompress "tflite" }
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
     }
     sourceSets {
         main {
             res.srcDirs += FeatureRes.dirs
         }
     }
+    dexOptions { javaMaxHeapSize "4g" }
+    testOptions { unitTests.returnDefaultValues = true }
+    aaptOptions { noCompress "tflite" }
     lintOptions { abortOnError false }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     ext { coverageSourceDirs = 'src/test/java' }
 }
 
@@ -186,6 +187,7 @@ dependencies {
 
     //region Android Test
     androidTestImplementation GlobalTest.kotlin
+    androidTestImplementation 'org.mockito:mockito-core:2.19.0'
     androidTestImplementation(PresentationTest.espressoHelper) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
     }
