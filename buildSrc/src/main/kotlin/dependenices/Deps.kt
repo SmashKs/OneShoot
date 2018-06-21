@@ -52,6 +52,7 @@ object Deps {
         const val assertj = "org.assertj:assertj-core:${Versions.Test.assertJ}"
         const val powerMockJunit = "org.powermock:powermock-module-junit4:${Versions.Test.powerMockito}"
         const val powerMockito = "org.powermock:powermock-api-mockito2:${Versions.Test.powerMockito}"
+        const val byteBuddy = "net.bytebuddy:byte-buddy:${Versions.Test.byteBuddy}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Versions.Test.byteBuddy}"
         const val byteBuddyAndroid = "net.bytebuddy:byte-buddy-android:${Versions.Test.byteBuddy}"
     }
@@ -126,9 +127,8 @@ object Deps {
     object PresentationTest {
         const val espressoHelper = "com.github.Zhuinden:espresso-helper:${Versions.Test.espressoHelper}"
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
-        const val runner = "com.android.support.test:runner:${Versions.Test.androidSupportRunner}"
-        const val rules = "com.android.support.test:rules:${Versions.Test.androidSupportRules}"
         const val mockito = "org.mockito:mockito-android:${Versions.Test.mockitoAndroid}"
+        const val mockkAndroid = "io.mockk:mockk-android:${Versions.Test.mockk}"
         const val kakao = "com.agoda.kakao:kakao:${Versions.Test.kakao}"
     }
     //endregion

@@ -191,17 +191,7 @@ dependencies {
     }
 //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
-    androidTestImplementation PresentationTest.mockito
-    androidTestImplementation(PresentationTest.runner) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestImplementation(PresentationTest.rules) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    //region For the the newest version.
-    androidTestImplementation GlobalTest.byteBuddyAgent
-    androidTestImplementation GlobalTest.byteBuddyAndroid
-    //endregion
+    androidTestImplementation PresentationTest.mockkAndroid
     //endregion
 
     debugImplementation GlobalDebug.database

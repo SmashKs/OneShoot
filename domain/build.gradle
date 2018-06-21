@@ -54,6 +54,10 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     }
     testImplementation GlobalTest.assertj
+    //region For the the newest version.
+    testImplementation GlobalTest.byteBuddy
+    testImplementation GlobalTest.byteBuddyAgent
+    //endregion
 }
 
 sourceCompatibility = "1.8"

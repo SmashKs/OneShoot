@@ -149,8 +149,7 @@ object Versions {
         const val powerMockito = "1.7.4"
         const val mockitoKotlin = "1.5.0"
         const val mockitoAndroid = "2.9.0"
-        const val androidSupportRunner = "1.0.1"
-        const val androidSupportRules = "1.0.1"
+        const val mockk = "1.8.3"
         const val byteBuddy = "1.8.12"
     }
 }
