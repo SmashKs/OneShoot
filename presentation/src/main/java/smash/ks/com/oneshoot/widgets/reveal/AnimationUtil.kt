@@ -23,9 +23,9 @@ import android.animation.ValueAnimator
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Parcelable
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import android.view.ViewAnimationUtils
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.devrapid.kotlinknifer.gone
 import kotlinx.android.parcel.Parcelize
 import smash.ks.com.ext.const.DEFAULT_INT

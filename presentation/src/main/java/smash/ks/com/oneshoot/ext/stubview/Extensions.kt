@@ -19,11 +19,11 @@
 package smash.ks.com.oneshoot.ext.stubview
 
 import android.app.Activity
-import android.support.annotation.IdRes
 import android.view.View
 import android.view.ViewStub
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.IdRes
 import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.visiable
 import org.jetbrains.anko.find

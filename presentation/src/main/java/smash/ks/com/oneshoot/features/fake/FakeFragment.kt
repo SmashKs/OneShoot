@@ -17,11 +17,11 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
@@ -75,8 +75,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
 //            observe(storeImage())
         }
 
-        find<RecyclerView>(rv_fake).also {
-            // rv_fake.also {
+        view?.find<RecyclerView>(rv_fake)?.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
         }
@@ -103,8 +102,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     }
 
     private fun showImageUri(uri: String) {
-        find<TextView>(tv_label).text = uri
-//        tv_label.text = uri
+        view?.find<TextView>(tv_label)?.text = uri
     }
     //endregion
 }

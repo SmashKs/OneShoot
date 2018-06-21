@@ -17,8 +17,8 @@
 package smash.ks.com.oneshoot.widgets.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider.AndroidViewModelFactory
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 
 /**
  * A factory for creating a map to store a related [ViewModel]'s tag and the [ViewModel].

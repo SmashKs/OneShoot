@@ -18,9 +18,9 @@
 
 package smash.ks.com.oneshoot.ext.aac
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.domain.datas.KsResponse.Error

@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.ext.presentation
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import smash.ks.com.domain.datas.KsResponse
 
 typealias ResponseLiveData<D> = MutableLiveData<KsResponse<D>>

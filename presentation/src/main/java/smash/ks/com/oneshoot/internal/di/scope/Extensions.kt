@@ -16,7 +16,6 @@
 
 package smash.ks.com.oneshoot.internal.di.scope
 
-import android.support.v4.app.FragmentActivity
-import org.kodein.di.android.androidScope
+import org.kodein.di.android.AndroidComponentsWeakScope
 
-val fragmentScope get() = androidScope<FragmentActivity>()
+val fragmentScope get() = AndroidComponentsWeakScope<androidx.fragment.app.FragmentActivity>()

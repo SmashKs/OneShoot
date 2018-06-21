@@ -17,8 +17,8 @@
 package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import com.hwangjr.rxbus.Bus
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein

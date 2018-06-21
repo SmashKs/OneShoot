@@ -80,7 +80,7 @@ object Deps {
         const val androidCoroutine =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.kotlinCoroutine}"
 
-        const val lifecycle = "android.arch.lifecycle:extensions:${Versions.KotlinAndroidExt.aac}"
+        const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.KotlinAndroidExt.aac}"
 
         const val rxBus = "com.hwangjr.rxbus:rxbus:${Versions.RxDep.rxBus}"
         const val rxLifecycle = "com.trello.rxlifecycle2:rxlifecycle-kotlin:${Versions.RxDep.rxLifecycle2}"
@@ -114,11 +114,11 @@ object Deps {
 
         const val quickDialog = "com.devrapid.jieyi:dialogbuilder:${Versions.Ui.dialog}"
 
-        const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
-        const val annot = "com.android.support:support-annotations:${Versions.AndroidComponent.support}"
-        const val recyclerview = "com.android.support:recyclerview-v7:${Versions.AndroidComponent.support}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.support}"
+        const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.support}"
+        const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.support}"
         const val constraintLayout =
-            "com.android.support.constraint:constraint-layout:${Versions.AndroidComponent.contraintLayout}"
+            "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.contraintLayout}"
     }
 
     /**
@@ -162,18 +162,17 @@ object Deps {
         // Database
         const val dbflowProcessor = "com.github.Raizlabs.DBFlow:dbflow-processor:${Versions.Database.dbflow}"
         const val dbflowCore = "com.github.Raizlabs.DBFlow:dbflow-core:${Versions.Database.dbflow}"
-        const val dbflow = "com.github.Raizlabs.DBFlow:dbflow:${Versions.Database.dbflow}"
+        const val dbflow = Presentation.dbflow
         const val dbflowKotlinExt = "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${Versions.Database.dbflow}"
         const val dbflowRxJava2 = "com.github.Raizlabs.DBFlow:dbflow-rx2:${Versions.Database.dbflow}"
-        const val dbflowRxJava2KotlinExt =
-            "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${Versions.Database.dbflow}"
+        const val dbflowRxJava2KotlinExt = Presentation.dbflowRxJava2KotlinExt
         // sql-cipher database encryption (optional)
         const val dbflowSqlEncrypt = "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${Versions.Database.dbflow}"
         const val dbflowSqlCipher = "net.zetetic:android-database-sqlcipher:${Versions.Database.dbflow}@aar"
 
-        const val firebaseDB = "com.google.firebase:firebase-database:${Versions.Firebase.database}"
+        const val firebaseDB = Presentation.firebaseDB
 
-        const val appcompat = "com.android.support:appcompat-v7:${Versions.AndroidComponent.support}"
+        const val appcompat = Presentation.appcompat
     }
 
     /**

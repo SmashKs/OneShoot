@@ -17,9 +17,9 @@
 package smash.ks.com.oneshoot.internal.di.modules
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearLayoutManager.HORIZONTAL
-import android.support.v7.widget.LinearLayoutManager.VERTICAL
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -33,7 +33,7 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
  * To provide the necessary objects into the recycler view.
  */
 object RecyclerViewModule {
-    fun recyclerViewProvider(context: Context) = Module {
+    fun recyclerViewProvider(context: Context) = Module("module name") {
         // Linear Layout Manager.
         bind<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL) with provider {
             LinearLayoutManager(context, VERTICAL, false)
@@ -43,6 +43,8 @@ object RecyclerViewModule {
         }
 
         bind<MultiTypeFactory>() with instance(MultiTypeFactory(context))
+
+        /** ViewModel Set for [MultiTypeFactory] */
 
         /** ViewModel Set for [MultiTypeFactory] */
         bind() from setBinding<ViewHolderEntry>()

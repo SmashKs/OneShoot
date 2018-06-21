@@ -16,9 +16,9 @@
 
 package smash.ks.com.oneshoot.ext.resource
 
-import android.support.annotation.ArrayRes
-import android.support.annotation.DimenRes
-import android.support.annotation.StringRes
+import androidx.annotation.ArrayRes
+import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import org.jetbrains.anko.dimen
 import smash.ks.com.oneshoot.App
 

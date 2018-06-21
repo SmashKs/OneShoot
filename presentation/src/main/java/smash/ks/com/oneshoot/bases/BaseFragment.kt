@@ -16,14 +16,14 @@
 
 package smash.ks.com.oneshoot.bases
 
-import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -53,7 +53,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.
     protected val appContext by instance<Context>()
     private var rootView: View? = null
-    private val parentKodein by closestKodein()
+    private val parentKodein by closestKodein { activity!! }
 
     //region Fragment lifecycle
     override fun onCreateView(

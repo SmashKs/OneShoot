@@ -16,9 +16,9 @@
 
 package smash.ks.com.oneshoot.bases
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
@@ -39,6 +39,6 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
                     ?.actualTypeArguments
                     ?.get(1) as? Class<*> ?: throw ClassCastException()
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
-    /** The [ViewModelProviders.of.get] function for obtaining a [ViewModel]. */
+    /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 }

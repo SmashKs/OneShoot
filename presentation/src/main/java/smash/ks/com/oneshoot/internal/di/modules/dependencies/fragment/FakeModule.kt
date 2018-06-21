@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
@@ -37,7 +37,7 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiData
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 
 object FakeModule {
-    fun fakeProvider() = Module {
+    fun fakeProvider() = Module("module name") {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             FakeViewModel::class.java to FakeViewModel(instance(), instance(), instance())

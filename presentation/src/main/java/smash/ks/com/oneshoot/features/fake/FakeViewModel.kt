@@ -16,7 +16,7 @@
 
 package smash.ks.com.oneshoot.features.fake
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.usecases.GetKsImageCase
 import smash.ks.com.domain.usecases.SaveKsImageCase

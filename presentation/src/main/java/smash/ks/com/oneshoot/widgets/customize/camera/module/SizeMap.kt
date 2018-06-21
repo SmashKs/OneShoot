@@ -16,7 +16,6 @@
 
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
-import android.support.v4.util.ArrayMap
 import java.util.SortedSet
 import java.util.TreeSet
 
@@ -24,7 +23,7 @@ import java.util.TreeSet
  * A collection class that automatically groups [Size]s by their [AspectRatio]s.
  */
 class SizeMap {
-    private val ratios by lazy { ArrayMap<AspectRatio, SortedSet<Size>>() }
+    private val ratios by lazy { androidx.collection.ArrayMap<AspectRatio, SortedSet<Size>>() }
 
     /**
      * Add a new [Size] to this collection.

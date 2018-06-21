@@ -16,6 +16,6 @@
 
 package smash.ks.com.oneshoot.features.photograph
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 class TakeAPicViewModel : ViewModel()

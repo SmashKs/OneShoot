@@ -25,15 +25,15 @@ object Versions {
      */
     object Android {
         const val minSdk = 21
-        const val targetSdk = 27
-        const val compileSdk = 27
+        const val targetSdk = 28
+        const val compileSdk = targetSdk
     }
 
     /**
      * Related Android component lib version.
      */
     object AndroidComponent {
-        const val support = "27.1.1"
+        const val support = "1.0.0-alpha3"
         const val contraintLayout = "1.1.0"
     }
 
@@ -49,16 +49,16 @@ object Versions {
      * Related view component lib version.
      */
     object ViewComponent {
-        const val adaptiveRecyclerView = "0.0.8"
+        const val adaptiveRecyclerView = "1.0.1"
     }
 
     /**
      * Related Kotlin extensions lib version.
      */
     object KotlinAndroidExt {
-        const val aac = "1.1.1"
+        const val aac = "2.0.0-alpha1"
         const val anko = "0.10.5"
-        const val ktx = "0.3"
+        const val ktx = "1.0.0-alpha1"
         const val kinfer = "1.5.7"
         const val shaver = "0.2.2"
     }
@@ -67,7 +67,7 @@ object Versions {
      * Related dependency injection lib version.
      */
     object DI {
-        const val kodein = "5.0.0"
+        const val kodein = "5.1.0"
     }
 
     /**
@@ -134,7 +134,7 @@ object Versions {
      * Related Android UI lib version.
      */
     object Ui {
-        const val dialog = "0.1.1"
+        const val dialog = "1.0.1"
     }
 
     /**

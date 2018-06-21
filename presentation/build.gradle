@@ -36,7 +36,7 @@ android {
         minSdkVersion Android.minSdk
         targetSdkVersion Android.targetSdk
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         renderscriptSupportModeEnabled true    // Enable RS support
     }
     buildTypes {
@@ -62,8 +62,8 @@ android {
     aaptOptions { noCompress "tflite" }
     lintOptions { abortOnError false }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     ext { coverageSourceDirs = 'src/test/java' }
 }
@@ -78,7 +78,6 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation project(':domain')
     implementation project(':data')
     implementation project(':ext')
@@ -89,11 +88,13 @@ dependencies {
     implementation Global.coroutinesRx2
     implementation Global.refelect
     implementation Presentation.androidCoroutine
+
     //endregion
 
     //region Reactive
     implementation Global.rxJava2
     implementation Global.rxKotlin
+
     //endregion
 
     //region Jieyi Libraries
@@ -101,6 +102,7 @@ dependencies {
     implementation Presentation.knifer
     implementation Presentation.arv
     implementation Presentation.quickDialog
+
     //endregion
 
     //region Anko
@@ -109,11 +111,13 @@ dependencies {
     implementation Presentation.ankoV7
     implementation Presentation.ankoCoroutine
     implementation Presentation.ankoV7Coroutine
+
     //endregion
 
     //region Android extension
     implementation Presentation.ktx
     implementation Presentation.lifecycle
+
     //endregion
 
     //region Firebase & Database
@@ -131,10 +135,12 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation Presentation.tensorflowLite
+
     //endregion
 
     //region Mapper
     implementation Presentation.modelMapper
+
     //endregion
 
     //region DI
@@ -142,16 +148,21 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation Global.kodenJVM
-    //endregion
 
+    //endregion
     implementation(Presentation.rxBus) {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }
+
     //region Rx Lifecycle
+
     // We're not using now. This's just for the extensions.
     implementation Presentation.rxLifecycle
-//    implementation Presentation.rxLifecycleComponent
-//    implementation Presentation.rxPermission
+
+    //    implementation Presentation.rxLifecycleComponent
+
+    //    implementation Presentation.rxPermission
+
     //endregion
 
     //region Internet & Image loading
@@ -159,8 +170,8 @@ dependencies {
     implementation Presentation.retrofit2Gson
     implementation Presentation.retrofit2RxJava2
     implementation Presentation.okhttpLogging
-
     implementation Presentation.glide
+
     //endregion
 
     //region Android SDK
@@ -168,6 +179,7 @@ dependencies {
     implementation Presentation.recyclerview
     implementation Presentation.annot
     implementation Presentation.constraintLayout
+
     //endregion
 
     //region Test
@@ -179,10 +191,13 @@ dependencies {
     testImplementation GlobalTest.assertj
     testImplementation GlobalTest.powerMockJunit
     testImplementation GlobalTest.powerMockito
+
     //region For the the newest version.
     testImplementation GlobalTest.byteBuddyAgent
     testImplementation GlobalTest.byteBuddyAndroid
+
     //endregion
+
     //endregion
 
     //region Android Test
@@ -191,11 +206,12 @@ dependencies {
     androidTestImplementation(PresentationTest.espressoHelper) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
     }
-//    androidTestImplementation PresentationTest.robolectric
+
+    //    androidTestImplementation PresentationTest.robolectric
     androidTestImplementation PresentationTest.kakao
     androidTestImplementation PresentationTest.mockkAndroid
-    //endregion
 
+    //endregion
     debugImplementation GlobalDebug.database
 }
 

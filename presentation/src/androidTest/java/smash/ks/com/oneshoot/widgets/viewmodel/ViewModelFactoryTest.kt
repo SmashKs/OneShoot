@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.widgets.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

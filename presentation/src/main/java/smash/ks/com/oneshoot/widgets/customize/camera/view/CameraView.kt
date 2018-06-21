@@ -23,8 +23,6 @@ import android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH
 import android.os.Build.VERSION_CODES.M
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.IntDef
-import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View.MeasureSpec.AT_MOST
 import android.view.View.MeasureSpec.EXACTLY
@@ -32,6 +30,8 @@ import android.view.View.MeasureSpec.getMode
 import android.view.View.MeasureSpec.getSize
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
+import androidx.annotation.IntDef
+import androidx.core.view.ViewCompat
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
@@ -111,7 +111,7 @@ open class CameraView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        if (!isInEditMode) displayOrientationDetector?.enable(ViewCompat.getDisplay(this))
+        if (!isInEditMode) displayOrientationDetector?.enable(ViewCompat.getDisplay(this)!!)
     }
 
     override fun onDetachedFromWindow() {

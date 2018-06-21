@@ -17,7 +17,6 @@
 package smash.ks.com.oneshoot.widgets.customize.camera.module
 
 import android.os.Parcelable
-import android.support.v4.util.SparseArrayCompat
 import kotlinx.android.parcel.Parcelize
 import java.lang.Integer.SIZE
 
@@ -30,7 +29,9 @@ class AspectRatio private constructor(
     val y: Int
 ) : Comparable<AspectRatio>, Parcelable {
     companion object {
-        private val cache by lazy { SparseArrayCompat<SparseArrayCompat<AspectRatio>>(16) }
+        private val cache by lazy {
+            androidx.collection.SparseArrayCompat<androidx.collection.SparseArrayCompat<AspectRatio>>(16)
+        }
 
         /**
          * Returns an instance of [AspectRatio] specified by `x` and `y` values.
@@ -52,7 +53,7 @@ class AspectRatio private constructor(
 
             if (null == arrayX) {
                 val ratio = AspectRatio(x, y)
-                arrayX = SparseArrayCompat()
+                arrayX = androidx.collection.SparseArrayCompat()
                 arrayX.put(y, ratio)
                 cache.put(x, arrayX)
                 ratio

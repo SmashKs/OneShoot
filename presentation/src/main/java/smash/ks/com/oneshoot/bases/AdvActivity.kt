@@ -16,9 +16,9 @@
 
 package smash.ks.com.oneshoot.bases
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import java.lang.reflect.ParameterizedType
 
