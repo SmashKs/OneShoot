@@ -41,6 +41,10 @@ import kotlin.experimental.and
 /** A classifier specialized to label images using TensorFlow.  */
 class TFLiteImageClassifier private constructor() : Classifier {
     companion object {
+        private const val MASK_VALUE = 0xFF
+        private const val FIRST_UNIT = 8
+        private const val SECOND_UNIT = 16
+
         private const val MAX_RESULTS = 3
         private const val BATCH_SIZE = 1
         private const val PIXEL_SIZE = 3
@@ -107,9 +111,9 @@ class TFLiteImageClassifier private constructor() : Classifier {
         for (i in 0 until inputSize) {
             for (j in 0 until inputSize) {
                 val value = intValues[pixel++]
-                byteBuffer.put((value shr 16 and 0xFF).toByte())
-                byteBuffer.put((value shr 8 and 0xFF).toByte())
-                byteBuffer.put((value and 0xFF).toByte())
+                byteBuffer.put((value shr SECOND_UNIT and MASK_VALUE).toByte())
+                byteBuffer.put((value shr FIRST_UNIT and MASK_VALUE).toByte())
+                byteBuffer.put((value and MASK_VALUE).toByte())
             }
         }
 
@@ -124,10 +128,10 @@ class TFLiteImageClassifier private constructor() : Classifier {
 
         labelList?.let {
             for (i in it.indices) {
-                val confidence = (labelProbArray[0][i] and 0xff.toByte()) / 255.0f
+                val confidence = (labelProbArray[0][i] and MASK_VALUE.toByte()) / MASK_VALUE.toFloat()
 
                 if (THRESHOLD < confidence) {
-                    pq.add(Recognition("" + i, if (i < it.size) it[i] else "unknown", confidence, null))
+                    pq.add(Recognition(i.toString(), if (i < it.size) it[i] else "unknown", confidence))
                 }
             }
         }

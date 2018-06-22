@@ -47,6 +47,23 @@ import java.util.Vector
  */
 class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
     companion object {
+        private const val TOP_CLASS_SCORE = -1000f
+
+        private const val LIMITATION = 10
+
+        private const val MINIMUM_THRESHOLD = 0.001f
+        private const val MAXIMUM_RECTANGLE = 4
+        private const val PRE_BUFFER = 3
+
+        private const val MASK_VALUE = 0xFF
+        private const val FIRST_UNIT = 8
+        private const val SECOND_UNIT = 16
+
+        private const val TOP_POINT_OF_RECT = 0
+        private const val LEFT_POINT_OF_RECT = 1
+        private const val BOTTOM_POINT_OF_RECT = 2
+        private const val RIGHT_POINT_OF_RECT = 3
+
         // Only return this many results.
         private const val NUM_RESULTS = 1917
         private const val NUM_CLASSES = 91
@@ -101,16 +118,16 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
             }
 
             // Pre-allocate buffers.
-            img = Array(1) { Array(inputSize) { Array(inputSize) { FloatArray(3) } } }
+            img = Array(1) { Array(inputSize) { Array(inputSize) { FloatArray(PRE_BUFFER) } } }
             intValues = IntArray(this.inputSize * this.inputSize)
-            outputLocations = Array(1) { Array(NUM_RESULTS) { FloatArray(4) } }
+            outputLocations = Array(1) { Array(NUM_RESULTS) { FloatArray(MAXIMUM_RECTANGLE) } }
             outputClasses = Array(1) { Array(NUM_RESULTS) { FloatArray(NUM_CLASSES) } }
         }
     }
 
     // Config values.
     private var inputSize = 0
-    private val boxPriors = Array(4) { FloatArray(NUM_RESULTS) }
+    private val boxPriors = Array(MAXIMUM_RECTANGLE) { FloatArray(NUM_RESULTS) }
 
     // Pre-allocated buffers.
     private val labels = Vector<String>()
@@ -163,20 +180,28 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
 
     private fun decodeCenterSizeBoxes(predictions: Array<Array<FloatArray>>) {
         for (i in 0 until NUM_RESULTS) {
-            val yCenter = predictions[0][i][0] / Y_SCALE * boxPriors[2][i] + boxPriors[0][i]
-            val xCenter = predictions[0][i][1] / X_SCALE * boxPriors[3][i] + boxPriors[1][i]
-            val h = exp((predictions[0][i][2] / H_SCALE).toDouble()).toFloat() * boxPriors[2][i]
-            val w = exp((predictions[0][i][3] / W_SCALE).toDouble()).toFloat() * boxPriors[3][i]
+            val yCenter = predictions[0][i][TOP_POINT_OF_RECT] /
+                          Y_SCALE *
+                          boxPriors[BOTTOM_POINT_OF_RECT][i] +
+                          boxPriors[0][i]
+            val xCenter = predictions[0][i][LEFT_POINT_OF_RECT] /
+                          X_SCALE *
+                          boxPriors[RIGHT_POINT_OF_RECT][i] +
+                          boxPriors[1][i]
+            val h = exp((predictions[0][i][BOTTOM_POINT_OF_RECT] / H_SCALE).toDouble()).toFloat() *
+                    boxPriors[BOTTOM_POINT_OF_RECT][i]
+            val w = exp((predictions[0][i][RIGHT_POINT_OF_RECT] / W_SCALE).toDouble()).toFloat() *
+                    boxPriors[RIGHT_POINT_OF_RECT][i]
 
             val yMin = yCenter - h / 2f
             val xMin = xCenter - w / 2f
             val yMax = yCenter + h / 2f
             val xMax = xCenter + w / 2f
 
-            predictions[0][i][0] = yMin
-            predictions[0][i][1] = xMin
-            predictions[0][i][2] = yMax
-            predictions[0][i][3] = xMax
+            predictions[0][i][TOP_POINT_OF_RECT] = yMin
+            predictions[0][i][LEFT_POINT_OF_RECT] = xMin
+            predictions[0][i][BOTTOM_POINT_OF_RECT] = yMax
+            predictions[0][i][RIGHT_POINT_OF_RECT] = xMax
         }
     }
 
@@ -192,16 +217,19 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
         for (i in 0 until inputSize) {
             for (j in 0 until inputSize) {
                 val pixel = intValues[j * inputSize + i]
-                img[0][j][i][2] = (pixel and 0xFF).toFloat() / 128.0f - 1.0f
-                img[0][j][i][1] = (pixel shr 8 and 0xFF).toFloat() / 128.0f - 1.0f
-                img[0][j][i][0] = (pixel shr 16 and 0xFF).toFloat() / 128.0f - 1.0f
+
+                img[0][j][i][BOTTOM_POINT_OF_RECT] = (pixel and MASK_VALUE).toFloat() / (MASK_VALUE + 1f) - 1f
+                img[0][j][i][LEFT_POINT_OF_RECT] =
+                    (pixel shr FIRST_UNIT and MASK_VALUE).toFloat() / (MASK_VALUE + 1f) - 1f
+                img[0][j][i][TOP_POINT_OF_RECT] =
+                    (pixel shr SECOND_UNIT and MASK_VALUE).toFloat() / (MASK_VALUE + 1f) - 1f
             }
         }
         Trace.endSection() // preprocessBitmap
 
         // Copy the input data into TensorFlow.
         Trace.beginSection("feed")
-        outputLocations = Array(1) { Array(NUM_RESULTS) { FloatArray(4) } }
+        outputLocations = Array(1) { Array(NUM_RESULTS) { FloatArray(MAXIMUM_RECTANGLE) } }
         outputClasses = Array(1) { Array(NUM_RESULTS) { FloatArray(NUM_CLASSES) } }
 
         val inputArray = arrayOf<Any>(img)
@@ -224,7 +252,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
 
         // Scale them back to the input size.
         for (i in 0 until NUM_RESULTS) {
-            var topClassScore = -1000f
+            var topClassScore = TOP_CLASS_SCORE
             var topClassScoreIndex = -1
 
             // Skip the first catch-all class.
@@ -237,11 +265,11 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
                 }
             }
 
-            if (topClassScore > 0.001f) {
-                val detection = RectF(outputLocations[0][i][1] * inputSize,
-                                      outputLocations[0][i][0] * inputSize,
-                                      outputLocations[0][i][3] * inputSize,
-                                      outputLocations[0][i][2] * inputSize)
+            if (topClassScore > MINIMUM_THRESHOLD) {
+                val detection = RectF(outputLocations[0][i][LEFT_POINT_OF_RECT] * inputSize,
+                                      outputLocations[0][i][TOP_POINT_OF_RECT] * inputSize,
+                                      outputLocations[0][i][RIGHT_POINT_OF_RECT] * inputSize,
+                                      outputLocations[0][i][BOTTOM_POINT_OF_RECT] * inputSize)
 
                 pq.add(Recognition("" + i,
                                    labels[topClassScoreIndex],
@@ -252,7 +280,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
 
         val recognitions = ArrayList<Recognition>()
 
-        for (i in 0 until min(pq.size, 10)) {
+        for (i in 0 until min(pq.size, LIMITATION)) {
             val recog = pq.poll()
 
             recognitions.add(recog)

@@ -23,6 +23,10 @@ import android.graphics.RectF
  * Generic interface for interacting with different recognition engines.
  */
 interface Classifier {
+    companion object {
+        private const val PERCENT_NUMBER = 100f
+    }
+
     val statString: String
 
     /**
@@ -43,38 +47,17 @@ interface Classifier {
          */
         val confidence: Float?,
         /** Optional location within the source image for the location of the recognized object.  */
-        private var location: RectF?
+        location: RectF? = null
     ) {
+        var location = location
+            get() = RectF(field)
 
-        fun getLocation(): RectF {
-            return RectF(location)
-        }
-
-        fun setLocation(location: RectF) {
-            this.location = location
-        }
-
-        override fun toString(): String {
-            var resultString = ""
-
-            if (id != null) {
-                resultString += "[$id] "
-            }
-
-            if (title != null) {
-                resultString += "$title "
-            }
-
-            if (confidence != null) {
-                resultString += String.format("(%.1f%%) ", confidence * 100.0f)
-            }
-
-            if (location != null) {
-                resultString += location!!.toString() + " "
-            }
-
-            return resultString.trim { it <= ' ' }
-        }
+        override fun toString() = buildString {
+            id?.let { append("[$it] ") }
+            title?.let { append("$it ") }
+            confidence?.let { append(String.format("(%.1f%%) ", confidence * PERCENT_NUMBER)) }
+            location?.let { append("$location ") }
+        }.trim { it <= ' ' }
     }
 
     fun recognizeImage(bitmap: Bitmap): List<Recognition>
