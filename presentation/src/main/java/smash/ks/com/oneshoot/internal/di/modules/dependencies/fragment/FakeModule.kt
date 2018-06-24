@@ -24,6 +24,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.scoped
 import org.kodein.di.generic.singleton
+import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.features.fake.FakeViewHolder
@@ -49,7 +50,7 @@ object FakeModule {
 
         // *** Others
         bind<MultiData>(KS_ENTITY) with scoped(fragmentScope).singleton {
-            mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()) as? MultiData ?: throw ClassCastException()
+            cast<MultiData>(mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()))
         }
         bind<RecyclerView.Adapter<*>>(KS_ADAPTER) with scoped(fragmentScope).singleton {
             MultiTypeAdapter(instance(KS_ENTITY), context)

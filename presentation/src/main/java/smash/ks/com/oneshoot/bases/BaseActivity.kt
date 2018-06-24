@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     // OPTIMIZE(jieyi): 2018/04/19 This's a simple example for RxBus.
     // Register it in the parent class that it will be not reflected.
     protected var busEvent = object {
-//        @Subscribe(tags = arrayOf(Tag(RxbusTag.NAVIGATOR)))
+//        @Subscribe(tags = [Tag(RxbusTag.NAVIGATOR)])
 //        fun test(test: String) { }
     }
     //endregion

@@ -33,6 +33,7 @@ import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
+import smash.ks.com.ext.cast
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -43,7 +44,7 @@ class FindKsImageUsecaseTest {
     private lateinit var data: KsData
     private lateinit var parameter: KsParam
 
-    private val returnDate by lazy { Success(data) as KsResponse<KsData> }
+    private val returnDate by lazy { cast<KsResponse<KsData>>(Success(data)) }
 
     @BeforeTest
     fun setUp() {
