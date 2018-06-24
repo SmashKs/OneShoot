@@ -26,6 +26,7 @@ import io.reactivex.internal.operators.single.SingleJust
 import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
+import smash.ks.com.domain.ResponseKsData
 import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException

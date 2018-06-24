@@ -27,6 +27,7 @@ import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
 import android.view.View
 import android.view.ViewGroup
+import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_180
@@ -42,9 +43,9 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
 
     private var displayOrientation = 0
     private val textureView by lazy {
-        View.inflate(context,
-                     R.layout.texture_view,
-                     parent).findViewById(R.id.texture_view) as? TextureView ?: throw ClassCastException()
+        cast<TextureView>(View.inflate(context,
+                                       R.layout.texture_view,
+                                       parent).findViewById(R.id.texture_view))
     }
     override var surfaceTexture: SurfaceTexture? = null
         get() = textureView.surfaceTexture

@@ -73,6 +73,7 @@ import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.util.Log
 import android.util.SparseIntArray
 import org.jetbrains.anko.toast
+import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_LOCKING
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_PREVIEW
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio
@@ -193,9 +194,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     override val supportedAspectRatios get() = previewSizes.ratios()
     private val previewSizes by lazy { SizeMap() }
     private val pictureSizes by lazy { SizeMap() }
-    private val cameraManager by lazy {
-        context.getSystemService(CAMERA_SERVICE) as? CameraManager ?: throw ClassCastException()
-    }
+    private val cameraManager by lazy { cast<CameraManager>(context.getSystemService(CAMERA_SERVICE)) }
     private val cameraDeviceCallback by lazy {
         object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {

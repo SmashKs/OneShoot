@@ -32,6 +32,7 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import androidx.annotation.IntDef
 import androidx.core.view.ViewCompat
+import smash.ks.com.ext.castOrNull
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2Api23
@@ -191,7 +192,7 @@ open class CameraView @JvmOverloads constructor(
         flash = getFlash()
     }
 
-    override fun onRestoreInstanceState(state: Parcelable?) = state.let { it as? SavedState }?.let {
+    override fun onRestoreInstanceState(state: Parcelable?) = state.let { castOrNull<SavedState>(it) }?.let {
         super.onRestoreInstanceState(it.superState)
         setFacing(it.facing)
         setAspectRatio(it.ratio)
