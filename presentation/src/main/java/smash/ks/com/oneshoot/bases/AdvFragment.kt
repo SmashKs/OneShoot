@@ -34,9 +34,9 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     }
 
     private val viewModelFactory by instance<ViewModelProvider.Factory>()
-    /** [VM] is the first (index: 0) in the generic declare. */
+    /** [VM] is the first (index: 1) in the generic declare. */
     private val vmConcreteClass
-        get() = cast<Class<*>>(cast<ParameterizedType>(this::class.java.genericSuperclass).actualTypeArguments[0])
+        get() = cast<Class<*>>(cast<ParameterizedType>(this::class.java.genericSuperclass).actualTypeArguments[1])
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
     /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)

@@ -52,7 +52,7 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
     override val surface get() = Surface(textureView.surfaceTexture)
     override val view get() = textureView
     override val outputClass get() = SurfaceTexture::class.java
-    override val isReady get() = textureView.surfaceTexture != null
+    override val isReady get() = null != textureView.surfaceTexture
 
     init {
         textureView.surfaceTextureListener = object : SurfaceTextureListener {

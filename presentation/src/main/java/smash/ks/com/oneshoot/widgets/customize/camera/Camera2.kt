@@ -294,15 +294,15 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     override fun stop() {
-        if (captureSession != null) {
+        if (null != captureSession) {
             captureSession!!.close()
             captureSession = null
         }
-        if (camera != null) {
+        if (null != camera) {
             camera!!.close()
             camera = null
         }
-        if (imageReader != null) {
+        if (null != imageReader) {
             imageReader!!.close()
             imageReader = null
         }
