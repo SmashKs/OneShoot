@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
+import smash.ks.com.ext.cast
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -35,10 +36,8 @@ abstract class AdvActivity<out VM : ViewModel> : BaseActivity() {
     private val viewModelFactory by instance<ViewModelProvider.Factory>()
     /** [VM] is the first (index: 0) in the generic declare. */
     private val vmConcreteClass
-        get() = (this::class.java.genericSuperclass as? ParameterizedType)
-                    ?.actualTypeArguments
-                    ?.get(0) as? Class<*> ?: throw ClassCastException()
+        get() = cast<Class<*>>(cast<ParameterizedType>(this::class.java.genericSuperclass).actualTypeArguments[0])
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
-    /** The [ViewModelProviders.of.get] function for obtaining a [ViewModel]. */
+    /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 }

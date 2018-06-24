@@ -16,4 +16,14 @@
 
 package smash.ks.com.ext
 
-inline fun <reified T> cast(from: Any): T = from as? T ?: throw ClassCastException("Class casting failed.")
+inline fun <reified T> castOrNull(from: Any?) = from as? T
+inline fun <reified T> cast(from: Any?): T {
+    if (null == from) throw NullPointerException("Null object can't cast.")
+
+    try {
+        return from as T
+    }
+    catch (castExcept: ClassCastException) {
+        throw ClassCastException("Class casting failed.")
+    }
+}

@@ -18,6 +18,7 @@ package smash.ks.com.domain.repositories
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import smash.ks.com.domain.Labels
 import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -57,7 +58,7 @@ interface DataRepository {
      * @param params
      * @return
      */
-    fun fetchImageTagsByML(params: Parameterable): Single<List<String>>
+    fun fetchImageTagsByML(params: Parameterable): Single<Labels>
 
     /**
      * Retrieve the key words of an image info after it passed ML model.

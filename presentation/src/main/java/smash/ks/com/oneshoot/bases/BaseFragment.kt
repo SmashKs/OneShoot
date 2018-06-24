@@ -31,6 +31,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import org.kodein.di.generic.singleton
+import smash.ks.com.ext.castOrNull
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.SuperFragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
@@ -64,7 +65,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         retainInstance = true
         // FIXED: https://www.zybuluo.com/kimo/note/255244
         rootView ?: let { rootView = inflater.inflate(provideInflateView(), null) }
-        val parent: ViewGroup? = rootView?.parent as? ViewGroup
+        val parent = castOrNull<ViewGroup>(rootView?.parent)
         parent?.removeView(rootView)
 
         return rootView

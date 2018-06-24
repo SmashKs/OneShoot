@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.usecases.analysis
 
+import smash.ks.com.domain.Label
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
@@ -28,7 +29,7 @@ class FindImageContentWordsUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<String, Requests>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<Label, Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() = requestValues?.run {
         repository.fetchImageWordContentByML(params)
     } ?: throw NoParameterException("No request parameter.")

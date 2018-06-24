@@ -25,7 +25,10 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
+import smash.ks.com.domain.Label
+import smash.ks.com.domain.Labels
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.castOrNull
 
 /**
  * The implementation for accessing the data from Firebase.
@@ -44,7 +47,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
                 val ti = object : GenericTypeIndicator<Map<String, @JvmSuppressWildcards Any>>() {}
                 val entry = dataSnapshot.children.toList().first().getValue(ti)
 
-                (entry?.get("url") as? String)
+                castOrNull<String>(entry?.get("url"))
                     ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
             }
 
@@ -59,7 +62,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
         it.onComplete()
     }
 
-    override fun retrieveImageTagsByML(params: Parameterable) = single<List<String>> { }
+    override fun retrieveImageTagsByML(params: Parameterable) = single<Labels> { }
 
-    override fun retrieveImageWordContentByML(params: Parameterable) = single<String> { }
+    override fun retrieveImageWordContentByML(params: Parameterable) = single<Label> { }
 }

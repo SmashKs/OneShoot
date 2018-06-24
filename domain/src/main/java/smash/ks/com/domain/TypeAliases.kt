@@ -26,10 +26,12 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.Single
 import io.reactivex.SingleSource
+import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.ext.const.LookUp
 
 // Generic with Type Parameters
 
-typealias LookUp<T> = HashMap<T, T>
 typealias Parameters = LookUp<String>
 
 // Usecase with Function Parameters
@@ -41,3 +43,9 @@ typealias MaybeLifeProvider = LifecycleProvider<*>?
 typealias ExtraObservableOpOnUi<T> = ObserverPlugin<T>.() -> Unit
 typealias ExtraSingleOpOnUi<T> = SinglePlugin<T>.() -> Unit
 typealias ExtraCompletableOpOnUi = CompletablePlugin.() -> Unit
+
+// Parameters
+
+typealias ResponseKsData = KsResponse<KsData>
+typealias Label = String
+typealias Labels = List<String>

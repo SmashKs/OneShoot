@@ -28,7 +28,7 @@ import android.view.ViewAnimationUtils
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.devrapid.kotlinknifer.gone
 import kotlinx.android.parcel.Parcelize
-import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.cast
 import kotlin.math.pow
 
 private const val CIRCULAR_REVEAL_DURATION = 1000L
@@ -71,41 +71,37 @@ fun View.startCircularExitAnimation(
     startColor: Int,
     endColor: Int,
     listener: () -> Unit
-) {
-    if (SDK_INT >= LOLLIPOP) {
-        val (cx, cy, width, height) = revealSettings
+) = if (SDK_INT >= LOLLIPOP) {
+    val (cx, cy, width, height) = revealSettings
 
-        // Simply use the diagonal of the view.
-        val radius = Math.sqrt(width.toDouble().pow(2) + height.toDouble().pow(2)).toFloat()
-        ViewAnimationUtils.createCircularReveal(this, cx, cy, radius, 0f).apply {
-            this.duration = CIRCULAR_REVEAL_DURATION
-            interpolator = FastOutSlowInInterpolator()
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    gone()
-                    listener()
-                }
-            })
-        }.start()
-        startColorAnimation(startColor, endColor, CIRCULAR_REVEAL_DURATION)
-    }
-    else {
-        listener()
-    }
+    // Simply use the diagonal of the view.
+    val radius = Math.sqrt(width.toDouble().pow(2) + height.toDouble().pow(2)).toFloat()
+    ViewAnimationUtils.createCircularReveal(this, cx, cy, radius, 0f).apply {
+        this.duration = CIRCULAR_REVEAL_DURATION
+        interpolator = FastOutSlowInInterpolator()
+        addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                gone()
+                listener()
+            }
+        })
+    }.start()
+    startColorAnimation(startColor, endColor, CIRCULAR_REVEAL_DURATION)
+}
+else {
+    listener()
 }
 
 fun View.startColorAnimation(
     startColor: Int,
     endColor: Int,
     duration: Long
-) {
-    ValueAnimator().apply {
-        this.duration = duration
-        setIntValues(startColor, endColor)
-        setEvaluator(ArgbEvaluator())
-        addUpdateListener { setBackgroundColor(it.animatedValue as? Int ?: DEFAULT_INT) }
-    }.start()
-}
+) = ValueAnimator().apply {
+    this.duration = duration
+    setIntValues(startColor, endColor)
+    setEvaluator(ArgbEvaluator())
+    addUpdateListener { setBackgroundColor(cast(it.animatedValue)) }
+}.start()
 
 /**
  * To keep the properties for the reveal animation settings.
