@@ -21,12 +21,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.generic.instance
 import smash.ks.com.ext.cast
+import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
+import smash.ks.com.oneshoot.ext.stubview.hideRetryView
+import smash.ks.com.oneshoot.ext.stubview.showErrorView
+import smash.ks.com.oneshoot.ext.stubview.showLoadingView
+import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import java.lang.reflect.ParameterizedType
 
 /**
  * The basic fragment is in MVVM architecture which prepares all necessary variables or functions.
  */
-abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>() {
+abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>(), LoadView {
     /** Add the AAC [ViewModel] for each fragments. */
     @Suppress("UNCHECKED_CAST")
     protected val vm by lazy {
@@ -40,4 +45,16 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
     /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
+
+    //region View Implementation for the Presenter.
+    override fun showLoading() = activity?.showLoadingView() ?: Unit
+
+    override fun hideLoading() = activity?.hideLoadingView() ?: Unit
+
+    override fun showRetry() = activity?.showRetryView() ?: Unit
+
+    override fun hideRetry() = activity?.hideRetryView() ?: Unit
+
+    override fun showError(message: String) = activity?.showErrorView(message) ?: Unit
+    //endregion
 }

@@ -27,6 +27,7 @@ import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.graphics.scale
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.logv
 import com.devrapid.kotlinknifer.logw
@@ -43,20 +44,14 @@ import smash.ks.com.oneshoot.R.id.ib_shot
 import smash.ks.com.oneshoot.R.id.iv_preview
 import smash.ks.com.oneshoot.R.id.sav_selection
 import smash.ks.com.oneshoot.bases.AdvFragment
-import smash.ks.com.oneshoot.bases.LoadView
 import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
 import smash.ks.com.oneshoot.ext.resource.gStrings
-import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
-import smash.ks.com.oneshoot.ext.stubview.hideRetryView
-import smash.ks.com.oneshoot.ext.stubview.showErrorView
-import smash.ks.com.oneshoot.ext.stubview.showLoadingView
-import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
 import kotlin.system.measureTimeMillis
 
-class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), LoadView {
+class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
     companion object Factory {
         private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
@@ -87,7 +82,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
                         view?.find<ImageView>(iv_preview)?.imageBitmap = bitmap
 
                         // Tensorflow Lite.
-                        val croppedBitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+                        val croppedBitmap = bitmap.scale(INPUT_SIZE, INPUT_SIZE, false)
                         val classifier =
                             TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
 
@@ -160,17 +155,5 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>(), L
     }
 
     override fun provideInflateView() = R.layout.fragment_take_a_pic
-    //endregion
-
-    //region View Implementation for the Presenter.
-    override fun showLoading() = parent.showLoadingView()
-
-    override fun hideLoading() = parent.hideLoadingView()
-
-    override fun showRetry() = parent.showRetryView()
-
-    override fun hideRetry() = parent.hideRetryView()
-
-    override fun showError(message: String) = parent.showErrorView(message)
     //endregion
 }

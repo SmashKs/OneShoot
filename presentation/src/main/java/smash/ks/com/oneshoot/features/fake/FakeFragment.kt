@@ -32,21 +32,15 @@ import smash.ks.com.oneshoot.R.id.btn_append
 import smash.ks.com.oneshoot.R.id.rv_fake
 import smash.ks.com.oneshoot.R.id.tv_label
 import smash.ks.com.oneshoot.bases.AdvFragment
-import smash.ks.com.oneshoot.bases.LoadView
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
-import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
-import smash.ks.com.oneshoot.ext.stubview.hideRetryView
-import smash.ks.com.oneshoot.ext.stubview.showErrorView
-import smash.ks.com.oneshoot.ext.stubview.showLoadingView
-import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
-class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
+class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     //region Instance
     companion object Factory {
         const val REQUEST_CAMERA_PERMISSION = 1
@@ -92,18 +86,6 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     }
 
     override fun provideInflateView() = R.layout.fragment_fake
-    //endregion
-
-    //region View Implementation for the Presenter.
-    override fun showLoading() = parent.showLoadingView()
-
-    override fun hideLoading() = parent.hideLoadingView()
-
-    override fun showRetry() = parent.showRetryView()
-
-    override fun hideRetry() = parent.hideRetryView()
-
-    override fun showError(message: String) = parent.showErrorView(message)
     //endregion
 
     //region Presenter Implementation.
