@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,12 +25,15 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
+import smash.ks.com.ext.cast
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.R.id.btn_append
 import smash.ks.com.oneshoot.R.id.rv_fake
 import smash.ks.com.oneshoot.R.id.tv_label
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.bases.LoadView
+import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
@@ -39,6 +43,8 @@ import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
 class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //region Instance
@@ -63,7 +69,8 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
     //endregion
 
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
-    private val adapter by instance<RecyclerView.Adapter<*>>(KS_ADAPTER)
+    private val _adapter by instance<RVAdapterAny>(KS_ADAPTER)
+    private val adapter by lazy { cast<MultiTypeAdapter>(_adapter) }
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
@@ -78,6 +85,9 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>(), LoadView {
         view?.find<RecyclerView>(rv_fake)?.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
+        }
+        view?.find<Button>(btn_append)?.setOnClickListener {
+            adapter.appendList(mutableListOf(KsEntity()))
         }
     }
 

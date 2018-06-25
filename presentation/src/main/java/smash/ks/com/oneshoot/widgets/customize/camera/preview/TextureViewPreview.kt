@@ -70,6 +70,7 @@ internal class TextureViewPreview(context: Context, parent: ViewGroup) : Preview
 
             override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
                 setSize(0, 0)
+
                 return true
             }
 

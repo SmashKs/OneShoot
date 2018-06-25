@@ -16,7 +16,6 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
-import androidx.recyclerview.widget.RecyclerView
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
@@ -36,6 +35,7 @@ import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ENTITY
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiData
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
 object FakeModule {
     fun fakeProvider() = Module("module name") {
@@ -52,7 +52,7 @@ object FakeModule {
         bind<MultiData>(KS_ENTITY) with scoped(fragmentScope).singleton {
             cast<MultiData>(mutableListOf(KsEntity(), KsEntity(), KsEntity(), KsEntity()))
         }
-        bind<RecyclerView.Adapter<*>>(KS_ADAPTER) with scoped(fragmentScope).singleton {
+        bind<RVAdapterAny>(KS_ADAPTER) with scoped(fragmentScope).singleton {
             MultiTypeAdapter(instance(KS_ENTITY), context)
         }
     }

@@ -43,4 +43,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_label"
         tools:itemCount="3"
         tools:listitem="@layout/item_fake"/>
+
+    <Button
+        android:id="@+id/btn_append"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Append"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
