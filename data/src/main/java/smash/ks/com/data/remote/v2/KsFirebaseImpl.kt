@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import smash.ks.com.data.models.KsAlbum
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
@@ -45,10 +46,14 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
         ref.child(V2_CHILD_PROPERTIES)
             .child(name)
             // FIXME(jieyi): 2018/06/27 Add another listener for getting the all albums.
-            .child("Bj5m22RFrne")
-            .child(V2_CHILD_URI)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    dataSnapshot.children.toList().forEach {
+                        println("------------------------")
+                        val t = it.getValue(KsAlbum::class.java)
+                        println(t)
+                        println("------------------------")
+                    }
                     val entry = dataSnapshot.children.toList().first().getValue(String::class.java)
 
                     castOrNull<String>(entry)
