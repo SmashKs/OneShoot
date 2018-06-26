@@ -36,6 +36,7 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usec
 class App : Application(), KodeinAware {
     companion object {
         lateinit var appContext: Context
+            private set
     }
 
     init {

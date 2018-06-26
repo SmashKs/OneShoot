@@ -35,7 +35,8 @@ import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
  * To provide the necessary utility objects for the whole app.
  */
 object UtilModule {
-    fun utilProvider(context: Context) = Module {
+    fun utilProvider(context: Context) = Module("Util Module") {
+        /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
         /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
         bind() from setBinding<ViewModelEntry>()
 

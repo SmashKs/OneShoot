@@ -24,7 +24,7 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.TakeAPicM
  * To provide the necessary objects for the specific fragments.
  */
 object SuperFragmentModule {
-    fun fragmentModule() = Module {
+    fun fragmentModule() = Module("All Fragments Module") {
         // Import all of the fragment modules.
         import(fakeProvider())
         import(takeAPicProvider())

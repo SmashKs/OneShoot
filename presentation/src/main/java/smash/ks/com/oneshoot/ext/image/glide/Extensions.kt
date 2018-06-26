@@ -62,21 +62,27 @@ fun glideKsOptions(
         diskCacheStrategy(RESOURCE)
     }
 
-fun glideObtaineBitmapFrom(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
-    glide(context)
-        .asBitmap()
-        .apply(options)
-        .load(uri)
-        .submit()
-        .get()
+fun glideObtaineBitmapFrom(
+    uri: Uri,
+    context: Context = gContext(),
+    options: RequestOptions = glideKsOptions()
+): Bitmap = glide(context)
+    .asBitmap()
+    .apply(options)
+    .load(uri)
+    .submit()
+    .get()
 
-fun glideObtaineDrawableFrom(uri: Uri, context: Context = gContext(), options: RequestOptions = glideKsOptions()) =
-    glide(context)
-        .asDrawable()
-        .apply(options)
-        .load(uri)
-        .submit()
-        .get()
+fun glideObtaineDrawableFrom(
+    uri: Uri,
+    context: Context = gContext(),
+    options: RequestOptions = glideKsOptions()
+): Drawable = glide(context)
+    .asDrawable()
+    .apply(options)
+    .load(uri)
+    .submit()
+    .get()
 
 private fun ImageView.glideDefault(
     context: Context = gContext(),

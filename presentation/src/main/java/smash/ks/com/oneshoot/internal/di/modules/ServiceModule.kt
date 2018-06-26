@@ -36,7 +36,7 @@ import smash.ks.com.oneshoot.internal.di.modules.NetModule.netProvider
  * To provide the necessary objects for the remote/local data store service.
  */
 object ServiceModule {
-    fun serviceProvider(context: Context) = Module {
+    fun serviceProvider(context: Context) = Module("RESTFul Service Module") {
         //region For the [Remote] data module.
         import(netProvider(context))
         import(firebaseProvider())

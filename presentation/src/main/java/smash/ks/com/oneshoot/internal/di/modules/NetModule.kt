@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetModule {
     private const val CacheMaxSize: Long = 10 * 1024 * 1024
 
-    fun netProvider(context: Context) = Module {
+    fun netProvider(context: Context) = Module("Net Module") {
         bind<Converter.Factory>() with singleton { GsonConverterFactory.create(instance()) }
         bind<CallAdapter.Factory>() with singleton { RxJava2CallAdapterFactory.create() }
         bind<Cache>() with singleton { Cache(context.cacheDir, CacheMaxSize /* 10 MiB */) }

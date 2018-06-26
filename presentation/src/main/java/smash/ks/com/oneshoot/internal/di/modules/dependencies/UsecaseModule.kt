@@ -37,7 +37,7 @@ import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
  * To provide the necessary usecase objects for the specific activities or fragments.
  */
 object UsecaseModule {
-    fun usecaseProvider() = Module {
+    fun usecaseProvider() = Module("Use Cases Module") {
         //region For Fragments
         //region Fake
         bind<GetKsImageCase>() with scoped(fragmentScope).singleton {

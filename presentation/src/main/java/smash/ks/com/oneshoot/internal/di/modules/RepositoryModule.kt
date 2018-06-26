@@ -34,7 +34,7 @@ import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
  * To provide the necessary objects into the repository.
  */
 object RepositoryModule {
-    fun repositoryProvider() = Module {
+    fun repositoryProvider() = Module("Repository Module") {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
         bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
         bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance()) }

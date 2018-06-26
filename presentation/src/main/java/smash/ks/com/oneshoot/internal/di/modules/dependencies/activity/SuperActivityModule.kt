@@ -24,7 +24,7 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.activity.Photograp
  * To provide the necessary objects for the specific activities.
  */
 object SuperActivityModule {
-    fun activityModule() = Module {
+    fun activityModule() = Module("All Activities Module") {
         // Import all of the activity modules.
         import(fakeProvider())
         import(photographProvider())

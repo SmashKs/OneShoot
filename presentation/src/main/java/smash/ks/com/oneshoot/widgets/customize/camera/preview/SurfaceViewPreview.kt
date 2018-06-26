@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.widgets.customize.camera.preview
 
 import android.content.Context
+import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -34,7 +35,7 @@ internal class SurfaceViewPreview(context: Context, parent: ViewGroup) : Preview
     }
     override var surfaceHolder: SurfaceHolder? = null
         get() = surfaceView.holder
-    override val surface get() = surfaceHolder!!.surface
+    override val surface: Surface get() = surfaceHolder!!.surface
     override val view get() = surfaceView
     override val outputClass get() = SurfaceHolder::class.java
     override val isReady get() = 0 != width && 0 != height

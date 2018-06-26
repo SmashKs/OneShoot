@@ -30,20 +30,20 @@ import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.oneshoot.bases.LoadView
 
 /**
- * Observe the [LiveData]'s nullable value from [android.arch.lifecycle.ViewModel].
+ * Observe the [LiveData]'s nullable value from [androidx.lifecycle.ViewModel].
  */
 inline fun <reified T> LifecycleOwner.observe(liveData: LiveData<T>, noinline block: ((T?) -> Unit)? = null) =
     block?.let { liveData.observe(this, Observer(it)) }
 
 /**
- * Observe the [LiveData]'s nonnull value from [android.arch.lifecycle.ViewModel].
+ * Observe the [LiveData]'s nonnull value from [androidx.lifecycle.ViewModel].
  */
 inline fun <reified T> LifecycleOwner.observeNonNull(liveData: LiveData<T>, noinline block: ((T) -> Unit)? = null) =
     block?.run { liveData.observe(this@observeNonNull, Observer { it?.let(this) }) }
 
 /**
  * Observe the [LiveData]'s nullable value which comes from the un-boxed [KsResponse] value
- * from [android.arch.lifecycle.ViewModel].
+ * from [androidx.lifecycle.ViewModel].
  */
 inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnbox(
     liveData: LiveData<T>,
@@ -52,7 +52,7 @@ inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnbox(
 
 /**
  * Observe the [LiveData]'s nonnull value which comes from the un-boxed [KsResponse] value
- * from [android.arch.lifecycle.ViewModel].
+ * from [androidx.lifecycle.ViewModel].
  */
 inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnboxNonNull(
     liveData: LiveData<T>,

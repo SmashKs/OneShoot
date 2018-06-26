@@ -29,5 +29,5 @@ object GeneratorFactory {
     val randomLong get() = Random().nextLong().absoluteValue
     val randomFloat get() = Random().nextFloat().absoluteValue
     val randomDouble get() = Random().nextDouble().absoluteValue
-    val randomString get() = RandomString.make()
+    val randomString: String get() = RandomString.make()
 }

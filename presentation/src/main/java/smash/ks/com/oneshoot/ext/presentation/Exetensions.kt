@@ -29,11 +29,11 @@ import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
 /**
- * A transformer wrapper for encapsulating the [android.arch.lifecycle.LiveData]<[KsResponse]>'s state
+ * A transformer wrapper for encapsulating the [ResponseLiveData]'s state
  * changing and the state becomes [Success] when retrieving a data from Data layer by Kotlin coroutine.
  *
  * Also, unboxing the [KsResponse] and obtaining the data inside of the [KsResponse], then return the
- * data to [android.arch.lifecycle.LiveData].
+ * data to [ResponseLiveData].
  */
 fun <E : Entity, R> ResponseLiveData<R>.requestData(
     usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>,
@@ -52,7 +52,7 @@ fun <E : Entity, R> ResponseLiveData<R>.requestData(
 }
 
 /**
- * A transformer wrapper for encapsulating the [android.arch.lifecycle.LiveData]<[KsResponse]>'s state
+ * A transformer wrapper for encapsulating the [ResponseLiveData]'s state
  * changing and the state becomes [Success] when retrieving a data from Data layer by Kotlin coroutine.
  */
 fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = apply {

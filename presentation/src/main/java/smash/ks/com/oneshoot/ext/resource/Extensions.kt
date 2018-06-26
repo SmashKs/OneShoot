@@ -16,23 +16,25 @@
 
 package smash.ks.com.oneshoot.ext.resource
 
+import android.content.Context
+import android.content.res.TypedArray
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 import org.jetbrains.anko.dimen
 import smash.ks.com.oneshoot.App
 
-fun gContext() = App.appContext.applicationContext
+fun gContext(): Context = App.appContext.applicationContext
 
 fun gDimens(@DimenRes id: Int) = gContext().dimen(id)
 
-fun gStrings(@StringRes id: Int) = gContext().getString(id)
+fun gStrings(@StringRes id: Int): String = gContext().getString(id)
 
-fun gText(@StringRes id: Int) = gContext().getText(id)
+fun gText(@StringRes id: Int): CharSequence = gContext().getText(id)
 
-fun gStringArray(@ArrayRes id: Int) = gContext().resources.getStringArray(id)
+fun gStringArray(@ArrayRes id: Int): Array<out String> = gContext().resources.getStringArray(id)
 
-fun gTypeArray(@ArrayRes id: Int) = gContext().resources.obtainTypedArray(id)
+fun gTypeArray(@ArrayRes id: Int): TypedArray = gContext().resources.obtainTypedArray(id)
 
 fun gResArray(@ArrayRes id: Int) =
     gStringArray(id).mapIndexed { index, _ -> index to gTypeArray(id) }.toMutableList()
