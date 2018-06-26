@@ -28,6 +28,7 @@ import io.reactivex.internal.operators.single.SingleJust
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.domain.Parameters
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -59,7 +60,7 @@ class LocalDataStoreImplTest {
     @Test
     fun `the flow of fetching an image from the local database`() {
         val id = randomLong
-        val parameterMap = mock<HashMap<String, String>> {
+        val parameterMap = mock<Parameters> {
             on { get(KsParam.PARAM_ID) } doReturn id.toString()
         }
         val param = mock<KsParam> {
@@ -74,7 +75,7 @@ class LocalDataStoreImplTest {
 
     @Test
     fun `the flow of fetching an image from the local database without id`() {
-        val parameterMap = mock<HashMap<String, String>> {
+        val parameterMap = mock<Parameters> {
             on { get(KsParam.PARAM_ID) }.thenReturn(null)
         }
         val param = mock<KsParam> {
@@ -103,7 +104,7 @@ class LocalDataStoreImplTest {
     @Test(NullPointerException::class)
     fun `keep ks data's toParameter is a null hash map`() {
         val parameter = mock<KsParam> {
-            on { toParameter() } doReturn mock<HashMap<String, String>>()
+            on { toParameter() } doReturn mock<Parameters>()
             on { toParameter()[KsParam.PARAM_ID] } doThrow NullPointerException()
             on { toParameter()[KsParam.PARAM_URI] } doThrow NullPointerException()
         }

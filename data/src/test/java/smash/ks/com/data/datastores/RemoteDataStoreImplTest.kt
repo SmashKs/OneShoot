@@ -25,6 +25,7 @@ import io.reactivex.internal.operators.single.SingleJust
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
+import smash.ks.com.domain.Parameters
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -64,7 +65,7 @@ class RemoteDataStoreImplTest {
     @Test
     fun `fetch an image with the parameters`() {
         val name = randomString
-        val parameterMap = mock<HashMap<String, String>> {
+        val parameterMap = mock<Parameters> {
             on { get(KsParam.PARAM_NAME) } doReturn name
         }
         val parameter = mock<Parameterable> {
@@ -79,7 +80,7 @@ class RemoteDataStoreImplTest {
 
     @Test(NullPointerException::class)
     fun `fetch an image with the parameters without name variable`() {
-        val parameterMap = mock<HashMap<String, String>> {
+        val parameterMap = mock<Parameters> {
             on { get(KsParam.PARAM_NAME) }.thenReturn(null)
         }
         val parameter = mock<Parameterable> {

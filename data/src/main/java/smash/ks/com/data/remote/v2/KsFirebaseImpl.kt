@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.remote.v1
+package smash.ks.com.data.remote.v2
 
 import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.single
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import smash.ks.com.data.models.KsModel
-import smash.ks.com.data.remote.FirebaseData
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.Labels
@@ -36,29 +34,34 @@ import smash.ks.com.ext.castOrNull
  */
 class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFirebase {
     companion object {
-        private const val V1_CHILD_PROPERTIES = "image_v1"
+        private const val V2_CHILD_PROPERTIES = "ImageVersion2"
+        private const val V2_CHILD_URI = "uri"
     }
 
     private val ref by lazy { database.reference }
 
     //region Fake
     override fun retrieveImages(name: String) = single<KsModel> {
-        ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val ti = object : GenericTypeIndicator<FirebaseData>() {}
-                val entry = dataSnapshot.children.toList().first().getValue(ti)
+        ref.child(V2_CHILD_PROPERTIES)
+            .child(name)
+            // FIXME(jieyi): 2018/06/27 Add another listener for getting the all albums.
+            .child("Bj5m22RFrne")
+            .child(V2_CHILD_URI)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val entry = dataSnapshot.children.toList().first().getValue(String::class.java)
 
-                castOrNull<String>(entry?.get("url"))
-                    ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
-            }
+                    castOrNull<String>(entry)
+                        ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
+                }
 
-            override fun onCancelled(error: DatabaseError) = it.onError(error.toException())
-        })
+                override fun onCancelled(error: DatabaseError) = it.onError(error.toException())
+            })
     }
     //endregion
 
     override fun uploadImage(params: Parameterable) = completable {
-        ref.child(V1_CHILD_PROPERTIES)
+        ref.child(V2_CHILD_PROPERTIES)
 
         it.onComplete()
     }

@@ -28,7 +28,7 @@ import smash.ks.com.data.remote.RestfulApiFactory
 import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
-import smash.ks.com.data.remote.v1.KsFirebaseImpl
+import smash.ks.com.data.remote.v2.KsFirebaseImpl
 import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseProvider
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netProvider
 

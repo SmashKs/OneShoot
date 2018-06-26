@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.remote.services
+package smash.ks.com.data.remote
 
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
-import smash.ks.com.data.models.KsModel
-import smash.ks.com.data.remote.config.KsConfig
-import smash.ks.com.domain.Parameters
-
-/**
- * Thru [retrofit2.Retrofit] we can just define the interfaces which we want to access for.
- */
-interface KsService {
-    //region Fake
-    @GET("${KsConfig.API_REQUEST}/test/api")
-    fun retrieveKsData(@QueryMap params: Parameters): Single<KsModel>
-    //endregion
-}
+typealias FirebaseData = Map<String, @JvmSuppressWildcards Any>
