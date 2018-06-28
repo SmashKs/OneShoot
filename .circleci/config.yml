@@ -39,6 +39,20 @@ jobs:
 #          environment:
 #            TERM: dumb
       - run:
+          name: Change permission
+          command: |
+            sudo chmod +x /bin/circle-android
+            sudo chown circleci:circleci /bin/circle-android
+          environment:
+            TERM: dumb
+      - run:
+          name: Wait for emulator
+          command: |
+            circle-android wait-for-boot
+            adb shell input keyevent 82
+          environment:
+            TERM: dumb
+      - run:
           name: Generate JaCoCo report
           command: ./gradlew jacocoTestReport
           environment:
