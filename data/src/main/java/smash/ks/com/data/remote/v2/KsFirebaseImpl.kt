@@ -28,7 +28,6 @@ import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.Labels
 import smash.ks.com.domain.parameters.Parameterable
-import smash.ks.com.ext.castOrNull
 
 /**
  * The implementation for accessing the data from Firebase.
@@ -48,16 +47,12 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
             // FIXME(jieyi): 2018/06/27 Add another listener for getting the all albums.
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    dataSnapshot.children.toList().forEach {
-                        println("------------------------")
-                        val t = it.getValue(KsAlbum::class.java)
-                        println(t)
-                        println("------------------------")
-                    }
-                    val entry = dataSnapshot.children.toList().first().getValue(String::class.java)
+                    val list = dataSnapshot.children.toList().map { it.getValue(KsAlbum::class.java) }
+                    val firstOfList = list.first()
+                    val firstKey = firstOfList?.uris?.keys?.first()
+                    val firstUri = firstOfList?.uris?.get(firstKey)
 
-                    castOrNull<String>(entry)
-                        ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
+                    firstUri?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
                 }
 
                 override fun onCancelled(error: DatabaseError) = it.onError(error.toException())

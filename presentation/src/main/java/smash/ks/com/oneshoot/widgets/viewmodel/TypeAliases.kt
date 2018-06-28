@@ -16,8 +16,11 @@
 
 package smash.ks.com.oneshoot.widgets.viewmodel
 
+import androidx.lifecycle.ViewModel
 import com.devrapid.adaptiverecyclerview.AdaptiveViewHolder
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
+
+typealias LookUpViewModel = MutableMap<Class<out ViewModel>, ViewModel>
 
 typealias FakeVH = AdaptiveViewHolder<MultiTypeFactory, KsEntity>

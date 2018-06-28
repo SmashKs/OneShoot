@@ -25,8 +25,16 @@ data class KsAlbum(
     var author: String = DEFAULT_STR,
     var comments: Int = DEFAULT_INT,
     var likes: Int = DEFAULT_INT,
-    @PropertyName("post date")
+    @get:PropertyName(FIREBASE_PROPERTY_TAG) @set:PropertyName(FIREBASE_PROPERTY_TAG)
+    var tags: Tags = mapOf(),
+    @get:PropertyName(FIREBASE_PROPERTY_POST_DATE) @set:PropertyName(FIREBASE_PROPERTY_POST_DATE)
     var postDate: String = DEFAULT_STR,
-    @PropertyName("uri")
-    var uris: Map<String, String> = mapOf()
-) : Model
+    @get:PropertyName(FIREBASE_PROPERTY_URI) @set:PropertyName(FIREBASE_PROPERTY_URI)
+    var uris: Uris = mapOf()
+) : Model {
+    companion object {
+        private const val FIREBASE_PROPERTY_TAG = "tag"
+        private const val FIREBASE_PROPERTY_POST_DATE = "post date"
+        private const val FIREBASE_PROPERTY_URI = "uri"
+    }
+}

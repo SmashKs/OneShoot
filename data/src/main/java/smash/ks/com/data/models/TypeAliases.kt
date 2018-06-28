@@ -20,3 +20,14 @@ import smash.ks.com.data.models.mappers.Mapper
 import smash.ks.com.domain.datas.KsData
 
 typealias DataFakeMapper = Mapper<KsModel, KsData>
+
+//region Model
+
+typealias ImageHashCode = String
+typealias ImageUri = String
+typealias Uris = Map<ImageHashCode, ImageUri>
+
+typealias Tag = String
+typealias TagUri = String
+typealias Tags = Map<Tag, TagUri>
+//endregion

@@ -42,7 +42,7 @@ class KsMapperTest {
     }
 
     @Test
-    fun `mapping model to object`() {
+    fun `mapping model to data`() {
         val model = KsModel(ksId, ksUri)
         val newObj = ksMapper.toDataFrom(model)
 
@@ -50,7 +50,7 @@ class KsMapperTest {
     }
 
     @Test
-    fun `mapping object to model`() {
+    fun `mapping data to model`() {
         val obj = KsData(ksId, ksUri)
         val newModel = ksMapper.toModelFrom(obj)
 
