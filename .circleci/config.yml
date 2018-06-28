@@ -1,4 +1,17 @@
 version: 2
+
+# Disable emulator audio
+machine:
+  environment:
+    QEMU_AUDIO_DRV: none
+
+test:
+  pre:
+    - emulator -avd circleci-android24 -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+
 jobs:
   build:
     working_directory: ~/workspace
