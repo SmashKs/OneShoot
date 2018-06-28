@@ -1,17 +1,5 @@
 version: 2
 
-# Disable emulator audio
-machine:
-  environment:
-    QEMU_AUDIO_DRV: none
-
-test:
-  pre:
-    - emulator -avd circleci-android24 -no-window:
-        background: true
-        parallel: true
-    - circle-android wait-for-boot
-
 jobs:
   build:
     working_directory: ~/workspace
@@ -24,10 +12,17 @@ jobs:
           ANDROID_TARGET: android-$ANDROID_API_LEVEL
           ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx4096m
     steps:
+      - run:
+        name: Setup emulator
+        command: sdkmanager "system-images;android-22;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+      - run:
+        name: Launch emulator
+        command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+        background: true
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
