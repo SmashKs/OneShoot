@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/workspace
     environment:
-          JVM_OPTS: -Xmx4096m
+          JVM_OPTS: -Xms512m -Xmx4096m
           ANDROID_API_LEVEL: 27
           EMULATOR_API_LEVEL: 22
           ANDROID_ABI: armeabi-v7a
