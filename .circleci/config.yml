@@ -144,7 +144,7 @@ references:
   decode_gservices_key: &decode_gservices_key
     run:
       name: Decode Google Services key
-      command: echo $GOOGLE_SERVICES_KEY | base64 -di > presentation/google-services.json
+      command: echo $GOOGLE_SERVICES_KEY | -di > presentation/google-services.json
 
   # Google Cloud Service
   export_gcloud_key: &export_gcloud_key
@@ -154,7 +154,7 @@ references:
   decode_gcloud_key: &decode_gcloud_key
     run:
       name: Decode Google Cloud credentials
-      command: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/client-secret.json
+      command: echo $GCLOUD_SERVICE_KEY | -di > ${HOME}/client-secret.json
 
 jobs:
   ## Build debug APK and instrumented test APK
