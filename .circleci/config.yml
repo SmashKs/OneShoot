@@ -140,21 +140,21 @@ references:
   export_gservices_key: &export_gservices_key
     run:
       name: Export Google Services key environment variable
-      command: echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
+      command: echo 'export GOOGLE_SERVICES_KEY="${GOOGLE_SERVICES_KEY}"' >> $BASH_ENV
   decode_gservices_key: &decode_gservices_key
     run:
       name: Decode Google Services key
-      command: echo $GOOGLE_SERVICES_KEY | > presentation/google-services.json
+      command: echo ${GOOGLE_SERVICES_KEY} | > presentation/google-services.json
 
   # Google Cloud Service
   export_gcloud_key: &export_gcloud_key
     run:
       name: Export Google Cloud Service key environment variable
-      command: echo 'export GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY"' >> $BASH_ENV
+      command: echo 'export GCLOUD_SERVICE_KEY="${GCLOUD_SERVICE_KEY}"' >> $BASH_ENV
   decode_gcloud_key: &decode_gcloud_key
     run:
       name: Decode Google Cloud credentials
-      command: echo $GCLOUD_SERVICE_KEY | > ${HOME}/client-secret.json
+      command: echo ${GCLOUD_SERVICE_KEY} | > ${HOME}/client-secret.json
 
 jobs:
   ## Build debug APK and instrumented test APK
