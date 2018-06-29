@@ -16,14 +16,39 @@ jobs:
     environment:
       JVM_OPTS: -Xmx4096m
     steps:
-      - checkout
       - run:
-          name: Setup emulator
-          command: sdkmanager "system-images;android-22;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+          name: Lists installed targets
+          command: android list target
+          environment:
+            TERM: dumb
       - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          name: List available targets and other sdk modules
+          command: sdkmanager --list --include_obsolete --verbose
+          environment:
+            TERM: dumb
+      - run:
+          name: Create avd
+       #   command: echo no | avdmanager create avd -n testEmulator -k "system-images;android-23;google_apis;armeabi-v7a"
+          command: echo no | avdmanager create avd -n testEmulator -k "system-images;android-24;default;armeabi-v7a"
+          environment:
+            TERM: dumb
+      - run:
+          name: Start emulator
+          command: /opt/android-sdk-linux/emulator/emulator -avd testEmulator -no-audio -no-window
           background: true
+          environment:
+            TERM: dumb
+      - run:
+          name: Wait for emulator
+          command: ./android-wait-for-boot.sh
+          environment:
+            TERM: dumb
+      - run:
+          name: Remove lock screen
+          command: adb shell input keyevent 82
+          environment:
+            TERM: dumb
+      - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
@@ -38,20 +63,6 @@ jobs:
 #          command: ./gradlew lint test
 #          environment:
 #            TERM: dumb
-      - run:
-          name: Change permission
-          command: |
-            sudo chmod +x /bin/circle-android
-            sudo chown circleci:circleci /bin/circle-android
-          environment:
-            TERM: dumb
-      - run:
-          name: Wait for emulator
-          command: |
-            circle-android wait-for-boot
-            adb shell input keyevent 82
-          environment:
-            TERM: dumb
       - run:
           name: Generate JaCoCo report
           command: ./gradlew jacocoTestReport
