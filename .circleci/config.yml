@@ -1,9 +1,10 @@
 version: 2
+
 jobs:
   build:
     working_directory: ~/workspace
     environment:
-          JVM_OPTS: -Xmx4096m
+          JVM_OPTS: -Xms512m -Xmx4096m
           ANDROID_API_LEVEL: 27
           EMULATOR_API_LEVEL: 22
           ANDROID_ABI: armeabi-v7a
@@ -11,10 +12,18 @@ jobs:
           ANDROID_TARGET: android-$ANDROID_API_LEVEL
           ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
-      - image: circleci/android:api-27-alpha
-    environment:
-      JVM_OPTS: -Xmx4096m
+      - image: circleci/android:api-28-alpha
     steps:
+# -- Run Android emulator
+#      - run:
+#          name: Setup emulator
+#          command: sdkmanager "system-images;android-22;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+#          background: true
+
+
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
@@ -25,11 +34,34 @@ jobs:
           paths:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
+
       - run:
-          name: Run Tests
-          command: ./gradlew lint test
-          environment:
-            TERM: dumb
+          name: Run Unit Tests
+          command: ./gradlew test
+# Firebase Test
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-results
+#      - run:
+#          name: Assemble APKs
+#          command: ./gradlew assembleAndroidTest assemble
+#      - run:
+#          name: Dump Google Cloud Credentials to file
+#          command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+#      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+#      - run: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+#      - run:
+#          name: Configure environment
+#          command: |
+#            echo 'export APK_PATH=`find . -path "*.apk" ! -path "*unaligned.apk" ! -path "*Test*.apk" -print -quit`' >> $BASH_ENV
+#            echo 'export TEST_APK_PATH=`find "." "-path" "*Test*.apk" -print -quit`' >> $BASH_ENV
+#      - run:
+#          name: Run UI Tests
+#          command: gcloud firebase test android run --type instrumentation --app ${APK_PATH} --test ${TEST_APK_PATH} --device model=Nexus6P,version=27,locale=en,orientation=portrait --timeout 30m
+#          no_output_timeout: 30m
+
       - run:
           name: Generate JaCoCo report
           command: ./gradlew jacocoTestReport
