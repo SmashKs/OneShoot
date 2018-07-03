@@ -17,5 +17,12 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import androidx.lifecycle.ViewModel
+import smash.ks.com.data.models.Labels
+import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
 
-class TakeAPicViewModel : ViewModel()
+class TakeAPicViewModel : ViewModel() {
+    private val labels by lazy { ResponseLiveData<Labels>() }
+
+    fun analyzeImage(byteArray: ByteArray) {
+    }
+}

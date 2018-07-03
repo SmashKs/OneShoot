@@ -86,6 +86,10 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         val classifier =
                             TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
 
+//                        val stream = ByteArrayOutputStream()
+//                        val a = croppedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//                        val straming = stream.toByteArray()
+
                         launch {
                             val time = measureTimeMillis {
                                 val results = classifier.recognizeImage(croppedBitmap)

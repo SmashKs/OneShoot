@@ -30,7 +30,7 @@ import smash.ks.com.oneshoot.UiThread
  * To provide the necessary objects for whole global app module.
  */
 object AppModule {
-    fun appProvider() = Module {
+    fun appProvider() = Module("OneShoot") {
         bind<Bus>() with instance(RxBus.get())
         // For RxJava Thread Scheduler.
         bind<ThreadExecutor>() with instance(JobExecutor())
