@@ -21,7 +21,7 @@ import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
 
@@ -35,5 +35,5 @@ class FindImageTagsUsecase(
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsParam = KsParam()) : RequestValues
+    class Requests(val params: KsAnalyzeImageParam) : RequestValues
 }

@@ -19,6 +19,7 @@ package smash.ks.com.data.datastores
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam.Companion.PARAM_BYTE_ARRAY
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -53,7 +54,7 @@ class LocalDataStoreImpl(
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
         // FIXME(jieyi): 2018/07/03 Here needs to input a label.
-        val byteArray = it[""] as? ByteArray ?: throw ClassCastException()
+        val byteArray = it[PARAM_BYTE_ARRAY] as? ByteArray ?: throw ClassCastException()
 
         flow.retrieveImageTagsByML(byteArray)
     }
