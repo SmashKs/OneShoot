@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.remote.services
+package smash.ks.com.data.local.v1
 
-import io.reactivex.Completable
-import io.reactivex.Single
-import smash.ks.com.data.models.KsModel
-import smash.ks.com.domain.Label
+import android.graphics.BitmapFactory
+import com.devrapid.kotlinshaver.single
+import smash.ks.com.data.local.ml.Classifier
+import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.domain.Labels
 import smash.ks.com.domain.parameters.Parameterable
 
-/**
- * The access operations for Firebase service.
- */
-interface KsFirebase {
-    fun retrieveImages(name: String): Single<KsModel>
+class KsFlowImpl(
+    private val classifier: Classifier
+) : KsFlow {
+    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<Labels> {
+        val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
 
-    fun uploadImage(params: Parameterable): Completable
+        it.onSuccess(classifier.recognizeImage(bitmap).map { "Detect: $it" })
+    }
 
-    fun retrieveImageTagsByML(imageByteArray: ByteArray): Single<Labels>
-
-    fun retrieveImageWordContentByML(params: Parameterable): Single<Label>
+    override fun retrieveImageWordContentByML(params: Parameterable) = throw UnsupportedOperationException()
 }

@@ -96,6 +96,12 @@ dependencies {
     implementation(Data.firebaseDB) {
         exclude group: 'com.android.support'
     }
+    implementation(Data.firebaseVision) {
+        exclude group: 'com.android.support'
+    }
+    implementation(Data.firebaseMLImageLabel) {
+        exclude group: 'com.android.support'
+    }
 
     implementation Data.retrofit2
     implementation Data.retrofit2AdapterRxJava2

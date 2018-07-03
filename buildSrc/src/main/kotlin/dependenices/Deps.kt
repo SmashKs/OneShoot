@@ -171,6 +171,8 @@ object Deps {
         const val dbflowSqlCipher = "net.zetetic:android-database-sqlcipher:${Versions.Database.dbflow}@aar"
 
         const val firebaseDB = Presentation.firebaseDB
+        const val firebaseVision = Presentation.firebaseVision
+        const val firebaseMLImageLabel = Presentation.firebaseMLImageLabel
 
         const val appcompat = Presentation.appcompat
     }

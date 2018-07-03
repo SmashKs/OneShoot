@@ -17,10 +17,13 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import androidx.lifecycle.ViewModel
-import smash.ks.com.data.models.Labels
+import smash.ks.com.domain.Labels
+import smash.ks.com.domain.usecases.GetImageTagsCase
 import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
 
-class TakeAPicViewModel : ViewModel() {
+class TakeAPicViewModel(
+    private val getImageTagsCase: GetImageTagsCase
+) : ViewModel() {
     private val labels by lazy { ResponseLiveData<Labels>() }
 
     fun analyzeImage(byteArray: ByteArray) {

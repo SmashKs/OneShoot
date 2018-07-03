@@ -17,6 +17,7 @@
 package smash.ks.com.data.datastores
 
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -26,7 +27,8 @@ import smash.ks.com.domain.parameters.Parameterable
  * local service(Database/Local file) to access the data.
  */
 class LocalDataStoreImpl(
-    private val database: KsDatabase
+    private val database: KsDatabase,
+    private val flow: KsFlow
 ) : DataStore {
     // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
 
@@ -49,7 +51,12 @@ class LocalDataStoreImpl(
 
     override fun pushImageToCloud(params: Parameterable) = throw UnsupportedOperationException()
 
-    override fun analyzeImageTagsByML(params: Parameterable) = throw UnsupportedOperationException()
+    override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
+        // FIXME(jieyi): 2018/07/03 Here needs to input a label.
+        val byteArray = it[""] as? ByteArray ?: throw ClassCastException()
 
-    override fun analyzeImageWordContentByML(params: Parameterable) = throw UnsupportedOperationException()
+        flow.retrieveImageTagsByML(byteArray)
+    }
+
+    override fun analyzeImageWordContentByML(params: Parameterable) = flow.retrieveImageWordContentByML(params)
 }

@@ -45,7 +45,12 @@ class RemoteDataStoreImpl(
 
     override fun pushImageToCloud(params: Parameterable) = ksFirebase.uploadImage(params)
 
-    override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.retrieveImageTagsByML(params)
+    override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
+        // FIXME(jieyi): 2018/07/03 Here needs to input a label.
+        val byteArray = it[""] as? ByteArray ?: throw ClassCastException()
+
+        ksFirebase.retrieveImageTagsByML(byteArray)
+    }
 
     override fun analyzeImageWordContentByML(params: Parameterable) = ksFirebase.retrieveImageWordContentByML(params)
 }

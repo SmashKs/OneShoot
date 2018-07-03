@@ -16,12 +16,16 @@
 
 package smash.ks.com.data.remote.v2
 
+import android.graphics.BitmapFactory
 import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.single
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
 import smash.ks.com.data.models.KsAlbum
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.data.remote.services.KsFirebase
@@ -32,7 +36,10 @@ import smash.ks.com.domain.parameters.Parameterable
 /**
  * The implementation for accessing the data from Firebase.
  */
-class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFirebase {
+class KsFirebaseImpl constructor(
+    private val database: FirebaseDatabase,
+    private val detector: FirebaseVisionLabelDetector
+) : KsFirebase {
     companion object {
         private const val V2_CHILD_PROPERTIES = "ImageVersion2"
         private const val V2_CHILD_URI = "uri"
@@ -66,7 +73,17 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
         it.onComplete()
     }
 
-    override fun retrieveImageTagsByML(params: Parameterable) = single<Labels> { }
+    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<Labels> { emitter ->
+        val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+        val textImage = FirebaseVisionImage.fromBitmap(bitmap)
+
+        detector.detectInImage(textImage).addOnCompleteListener {
+            if (it.isSuccessful)
+                it.result.map { "[${it.entityId}]${it.label}: ${it.confidence * 100}%" }.let(emitter::onSuccess)
+            else if (it.isCanceled)
+                it.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)
+        }
+    }
 
     override fun retrieveImageWordContentByML(params: Parameterable) = single<Label> { }
 }

@@ -113,7 +113,7 @@ class RemoteDataStoreImplTest {
 
         remoteDataStore.analyzeImageTagsByML(parameter)
 
-        verify(firebase).retrieveImageTagsByML(parameter)
+        verify(firebase).retrieveImageTagsByML()
     }
 
     @Test

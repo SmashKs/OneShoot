@@ -36,4 +36,6 @@ data class KsParam(
         PARAM_NAME to name,
         PARAM_URI to imageUri
     )
+
+    override fun toAnyParameter() = throw UnsupportedOperationException()
 }

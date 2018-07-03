@@ -33,6 +33,7 @@ import smash.ks.com.ext.const.LookUp
 // Generic with Type Parameters
 
 typealias Parameters = LookUp<String>
+typealias AnyParameters = HashMap<String, Any>
 
 // Usecase with Function Parameters
 

@@ -63,7 +63,7 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
         it.onComplete()
     }
 
-    override fun retrieveImageTagsByML(params: Parameterable) = single<Labels> { }
+    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<Labels> { }
 
     override fun retrieveImageWordContentByML(params: Parameterable) = single<Label> { }
 }
