@@ -18,14 +18,22 @@ package smash.ks.com.oneshoot.features.photograph
 
 import androidx.lifecycle.ViewModel
 import smash.ks.com.domain.Labels
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.usecases.GetImageTagsCase
+import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
 import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
+import smash.ks.com.oneshoot.ext.presentation.requestData
+import smash.ks.com.oneshoot.ext.usecase.toAwait
 
 class TakeAPicViewModel(
     private val getImageTagsCase: GetImageTagsCase
 ) : ViewModel() {
     private val labels by lazy { ResponseLiveData<Labels>() }
 
-    fun analyzeImage(byteArray: ByteArray) {
-    }
+    fun analyzeImage(byteArray: ByteArray) =
+        labels.requestData { getImageTagsCase.toAwait(Requests(KsAnalyzeImageParam(byteArray))) }
 }
+
+//private fun <T, R> SingleUseCase<T, R>.toAwait(requests: R): Deferred<KsResponse<T>> {
+//
+//}

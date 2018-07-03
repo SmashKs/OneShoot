@@ -28,7 +28,6 @@ import smash.ks.com.data.local.cache.KsMemoryCache
 import smash.ks.com.data.repositories.DataRepositoryImpl
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.LOCAL
-import smash.ks.com.oneshoot.internal.di.tag.KsTag.ML_LABEL
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
 
 /**
@@ -38,7 +37,7 @@ object RepositoryModule {
     fun repositoryProvider() = Module("Repository Module") {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
         bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
-        bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance(), instance(ML_LABEL)) }
+        bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance(), instance()) }
 
         bind<DataRepository>() with singleton {
             DataRepositoryImpl(instance(LOCAL), instance(LOCAL), instance(REMOTE), instance())

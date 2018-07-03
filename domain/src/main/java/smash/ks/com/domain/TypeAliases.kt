@@ -48,5 +48,6 @@ typealias ExtraCompletableOpOnUi = CompletablePlugin.() -> Unit
 // Parameters
 
 typealias ResponseKsData = KsResponse<KsData>
+typealias ResponseKsLabels = KsResponse<Labels>
 typealias Label = String
 typealias Labels = List<String>

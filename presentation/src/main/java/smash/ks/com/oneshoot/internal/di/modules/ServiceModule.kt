@@ -34,6 +34,7 @@ import smash.ks.com.data.remote.v2.KsFirebaseImpl
 import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseProvider
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netProvider
 import smash.ks.com.oneshoot.internal.di.modules.TensorFlowModule.tensorFlowProvider
+import smash.ks.com.oneshoot.internal.di.tag.KsTag.ML_LABEL
 
 /**
  * To provide the necessary objects for the remote/local data store service.
@@ -59,7 +60,7 @@ object ServiceModule {
         import(tensorFlowProvider(context))
 
         bind<KsDatabase>() with instance(KsDbFlowImpl())
-        bind<KsFlow>() with singleton { KsFlowImpl(instance()) }
+        bind<KsFlow>() with singleton { KsFlowImpl(instance(ML_LABEL)) }
         //endregion
     }
 }

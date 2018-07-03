@@ -19,7 +19,7 @@ package smash.ks.com.oneshoot.internal.di.modules
 import android.content.Context
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 import smash.ks.com.data.local.ml.Classifier
 import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
 import smash.ks.com.oneshoot.internal.di.tag.KsTag.ML_LABEL
@@ -33,7 +33,7 @@ object TensorFlowModule {
     private const val ML_MODEL_SIZE = 224
 
     fun tensorFlowProvider(context: Context) = Module("TensorFlow Module") {
-        bind<Classifier>(ML_LABEL) with provider {
+        bind<Classifier>(ML_LABEL) with singleton {
             TFLiteImageClassifier.create(context.assets, ML_MODEL_FILE, ML_MODEL_LABEL, ML_MODEL_SIZE)
         }
     }

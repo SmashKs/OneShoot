@@ -29,11 +29,7 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.logv
 import com.devrapid.kotlinknifer.logw
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageBitmap
@@ -44,12 +40,12 @@ import smash.ks.com.oneshoot.R.id.ib_shot
 import smash.ks.com.oneshoot.R.id.iv_preview
 import smash.ks.com.oneshoot.R.id.sav_selection
 import smash.ks.com.oneshoot.bases.AdvFragment
-import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
+import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
-import kotlin.system.measureTimeMillis
+import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
@@ -70,6 +66,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
+                var byteArray = byteArrayOf()
+
                 BitmapFactory.decodeByteArray(data, 0, data.size).also { bmp ->
                     selectedRectF.apply {
                         // Round the x, y, width, and height for avoiding the range is over than bitmap size.
@@ -81,34 +79,46 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
                         view?.find<ImageView>(iv_preview)?.imageBitmap = bitmap
 
-                        // Tensorflow Lite.
-                        val croppedBitmap = bitmap.scale(INPUT_SIZE, INPUT_SIZE, false)
-                        val classifier =
-                            TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
+                        //region ORIGINAL ML CODE
+//                        // Tensorflow Lite.
+//                        val croppedBitmap = bitmap.scale(INPUT_SIZE, INPUT_SIZE, false)
+//                        val classifier =
+//                            TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
+//
+////                        val stream = ByteArrayOutputStream()
+////                        val a = croppedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+////                        val straming = stream.toByteArray()
+//
+//                        launch {
+//                            val time = measureTimeMillis {
+//                                val results = classifier.recognizeImage(croppedBitmap)
+//                                logv("Detect: $results")
+//                            }
+//                            logw(time)
+//                        }
+//
+//                        // Firebase ML Kit.
+//                        val textImage = FirebaseVisionImage.fromBitmap(croppedBitmap)
+//                        val detector = FirebaseVision.getInstance().visionLabelDetector
+//
+//                        detector.detectInImage(textImage).addOnCompleteListener {
+//                            it.result.forEach {
+//                                logw("[${it.entityId}]${it.label}: ${it.confidence * 100}%")
+//                            }
+//                        }
+//
+//                        croppedBitmap.recycle()
+                        //endregion
 
-//                        val stream = ByteArrayOutputStream()
-//                        val a = croppedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//                        val straming = stream.toByteArray()
+                        bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
+                            val stream = ByteArrayOutputStream()
+                            compress(Bitmap.CompressFormat.PNG, 100, stream)
+                            byteArray = stream.toByteArray()
+                        }.recycle()
 
-                        launch {
-                            val time = measureTimeMillis {
-                                val results = classifier.recognizeImage(croppedBitmap)
-                                logv("Detect: $results")
-                            }
-                            logw(time)
+                        this@TakeAPicFragment.observeNonNull(vm.analyzeImage(byteArray)) {
+                            logw(it.data)
                         }
-
-                        // Firebase ML Kit.
-                        val textImage = FirebaseVisionImage.fromBitmap(croppedBitmap)
-                        val detector = FirebaseVision.getInstance().visionLabelDetector
-
-                        detector.detectInImage(textImage).addOnCompleteListener {
-                            it.result.forEach {
-                                logw("[${it.entityId}]${it.label}: ${it.confidence * 100}%")
-                            }
-                        }
-
-                        croppedBitmap.recycle()
                     }
                 }.recycle()
             }

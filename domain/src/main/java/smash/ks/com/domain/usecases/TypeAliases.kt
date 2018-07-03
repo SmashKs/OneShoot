@@ -18,8 +18,8 @@ package smash.ks.com.domain.usecases
 
 import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.Label
-import smash.ks.com.domain.Labels
 import smash.ks.com.domain.ResponseKsData
+import smash.ks.com.domain.ResponseKsLabels
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.usecases.analysis.FindImageContentWordsUsecase
 import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase
@@ -33,6 +33,6 @@ typealias GetKsImageCase = SingleUseCase<ResponseKsData, FindKsImageUsecase.Requ
 typealias SaveKsImageCase = CompletableUseCase<PersistKsImageUsecase.Requests>
 //endregion
 
-typealias GetImageTagsCase = SingleUseCase<Labels, FindImageTagsUsecase.Requests>
+typealias GetImageTagsCase = SingleUseCase<ResponseKsLabels, FindImageTagsUsecase.Requests>
 typealias GetImageContentWordsCase = SingleUseCase<Label, FindImageContentWordsUsecase.Requests>
 typealias UploadImageToFirebaseCase = CompletableUseCase<UploadImageToFirebaseUsecase.Requests>
