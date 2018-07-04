@@ -28,11 +28,11 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class KsLabelTest {
+class LabelModelTest {
     private var id = DEFAULT_INT
     private lateinit var label: Label
     private var confidence = DEFAULT_FLOAT
-    @Mock private lateinit var model: KsLabel
+    @Mock private lateinit var model: LabelModel
 
     @BeforeTest
     fun setup() {
@@ -50,7 +50,7 @@ class KsLabelTest {
 
     @Test
     fun `assign all variable to new object and get them`() {
-        model = KsLabel(id, label, confidence)
+        model = LabelModel(id, label, confidence)
 
         assertEquals(id, model.entryId)
         assertEquals(label, model.label)

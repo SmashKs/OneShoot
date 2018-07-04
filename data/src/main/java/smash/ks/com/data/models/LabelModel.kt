@@ -21,7 +21,7 @@ import smash.ks.com.ext.const.DEFAULT_FLOAT
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
 
-data class KsLabel(
+data class LabelModel(
     var entryId: Int = DEFAULT_INT,
     var label: Label = DEFAULT_STR,
     var confidence: Float = DEFAULT_FLOAT

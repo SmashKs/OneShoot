@@ -26,10 +26,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
-import smash.ks.com.data.models.KsAlbum
-import smash.ks.com.data.models.KsLabel
+import smash.ks.com.data.models.AlbumModel
 import smash.ks.com.data.models.KsLabels
 import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.models.LabelModel
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.Parameterable
@@ -56,7 +56,7 @@ class KsFirebaseImpl constructor(
             // FIXME(jieyi): 2018/06/27 Add another listener for getting the all albums.
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val list = dataSnapshot.children.toList().map { it.getValue(KsAlbum::class.java) }
+                    val list = dataSnapshot.children.toList().map { it.getValue(AlbumModel::class.java) }
                     val firstOfList = list.first()
                     val firstKey = firstOfList?.uris?.keys?.first()
                     val firstUri = firstOfList?.uris?.get(firstKey)
@@ -83,7 +83,7 @@ class KsFirebaseImpl constructor(
             if (it.isSuccessful) {
                 it.result.map {
                     "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
-                    KsLabel(it.entityId.toInt(), it.label, it.confidence * TO_PERCENT)
+                    LabelModel(it.entityId.toInt(), it.label, it.confidence * TO_PERCENT)
                 }.let(emitter::onSuccess)
             }
             else if (it.isCanceled)

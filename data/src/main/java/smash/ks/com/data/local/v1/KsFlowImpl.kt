@@ -20,8 +20,8 @@ import android.graphics.BitmapFactory
 import com.devrapid.kotlinshaver.single
 import smash.ks.com.data.local.ml.Classifier
 import smash.ks.com.data.local.services.KsFlow
-import smash.ks.com.data.models.KsLabel
 import smash.ks.com.data.models.KsLabels
+import smash.ks.com.data.models.LabelModel
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.ext.const.DEFAULT_FLOAT
 import smash.ks.com.ext.const.DEFAULT_INT
@@ -34,8 +34,8 @@ class KsFlowImpl(
 
         it.onSuccess(classifier.recognizeImage(bitmap).map {
             "Detect: $it"
-            KsLabel(it.id?.toIntOrNull() ?: DEFAULT_INT,
-                    it.title.orEmpty(),
+            LabelModel(it.id?.toIntOrNull() ?: DEFAULT_INT,
+                       it.title.orEmpty(),
                     it.confidence ?: DEFAULT_FLOAT)
         })
     }

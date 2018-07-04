@@ -26,7 +26,7 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 
-class KsAlbumTest {
+class AlbumModelTest {
     private lateinit var title: String
     private lateinit var author: String
     private var comments = DEFAULT_INT
@@ -35,7 +35,7 @@ class KsAlbumTest {
     private lateinit var postDate: String
     @Mock private lateinit var uris: Uris
 
-    @Mock private lateinit var model: KsAlbum
+    @Mock private lateinit var model: AlbumModel
 
     @BeforeTest
     fun setup() {
@@ -59,7 +59,7 @@ class KsAlbumTest {
 
     @Test
     fun `assign all variable to new model and get them`() {
-        model = KsAlbum(title, author, comments, likes, tags, postDate, uris)
+        model = AlbumModel(title, author, comments, likes, tags, postDate, uris)
 
         assertEquals(title, model.title)
         assertEquals(author, model.author)
