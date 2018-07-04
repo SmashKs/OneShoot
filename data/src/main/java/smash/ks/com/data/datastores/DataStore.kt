@@ -18,9 +18,9 @@ package smash.ks.com.data.datastores
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import smash.ks.com.data.models.KsLabels
 import smash.ks.com.data.models.KsModel
 import smash.ks.com.domain.Label
-import smash.ks.com.domain.Labels
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -60,7 +60,7 @@ interface DataStore {
      * @param params
      * @return Rx [Single] with tag list to the presentation layer.
      */
-    fun analyzeImageTagsByML(params: Parameterable): Single<Labels>
+    fun analyzeImageTagsByML(params: Parameterable): Single<KsLabels>
 
     /**
      * Send an image object to machine learning model and get the content of an image automatically.

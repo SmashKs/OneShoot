@@ -54,7 +54,8 @@ class DataRepositoryImpl constructor(
     override fun uploadImage(params: Parameterable) = remote.pushImageToCloud(params)
 
     override fun fetchImageTagsByML(params: Parameterable) =
-        (if (SWITCH) local else remote).analyzeImageTagsByML(params)
+    // FIXME(jieyi): 2018/07/05 Adjust from domain layer.
+        (if (SWITCH) local else remote).analyzeImageTagsByML(params).map { it.map { it.toString() } }
 
     override fun fetchImageWordContentByML(params: Parameterable) =
         (if (SWITCH) local else remote).analyzeImageWordContentByML(params)

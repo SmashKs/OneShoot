@@ -30,4 +30,6 @@ typealias Uris = Map<ImageHashCode, ImageUri>
 typealias Tag = String
 typealias TagUri = String
 typealias Tags = Map<Tag, TagUri>
+
+typealias KsLabels = List<KsLabel>
 //endregion
