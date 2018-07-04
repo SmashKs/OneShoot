@@ -35,7 +35,9 @@ jobs:
           paths:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
-
+      - run:
+          name: Decode Google Services key
+          command: echo $GOOGLE_SERVICES_KEY | > presentation/google-services.json
       - run:
           name: Run Unit Tests
           command: ./gradlew test
