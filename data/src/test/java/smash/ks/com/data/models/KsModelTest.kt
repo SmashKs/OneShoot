@@ -16,8 +16,9 @@
 
 package smash.ks.com.data.models
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_LONG
@@ -28,14 +29,15 @@ import kotlin.test.assertEquals
 class KsModelTest {
     private var id = DEFAULT_LONG
     private lateinit var uri: String
-    private lateinit var model: KsModel
+    @Mock private lateinit var model: KsModel
 
     @BeforeTest
     fun setup() {
+        MockitoAnnotations.initMocks(this)
+
         id = randomLong
         uri = randomString
 
-        model = mock()
         model.also {
             it.id = id
             it.uri = uri

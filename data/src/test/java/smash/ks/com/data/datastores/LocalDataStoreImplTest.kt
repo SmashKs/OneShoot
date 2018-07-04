@@ -17,6 +17,7 @@
 package smash.ks.com.data.datastores
 
 import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.single
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.doThrow
@@ -24,12 +25,17 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.internal.operators.single.SingleJust
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.local.services.KsFlow
+import smash.ks.com.domain.AnyParameters
 import smash.ks.com.domain.Parameters
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 import kotlin.test.BeforeTest
@@ -37,18 +43,18 @@ import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
 class LocalDataStoreImplTest {
-    private lateinit var localDataStore: DataStore
-    private lateinit var database: KsDatabase
+    @Mock private lateinit var database: KsDatabase
+    @Mock private lateinit var flow: KsFlow
+    @InjectMocks private lateinit var localDataStore: LocalDataStoreImpl
 
     @BeforeTest
     fun setUp() {
-        database = mock()
-        localDataStore = LocalDataStoreImpl(database)
+        MockitoAnnotations.initMocks(this)
     }
 
     @Test
     fun `the flow of fetching an image from the local database without parameter`() {
-        whenever(database.retrieveKsData(any())).thenReturn(SingleJust(mock()))
+        whenever(database.retrieveKsData(any())).thenReturn(single(mock()))
 
         assertFailsWith<NoParameterException> { localDataStore.getKsImage(null) }
 
@@ -60,14 +66,12 @@ class LocalDataStoreImplTest {
     @Test
     fun `the flow of fetching an image from the local database`() {
         val id = randomLong
-        val parameterMap = mock<Parameters> {
-            on { get(KsParam.PARAM_ID) } doReturn id.toString()
-        }
-        val param = mock<KsParam> {
-            on { toParameter() } doReturn parameterMap
+        val param = mock<Parameterable> {
+            on { toParameter() } doReturn mock<Parameters>()
+            on { toParameter()[KsParam.PARAM_ID] } doReturn id.toString()
         }
 
-        whenever(database.retrieveKsData(id)).thenReturn(SingleJust(mock()))
+        whenever(database.retrieveKsData(id)).thenReturn(single(mock()))
         localDataStore.getKsImage(param)
 
         verify(database).retrieveKsData(id)
@@ -75,14 +79,12 @@ class LocalDataStoreImplTest {
 
     @Test
     fun `the flow of fetching an image from the local database without id`() {
-        val parameterMap = mock<Parameters> {
-            on { get(KsParam.PARAM_ID) }.thenReturn(null)
-        }
-        val param = mock<KsParam> {
-            on { toParameter() } doReturn parameterMap
+        val param = mock<Parameterable> {
+            on { toParameter() } doReturn mock<Parameters>()
+            on { toParameter()[KsParam.PARAM_ID] }.thenReturn(null)
         }
 
-        whenever(database.retrieveKsData(null)).thenReturn(SingleJust(mock()))
+        whenever(database.retrieveKsData(null)).thenReturn(single(mock()))
         localDataStore.getKsImage(param)
 
         verify(database).retrieveKsData(null)
@@ -120,13 +122,42 @@ class LocalDataStoreImplTest {
         localDataStore.pushImageToCloud(mock())
     }
 
-    @Test(UnsupportedOperationException::class)
-    fun `local data store doesn't support analyzeImageTagsByML method`() {
+    @Test(NullPointerException::class)
+    fun `analyzeImageTagsByML with empty parameter calling`() {
         localDataStore.analyzeImageTagsByML(mock())
     }
 
-    @Test(UnsupportedOperationException::class)
-    fun `local data store doesn't support analyzeImageWordContentByML method`() {
-        localDataStore.analyzeImageWordContentByML(mock())
+    @Test(ClassCastException::class)
+    fun `analyzeImageTagsByML with wrong type parameter calling`() {
+        val parameter = mock<Parameterable> {
+            on { toAnyParameter() } doReturn mock<AnyParameters>()
+            on { toAnyParameter()[KsAnalyzeImageParam.PARAM_BYTE_ARRAY] } doReturn "This is one shoot"
+        }
+
+        localDataStore.analyzeImageTagsByML(parameter)
+    }
+
+    @Test
+    fun `the flow of analyzeImageTagsByML method`() {
+        val byteArray = byteArrayOf()
+        val parameter = mock<Parameterable> {
+            on { toAnyParameter() } doReturn mock<AnyParameters>()
+            on { toAnyParameter()[KsAnalyzeImageParam.PARAM_BYTE_ARRAY] } doReturn byteArray
+        }
+
+        whenever(flow.retrieveImageTagsByML(byteArray)).thenReturn(single(mock()))
+        localDataStore.analyzeImageTagsByML(parameter)
+
+        verify(flow).retrieveImageTagsByML(byteArray)
+    }
+
+    @Test
+    fun `the flow of analyzeImageWordContentByML method`() {
+        val parameter = mock<Parameterable>()
+
+        whenever(flow.retrieveImageWordContentByML(parameter)).thenReturn(single(mock()))
+        localDataStore.analyzeImageWordContentByML(parameter)
+
+        verify(flow).retrieveImageWordContentByML(parameter)
     }
 }

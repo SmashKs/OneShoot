@@ -53,8 +53,8 @@ class LocalDataStoreImpl(
     override fun pushImageToCloud(params: Parameterable) = throw UnsupportedOperationException()
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
-        // FIXME(jieyi): 2018/07/03 Here needs to input a label.
-        val byteArray = it[PARAM_BYTE_ARRAY] as? ByteArray ?: throw ClassCastException()
+        val byteArray = it[PARAM_BYTE_ARRAY] ?: throw NullPointerException()
+        byteArray as? ByteArray ?: throw ClassCastException()
 
         flow.retrieveImageTagsByML(byteArray)
     }
