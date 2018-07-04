@@ -22,8 +22,9 @@ import android.graphics.RectF
 import android.os.Trace
 import com.devrapid.kotlinknifer.logw
 import org.tensorflow.lite.Interpreter
+import smash.ks.com.data.local.ml.Classifier
+import smash.ks.com.data.local.ml.Classifier.Recognition
 import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.classifiers.Classifier.Recognition
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.IOException

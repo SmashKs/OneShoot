@@ -23,7 +23,9 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import smash.ks.com.data.local.services.KsDatabase
+import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.data.local.v1.KsDbFlowImpl
+import smash.ks.com.data.local.v1.KsFlowImpl
 import smash.ks.com.data.remote.RestfulApiFactory
 import smash.ks.com.data.remote.config.KsConfig
 import smash.ks.com.data.remote.services.KsFirebase
@@ -31,6 +33,8 @@ import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.remote.v2.KsFirebaseImpl
 import smash.ks.com.oneshoot.internal.di.modules.FirebaseModule.firebaseProvider
 import smash.ks.com.oneshoot.internal.di.modules.NetModule.netProvider
+import smash.ks.com.oneshoot.internal.di.modules.TensorFlowModule.tensorFlowProvider
+import smash.ks.com.oneshoot.internal.di.tag.KsTag.ML_LABEL
 
 /**
  * To provide the necessary objects for the remote/local data store service.
@@ -49,11 +53,14 @@ object ServiceModule {
             }.create(KsService::class.java)
         }
 
-        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
+        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance(), instance()) }
         //endregion
 
         //region For the [Local] data module.
+        import(tensorFlowProvider(context))
+
         bind<KsDatabase>() with instance(KsDbFlowImpl())
+        bind<KsFlow>() with singleton { KsFlowImpl(instance(ML_LABEL)) }
         //endregion
     }
 }

@@ -16,19 +16,25 @@
 
 package smash.ks.com.oneshoot.internal.di.modules
 
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
+import android.content.Context
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
+import smash.ks.com.data.local.ml.Classifier
+import smash.ks.com.oneshoot.classifiers.TFLiteImageClassifier
+import smash.ks.com.oneshoot.internal.di.tag.KsTag.ML_LABEL
 
 /**
  * To provide the necessary objects into the repository.
  */
-object FirebaseModule {
-    fun firebaseProvider() = Module("Firebase Module") {
-        bind<FirebaseDatabase>() with provider { FirebaseDatabase.getInstance() }
-        bind<FirebaseVisionLabelDetector>() with provider { FirebaseVision.getInstance().visionLabelDetector }
+object TensorFlowModule {
+    private const val ML_MODEL_FILE = "mobilenet_quant_v1_224.tflite"
+    private const val ML_MODEL_LABEL = "mobilenet_quant_v1_224.tflite"
+    private const val ML_MODEL_SIZE = 224
+
+    fun tensorFlowProvider(context: Context) = Module("TensorFlow Module") {
+        bind<Classifier>(ML_LABEL) with singleton {
+            TFLiteImageClassifier.create(context.assets, ML_MODEL_FILE, ML_MODEL_LABEL, ML_MODEL_SIZE)
+        }
     }
 }

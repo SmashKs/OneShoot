@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.parameters
 
+import smash.ks.com.domain.AnyParameters
 import smash.ks.com.domain.Parameters
 
 /**
@@ -23,4 +24,5 @@ import smash.ks.com.domain.Parameters
  */
 interface Parameterable {
     fun toParameter(): Parameters
+    fun toAnyParameter(): AnyParameters
 }

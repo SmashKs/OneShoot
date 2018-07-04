@@ -16,26 +16,29 @@
 
 package smash.ks.com.domain.parameters
 
-import smash.ks.com.ext.const.DEFAULT_LONG
-import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.ext.const.UniqueId
+import java.util.Arrays
 
-data class KsParam(
-    val imageId: UniqueId = DEFAULT_LONG,
-    val name: String = DEFAULT_STR,
-    val imageUri: String = DEFAULT_STR
+data class KsAnalyzeImageParam(
+    val imageByteArray: ByteArray = byteArrayOf()
 ) : Parameterable {
     companion object {
-        const val PARAM_ID = "id"
-        const val PARAM_NAME = "name"
-        const val PARAM_URI = "uri"
+        const val PARAM_BYTE_ARRAY = "image byte array"
     }
 
-    override fun toParameter() = hashMapOf(
-        PARAM_ID to imageId.toString(),
-        PARAM_NAME to name,
-        PARAM_URI to imageUri
-    )
+    override fun toParameter() = throw UnsupportedOperationException()
 
-    override fun toAnyParameter() = throw UnsupportedOperationException()
+    override fun toAnyParameter() = hashMapOf(PARAM_BYTE_ARRAY to Any::class.java.cast(imageByteArray))
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as KsAnalyzeImageParam
+
+        if (!Arrays.equals(imageByteArray, other.imageByteArray)) return false
+
+        return true
+    }
+
+    override fun hashCode() = Arrays.hashCode(imageByteArray)
 }

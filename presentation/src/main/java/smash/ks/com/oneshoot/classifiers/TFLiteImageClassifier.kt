@@ -20,9 +20,10 @@ import android.annotation.SuppressLint
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import org.tensorflow.lite.Interpreter
+import smash.ks.com.data.local.ml.Classifier
+import smash.ks.com.data.local.ml.Classifier.Recognition
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.classifiers.Classifier.Recognition
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.IOException

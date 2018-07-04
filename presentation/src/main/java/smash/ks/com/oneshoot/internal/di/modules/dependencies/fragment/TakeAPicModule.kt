@@ -19,6 +19,7 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
+import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import smash.ks.com.oneshoot.features.photograph.TakeAPicViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
@@ -27,7 +28,7 @@ object TakeAPicModule {
     fun takeAPicProvider() = Module("TakeAPic Fragment Module") {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
-            TakeAPicViewModel::class.java to TakeAPicViewModel()
+            TakeAPicViewModel::class.java to TakeAPicViewModel(instance())
         }
     }
 }

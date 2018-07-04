@@ -20,6 +20,7 @@ import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.repositories.DataRepositoryImpl.Companion.SWITCH
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam.Companion.PARAM_BYTE_ARRAY
 import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_NAME
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -45,7 +46,12 @@ class RemoteDataStoreImpl(
 
     override fun pushImageToCloud(params: Parameterable) = ksFirebase.uploadImage(params)
 
-    override fun analyzeImageTagsByML(params: Parameterable) = ksFirebase.retrieveImageTagsByML(params)
+    override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
+        val byteArray = it[PARAM_BYTE_ARRAY] ?: throw NullPointerException()
+        byteArray as? ByteArray ?: throw ClassCastException()
+
+        ksFirebase.retrieveImageTagsByML(byteArray)
+    }
 
     override fun analyzeImageWordContentByML(params: Parameterable) = ksFirebase.retrieveImageWordContentByML(params)
 }

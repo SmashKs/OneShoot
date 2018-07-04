@@ -23,4 +23,6 @@ package smash.ks.com.oneshoot.internal.di.tag
 object KsTag {
     const val REMOTE = "ks di remote"
     const val LOCAL = "ks di local"
+
+    const val ML_LABEL = "machine learning for labeling"
 }

@@ -33,6 +33,7 @@ import smash.ks.com.ext.const.LookUp
 // Generic with Type Parameters
 
 typealias Parameters = LookUp<String>
+typealias AnyParameters = HashMap<String, Any>
 
 // Usecase with Function Parameters
 
@@ -47,5 +48,6 @@ typealias ExtraCompletableOpOnUi = CompletablePlugin.() -> Unit
 // Parameters
 
 typealias ResponseKsData = KsResponse<KsData>
+typealias ResponseKsLabels = KsResponse<Labels>
 typealias Label = String
 typealias Labels = List<String>

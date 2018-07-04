@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.classifiers
+package smash.ks.com.data.local.ml
 
 import android.graphics.Bitmap
 import android.graphics.RectF

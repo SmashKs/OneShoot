@@ -20,6 +20,8 @@ import com.devrapid.kotlinshaver.completable
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.datastores.DataStore
@@ -30,14 +32,13 @@ import kotlin.test.Test
 
 class DataRepositoryImplTest {
     private val parameter: Parameterable get() = KsParam(randomLong, randomString, randomString)
-    private lateinit var local: DataStore
-    private lateinit var remote: DataStore
+    @Mock private lateinit var local: DataStore
+    @Mock private lateinit var remote: DataStore
     private lateinit var dataRepositoryImpl: DataRepositoryImpl
 
     @BeforeTest
     fun setup() {
-        local = mock()
-        remote = mock()
+        MockitoAnnotations.initMocks(this)
         dataRepositoryImpl = DataRepositoryImpl(mock(), local, remote, mock())
     }
 

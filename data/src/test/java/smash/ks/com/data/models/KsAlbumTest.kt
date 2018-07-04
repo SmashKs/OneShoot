@@ -16,9 +16,10 @@
 
 package smash.ks.com.data.models
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomInt
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_INT
@@ -30,23 +31,21 @@ class KsAlbumTest {
     private lateinit var author: String
     private var comments = DEFAULT_INT
     private var likes = DEFAULT_INT
-    private lateinit var tags: Tags
+    @Mock private lateinit var tags: Tags
     private lateinit var postDate: String
-    private lateinit var uris: Uris
+    @Mock private lateinit var uris: Uris
 
-    private lateinit var model: KsAlbum
+    @Mock private lateinit var model: KsAlbum
 
     @BeforeTest
     fun setup() {
+        MockitoAnnotations.initMocks(this)
         title = randomString
         author = randomString
         comments = randomInt
         likes = randomInt
-        tags = mock()
         postDate = randomString
-        uris = mock()
 
-        model = mock()
         model.also {
             it.title = title
             it.author = author
