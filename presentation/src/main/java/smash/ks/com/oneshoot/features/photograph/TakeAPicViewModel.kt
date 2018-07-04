@@ -28,10 +28,11 @@ import smash.ks.com.oneshoot.ext.usecase.toAwait
 class TakeAPicViewModel(
     private val getImageTagsCase: GetImageTagsCase
 ) : ViewModel() {
-    private val labels by lazy { ResponseLiveData<Labels>() }
+    val labels by lazy { ResponseLiveData<Labels>() }
 
-    fun analyzeImage(byteArray: ByteArray) =
+    fun analyzeImage(byteArray: ByteArray) {
         labels.requestData { getImageTagsCase.toAwait(Requests(KsAnalyzeImageParam(byteArray))) }
+    }
 }
 
 //private fun <T, R> SingleUseCase<T, R>.toAwait(requests: R): Deferred<KsResponse<T>> {
