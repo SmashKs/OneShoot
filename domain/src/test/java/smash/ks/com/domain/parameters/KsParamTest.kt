@@ -76,4 +76,9 @@ class KsParamTest {
     fun `check is not null after transition to the parameter`() {
         assertThat(ksParam.toParameter()).isNotNull
     }
+
+    @Test(UnsupportedOperationException::class)
+    fun `toParameter is unsupported method`() {
+        ksParam.toParameter()
+    }
 }
