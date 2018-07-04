@@ -79,6 +79,6 @@ class KsParamTest {
 
     @Test(UnsupportedOperationException::class)
     fun `toParameter is unsupported method`() {
-        ksParam.toParameter()
+        ksParam.toAnyParameter()
     }
 }
