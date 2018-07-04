@@ -27,7 +27,7 @@ data class KsAnalyzeImageParam(
 
     override fun toParameter() = throw UnsupportedOperationException()
 
-    override fun toAnyParameter() = hashMapOf(PARAM_BYTE_ARRAY to imageByteArray as Any)
+    override fun toAnyParameter() = hashMapOf(PARAM_BYTE_ARRAY to Any::class.java.cast(imageByteArray))
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -40,7 +40,5 @@ data class KsAnalyzeImageParam(
         return true
     }
 
-    override fun hashCode(): Int {
-        return Arrays.hashCode(imageByteArray)
-    }
+    override fun hashCode() = Arrays.hashCode(imageByteArray)
 }
