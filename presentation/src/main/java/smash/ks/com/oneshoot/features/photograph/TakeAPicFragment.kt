@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.logw
+import com.devrapid.kotlinknifer.ui
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
@@ -79,7 +80,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             byteArray = stream.toByteArray()
                         }.recycle()
 
-                        vm.analyzeImage(byteArray)
+                        ui { vm.analyzeImage(byteArray) }
                     }
                 }.recycle()
             }

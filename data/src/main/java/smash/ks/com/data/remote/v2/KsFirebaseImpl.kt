@@ -28,11 +28,12 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
 import smash.ks.com.data.datas.AlbumData
 import smash.ks.com.data.datas.KsData
-import smash.ks.com.data.datas.KsLabels
 import smash.ks.com.data.datas.LabelData
+import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.extractNumber
 
 /**
  * The implementation for accessing the data from Firebase.
@@ -75,7 +76,7 @@ class KsFirebaseImpl constructor(
         it.onComplete()
     }
 
-    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<KsLabels> { emitter ->
+    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<LabelDatas> { emitter ->
         val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
         val textImage = FirebaseVisionImage.fromBitmap(bitmap)
 
@@ -83,7 +84,7 @@ class KsFirebaseImpl constructor(
             if (it.isSuccessful) {
                 it.result.map {
                     "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
-                    LabelData(it.entityId.toInt(), it.label, it.confidence * TO_PERCENT)
+                    LabelData(it.entityId.extractNumber().first(), it.label, it.confidence * TO_PERCENT)
                 }.let(emitter::onSuccess)
             }
             else if (it.isCanceled)

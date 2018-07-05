@@ -35,6 +35,6 @@ typealias Tag = String
 typealias TagUri = String
 typealias Tags = Map<Tag, TagUri>
 
-typealias KsLabels = List<LabelData>
+typealias LabelDatas = List<LabelData>
 
 //endregion
