@@ -22,14 +22,18 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.setBinding
 import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.datas.DataFakeMapper
 import smash.ks.com.data.datas.mappers.KsMapper
+import smash.ks.com.data.datas.mappers.LabelMapper
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
+import smash.ks.com.oneshoot.entities.mappers.LabelEntityMapper
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
+import smash.ks.com.oneshoot.entities.mappers.PresentationLabelMapper
 
 /**
  * To provide the necessary utility objects for the whole app.
@@ -37,8 +41,9 @@ import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
 object UtilModule {
     fun utilProvider(context: Context) = Module("Util Module") {
         /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
-        /** ViewModel Set for [smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory] */
         bind() from setBinding<ViewModelEntry>()
+        /** Mapper Set for [smash.ks.com.data.datas.mappers.Mapper] */
+        bind() from setBinding<DataMapperEntry>()
 
         bind<ModelMapper>() with instance(ModelMapper())
         bind<Gson>() with singleton {
@@ -49,7 +54,12 @@ object UtilModule {
             }
         }
 
-        bind<DataFakeMapper>() with singleton { KsMapper(instance()) }
+        /** Data Layer Mapper */
+        bind<DataMapperEntry>().inSet() with provider { KsMapper::class.java to KsMapper(instance()) }
+        bind<DataMapperEntry>().inSet() with provider { LabelMapper::class.java to LabelMapper(instance()) }
+
+        /** Presentation Layer Mapper */
         bind<PresentationFakeMapper>() with singleton { KsEntityMapper(instance()) }
+        bind<PresentationLabelMapper>() with singleton { LabelEntityMapper(instance()) }
     }
 }

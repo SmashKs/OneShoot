@@ -137,10 +137,11 @@ dependencies {
     //endregion
 
     //region DI
-    implementation(Global.kodeinAndroid) {
-        exclude group: 'com.android.support'
-    }
-    implementation Global.kodenJVM
+    implementation Global.kodeinAndroidX
+//    implementation(Global.kodeinAndroid) {
+//        exclude group: 'com.android.support'
+//    }
+    implementation Global.kodeinJVM
     //endregion
     implementation(Presentation.rxBus) {
         exclude group: 'com.jakewharton.timber', module: 'timber'

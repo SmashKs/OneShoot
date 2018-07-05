@@ -45,8 +45,6 @@ object RecyclerViewModule {
         bind<MultiTypeFactory>() with instance(MultiTypeFactory(context))
 
         /** ViewModel Set for [MultiTypeFactory] */
-
-        /** ViewModel Set for [MultiTypeFactory] */
         bind() from setBinding<ViewHolderEntry>()
     }
 }

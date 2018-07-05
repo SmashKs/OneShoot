@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
+import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
@@ -54,7 +54,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.
     protected val appContext by instance<Context>()
     private var rootView: View? = null
-    private val parentKodein by closestKodein { activity!! }
+    private val parentKodein by closestKodein()
 
     //region Fragment lifecycle
     override fun onCreateView(

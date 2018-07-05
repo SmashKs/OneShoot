@@ -24,6 +24,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
+import smash.ks.com.data.datas.MapperPool
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -34,16 +35,18 @@ class DataRepositoryImplTest {
     private val parameter: Parameterable get() = KsParam(randomLong, randomString, randomString)
     @Mock private lateinit var local: DataStore
     @Mock private lateinit var remote: DataStore
-    private lateinit var dataRepositoryImpl: DataRepositoryImpl
+    private lateinit var dataRepository: DataRepositoryImpl
+    private lateinit var mapperPool: MapperPool
 
     @BeforeTest
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        dataRepositoryImpl = DataRepositoryImpl(mock(), local, remote, mock())
+        mapperPool = mock()
+        dataRepository = DataRepositoryImpl(mock(), local, remote, mapperPool)
     }
 
     @Test
-    fun retrieveKsImage() {
+    fun `normal flow for fetching a ks image`() {
     }
 
     @Test
@@ -55,7 +58,7 @@ class DataRepositoryImplTest {
         val param = parameter
 
         whenever(remote.pushImageToCloud(param)).thenReturn(completable())
-        dataRepositoryImpl.uploadImage(param)
+        dataRepository.uploadImage(param)
 
         verify(remote).pushImageToCloud(param)
     }
