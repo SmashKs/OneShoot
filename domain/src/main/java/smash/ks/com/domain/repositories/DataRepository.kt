@@ -19,7 +19,7 @@ package smash.ks.com.domain.repositories
 import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.domain.Labels
-import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -33,7 +33,7 @@ interface DataRepository {
      * @param params when `null` means that it'll retrieve all images, otherwise, will be a specific image.
      * @return
      */
-    fun fetchKsImage(params: Parameterable?): Single<KsData>
+    fun fetchKsImage(params: Parameterable?): Single<KsModel>
 
     /**
      * Store an image to the database.

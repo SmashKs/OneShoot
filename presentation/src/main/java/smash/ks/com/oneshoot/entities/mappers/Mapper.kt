@@ -17,26 +17,26 @@
 package smash.ks.com.oneshoot.entities.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.domain.datas.Data
+import smash.ks.com.domain.models.Model
 import smash.ks.com.oneshoot.entities.Entity
 
 /**
- * The mapper is used to transition the object between [Data] and [Entity].
+ * The mapper is used to transition the object between [Model] and [Entity].
  */
-abstract class Mapper<D : Data, E : Entity>(protected val mapper: ModelMapper) {
+abstract class Mapper<M : Model, E : Entity>(protected val mapper: ModelMapper) {
     /**
-     * Transition the [Data] object to [Entity] object.
+     * Transition the [Model] object to [Entity] object.
      *
-     * @param data a [Data] data object.
+     * @param model a [Model] model object.
      * @return the same content's [Entity] object.
      */
-    abstract fun toEntityFrom(data: D): E
+    abstract fun toEntityFrom(model: M): E
 
     /**
-     * Transition the [Data] object to [Entity] object.
+     * Transition the [Model] object to [Entity] object.
      *
      * @param entity a [Entity] data object.
-     * @return the same content's [Data] object.
+     * @return the same content's [Model] object.
      */
-    abstract fun toDataFrom(entity: E): D
+    abstract fun toModelFrom(entity: E): M
 }

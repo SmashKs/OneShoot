@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models.mappers
+package smash.ks.com.data.datas.mappers
 
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.GeneratorFactory.randomFloat
 import smash.ks.com.data.GeneratorFactory.randomInt
 import smash.ks.com.data.GeneratorFactory.randomString
-import smash.ks.com.data.models.DataLabelMapper
-import smash.ks.com.data.models.LabelModel
+import smash.ks.com.data.datas.DataLabelMapper
+import smash.ks.com.data.datas.LabelData
 import smash.ks.com.domain.Label
-import smash.ks.com.domain.datas.LabelData
+import smash.ks.com.domain.models.LabelModel
 import smash.ks.com.ext.const.DEFAULT_FLOAT
 import smash.ks.com.ext.const.DEFAULT_INT
 import kotlin.test.BeforeTest
@@ -45,19 +45,19 @@ class LabelMapperTest {
     }
 
     @Test
-    fun `mapping model to data`() {
-        val model = LabelModel(id, label, confidence)
-        val newData = labelMapper.toDataFrom(model)
-
-        assertEqualsObject(newData, model)
-    }
-
-    @Test
     fun `mapping data to model`() {
         val data = LabelData(id, label, confidence)
         val newModel = labelMapper.toModelFrom(data)
 
         assertEqualsObject(data, newModel)
+    }
+
+    @Test
+    fun `mapping model to data`() {
+        val model = LabelModel(id, label, confidence)
+        val newData = labelMapper.toDataFrom(model)
+
+        assertEqualsObject(newData, model)
     }
 
     private fun assertEqualsObject(data: LabelData, newModel: LabelModel) {

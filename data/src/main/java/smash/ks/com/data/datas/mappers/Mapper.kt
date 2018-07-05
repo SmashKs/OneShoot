@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models.mappers
+package smash.ks.com.data.datas.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.models.Model
-import smash.ks.com.domain.datas.Data
+import smash.ks.com.data.datas.Data
+import smash.ks.com.domain.models.Model
 
 /**
- * The mapper is used to transition the object between [Model] and [Data].
+ * The mapper is used to transition the object between [Data] and [Model].
  */
-abstract class Mapper<M : Model, D : Data>(protected val mapper: ModelMapper) {
+abstract class Mapper<D : Data, M : Model>(protected val mapper: ModelMapper) {
     /**
-     * Transition the [Model] object to [Data] object.
+     * Transition the [Data] object to [Model] object.
+     *
+     * @param data a [Data] data object.
+     * @return the same content's [Model] object.
+     */
+    abstract fun toModelFrom(data: D): M
+
+    /**
+     * Transition the [Data] object to [Model] object.
      *
      * @param model a [Model] data object.
      * @return the same content's [Data] object.
      */
     abstract fun toDataFrom(model: M): D
-
-    /**
-     * Transition the [Data] object to [Model] object.
-     *
-     * @param obj a [Data] data object.
-     * @return the same content's [Model] object.
-     */
-    abstract fun toModelFrom(obj: D): M
 }

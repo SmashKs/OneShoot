@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas
 
 import com.google.firebase.database.PropertyName
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
 
-data class AlbumModel(
+data class AlbumData(
     var title: String = DEFAULT_STR,
     var author: String = DEFAULT_STR,
     var comments: Int = DEFAULT_INT,
@@ -31,7 +31,7 @@ data class AlbumModel(
     var postDate: String = DEFAULT_STR,
     @get:PropertyName(FIREBASE_PROPERTY_URI) @set:PropertyName(FIREBASE_PROPERTY_URI)
     var uris: Uris = mapOf()
-) : Model {
+) : Data {
     companion object {
         private const val FIREBASE_PROPERTY_TAG = "tag"
         private const val FIREBASE_PROPERTY_POST_DATE = "post date"

@@ -16,11 +16,9 @@
 
 package smash.ks.com.data.repositories
 
-import io.reactivex.Single
+import smash.ks.com.data.datas.DataFakeMapper
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
-import smash.ks.com.data.models.DataFakeMapper
-import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 
@@ -44,9 +42,8 @@ class DataRepositoryImpl constructor(
     }
 
     //region Fake
-    override fun fetchKsImage(params: Parameterable?): Single<KsData> {
-        return (if (SWITCH) local else remote).getKsImage(params).map(mapper::toDataFrom)
-    }
+    override fun fetchKsImage(params: Parameterable?) =
+        (if (SWITCH) local else remote).getKsImage(params).map(mapper::toModelFrom)
 
     override fun storeKsImage(params: Parameterable) = (if (SWITCH) local else remote).keepKsImage(params)
     //endregion

@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.entities.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.models.KsModel
 import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.oneshoot.GeneratorFactory.randomLong
 import smash.ks.com.oneshoot.GeneratorFactory.randomString
@@ -39,22 +39,22 @@ class KsMapperTest {
     }
 
     @Test
-    fun `mapping entity to data`() {
+    fun `mapping entity to model`() {
         val entity = KsEntity(ksId, ksUri)
-        val newData = ksMapper.toDataFrom(entity)
+        val newModel = ksMapper.toModelFrom(entity)
 
-        assertEqualsObject(newData, entity)
+        assertEqualsObject(newModel, entity)
     }
 
     @Test
-    fun `mapping data to entity`() {
-        val data = KsData(ksId, ksUri)
-        val newEntity = ksMapper.toEntityFrom(data)
+    fun `mapping model to entity`() {
+        val model = KsModel(ksId, ksUri)
+        val newEntity = ksMapper.toEntityFrom(model)
 
-        assertEqualsObject(data, newEntity)
+        assertEqualsObject(model, newEntity)
     }
 
-    private fun assertEqualsObject(obj: KsData, newModel: KsEntity) {
-        assertEquals(obj.uri, newModel.uri)
+    private fun assertEqualsObject(model: KsModel, newModel: KsEntity) {
+        assertEquals(model.uri, newModel.uri)
     }
 }

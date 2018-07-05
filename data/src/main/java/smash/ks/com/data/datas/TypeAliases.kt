@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
+package smash.ks.com.data.datas
 
-import smash.ks.com.domain.Label
-import smash.ks.com.ext.const.DEFAULT_FLOAT
-import smash.ks.com.ext.const.DEFAULT_INT
-import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.data.datas.mappers.Mapper
+import smash.ks.com.domain.models.KsModel
+import smash.ks.com.domain.models.LabelModel
 
-/**
- * Data object in domain layer to be a bridge object.
- */
-data class LabelData(
-    var entryId: Int = DEFAULT_INT,
-    var label: Label = DEFAULT_STR,
-    var confidence: Float = DEFAULT_FLOAT
-) : Data
+typealias DataFakeMapper = Mapper<KsData, KsModel>
+typealias DataLabelMapper = Mapper<LabelData, LabelModel>
+
+//region Data
+
+typealias ImageHashCode = String
+typealias ImageUri = String
+typealias Uris = Map<ImageHashCode, ImageUri>
+
+typealias Tag = String
+typealias TagUri = String
+typealias Tags = Map<Tag, TagUri>
+
+typealias KsLabels = List<LabelData>
+//endregion

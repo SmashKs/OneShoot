@@ -14,43 +14,47 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
+package smash.ks.com.data.datas
 
-import smash.ks.com.domain.GeneratorFactory.randomLong
-import smash.ks.com.domain.GeneratorFactory.randomString
+import com.nhaarman.mockito_kotlin.verify
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
+import smash.ks.com.data.GeneratorFactory.randomLong
+import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_LONG
-import smash.ks.com.ext.const.DEFAULT_STR
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 class KsDataTest {
     private var id = DEFAULT_LONG
     private lateinit var uri: String
-    private lateinit var data: KsData
+    @Mock private lateinit var data: KsData
 
     @BeforeTest
-    fun setUp() {
+    fun setup() {
+        MockitoAnnotations.initMocks(this)
+
         id = randomLong
         uri = randomString
 
-        data = KsData(id, uri)
+        data.also {
+            it.id = id
+            it.uri = uri
+        }
     }
 
     @Test
-    fun `assign the variables into ks data class`() {
+    fun `assign all variable to new data and get them`() {
+        data = KsData(id, uri)
+
         assertEquals(id, data.id)
         assertEquals(uri, data.uri)
     }
 
     @Test
-    fun `create a new object then assign new variables`() {
-        data = KsData()
-        data.id = id
-        data.uri = uri
-
-        assertNotEquals(DEFAULT_LONG, data.id)
-        assertNotEquals(DEFAULT_STR, data.uri)
+    fun `create a new data then assign new variables`() {
+        verify(data).id = id
+        verify(data).uri = uri
     }
 }

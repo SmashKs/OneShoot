@@ -17,7 +17,7 @@
 package smash.ks.com.data.local.services
 
 import io.reactivex.Single
-import smash.ks.com.data.models.KsLabels
+import smash.ks.com.data.datas.KsLabels
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.Parameterable
 

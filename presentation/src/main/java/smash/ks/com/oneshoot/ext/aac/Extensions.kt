@@ -22,11 +22,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Error
-import smash.ks.com.domain.datas.KsResponse.Loading
-import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.KsResponse.Error
+import smash.ks.com.domain.models.KsResponse.Loading
+import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.oneshoot.bases.LoadView
 
 /**

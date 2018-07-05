@@ -21,10 +21,10 @@ package smash.ks.com.oneshoot.ext.presentation
 import com.devrapid.kotlinknifer.ui
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Error
-import smash.ks.com.domain.datas.KsResponse.Loading
-import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.KsResponse.Error
+import smash.ks.com.domain.models.KsResponse.Loading
+import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 

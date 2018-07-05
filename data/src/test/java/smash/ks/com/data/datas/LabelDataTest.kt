@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas
 
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
@@ -28,11 +28,11 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class LabelModelTest {
+class LabelDataTest {
     private var id = DEFAULT_INT
     private lateinit var label: Label
     private var confidence = DEFAULT_FLOAT
-    @Mock private lateinit var model: LabelModel
+    @Mock private lateinit var data: LabelData
 
     @BeforeTest
     fun setup() {
@@ -41,7 +41,7 @@ class LabelModelTest {
         id = randomInt
         label = randomString
 
-        model.also {
+        data.also {
             it.entryId = id
             it.label = label
             it.confidence = confidence
@@ -49,18 +49,18 @@ class LabelModelTest {
     }
 
     @Test
-    fun `assign all variable to new object and get them`() {
-        model = LabelModel(id, label, confidence)
+    fun `assign all variable to new data and get them`() {
+        data = LabelData(id, label, confidence)
 
-        assertEquals(id, model.entryId)
-        assertEquals(label, model.label)
-        assertEquals(confidence, model.confidence)
+        assertEquals(id, data.entryId)
+        assertEquals(label, data.label)
+        assertEquals(confidence, data.confidence)
     }
 
     @Test
-    fun `create a new object then assign new variables`() {
-        verify(model).entryId = id
-        verify(model).label = label
-        verify(model).confidence = confidence
+    fun `create a new data then assign new variables`() {
+        verify(data).entryId = id
+        verify(data).label = label
+        verify(data).confidence = confidence
     }
 }

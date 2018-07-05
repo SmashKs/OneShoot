@@ -16,10 +16,10 @@
 
 package smash.ks.com.oneshoot.entities.mappers
 
-import smash.ks.com.domain.datas.KsData
-import smash.ks.com.domain.datas.LabelData
+import smash.ks.com.domain.models.KsModel
+import smash.ks.com.domain.models.LabelModel
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.LabelEntity
 
-typealias PresentationFakeMapper = Mapper<KsData, KsEntity>
-typealias PresentationLabelMapper = Mapper<LabelData, LabelEntity>
+typealias PresentationFakeMapper = Mapper<KsModel, KsEntity>
+typealias PresentationLabelMapper = Mapper<LabelModel, LabelEntity>

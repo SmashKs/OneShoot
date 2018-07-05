@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
-
-import smash.ks.com.ext.const.DEFAULT_LONG
-import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.ext.const.UniqueId
+package smash.ks.com.data.datas
 
 /**
- * Data object in domain layer to be a bridge object.
+ * The basic data object in Data Layer. Also, this is for generic data type and
+ * preparing some advanced functions here.
  */
-data class KsData(
-    var id: UniqueId = DEFAULT_LONG,
-    var uri: String = DEFAULT_STR
-) : Data
+interface Data
