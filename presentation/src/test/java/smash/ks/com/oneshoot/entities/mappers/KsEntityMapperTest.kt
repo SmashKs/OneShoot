@@ -29,15 +29,13 @@ import kotlin.test.assertEquals
 class KsMapperTest {
     private var ksId = DEFAULT_LONG
     private lateinit var ksUri: String
-    private lateinit var mapper: ModelMapper
     private lateinit var ksMapper: KsEntityMapper
 
     @BeforeTest
     fun setup() {
         ksId = randomLong
         ksUri = randomString
-        mapper = ModelMapper()
-        ksMapper = KsEntityMapper(mapper)
+        ksMapper = KsEntityMapper(ModelMapper())
     }
 
     @Test

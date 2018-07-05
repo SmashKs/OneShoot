@@ -16,14 +16,16 @@
 
 package smash.ks.com.domain.datas
 
-import smash.ks.com.ext.const.DEFAULT_LONG
+import smash.ks.com.domain.Label
+import smash.ks.com.ext.const.DEFAULT_FLOAT
+import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.ext.const.UniqueId
 
 /**
  * Data object in domain layer to be a bridge object.
  */
 data class LabelData(
-    var id: UniqueId = DEFAULT_LONG,
-    var uri: String = DEFAULT_STR
+    var entryId: Int = DEFAULT_INT,
+    var label: Label = DEFAULT_STR,
+    var confidence: Float = DEFAULT_FLOAT
 ) : Data

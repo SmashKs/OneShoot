@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.models.mappers
 
-import smash.ks.com.data.models.mappers.Mapper
-import smash.ks.com.domain.datas.KsData
+import org.modelmapper.ModelMapper
+import smash.ks.com.data.models.DataLabelMapper
+import smash.ks.com.data.models.LabelModel
 import smash.ks.com.domain.datas.LabelData
 
-typealias DataFakeMapper = Mapper<KsModel, KsData>
-typealias DataLabelMapper = Mapper<LabelModel, LabelData>
+/**
+ * A transforming mapping between [LabelModel] and [LabelData]. The different layers have
+ * their own data objects, the objects should transform and fit each layers.
+ */
+class LabelMapper constructor(mapper: ModelMapper) : DataLabelMapper(mapper) {
+    override fun toDataFrom(model: LabelModel): LabelData = mapper.map(model, LabelData::class.java)
 
-//region Model
-
-typealias ImageHashCode = String
-typealias ImageUri = String
-typealias Uris = Map<ImageHashCode, ImageUri>
-
-typealias Tag = String
-typealias TagUri = String
-typealias Tags = Map<Tag, TagUri>
-
-typealias KsLabels = List<LabelModel>
-//endregion
+    override fun toModelFrom(obj: LabelData): LabelModel = mapper.map(obj, LabelModel::class.java)
+}
