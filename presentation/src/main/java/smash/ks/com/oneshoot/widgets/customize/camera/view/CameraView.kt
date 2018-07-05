@@ -236,6 +236,8 @@ open class CameraView @JvmOverloads constructor(
      */
     fun addCallback(callback: Callback) = callbacks?.add(callback)
 
+    fun hasCallback(callback: Callback) = callbacks?.has(callback) ?: throw NullPointerException()
+
     /**
      * Remove a callback.
      *
@@ -409,6 +411,8 @@ open class CameraView @JvmOverloads constructor(
         private var requestLayoutOnOpen = false
 
         fun add(callback: Callback) = callbacks.add(callback)
+
+        fun has(callback: Callback) = callbacks.find { callback == it }?.let { true } ?: false
 
         fun remove(callback: Callback) = callbacks.remove(callback)
 

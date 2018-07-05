@@ -21,8 +21,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
@@ -30,21 +28,19 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.logw
+import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
+import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
+import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
+import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.find
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.R.id.cv_camera
-import smash.ks.com.oneshoot.R.id.ib_shot
-import smash.ks.com.oneshoot.R.id.iv_preview
-import smash.ks.com.oneshoot.R.id.sav_selection
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
-import smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
 import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
@@ -75,50 +71,16 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         var roundHeight = (y + h).let { if (it > bmp.height) bmp.height - y else h }
                         val roundX = x.takeIf { 0 < it } ?: let { roundWidth = w + x; 0 }
                         val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
-
                         val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
-                        view?.find<ImageView>(iv_preview)?.imageBitmap = bitmap
 
-                        //region ORIGINAL ML CODE
-//                        // Tensorflow Lite.
-//                        val croppedBitmap = bitmap.scale(INPUT_SIZE, INPUT_SIZE, false)
-//                        val classifier =
-//                            TFLiteImageClassifier.create(activity!!.assets, MODEL_FILE, LABEL_FILE, INPUT_SIZE)
-//
-////                        val stream = ByteArrayOutputStream()
-////                        val a = croppedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-////                        val straming = stream.toByteArray()
-//
-//                        launch {
-//                            val time = measureTimeMillis {
-//                                val results = classifier.recognizeImage(croppedBitmap)
-//                                logv("Detect: $results")
-//                            }
-//                            logw(time)
-//                        }
-//
-//                        // Firebase ML Kit.
-//                        val textImage = FirebaseVisionImage.fromBitmap(croppedBitmap)
-//                        val detector = FirebaseVision.getInstance().visionLabelDetector
-//
-//                        detector.detectInImage(textImage).addOnCompleteListener {
-//                            it.result.forEach {
-//                                logw("[${it.entityId}]${it.label}: ${it.confidence * 100}%")
-//                            }
-//                        }
-//
-//                        croppedBitmap.recycle()
-                        //endregion
-
+                        iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
                             val stream = ByteArrayOutputStream()
                             compress(Bitmap.CompressFormat.PNG, 100, stream)
                             byteArray = stream.toByteArray()
                         }.recycle()
 
-                        this@TakeAPicFragment.observeNonNull(vm.analyzeImage(byteArray)) {
-                            logw(it.data)
-                        }
+                        vm.analyzeImage(byteArray)
                     }
                 }.recycle()
             }
@@ -135,8 +97,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun onResume() {
         super.onResume()
 
+        // Request the authority of the camera.
         when {
-            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> view?.find<CameraView>(cv_camera)?.start()
+            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
             shouldShowRequestPermissionRationale(CAMERA) -> QuickDialogFragment.Builder(this) {
                 message = gStrings(R.string.camera_permission_confirmation)
                 btnPositiveText = "Ok" to { _ ->
@@ -148,19 +111,26 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             }.build().show()
             else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
         }
+
+        this@TakeAPicFragment.observeNonNull(vm.labels) {
+            logw(it.data)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        view?.find<CameraView>(cv_camera)?.stop()
+
+        cv_camera.stop()
     }
     //endregion
 
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
-        view?.find<CameraView>(cv_camera)?.addCallback(cameraCallback)
-        view?.find<ImageButton>(ib_shot)?.onClick { view?.find<CameraView>(cv_camera)?.takePicture() }
-        view?.find<SelectableAreaView>(sav_selection)?.selectedAreaCallback = { x, y, w, h ->
+        if (!cv_camera.hasCallback(cameraCallback)) {
+            cv_camera.addCallback(cameraCallback)
+        }
+        ib_shot.onClick { cv_camera.takePicture() }
+        sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
             selectedRectF.w = w

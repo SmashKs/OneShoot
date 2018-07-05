@@ -17,20 +17,16 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_fake.btn_append
+import kotlinx.android.synthetic.main.fragment_fake.rv_fake
+import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.find
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.datas.KsResponse
 import smash.ks.com.ext.cast
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
-import smash.ks.com.oneshoot.R.id.btn_append
-import smash.ks.com.oneshoot.R.id.rv_fake
-import smash.ks.com.oneshoot.R.id.tv_label
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
@@ -76,11 +72,11 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
 //            observe(storeImage())
         }
 
-        view?.find<RecyclerView>(rv_fake)?.also {
+        rv_fake.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter
         }
-        view?.find<Button>(btn_append)?.setOnClickListener {
+        btn_append.setOnClickListener {
             adapter.appendList(mutableListOf(KsEntity()))
         }
     }
@@ -94,7 +90,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     }
 
     private fun showImageUri(uri: String) {
-        view?.find<TextView>(tv_label)?.text = uri
+        tv_label.text = uri
     }
     //endregion
 }
