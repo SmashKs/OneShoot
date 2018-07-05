@@ -18,8 +18,10 @@ package smash.ks.com.data.models
 
 import smash.ks.com.data.models.mappers.Mapper
 import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.datas.LabelData
 
 typealias DataFakeMapper = Mapper<KsModel, KsData>
+typealias DataLabelMapper = Mapper<LabelModel, LabelData>
 
 //region Model
 
@@ -30,4 +32,6 @@ typealias Uris = Map<ImageHashCode, ImageUri>
 typealias Tag = String
 typealias TagUri = String
 typealias Tags = Map<Tag, TagUri>
+
+typealias KsLabels = List<LabelModel>
 //endregion

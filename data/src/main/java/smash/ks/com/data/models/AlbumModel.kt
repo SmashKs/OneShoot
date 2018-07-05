@@ -20,7 +20,7 @@ import com.google.firebase.database.PropertyName
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
 
-data class KsAlbum(
+data class AlbumModel(
     var title: String = DEFAULT_STR,
     var author: String = DEFAULT_STR,
     var comments: Int = DEFAULT_INT,

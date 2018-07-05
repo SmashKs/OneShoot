@@ -34,7 +34,3 @@ class TakeAPicViewModel(
         labels.requestData { getImageTagsCase.toAwait(Requests(KsAnalyzeImageParam(byteArray))) }
     }
 }
-
-//private fun <T, R> SingleUseCase<T, R>.toAwait(requests: R): Deferred<KsResponse<T>> {
-//
-//}

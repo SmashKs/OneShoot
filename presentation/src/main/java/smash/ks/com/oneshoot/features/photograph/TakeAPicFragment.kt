@@ -19,6 +19,7 @@ package smash.ks.com.oneshoot.features.photograph
 import android.Manifest.permission.CAMERA
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat.PNG
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast.LENGTH_SHORT
@@ -46,8 +47,6 @@ import java.io.ByteArrayOutputStream
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
     companion object Factory {
-        private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
-        private const val LABEL_FILE = "labels.txt"
         private const val INPUT_SIZE = 224
 
         /**
@@ -76,7 +75,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
                             val stream = ByteArrayOutputStream()
-                            compress(Bitmap.CompressFormat.PNG, 100, stream)
+                            compress(PNG, 100, stream)
                             byteArray = stream.toByteArray()
                         }.recycle()
 

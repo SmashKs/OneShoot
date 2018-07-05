@@ -43,10 +43,6 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
         // The key name of the fragment initialization parameters.
         const val ARG_RANDOM_ID = "param random image id"
 
-        private const val MODEL_FILE = "mobilenet_quant_v1_224.tflite"
-        private const val LABEL_FILE = "labels.txt"
-        private const val INPUT_SIZE = 224
-
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
          *

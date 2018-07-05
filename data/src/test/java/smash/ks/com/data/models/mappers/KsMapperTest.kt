@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.objects.mappers
+package smash.ks.com.data.models.mappers
 
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
 import smash.ks.com.data.models.KsModel
-import smash.ks.com.data.models.mappers.KsMapper
 import smash.ks.com.domain.datas.KsData
 import smash.ks.com.ext.const.DEFAULT_LONG
 import kotlin.test.BeforeTest
@@ -30,34 +29,32 @@ import kotlin.test.assertEquals
 class KsMapperTest {
     private var ksId = DEFAULT_LONG
     private lateinit var ksUri: String
-    private lateinit var mapper: ModelMapper
     private lateinit var ksMapper: KsMapper
 
     @BeforeTest
     fun setup() {
         ksId = randomLong
         ksUri = randomString
-        mapper = ModelMapper()
-        ksMapper = KsMapper(mapper)
+        ksMapper = KsMapper(ModelMapper())
     }
 
     @Test
     fun `mapping model to data`() {
         val model = KsModel(ksId, ksUri)
-        val newObj = ksMapper.toDataFrom(model)
+        val newData = ksMapper.toDataFrom(model)
 
-        assertEqualsObject(newObj, model)
+        assertEqualsObject(newData, model)
     }
 
     @Test
     fun `mapping data to model`() {
-        val obj = KsData(ksId, ksUri)
-        val newModel = ksMapper.toModelFrom(obj)
+        val data = KsData(ksId, ksUri)
+        val newModel = ksMapper.toModelFrom(data)
 
-        assertEqualsObject(obj, newModel)
+        assertEqualsObject(data, newModel)
     }
 
-    private fun assertEqualsObject(obj: KsData, newModel: KsModel) {
-        assertEquals(obj.uri, newModel.uri)
+    private fun assertEqualsObject(data: KsData, newModel: KsModel) {
+        assertEquals(data.uri, newModel.uri)
     }
 }

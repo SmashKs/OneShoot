@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.services
+package smash.ks.com.oneshoot.entities
 
-import io.reactivex.Single
-import smash.ks.com.data.models.KsLabels
 import smash.ks.com.domain.Label
-import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.ext.const.DEFAULT_FLOAT
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeFactory
 
-interface KsFlow {
-    fun retrieveImageTagsByML(imageByteArray: ByteArray): Single<KsLabels>
-
-    fun retrieveImageWordContentByML(params: Parameterable): Single<Label>
+data class LabelEntity(
+    var entryId: Int = DEFAULT_INT,
+    var label: Label = DEFAULT_STR,
+    var confidence: Float = DEFAULT_FLOAT
+) : Entity, KsMultiVisitable {
+    override fun type(typeFactory: MultiTypeFactory) = typeFactory.type(this)
 }

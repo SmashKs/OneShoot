@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities.mappers
+package smash.ks.com.data.models.mappers
 
-import smash.ks.com.domain.datas.KsData
+import org.modelmapper.ModelMapper
+import smash.ks.com.data.models.DataLabelMapper
+import smash.ks.com.data.models.LabelModel
 import smash.ks.com.domain.datas.LabelData
-import smash.ks.com.oneshoot.entities.KsEntity
-import smash.ks.com.oneshoot.entities.LabelEntity
 
-typealias PresentationFakeMapper = Mapper<KsData, KsEntity>
-typealias PresentationLabelMapper = Mapper<LabelData, LabelEntity>
+/**
+ * A transforming mapping between [LabelModel] and [LabelData]. The different layers have
+ * their own data objects, the objects should transform and fit each layers.
+ */
+class LabelMapper constructor(mapper: ModelMapper) : DataLabelMapper(mapper) {
+    override fun toDataFrom(model: LabelModel): LabelData = mapper.map(model, LabelData::class.java)
+
+    override fun toModelFrom(obj: LabelData): LabelModel = mapper.map(obj, LabelModel::class.java)
+}
