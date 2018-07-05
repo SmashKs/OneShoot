@@ -25,8 +25,8 @@ import io.reactivex.Completable
 import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
-import smash.ks.com.domain.datas.KsData
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.PersistKsImageUsecase.Requests
@@ -37,12 +37,12 @@ import kotlin.test.assertFailsWith
 class PersistKsImageUsecaseTest {
     private lateinit var usecase: PersistKsImageUsecase
     private lateinit var repository: DataRepository
-    private lateinit var data: KsData
+    private lateinit var model: KsModel
     private lateinit var parameter: KsParam
 
     @BeforeTest
     fun setUp() {
-        data = KsData(randomLong, randomString)
+        model = KsModel(randomLong, randomString)
         parameter = KsParam(randomLong, randomString, randomString)
         buildUsecaseWithAction(parameter) { completable() }
     }

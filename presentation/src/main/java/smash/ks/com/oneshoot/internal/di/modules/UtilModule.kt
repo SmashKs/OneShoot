@@ -26,8 +26,8 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.setBinding
 import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.models.DataFakeMapper
-import smash.ks.com.data.models.mappers.KsMapper
+import smash.ks.com.data.datas.DataFakeMapper
+import smash.ks.com.data.datas.mappers.KsMapper
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
 

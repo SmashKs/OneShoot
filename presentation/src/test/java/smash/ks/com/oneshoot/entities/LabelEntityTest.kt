@@ -49,7 +49,7 @@ class LabelEntityTest {
     }
 
     @Test
-    fun `assign all variable to new object and get them`() {
+    fun `assign all variable to new entity and get them`() {
         entity = LabelEntity(id, label, confidence)
 
         assertEquals(id, entity.entryId)
@@ -58,7 +58,7 @@ class LabelEntityTest {
     }
 
     @Test
-    fun `create a new object then assign new variables`() {
+    fun `create a new entity then assign new variables`() {
         verify(entity).entryId = id
         verify(entity).label = label
         verify(entity).confidence = confidence

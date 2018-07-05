@@ -14,43 +14,43 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+package smash.ks.com.domain.models
 
+import smash.ks.com.domain.GeneratorFactory.randomLong
+import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.GeneratorFactory.randomLong
-import smash.ks.com.oneshoot.GeneratorFactory.randomString
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-class KsEntityTest {
+class KsModelTest {
     private var id = DEFAULT_LONG
     private lateinit var uri: String
-    private lateinit var entity: KsEntity
+    private lateinit var model: KsModel
 
     @BeforeTest
     fun setUp() {
         id = randomLong
         uri = randomString
 
-        entity = KsEntity(id, uri)
+        model = KsModel(id, uri)
     }
 
     @Test
-    fun `assign the variables into ks entity class`() {
-        assertEquals(id, entity.id)
-        assertEquals(uri, entity.uri)
+    fun `assign the variables into ks model class`() {
+        assertEquals(id, model.id)
+        assertEquals(uri, model.uri)
     }
 
     @Test
-    fun `create a new entity then assign new variables`() {
-        entity = KsEntity()
-        entity.id = id
-        entity.uri = uri
+    fun `create a new model then assign new variables`() {
+        model = KsModel()
+        model.id = id
+        model.uri = uri
 
-        assertNotEquals(DEFAULT_LONG, entity.id)
-        assertNotEquals(DEFAULT_STR, entity.uri)
+        assertNotEquals(DEFAULT_LONG, model.id)
+        assertNotEquals(DEFAULT_STR, model.uri)
     }
 }

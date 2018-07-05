@@ -17,15 +17,15 @@
 package smash.ks.com.oneshoot.entities.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.domain.datas.LabelData
+import smash.ks.com.domain.models.LabelModel
 import smash.ks.com.oneshoot.entities.LabelEntity
 
 /**
- * A transforming mapping between [LabelData] and [LabelEntity]. The different layers have
+ * A transforming mapping between [LabelModel] and [LabelEntity]. The different layers have
  * their own data objects, the objects should transform and fit each layers.
  */
 class LabelEntityMapper(mapper: ModelMapper) : PresentationLabelMapper(mapper) {
-    override fun toEntityFrom(data: LabelData): LabelEntity = mapper.map(data, LabelEntity::class.java)
+    override fun toEntityFrom(model: LabelModel): LabelEntity = mapper.map(model, LabelEntity::class.java)
 
-    override fun toDataFrom(entity: LabelEntity): LabelData = mapper.map(entity, LabelData::class.java)
+    override fun toModelFrom(entity: LabelEntity): LabelModel = mapper.map(entity, LabelModel::class.java)
 }

@@ -17,15 +17,15 @@
 package smash.ks.com.oneshoot.entities.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.domain.datas.KsData
+import smash.ks.com.domain.models.KsModel
 import smash.ks.com.oneshoot.entities.KsEntity
 
 /**
- * A transforming mapping between [KsData] and [KsEntity]. The different layers have
+ * A transforming mapping between [KsModel] and [KsEntity]. The different layers have
  * their own data objects, the objects should transform and fit each layers.
  */
 class KsEntityMapper(mapper: ModelMapper) : PresentationFakeMapper(mapper) {
-    override fun toEntityFrom(data: KsData): KsEntity = mapper.map(data, KsEntity::class.java)
+    override fun toEntityFrom(model: KsModel): KsEntity = mapper.map(model, KsEntity::class.java)
 
-    override fun toDataFrom(entity: KsEntity): KsData = mapper.map(entity, KsData::class.java)
+    override fun toModelFrom(entity: KsEntity): KsModel = mapper.map(entity, KsModel::class.java)
 }

@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
-import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.datas.KsData
 import smash.ks.com.data.remote.FirebaseData
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.parameters.Parameterable
@@ -40,14 +40,14 @@ class KsFirebaseImpl constructor(private val database: FirebaseDatabase) : KsFir
     private val ref by lazy { database.reference }
 
     //region Fake
-    override fun retrieveImages(name: String) = single<KsModel> {
+    override fun retrieveImages(name: String) = single<KsData> {
         ref.child(V1_CHILD_PROPERTIES).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val ti = object : GenericTypeIndicator<FirebaseData>() {}
                 val entry = dataSnapshot.children.toList().first().getValue(ti)
 
                 castOrNull<String>(entry?.get("url"))
-                    ?.run { it.onSuccess(KsModel(uri = this)) } ?: it.onError(ClassCastException())
+                    ?.run { it.onSuccess(KsData(uri = this)) } ?: it.onError(ClassCastException())
             }
 
             override fun onCancelled(error: DatabaseError) = it.onError(error.toException())

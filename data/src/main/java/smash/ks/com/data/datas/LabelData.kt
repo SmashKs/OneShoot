@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas
 
 import smash.ks.com.domain.Label
 import smash.ks.com.ext.const.DEFAULT_FLOAT
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
 
-data class LabelModel(
+data class LabelData(
     var entryId: Int = DEFAULT_INT,
     var label: Label = DEFAULT_STR,
     var confidence: Float = DEFAULT_FLOAT
-) : Model
+) : Data

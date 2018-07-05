@@ -18,11 +18,11 @@ package smash.ks.com.domain.usecases.analysis
 
 import smash.ks.com.domain.ResponseKsLabels
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.datas.KsResponse.Error
-import smash.ks.com.domain.datas.KsResponse.Success
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.domain.models.KsResponse.Error
+import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas
 
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
@@ -26,7 +26,7 @@ import smash.ks.com.ext.const.DEFAULT_INT
 import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 
-class AlbumModelTest {
+class AlbumDataTest {
     private lateinit var title: String
     private lateinit var author: String
     private var comments = DEFAULT_INT
@@ -35,7 +35,7 @@ class AlbumModelTest {
     private lateinit var postDate: String
     @Mock private lateinit var uris: Uris
 
-    @Mock private lateinit var model: AlbumModel
+    @Mock private lateinit var data: AlbumData
 
     @BeforeTest
     fun setup() {
@@ -46,7 +46,7 @@ class AlbumModelTest {
         likes = randomInt
         postDate = randomString
 
-        model.also {
+        data.also {
             it.title = title
             it.author = author
             it.comments = comments
@@ -58,26 +58,26 @@ class AlbumModelTest {
     }
 
     @Test
-    fun `assign all variable to new model and get them`() {
-        model = AlbumModel(title, author, comments, likes, tags, postDate, uris)
+    fun `assign all variable to new data and get them`() {
+        data = AlbumData(title, author, comments, likes, tags, postDate, uris)
 
-        assertEquals(title, model.title)
-        assertEquals(author, model.author)
-        assertEquals(comments, model.comments)
-        assertEquals(likes, model.likes)
-        assertEquals(tags, model.tags)
-        assertEquals(postDate, model.postDate)
-        assertEquals(uris, model.uris)
+        assertEquals(title, data.title)
+        assertEquals(author, data.author)
+        assertEquals(comments, data.comments)
+        assertEquals(likes, data.likes)
+        assertEquals(tags, data.tags)
+        assertEquals(postDate, data.postDate)
+        assertEquals(uris, data.uris)
     }
 
     @Test
-    fun `create a new model then assign new variables`() {
-        verify(model).title = title
-        verify(model).author = author
-        verify(model).comments = comments
-        verify(model).likes = likes
-        verify(model).tags = tags
-        verify(model).postDate = postDate
-        verify(model).uris = uris
+    fun `create a new data then assign new variables`() {
+        verify(data).title = title
+        verify(data).author = author
+        verify(data).comments = comments
+        verify(data).likes = likes
+        verify(data).tags = tags
+        verify(data).postDate = postDate
+        verify(data).uris = uris
     }
 }

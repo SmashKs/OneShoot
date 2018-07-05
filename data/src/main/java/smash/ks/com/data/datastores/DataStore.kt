@@ -18,8 +18,8 @@ package smash.ks.com.data.datastores
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import smash.ks.com.data.models.KsLabels
-import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.datas.KsData
+import smash.ks.com.data.datas.KsLabels
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -30,15 +30,15 @@ import smash.ks.com.domain.parameters.Parameterable
 interface DataStore {
     //region Fake
     /**
-     * Fetching an image object [KsModel] by parameter.
+     * Fetching an image object [KsData] by parameter.
      *
      * @param params
      * @return Rx [Single] object to the presentation layer.
      */
-    fun getKsImage(params: Parameterable?): Single<KsModel>
+    fun getKsImage(params: Parameterable?): Single<KsData>
 
     /**
-     * Keep an image object [KsModel] by parameter.
+     * Keep an image object [KsData] by parameter.
      *
      * @param params
      * @return Rx [Completable] and no response to the presentation layer.

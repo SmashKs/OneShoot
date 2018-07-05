@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas
 
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
@@ -25,8 +25,8 @@ import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.ext.const.UniqueId
 
 @Table(database = KsDatabaseConfig::class, allFields = true, name = "KsEntityTable")
-data class KsModel(
+data class KsData(
     @PrimaryKey(autoincrement = true)
     var id: UniqueId = DEFAULT_LONG,
     var uri: String = DEFAULT_STR
-) : BaseRXModel(), Model
+) : BaseRXModel(), Data

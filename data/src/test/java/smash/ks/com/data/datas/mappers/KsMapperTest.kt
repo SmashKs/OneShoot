@@ -14,47 +14,47 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models
+package smash.ks.com.data.datas.mappers
 
-import com.nhaarman.mockito_kotlin.verify
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.modelmapper.ModelMapper
 import smash.ks.com.data.GeneratorFactory.randomLong
 import smash.ks.com.data.GeneratorFactory.randomString
+import smash.ks.com.data.datas.KsData
+import smash.ks.com.domain.models.KsModel
 import smash.ks.com.ext.const.DEFAULT_LONG
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class KsModelTest {
-    private var id = DEFAULT_LONG
-    private lateinit var uri: String
-    @Mock private lateinit var model: KsModel
+class KsMapperTest {
+    private var ksId = DEFAULT_LONG
+    private lateinit var ksUri: String
+    private lateinit var ksMapper: KsMapper
 
     @BeforeTest
     fun setup() {
-        MockitoAnnotations.initMocks(this)
-
-        id = randomLong
-        uri = randomString
-
-        model.also {
-            it.id = id
-            it.uri = uri
-        }
+        ksId = randomLong
+        ksUri = randomString
+        ksMapper = KsMapper(ModelMapper())
     }
 
     @Test
-    fun `assign all variable to new object and get them`() {
-        model = KsModel(id, uri)
+    fun `mapping data to model`() {
+        val data = KsData(ksId, ksUri)
+        val newModel = ksMapper.toModelFrom(data)
 
-        assertEquals(id, model.id)
-        assertEquals(uri, model.uri)
+        assertEqualsObject(data, newModel)
     }
 
     @Test
-    fun `create a new object then assign new variables`() {
-        verify(model).id = id
-        verify(model).uri = uri
+    fun `mapping model to data`() {
+        val model = KsModel(ksId, ksUri)
+        val newData = ksMapper.toDataFrom(model)
+
+        assertEqualsObject(newData, model)
+    }
+
+    private fun assertEqualsObject(data: KsData, newModel: KsModel) {
+        assertEquals(data.uri, newModel.uri)
     }
 }

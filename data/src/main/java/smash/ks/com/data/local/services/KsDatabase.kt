@@ -18,7 +18,7 @@ package smash.ks.com.data.local.services
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import smash.ks.com.data.models.KsModel
+import smash.ks.com.data.datas.KsData
 import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.ext.const.UniqueId
@@ -27,15 +27,15 @@ import smash.ks.com.ext.const.UniqueId
  * The access operations to a database.
  */
 interface KsDatabase {
-    fun retrieveKsData(id: UniqueId?): Single<KsModel>
+    fun retrieveKsData(id: UniqueId?): Single<KsData>
 
     fun storeKsData(id: UniqueId = DEFAULT_LONG, uri: String = DEFAULT_STR): Completable
 
     /**
      * Delete a row of the data from the database.
      *
-     * @param model a model belongs to []
+     * @param data a data belongs to []
      * @return Completable
      */
-    fun deleteKsData(model: KsModel? = null): Completable
+    fun deleteKsData(data: KsData? = null): Completable
 }

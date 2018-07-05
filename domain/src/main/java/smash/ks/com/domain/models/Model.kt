@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.models.mappers
-
-import org.modelmapper.ModelMapper
-import smash.ks.com.data.models.DataFakeMapper
-import smash.ks.com.data.models.KsModel
-import smash.ks.com.domain.datas.KsData
+package smash.ks.com.domain.models
 
 /**
- * A transforming mapping between [KsModel] and [KsData]. The different layers have
- * their own data objects, the objects should transform and fit each layers.
+ * The basic data object in Domain Layer. Also, this is for generic data type and
+ * preparing some advanced functions here.
  */
-class KsMapper constructor(mapper: ModelMapper) : DataFakeMapper(mapper) {
-    override fun toDataFrom(model: KsModel): KsData = mapper.map(model, KsData::class.java)
-
-    override fun toModelFrom(obj: KsData): KsModel = mapper.map(obj, KsModel::class.java)
-}
+interface Model

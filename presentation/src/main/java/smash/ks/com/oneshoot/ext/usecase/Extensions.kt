@@ -29,10 +29,10 @@ import smash.ks.com.domain.ExtraObservableOpOnUi
 import smash.ks.com.domain.ExtraSingleOpOnUi
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.datas.Data
-import smash.ks.com.domain.datas.KsResponse
-import smash.ks.com.domain.datas.KsResponse.Error
-import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.KsResponse.Error
+import smash.ks.com.domain.models.KsResponse.Success
+import smash.ks.com.domain.models.Model
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 
@@ -121,7 +121,7 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
  * Connected [ObservableUseCase] and unwrapping and letting the usecase become a async
  * [kotlinx.coroutines.experimental.Deferred] object.
  */
-fun <D : Data, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.ayncCase(
+fun <D : Model, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -129,10 +129,10 @@ fun <D : Data, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.a
  * Connected [ObservableUseCase] and unwrapping and letting the usecase become a await
  * [kotlinx.coroutines.experimental.Deferred] object with the mapper.
  *
- * @param mapper the mapper for translating from [Data] to [Entity].
+ * @param mapper the mapper for translating from [Model] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
+suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
@@ -156,7 +156,7 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<
  * Connected [SingleUseCase] and unwrapping and letting the usecase become a async
  * [kotlinx.coroutines.experimental.Deferred] object.
  */
-fun <D : Data, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncCase(
+fun <D : Model, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -164,10 +164,10 @@ fun <D : Data, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncC
  * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
  * [kotlinx.coroutines.experimental.Deferred] object. with the mapper.
  *
- * @param mapper the mapper for translating from [Data] to [Entity].
+ * @param mapper the mapper for translating from [Model] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Data, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
+suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
     mapper: Mapper<D, E>,
     parameter: V? = null
 ) = async {
@@ -191,10 +191,10 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V
 //endregion
 
 /**
- * A mapper which unboxing the [KsResponse]<[Data]> then getting items we needs. Make a [KsResponse]
- * again and boxing the [Entity] which mapping from [Data] to [Entity] to be a [KsResponse]<[Entity]>.
+ * A mapper which unboxing the [KsResponse]<[Model]> then getting items we needs. Make a [KsResponse]
+ * again and boxing the [Entity] which mapping from [Model] to [Entity] to be a [KsResponse]<[Entity]>.
  */
-private fun <D : Data, E : Entity> KsResponse<D>.mapToEntity(mapper: Mapper<D, E>) =
+private fun <D : Model, E : Entity> KsResponse<D>.mapToEntity(mapper: Mapper<D, E>) =
     data?.let(mapper::toEntityFrom)?.wrapInSuccess() ?: "No response result".wrapInError<E>()
 
 //region Completable

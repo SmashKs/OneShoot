@@ -26,10 +26,10 @@ import io.reactivex.internal.operators.single.SingleJust
 import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
-import smash.ks.com.domain.ResponseKsData
-import smash.ks.com.domain.datas.KsData
-import smash.ks.com.domain.datas.KsResponse.Success
+import smash.ks.com.domain.ResponseKsModel
 import smash.ks.com.domain.exceptions.NoParameterException
+import smash.ks.com.domain.models.KsModel
+import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
@@ -41,14 +41,14 @@ import kotlin.test.assertFailsWith
 class FindKsImageUsecaseTest {
     private lateinit var usecase: FindKsImageUsecase
     private lateinit var repository: DataRepository
-    private lateinit var data: KsData
+    private lateinit var model: KsModel
     private lateinit var parameter: KsParam
 
-    private val returnDate by lazy { cast<ResponseKsData>(Success(data)) }
+    private val returnDate by lazy { cast<ResponseKsModel>(Success(model)) }
 
     @BeforeTest
     fun setUp() {
-        data = KsData(randomLong, randomString)
+        model = KsModel(randomLong, randomString)
         parameter = KsParam(randomLong, randomString, randomString)
         buildUsecaseWithAction()
     }
@@ -102,14 +102,14 @@ class FindKsImageUsecaseTest {
         assertThat(single.isDisposed).isTrue()
     }
 
-    private fun buildUsecaseWithAction(ksParam: KsParam? = null, returnBlock: (() -> Single<KsData>)? = null) {
+    private fun buildUsecaseWithAction(ksParam: KsParam? = null, returnBlock: (() -> Single<KsModel>)? = null) {
         repository = mock {
             returnBlock.takeIf { null != it }?.let { on { fetchKsImage(ksParam) } doReturn it.invoke() }
         }
         usecase = FindKsImageUsecase(repository, mock(), mock())
     }
 
-    private fun buildSimpleSuccessUsecase() = buildUsecaseWithAction(parameter) { SingleJust(data) }
+    private fun buildSimpleSuccessUsecase() = buildUsecaseWithAction(parameter) { SingleJust(model) }
 
     private fun buildSingle(ksParam: KsParam? = null) =
         usecase.apply {

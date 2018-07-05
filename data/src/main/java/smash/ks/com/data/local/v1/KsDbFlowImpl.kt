@@ -25,9 +25,9 @@ import com.raizlabs.android.dbflow.kotlinextensions.where
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.Delete
+import smash.ks.com.data.datas.KsData
+import smash.ks.com.data.datas.KsData_Table
 import smash.ks.com.data.local.services.KsDatabase
-import smash.ks.com.data.models.KsModel
-import smash.ks.com.data.models.KsModel_Table
 import smash.ks.com.ext.const.UniqueId
 import java.util.Random
 import java.util.UUID
@@ -37,22 +37,22 @@ import java.util.UUID
  */
 class KsDbFlowImpl : KsDatabase {
     override fun retrieveKsData(id: UniqueId?) = (id?.let {
-        (select from KsModel::class where (KsModel_Table.id eq it)).rx()
-    } ?: let { (select from KsModel::class).rx() })
+        (select from KsData::class where (KsData_Table.id eq it)).rx()
+    } ?: let { (select from KsData::class).rx() })
         .list
         .map {
             val (uid, uri) = try {
                 it.first()
             }
             catch (exception: NoSuchElementException) {
-                KsModel(Random().nextLong(), UUID.randomUUID().toString())
+                KsData(Random().nextLong(), UUID.randomUUID().toString())
             }
 
-            KsModel(uid, uri)
+            KsData(uid, uri)
         }
 
-    override fun storeKsData(id: UniqueId, uri: String) = KsModel(id, uri).save().ignoreElement()
+    override fun storeKsData(id: UniqueId, uri: String) = KsData(id, uri).save().ignoreElement()
 
-    override fun deleteKsData(model: KsModel?) =
-        (model.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsModel::class.java).toSingle()).ignoreElement()
+    override fun deleteKsData(data: KsData?) =
+        (data.takeIf(Any?::isNotNull)?.delete() ?: Delete.table(KsData::class.java).toSingle()).ignoreElement()
 }

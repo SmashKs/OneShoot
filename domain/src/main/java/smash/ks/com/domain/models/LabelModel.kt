@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.datas
+package smash.ks.com.domain.models
+
+import smash.ks.com.domain.Label
+import smash.ks.com.ext.const.DEFAULT_FLOAT
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_STR
 
 /**
- * The basic data object in Domain Layer. Also, this is for generic data type and
- * preparing some advanced functions here.
+ * Model object in domain layer to be a bridge object.
  */
-interface Data
+data class LabelModel(
+    var entryId: Int = DEFAULT_INT,
+    var label: Label = DEFAULT_STR,
+    var confidence: Float = DEFAULT_FLOAT
+) : Model
