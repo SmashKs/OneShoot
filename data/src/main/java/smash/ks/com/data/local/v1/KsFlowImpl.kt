@@ -18,8 +18,8 @@ package smash.ks.com.data.local.v1
 
 import android.graphics.BitmapFactory
 import com.devrapid.kotlinshaver.single
-import smash.ks.com.data.datas.KsLabels
 import smash.ks.com.data.datas.LabelData
+import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.data.local.ml.Classifier
 import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.domain.parameters.Parameterable
@@ -29,7 +29,7 @@ import smash.ks.com.ext.const.DEFAULT_INT
 class KsFlowImpl(
     private val classifier: Classifier
 ) : KsFlow {
-    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<KsLabels> {
+    override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<LabelDatas> {
         val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
 
         it.onSuccess(classifier.recognizeImage(bitmap).map {

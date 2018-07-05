@@ -19,7 +19,9 @@ package smash.ks.com.oneshoot.internal.di.modules
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import smash.ks.com.data.datas.MapperPool
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.datastores.LocalDataStoreImpl
 import smash.ks.com.data.datastores.RemoteDataStoreImpl
@@ -38,6 +40,8 @@ object RepositoryModule {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
         bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
         bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance(), instance()) }
+        /** Mapper Pool for providing all data mappers */
+        bind<MapperPool>() with provider { instance<DataMapperEntries>().toMap() }
 
         bind<DataRepository>() with singleton {
             DataRepositoryImpl(instance(LOCAL), instance(LOCAL), instance(REMOTE), instance())

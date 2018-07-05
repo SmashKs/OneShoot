@@ -28,7 +28,7 @@ object TakeAPicModule {
     fun takeAPicProvider() = Module("TakeAPic Fragment Module") {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
-            TakeAPicViewModel::class.java to TakeAPicViewModel(instance())
+            TakeAPicViewModel::class.java to TakeAPicViewModel(instance(), instance())
         }
     }
 }

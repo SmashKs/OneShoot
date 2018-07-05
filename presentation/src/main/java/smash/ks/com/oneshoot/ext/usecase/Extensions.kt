@@ -121,7 +121,7 @@ fun <V : BaseUseCase.RequestValues, E> LifecycleProvider<E>.execute(
  * Connected [ObservableUseCase] and unwrapping and letting the usecase become a async
  * [kotlinx.coroutines.experimental.Deferred] object.
  */
-fun <D : Model, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.ayncCase(
+fun <M : Model, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<M, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -132,11 +132,29 @@ fun <D : Model, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.
  * @param mapper the mapper for translating from [Model] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
-    mapper: Mapper<D, E>,
+suspend fun <M : Model, E : Entity, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<M, V>.toAwait(
+    mapper: Mapper<M, E>,
     parameter: V? = null
 ) = async {
     this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle().run { mapToEntity(mapper) }
+}
+
+/**
+ * Connected [ObservableUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object. with the mapper.
+ *
+ * @param mapper the mapper for translating from List<[Model]> to List<[Entity]>.
+ * @param parameter the usecase's parameter.
+ */
+suspend fun <M : Model, E : Entity, V : BaseUseCase.RequestValues, MS : List<M>> ObservableCaseWithResponse<MS, V>.toListAwait(
+    mapper: Mapper<M, E>,
+    parameter: V? = null
+) = async {
+    this@toListAwait
+        .apply { requestValues = parameter }
+        .fetchUseCase()
+        .awaitSingle()
+        .run { mapToEntities(mapper) }
 }
 
 /**
@@ -146,7 +164,7 @@ suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> ObservableCas
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<D, V>.toAwait(
+suspend fun <M : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<M, V>.toAwait(
     parameter: V? = null
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
@@ -156,7 +174,7 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> ObservableCaseWithResponse<
  * Connected [SingleUseCase] and unwrapping and letting the usecase become a async
  * [kotlinx.coroutines.experimental.Deferred] object.
  */
-fun <D : Model, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.ayncCase(
+fun <M : Model, V : BaseUseCase.RequestValues> SingleCaseWithResponse<M, V>.ayncCase(
     parameter: V? = null
 ) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
@@ -167,8 +185,8 @@ fun <D : Model, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.aync
  * @param mapper the mapper for translating from [Model] to [Entity].
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
-    mapper: Mapper<D, E>,
+suspend fun <M : Model, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWithResponse<M, V>.toAwait(
+    mapper: Mapper<M, E>,
     parameter: V? = null
 ) = async {
     this@toAwait
@@ -180,12 +198,30 @@ suspend fun <D : Model, E : Entity, V : BaseUseCase.RequestValues> SingleCaseWit
 
 /**
  * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
+ * [kotlinx.coroutines.experimental.Deferred] object. with the mapper.
+ *
+ * @param mapper the mapper for translating from List<[Model]> to List<[Entity]>.
+ * @param parameter the usecase's parameter.
+ */
+suspend fun <M : Model, E : Entity, V : BaseUseCase.RequestValues, MS : List<M>> SingleCaseWithResponse<MS, V>.toListAwait(
+    mapper: Mapper<M, E>,
+    parameter: V? = null
+) = async {
+    this@toListAwait
+        .apply { requestValues = parameter }
+        .fetchUseCase()
+        .await()
+        .run { mapToEntities(mapper) }
+}
+
+/**
+ * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
  * [kotlinx.coroutines.experimental.Deferred] object. without the mapper (Because the
  * variables should be primitive variable).
  *
  * @param parameter the usecase's parameter.
  */
-suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V>.toAwait(
+suspend fun <M : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<M, V>.toAwait(
     parameter: V? = null
 ) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
@@ -194,8 +230,16 @@ suspend fun <D : Any, V : BaseUseCase.RequestValues> SingleCaseWithResponse<D, V
  * A mapper which unboxing the [KsResponse]<[Model]> then getting items we needs. Make a [KsResponse]
  * again and boxing the [Entity] which mapping from [Model] to [Entity] to be a [KsResponse]<[Entity]>.
  */
-private fun <D : Model, E : Entity> KsResponse<D>.mapToEntity(mapper: Mapper<D, E>) =
+private fun <M : Model, E : Entity> KsResponse<M>.mapToEntity(mapper: Mapper<M, E>) =
     data?.let(mapper::toEntityFrom)?.wrapInSuccess() ?: "No response result".wrapInError<E>()
+
+/**
+ * A mapper which unboxing the [KsResponse]<List<[Model]>> then getting items we needs. Make a [KsResponse]
+ * again and boxing the List<[Entity]> which mapping from List<[Model]> to List<[Entity]> to be a
+ * [KsResponse]<List<[Entity]>>.
+ */
+private fun <M : Model, E : Entity, MS : List<M>> KsResponse<MS>.mapToEntities(mapper: Mapper<M, E>) =
+    data?.map(mapper::toEntityFrom)?.wrapListInSuccess() ?: "No response result".wrapInError<List<E>>()
 
 //region Completable
 /**
@@ -219,6 +263,11 @@ suspend fun <V : BaseUseCase.RequestValues> CompletableUseCase<V>.toAwait(
  * Wrapping the [this] into [Success].
  */
 private inline fun <E> E.wrapInSuccess() = Success(this)
+
+/**
+ * Wrapping the List<[this]> into [Success].
+ */
+private inline fun <E, ES : List<E>> ES.wrapListInSuccess() = Success(this)
 
 /**
  * Wrapping the [String] msg into [Error].

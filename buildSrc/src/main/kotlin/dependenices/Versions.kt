@@ -34,14 +34,14 @@ object Versions {
      */
     object AndroidComponent {
         const val support = "1.0.0-alpha3"
-        const val contraintLayout = "1.1.0"
+        const val constraintLayout = "1.1.0"
     }
 
     /**
      * Related Kotlin lib version.
      */
     object Kotlin {
-        const val kotlinLib = "1.2.50"
+        const val kotlinLib = "1.2.51"
         const val kotlinCoroutine = "0.22.5"
     }
 
@@ -67,7 +67,7 @@ object Versions {
      * Related dependency injection lib version.
      */
     object DI {
-        const val kodein = "5.1.0"
+        const val kodein = "5.2.0"
     }
 
     /**

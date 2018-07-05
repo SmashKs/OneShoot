@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-package smash.ks.com.data.local.services
+package smash.ks.com.oneshoot.entities
 
-import io.reactivex.Single
-import smash.ks.com.data.datas.LabelDatas
-import smash.ks.com.domain.Label
-import smash.ks.com.domain.parameters.Parameterable
-
-interface KsFlow {
-    fun retrieveImageTagsByML(imageByteArray: ByteArray): Single<LabelDatas>
-
-    fun retrieveImageWordContentByML(params: Parameterable): Single<Label>
-}
+typealias LabelEntites = List<LabelEntity>

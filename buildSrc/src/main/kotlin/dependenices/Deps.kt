@@ -36,7 +36,8 @@ object Deps {
         const val shaver = "com.devrapid.jieyi:kotlinshaver:${Versions.KotlinAndroidExt.shaver}"
 
         const val kodeinAndroid = "org.kodein.di:kodein-di-framework-android:${Versions.DI.kodein}"
-        const val kodenJVM = "org.kodein.di:kodein-di-generic-jvm:${Versions.DI.kodein}"
+        const val kodeinAndroidX = "org.kodein.di:kodein-di-framework-android-x:${Versions.DI.kodein}"
+        const val kodeinJVM = "org.kodein.di:kodein-di-generic-jvm:${Versions.DI.kodein}"
 
         const val gson = "com.google.code.gson:gson:${Versions.Parser.gson}"
         const val jsoup = "org.jsoup:jsoup:${Versions.Parser.jsoup}"
@@ -118,7 +119,7 @@ object Deps {
         const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.support}"
         const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.support}"
         const val constraintLayout =
-            "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.contraintLayout}"
+            "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.constraintLayout}"
     }
 
     /**

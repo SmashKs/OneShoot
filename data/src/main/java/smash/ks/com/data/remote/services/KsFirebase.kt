@@ -19,7 +19,7 @@ package smash.ks.com.data.remote.services
 import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.datas.KsData
-import smash.ks.com.data.datas.KsLabels
+import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.Parameterable
 
@@ -31,7 +31,7 @@ interface KsFirebase {
 
     fun uploadImage(params: Parameterable): Completable
 
-    fun retrieveImageTagsByML(imageByteArray: ByteArray): Single<KsLabels>
+    fun retrieveImageTagsByML(imageByteArray: ByteArray): Single<LabelDatas>
 
     fun retrieveImageWordContentByML(params: Parameterable): Single<Label>
 }

@@ -20,6 +20,8 @@ import smash.ks.com.data.datas.mappers.Mapper
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.models.LabelModel
 
+typealias DataMapper = Mapper<*, *>
+typealias MapperPool = Map<Class<out DataMapper>, DataMapper>
 typealias DataFakeMapper = Mapper<KsData, KsModel>
 typealias DataLabelMapper = Mapper<LabelData, LabelModel>
 
@@ -33,5 +35,6 @@ typealias Tag = String
 typealias TagUri = String
 typealias Tags = Map<Tag, TagUri>
 
-typealias KsLabels = List<LabelData>
+typealias LabelDatas = List<LabelData>
+
 //endregion

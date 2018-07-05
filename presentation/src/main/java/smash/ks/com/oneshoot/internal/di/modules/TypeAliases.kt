@@ -19,9 +19,13 @@ package smash.ks.com.oneshoot.internal.di.modules
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import smash.ks.com.data.datas.DataMapper
 
 typealias ViewModelEntry = Pair<Class<out ViewModel>, ViewModel>
 typealias ViewModelEntries = Set<ViewModelEntry>
 
 typealias ViewHolderEntry = Pair<Int, Pair<Int, (View) -> RecyclerView.ViewHolder>>
 typealias ViewHolderEntries = Set<ViewHolderEntry>
+
+typealias DataMapperEntry = Pair<Class<out DataMapper>, DataMapper>
+typealias DataMapperEntries = Set<DataMapperEntry>
