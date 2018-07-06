@@ -55,8 +55,11 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     //endregion
 
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
-    private val _adapter by instance<RVAdapterAny>(KS_ADAPTER)
-    private val adapter by lazy { cast<MultiTypeAdapter>(_adapter) }
+    private val adapter by lazy {
+        val innerAdapter by instance<RVAdapterAny>(KS_ADAPTER)
+
+        cast<MultiTypeAdapter>(innerAdapter)
+    }
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 

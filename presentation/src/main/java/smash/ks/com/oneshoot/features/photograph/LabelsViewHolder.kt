@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.internal.di.tag
+package smash.ks.com.oneshoot.features.photograph
 
-/**
- * The tags for identifying the same object data type in Dependency Injection.
- */
-object ObjectLabel {
-    const val KS_ENTITY = "ks entity"
-    const val KS_ADAPTER = "fake adapter"
-    const val LABEL_ADAPTER = "labels adapter"
+import android.view.View
+import kotlinx.android.synthetic.main.item_label.view.tv_label
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.entities.LabelEntity
+import smash.ks.com.oneshoot.widgets.viewmodel.LabelVH
 
-    const val LINEAR_LAYOUT_VERTICAL = "vertical"
-    const val LINEAR_LAYOUT_HORIZONTAL = "horizontal"
+class LabelsViewHolder(view: View) : LabelVH(view) {
+    override fun initView(model: LabelEntity, position: Int, adapter: Any) {
+        itemView.apply {
+            tv_label.text = String.format(context.getString(R.string.label_format), model.label, model.confidence)
+        }
+    }
 }

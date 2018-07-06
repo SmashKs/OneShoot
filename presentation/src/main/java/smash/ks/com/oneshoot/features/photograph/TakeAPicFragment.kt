@@ -27,9 +27,12 @@ import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.ui
+import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
+import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
@@ -37,12 +40,20 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.kodein.di.generic.instance
+import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
+import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
@@ -57,7 +68,17 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
          */
         fun newInstance() = TakeAPicFragment().apply { arguments = bundleOf() }
     }
+
     //endregion
+    private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
+    private val adapter by lazy {
+        val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
+
+        cast<MultiTypeAdapter>(innerAdapter)
+    }
+    private val testData by lazy {
+        mutableListOf<KsMultiVisitable>(LabelEntity(), LabelEntity(), LabelEntity())
+    }
 
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
@@ -129,7 +150,29 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         if (!cv_camera.hasCallback(cameraCallback)) {
             cv_camera.addCallback(cameraCallback)
         }
-        ib_shot.onClick { cv_camera.takePicture() }
+//        ib_shot.onClick { cv_camera.takePicture() }
+        ib_shot.onClick {
+            QuickDialogFragment.Builder(this@TakeAPicFragment) {
+                viewResCustom = R.layout.dialog_fragment_labels
+                cancelable = false
+                fetchComponents = { v, df ->
+                    v.apply {
+                        rv_labels.also {
+                            it.layoutManager = linearLayoutManager
+                            it.adapter = adapter
+                        }
+                        ib_close.setOnClickListener {
+                            adapter.dropList(0, testData.size - 1)
+                            rv_labels.layoutManager = null
+                            rv_labels.adapter = null
+                            df.dismiss()
+                        }
+                    }
+
+                    adapter.appendList(testData)
+                }
+            }.build().show()
+        }
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
