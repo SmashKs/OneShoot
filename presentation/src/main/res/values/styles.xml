@@ -36,6 +36,7 @@
         <item name="android:navigationBarColor">@color/colorPrimaryLight</item>
     </style>
 
+    <!-- Constraint Basic Setting -->
     <style name="Constraint"/>
 
     <style name="Constraint.MatchParent">
@@ -56,8 +57,8 @@
     </style>
 
     <style name="Constraint.Any">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">@dimen/md_zero_unit</item>
+        <item name="android:layout_height">@dimen/md_zero_unit</item>
     </style>
 
     <style name="Constraint.Any.MatchParent">
@@ -65,5 +66,11 @@
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <!-- Image Button -->
+    <style name="ImageButton.Vector.Button" parent="Constraint.Wrap">
+        <item name="android:background">@null</item>
+        <item name="android:padding">@dimen/md_one_unit</item>
     </style>
 </resources>

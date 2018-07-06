@@ -15,11 +15,19 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="camera_permission_confirmation">This app demonstrates the usage of CameraView. In order to do that, it needs permission to access camera.</string>
-    <string name="camera_permission_not_granted">Camera app cannot do anything without camera permission.</string>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/md_three_unit"
+    android:layout_marginStart="@dimen/md_three_unit"
+    android:orientation="vertical">
 
-    <!-- ML Result Label Start -->
-    <string name="label_format">Label : %1$s\nProbabilities : %2$f %</string>
-    <!-- ML Result Label End -->
-</resources>
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/md_one_unit"
+        tools:text="@string/label_format"/>
+</androidx.cardview.widget.CardView>

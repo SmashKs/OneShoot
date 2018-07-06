@@ -16,10 +16,15 @@
   -->
 
 <resources>
-    <string name="camera_permission_confirmation">This app demonstrates the usage of CameraView. In order to do that, it needs permission to access camera.</string>
-    <string name="camera_permission_not_granted">Camera app cannot do anything without camera permission.</string>
-
-    <!-- ML Result Label Start -->
-    <string name="label_format">Label : %1$s\nProbabilities : %2$f %</string>
-    <!-- ML Result Label End -->
+    <dimen name="md_zero_unit">0dp</dimen>
+    <dimen name="md_one_unit">8dp</dimen>
+    <dimen name="md_two_unit">16dp</dimen>
+    <dimen name="md_three_unit">24dp</dimen>
+    <dimen name="md_four_unit">32dp</dimen>
+    <dimen name="md_five_unit">40dp</dimen>
+    <dimen name="md_six_unit">48dp</dimen>
+    <dimen name="md_seven_unit">56dp</dimen>
+    <dimen name="md_eight_unit">64dp</dimen>
+    <dimen name="md_nine_unit">72dp</dimen>
+    <dimen name="md_ten_unit">80dp</dimen>
 </resources>
