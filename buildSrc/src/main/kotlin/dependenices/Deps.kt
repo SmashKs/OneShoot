@@ -115,9 +115,10 @@ object Deps {
 
         const val quickDialog = "com.devrapid.jieyi:dialogbuilder:${Versions.Ui.dialog}"
 
-        const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.support}"
-        const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.support}"
-        const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.support}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.androidx}"
+        const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.androidx}"
+        const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.androidx}"
+        const val cardview = "androidx.cardview:cardview:${Versions.AndroidComponent.cardview}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.constraintLayout}"
     }

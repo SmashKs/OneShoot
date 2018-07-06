@@ -27,9 +27,12 @@ import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.logw
+import com.devrapid.kotlinknifer.dp
 import com.devrapid.kotlinknifer.ui
+import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
+import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
@@ -37,12 +40,20 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.kodein.di.generic.instance
+import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
+import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
@@ -57,8 +68,15 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
          */
         fun newInstance() = TakeAPicFragment().apply { arguments = bundleOf() }
     }
-    //endregion
 
+    //endregion
+    private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
+    private val adapter by lazy {
+        val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
+
+        cast<MultiTypeAdapter>(innerAdapter)
+    }
+    private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
@@ -73,6 +91,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
                         val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
 
+                        // Show the image into the view.
                         iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
                             val stream = ByteArrayOutputStream()
@@ -113,7 +132,35 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         }
 
         this@TakeAPicFragment.observeNonNull(vm.labels) {
-            logw(it.data)
+            if (it is KsResponse.Success) {
+                QuickDialogFragment.Builder(this@TakeAPicFragment) {
+                    viewResCustom = R.layout.dialog_fragment_labels
+                    cancelable = false
+                    fetchComponents = { v, df ->
+                        v.apply {
+                            rv_labels.also {
+                                it.layoutManager = linearLayoutManager
+                                it.adapter = adapter
+                                it.addItemDecoration(decorator)
+                            }
+                            ib_close.setOnClickListener {
+                                adapter.clearList()
+
+                                rv_labels.apply {
+                                    layoutManager = null
+                                    adapter = null
+                                    removeItemDecoration(decorator)
+                                }
+
+                                df.dismiss()
+                            }
+                        }
+
+                        // Transforming the data into [KsMultiVisitable] type.
+                        adapter.appendList(it.data!!.toMutableList())
+                    }
+                }.build().show()
+            }
         }
     }
 

@@ -162,9 +162,10 @@ dependencies {
     implementation Presentation.glide
     //endregion
 
-    //region Android SDK
+    //region Androidx SDK
     implementation Presentation.appcompat
     implementation Presentation.recyclerview
+    implementation Presentation.cardview
     implementation Presentation.annot
     implementation Presentation.constraintLayout
     //endregion

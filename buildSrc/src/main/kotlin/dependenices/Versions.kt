@@ -33,7 +33,8 @@ object Versions {
      * Related Android component lib version.
      */
     object AndroidComponent {
-        const val support = "1.0.0-alpha3"
+        const val androidx = "1.0.0-alpha3"
+        const val cardview = "1.0.0-alpha1"
         const val constraintLayout = "1.1.0"
     }
 
@@ -49,7 +50,7 @@ object Versions {
      * Related view component lib version.
      */
     object ViewComponent {
-        const val adaptiveRecyclerView = "1.0.1"
+        const val adaptiveRecyclerView = "1.0.2"
     }
 
     /**
@@ -58,7 +59,7 @@ object Versions {
     object KotlinAndroidExt {
         const val aac = "2.0.0-alpha1"
         const val anko = "0.10.5"
-        const val ktx = AndroidComponent.support
+        const val ktx = AndroidComponent.androidx
         const val kinfer = "1.5.7"
         const val shaver = "0.2.2"
     }
