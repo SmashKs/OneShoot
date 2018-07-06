@@ -17,7 +17,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,31 +27,22 @@
         android:layout_height="300dp"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageButton
+            android:id="@+id/ib_close"
+            style="@style/ImageButton.Vector.Button"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/md_one_unit"
+            android:layout_marginTop="@dimen/md_one_unit"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_clear"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_labels"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/ib_close"
-                style="@style/ImageButton.Vector.Button"
-                android:layout_marginEnd="@dimen/md_one_unit"
-                android:layout_marginTop="@dimen/md_one_unit"
-                android:src="@drawable/ic_clear"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_labels"
-                android:layout_width="@dimen/md_zero_unit"
-                android:layout_height="@dimen/md_zero_unit"
-                android:layout_marginBottom="@dimen/md_one_unit"
-                android:layout_marginTop="@dimen/md_one_unit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ib_close"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_label"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/md_one_unit"
+            android:layout_marginTop="@dimen/md_one_unit"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_label"/>
     </LinearLayout>
 </LinearLayout>

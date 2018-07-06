@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
+import com.devrapid.kotlinknifer.dp
 import com.devrapid.kotlinknifer.ui
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
@@ -50,9 +51,9 @@ import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_P
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
-import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
+import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
@@ -75,8 +76,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         cast<MultiTypeAdapter>(innerAdapter)
     }
-    private val testData by lazy { mutableListOf<KsMultiVisitable>() }
-
+    private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
@@ -91,6 +91,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
                         val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
 
+                        // Show the image into the view.
                         iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
                             val stream = ByteArrayOutputStream()
@@ -132,7 +133,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         this@TakeAPicFragment.observeNonNull(vm.labels) {
             if (it is KsResponse.Success) {
-                it.data?.forEach { testData.add(it) }
                 QuickDialogFragment.Builder(this@TakeAPicFragment) {
                     viewResCustom = R.layout.dialog_fragment_labels
                     cancelable = false
@@ -141,16 +141,23 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             rv_labels.also {
                                 it.layoutManager = linearLayoutManager
                                 it.adapter = adapter
+                                it.addItemDecoration(decorator)
                             }
                             ib_close.setOnClickListener {
-                                adapter.dropList(0, testData.size - 1)
-                                rv_labels.layoutManager = null
-                                rv_labels.adapter = null
+                                adapter.clearList()
+
+                                rv_labels.apply {
+                                    layoutManager = null
+                                    adapter = null
+                                    removeItemDecoration(decorator)
+                                }
+
                                 df.dismiss()
                             }
                         }
 
-                        adapter.appendList(testData)
+                        // Transforming the data into [KsMultiVisitable] type.
+                        adapter.appendList(it.data!!.toMutableList())
                     }
                 }.build().show()
             }
