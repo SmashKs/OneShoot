@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.ui
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
@@ -41,10 +40,10 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
+import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
-import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
@@ -76,9 +75,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         cast<MultiTypeAdapter>(innerAdapter)
     }
-    private val testData by lazy {
-        mutableListOf<KsMultiVisitable>(LabelEntity(), LabelEntity(), LabelEntity())
-    }
+    private val testData by lazy { mutableListOf<KsMultiVisitable>() }
 
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
@@ -134,7 +131,29 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         }
 
         this@TakeAPicFragment.observeNonNull(vm.labels) {
-            logw(it.data)
+            if (it is KsResponse.Success) {
+                it.data?.forEach { testData.add(it) }
+                QuickDialogFragment.Builder(this@TakeAPicFragment) {
+                    viewResCustom = R.layout.dialog_fragment_labels
+                    cancelable = false
+                    fetchComponents = { v, df ->
+                        v.apply {
+                            rv_labels.also {
+                                it.layoutManager = linearLayoutManager
+                                it.adapter = adapter
+                            }
+                            ib_close.setOnClickListener {
+                                adapter.dropList(0, testData.size - 1)
+                                rv_labels.layoutManager = null
+                                rv_labels.adapter = null
+                                df.dismiss()
+                            }
+                        }
+
+                        adapter.appendList(testData)
+                    }
+                }.build().show()
+            }
         }
     }
 
@@ -150,29 +169,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         if (!cv_camera.hasCallback(cameraCallback)) {
             cv_camera.addCallback(cameraCallback)
         }
-//        ib_shot.onClick { cv_camera.takePicture() }
-        ib_shot.onClick {
-            QuickDialogFragment.Builder(this@TakeAPicFragment) {
-                viewResCustom = R.layout.dialog_fragment_labels
-                cancelable = false
-                fetchComponents = { v, df ->
-                    v.apply {
-                        rv_labels.also {
-                            it.layoutManager = linearLayoutManager
-                            it.adapter = adapter
-                        }
-                        ib_close.setOnClickListener {
-                            adapter.dropList(0, testData.size - 1)
-                            rv_labels.layoutManager = null
-                            rv_labels.adapter = null
-                            df.dismiss()
-                        }
-                    }
-
-                    adapter.appendList(testData)
-                }
-            }.build().show()
-        }
+        ib_shot.onClick { cv_camera.takePicture() }
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
