@@ -45,7 +45,9 @@ import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
+import smash.ks.com.oneshoot.entities.LabelEntites
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
+import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
@@ -131,37 +133,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
         }
 
-        this@TakeAPicFragment.observeNonNull(vm.labels) {
-            if (it is KsResponse.Success) {
-                QuickDialogFragment.Builder(this@TakeAPicFragment) {
-                    viewResCustom = R.layout.dialog_fragment_labels
-                    cancelable = false
-                    fetchComponents = { v, df ->
-                        v.apply {
-                            rv_labels.also {
-                                it.layoutManager = linearLayoutManager
-                                it.adapter = adapter
-                                it.addItemDecoration(decorator)
-                            }
-                            ib_close.setOnClickListener {
-                                adapter.clearList()
-
-                                rv_labels.apply {
-                                    layoutManager = null
-                                    adapter = null
-                                    removeItemDecoration(decorator)
-                                }
-
-                                df.dismiss()
-                            }
-                        }
-
-                        // Transforming the data into [KsMultiVisitable] type.
-                        adapter.appendList(it.data!!.toMutableList())
-                    }
-                }.build().show()
-            }
-        }
+        observeNonNull(vm.labels, ::showLabels)
     }
 
     override fun onPause() {
@@ -187,4 +159,36 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
     override fun provideInflateView() = R.layout.fragment_take_a_pic
     //endregion
+
+    private fun showLabels(response: KsResponse<LabelEntites>) {
+        peelResponseSkipLoading(response) {
+            QuickDialogFragment.Builder(this@TakeAPicFragment) {
+                viewResCustom = R.layout.dialog_fragment_labels
+                cancelable = false
+                fetchComponents = { v, df ->
+                    v.apply {
+                        rv_labels.also {
+                            it.layoutManager = linearLayoutManager
+                            it.adapter = adapter
+                            it.addItemDecoration(decorator)
+                        }
+                        ib_close.setOnClickListener {
+                            adapter.clearList()
+
+                            rv_labels.apply {
+                                layoutManager = null
+                                adapter = null
+                                removeItemDecoration(decorator)
+                            }
+
+                            df.dismiss()
+                        }
+                    }
+
+                    // Transforming the data into [KsMultiVisitable] type.
+                    adapter.appendList(it.toMutableList())
+                }
+            }.build().show()
+        }
+    }
 }

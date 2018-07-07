@@ -83,6 +83,27 @@ fun <D> LoadView.peelResponse(response: KsResponse<D>, successBlock: (D) -> Unit
     }
 
 /**
+ * Check the [KsResponse]'s changing and do the corresponding reaction.Here're three data
+ * type [Success], and [Error] but skip [Loading] state.
+ *
+ * - [Success] state will extract the data from the inside class to be used [successBlock].
+ * - [Error] state will show the error view and msg to the user.
+ */
+fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: (D) -> Unit) =
+    response.also {
+        when (it) {
+            is Success<D> -> {
+                it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
+                hideLoading()
+            }
+            is Error<*> -> {
+                hideLoading()
+                showError(it.msg)
+            }
+        }
+    }
+
+/**
  * Abort the await request.
  */
 inline fun <T> Deferred<T>?.abort(cause: Throwable? = null) =
