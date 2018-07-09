@@ -71,6 +71,12 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         return rootView
     }
 
+    /**
+     * For initializing the view components and setting the listeners.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

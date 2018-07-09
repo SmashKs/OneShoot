@@ -92,14 +92,8 @@ fun <D> LoadView.peelResponse(response: KsResponse<D>, successBlock: (D) -> Unit
 fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: (D) -> Unit) =
     response.also {
         when (it) {
-            is Success<D> -> {
-                it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
-                hideLoading()
-            }
-            is Error<*> -> {
-                hideLoading()
-                showError(it.msg)
-            }
+            is Success<D> -> it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
+            is Error<*> -> showError(it.msg)
         }
     }
 

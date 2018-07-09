@@ -72,6 +72,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     //endregion
+
+    private var labelDialog: QuickDialogFragment? = null
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
         val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
@@ -132,8 +134,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             }.build().show()
             else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
         }
-
-        observeNonNull(vm.labels, ::showLabels)
     }
 
     override fun onPause() {
@@ -141,9 +141,21 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         cv_camera.stop()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (null != labelDialog && labelDialog?.isVisible!!)
+            labelDialog?.dismiss()
+        labelDialog = null
+    }
     //endregion
 
     //region Base Fragment
+    override fun bindLiveData() {
+        observeNonNull(vm.labels, ::showLabels)
+    }
+
     override fun rendered(savedInstanceState: Bundle?) {
         if (!cv_camera.hasCallback(cameraCallback)) {
             cv_camera.addCallback(cameraCallback)
@@ -161,34 +173,39 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //endregion
 
     private fun showLabels(response: KsResponse<LabelEntites>) {
-        peelResponseSkipLoading(response) {
-            QuickDialogFragment.Builder(this@TakeAPicFragment) {
-                viewResCustom = R.layout.dialog_fragment_labels
-                cancelable = false
-                fetchComponents = { v, df ->
-                    v.apply {
-                        rv_labels.also {
-                            it.layoutManager = linearLayoutManager
-                            it.adapter = adapter
-                            it.addItemDecoration(decorator)
-                        }
-                        ib_close.setOnClickListener {
-                            adapter.clearList()
+        peelResponseSkipLoading(response, ::showLabelDialog)
+    }
 
-                            rv_labels.apply {
-                                layoutManager = null
-                                adapter = null
-                                removeItemDecoration(decorator)
-                            }
-
-                            df.dismiss()
-                        }
+    private fun showLabelDialog(entities: LabelEntites) {
+        labelDialog = QuickDialogFragment.Builder(this) {
+            viewResCustom = R.layout.dialog_fragment_labels
+            cancelable = false
+            fetchComponents = { v, df ->
+                v.apply {
+                    rv_labels.also {
+                        it.layoutManager = linearLayoutManager
+                        it.adapter = adapter
+                        it.addItemDecoration(decorator)
                     }
+                    ib_close.setOnClickListener {
+                        adapter.clearList()
 
-                    // Transforming the data into [KsMultiVisitable] type.
-                    adapter.appendList(it.toMutableList())
+                        rv_labels.apply {
+                            layoutManager = null
+                            adapter = null
+                            removeItemDecoration(decorator)
+                        }
+
+                        df.dismissAllowingStateLoss()
+                        labelDialog = null
+                    }
                 }
-            }.build().show()
-        }
+
+                // Transforming the data into [KsMultiVisitable] type.
+                adapter.appendList(entities.toMutableList())
+            }
+        }.build()
+
+        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
     }
 }
