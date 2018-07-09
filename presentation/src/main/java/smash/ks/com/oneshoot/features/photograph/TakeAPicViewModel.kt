@@ -33,5 +33,5 @@ class TakeAPicViewModel(
     val labels by lazy { ResponseLiveData<LabelEntites>() }
 
     suspend fun analyzeImage(byteArray: ByteArray) =
-        labels.requestData({ getImageTagsCase.toListAwait(mapper, Requests(KsAnalyzeImageParam(byteArray))) })
+        labels.requestData { getImageTagsCase.toListAwait(mapper, Requests(KsAnalyzeImageParam(byteArray))) }
 }
