@@ -22,6 +22,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.PNG
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
@@ -187,25 +188,34 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         it.adapter = adapter
                         it.addItemDecoration(decorator)
                     }
-                    ib_close.setOnClickListener {
-                        adapter.clearList()
-
-                        rv_labels.apply {
-                            layoutManager = null
-                            adapter = null
-                            removeItemDecoration(decorator)
-                        }
-
-                        df.dismissAllowingStateLoss()
-                        labelDialog = null
-                    }
+                    ib_close.setOnClickListener { dismissDialog() }
                 }
 
-                // Transforming the data into [KsMultiVisitable] type.
-                adapter.appendList(entities.toMutableList())
+                df.dialog.setOnKeyListener { _, keyCode, _ ->
+                    when (keyCode) {
+                        KEYCODE_BACK -> {
+                            dismissDialog()
+                            true
+                        }
+                        else -> false
+                    }
+                }
             }
+            // Transforming the data into [KsMultiVisitable] type.
+            adapter.appendList(entities.toMutableList())
         }.build()
 
         labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
+    }
+
+    private fun dismissDialog() {
+        adapter.clearList()
+        labelDialog?.view?.rv_labels?.apply {
+            layoutManager = null
+            adapter = null
+            removeItemDecoration(decorator)
+        }
+        labelDialog?.dismissAllowingStateLoss()
+        labelDialog = null
     }
 }
