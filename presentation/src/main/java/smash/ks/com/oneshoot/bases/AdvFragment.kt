@@ -16,6 +16,7 @@
 
 package smash.ks.com.oneshoot.bases
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -46,6 +47,13 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 
+    //region Fragment's lifecycle.
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bindLiveData()
+    }
+    //endregion
+
     //region View Implementation for the Presenter.
     override fun showLoading() = activity?.showLoadingView() ?: Unit
 
@@ -57,4 +65,7 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
 
     override fun showError(message: String) = activity?.showErrorView(message) ?: Unit
     //endregion
+
+    /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    protected open fun bindLiveData() = Unit
 }
