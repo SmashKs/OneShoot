@@ -18,10 +18,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     style="@style/Constraint.Any.MatchParent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorPrimaryDark">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dodger_blue_alpha_33">
 
-    <ImageView
+    <fr.castorflex.android.circularprogressbar.CircularProgressBar
         android:id="@+id/iv_loading"
         style="@style/Constraint.Wrap.Center"
-        android:src="@android:drawable/sym_contact_card"/>
+        android:layout_width="@dimen/md_eight_unit"
+        android:layout_height="@dimen/md_eight_unit"
+        android:indeterminate="true"
+        app:cpb_color="@color/colorPrimaryDark"
+        app:cpb_max_sweep_angle="300"
+        app:cpb_min_sweep_angle="10"
+        app:cpb_rotation_speed="1.0"
+        app:cpb_stroke_width="4dp"
+        app:cpb_sweep_speed="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

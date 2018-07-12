@@ -114,6 +114,7 @@ object Deps {
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"
 
         const val quickDialog = "com.devrapid.jieyi:dialogbuilder:${Versions.Ui.dialog}"
+        const val loading = "com.github.castorflex.smoothprogressbar:library-circular:${Versions.Ui.loading}"
 
         const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.androidx}"
         const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.androidx}"

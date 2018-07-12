@@ -37,6 +37,7 @@ android {
         targetSdkVersion Android.targetSdk
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 20
         renderscriptSupportModeEnabled true    // Enable RS support
     }
     buildTypes {
@@ -55,6 +56,7 @@ android {
     sourceSets {
         main {
             res.srcDirs += FeatureRes.dirs
+            jniLibs.srcDirs = ['libs']
         }
     }
     dexOptions { javaMaxHeapSize "4g" }
@@ -153,6 +155,8 @@ dependencies {
     //    implementation Presentation.rxLifecycleComponent
     //    implementation Presentation.rxPermission
     //endregion
+
+    implementation Presentation.loading
 
     //region Internet & Image loading
     implementation Presentation.retrofit2

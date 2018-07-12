@@ -26,4 +26,6 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
+
+    <color name="dodger_blue_alpha_33">#552196F3</color>
 </resources>

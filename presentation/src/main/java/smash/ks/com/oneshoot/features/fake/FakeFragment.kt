@@ -64,13 +64,16 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
 
     //region Base Fragment
-    override fun rendered(savedInstanceState: Bundle?) {
+    /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    override fun bindLiveData() {
         vm.apply {
             // For testing, that's why they are called in the beginning.
             observeNonNull(retrieveId(randomId), ::updateTemp)
 //            observe(storeImage())
         }
+    }
 
+    override fun rendered(savedInstanceState: Bundle?) {
         rv_fake.also {
             it.layoutManager = linearLayoutManager
             it.adapter = adapter

@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#RenderScript
+-keepclasseswithmembernames class * { native <methods>; }
+-keep class com.photoembroidery.tat.olsennoise.** { *; }
+-keep class android.support.v8.renderscript.** { *; }
