@@ -35,6 +35,7 @@ import com.devrapid.kotlinknifer.ui
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
+import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
@@ -53,6 +54,9 @@ import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_OFF
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
@@ -82,6 +86,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         cast<MultiTypeAdapter>(innerAdapter)
     }
     private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
+    private val flashCycle by lazy {
+        mapOf(FLASH_OFF to R.drawable.ic_flash_off,
+              FLASH_ON to R.drawable.ic_flash_on,
+              FLASH_AUTO to R.drawable.ic_flash_on)
+    }
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
@@ -162,6 +171,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             cv_camera.addCallback(cameraCallback)
         }
         ib_shot.onClick { cv_camera.takePicture() }
+        ib_flash.onClick {}
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
