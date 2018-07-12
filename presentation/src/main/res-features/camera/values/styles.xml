@@ -40,11 +40,10 @@
 
     <style name="Camera.Button.Shot">
         <item name="android:layout_width">@dimen/md_nine_unit</item>
-        <item name="android:layout_height">@dimen/md_nine_unit</item>
-        <item name="android:layout_marginBottom">@dimen/md_one_unit</item>
+        <item name="android:layout_height">@dimen/md_zero_unit</item>
+        <item name="android:layout_margin">@dimen/md_one_unit</item>
         <item name="android:src">@drawable/ic_camera</item>
         <item name="layout_constraintBottom_toBottomOf">@+id/cv_camera</item>
-        <item name="layout_constraintTop_toTopOf"></item>
     </style>
 
     <style name="Camera.Button.Flash">
@@ -53,5 +52,4 @@
         <item name="android:src">@drawable/ic_flash_on</item>
         <item name="layout_constraintStart_toStartOf"></item>
     </style>
-
 </resources>

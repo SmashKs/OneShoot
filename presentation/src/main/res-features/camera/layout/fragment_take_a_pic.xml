@@ -36,18 +36,18 @@
         app:layout_constraintTop_toTopOf="@+id/cv_camera"/>
 
     <View
+        android:id="@+id/v_control_bkg"
         android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="@dimen/md_zero_unit"
+        android:layout_height="88dp"
         android:background="@color/dodger_blue_alpha_33"
         app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gl_bottom"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <ImageView
         android:id="@+id/iv_preview"
         android:layout_width="@dimen/md_eight_unit"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/md_zero_unit"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/ib_shot"
         app:layout_constraintEnd_toStartOf="@id/ib_shot"
@@ -56,6 +56,7 @@
 
     <ImageButton
         android:id="@+id/ib_shot"
+        app:layout_constraintTop_toTopOf="@+id/v_control_bkg"
         style="@style/Camera.Button.Shot"/>
 
     <ImageButton
@@ -65,12 +66,4 @@
         app:layout_constraintEnd_toEndOf="@id/cv_camera"
         app:layout_constraintStart_toEndOf="@+id/ib_shot"
         app:layout_constraintTop_toTopOf="@+id/ib_shot"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/md_one_unit"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/ib_shot"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
