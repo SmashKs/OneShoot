@@ -37,7 +37,6 @@
         <item name="android:scaleType">centerCrop</item>
     </style>
 
-
     <style name="Camera.Button.Shot">
         <item name="android:layout_width">@dimen/md_nine_unit</item>
         <item name="android:layout_height">@dimen/md_zero_unit</item>

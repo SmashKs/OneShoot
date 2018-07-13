@@ -16,10 +16,13 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".features.photograph.TakeAPicFragment">
 
     <smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
         android:id="@+id/cv_camera"
@@ -39,7 +42,7 @@
         android:id="@+id/v_control_bkg"
         android:layout_width="@dimen/md_zero_unit"
         android:layout_height="88dp"
-        android:background="@color/dodger_blue_alpha_33"
+        android:background="@color/dodger_blue_alpha_13"
         app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

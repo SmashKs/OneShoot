@@ -17,6 +17,8 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
+import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_fake.btn_append
 import kotlinx.android.synthetic.main.fragment_fake.rv_fake
@@ -65,6 +67,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
 
     //region Base Fragment
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    @UiThread
     override fun bindLiveData() {
         vm.apply {
             // For testing, that's why they are called in the beginning.
@@ -73,6 +76,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
         }
     }
 
+    @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
         rv_fake.also {
             it.layoutManager = linearLayoutManager
@@ -83,14 +87,17 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
         }
     }
 
+    @LayoutRes
     override fun provideInflateView() = R.layout.fragment_fake
     //endregion
 
     //region Presenter Implementation.
+    @UiThread
     private fun updateTemp(response: KsResponse<String>) {
         peelResponse(response, this@FakeFragment::showImageUri)
     }
 
+    @UiThread
     private fun showImageUri(uri: String) {
         tv_label.text = uri
     }

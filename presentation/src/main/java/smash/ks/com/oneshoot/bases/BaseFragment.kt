@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import org.kodein.di.Kodein
@@ -89,6 +90,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
      *
      * @param savedInstanceState before status.
      */
+    @UiThread
     protected abstract fun rendered(savedInstanceState: Bundle?)
 
     /**

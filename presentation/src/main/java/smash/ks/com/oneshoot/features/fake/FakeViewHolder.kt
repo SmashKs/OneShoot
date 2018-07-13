@@ -17,10 +17,12 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.view.View
+import androidx.annotation.UiThread
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.widgets.viewmodel.FakeVH
 
 class FakeViewHolder(view: View) : FakeVH(view) {
+    @UiThread
     override fun initView(model: KsEntity, position: Int, adapter: Any) {
     }
 }

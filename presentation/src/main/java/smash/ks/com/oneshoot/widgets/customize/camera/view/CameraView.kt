@@ -66,6 +66,7 @@ open class CameraView @JvmOverloads constructor(
 
     /** The mode for for the camera device's flash control  */
     @IntDef(FLASH_OFF, FLASH_ON, FLASH_TORCH, FLASH_AUTO, FLASH_RED_EYE)
+    @Retention(SOURCE)
     annotation class Flash
 
     private var adjustViewBounds: Boolean = false
@@ -385,8 +386,8 @@ open class CameraView @JvmOverloads constructor(
     protected class SavedState : BaseSavedState {
         var ratio: AspectRatio? = null
         var autoFocus = false
-        @Facing var facing = 0
-        @Flash var flash = 0
+        @Facing var facing = FACING_BACK
+        @Flash var flash = FLASH_OFF
 
         constructor(source: Parcel, loader: ClassLoader) : super(source) {
             facing = source.readInt()

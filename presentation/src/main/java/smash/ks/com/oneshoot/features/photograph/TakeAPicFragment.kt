@@ -39,12 +39,15 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
+import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.cast
+import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntites
@@ -58,6 +61,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUT
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_OFF
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView.Flash
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
@@ -87,9 +91,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
     private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
     private val flashCycle by lazy {
-        mapOf(FLASH_OFF to R.drawable.ic_flash_off,
-              FLASH_ON to R.drawable.ic_flash_on,
-              FLASH_AUTO to R.drawable.ic_flash_on)
+        listOf(FLASH_OFF to R.drawable.ic_flash_off,
+               FLASH_ON to R.drawable.ic_flash_on,
+               FLASH_AUTO to R.drawable.ic_flash_auto)
     }
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
@@ -171,7 +175,15 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             cv_camera.addCallback(cameraCallback)
         }
         ib_shot.onClick { cv_camera.takePicture() }
-        ib_flash.onClick {}
+        ib_flash.apply {
+            currentFlashState()?.second?.let(::setImageResource)
+            onClick {
+                val state = nextFlashState()
+
+                cv_camera.setFlash(state.first)
+                ib_flash.setImageResource(state.second)
+            }
+        }
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
@@ -228,4 +240,18 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         labelDialog?.dismissAllowingStateLoss()
         labelDialog = null
     }
+
+    private fun currentFlashState() = flashCycle.find { cv_camera.getFlash() == it.first }
+
+    private fun currentFlashStateIndex(): Int {
+        @Flash var currentIndex = DEFAULT_INT
+
+        flashCycle.forEachWithIndex { index, flash ->
+            if (cv_camera.getFlash() == flash.first) currentIndex = index
+        }
+
+        return currentIndex
+    }
+
+    private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
 }

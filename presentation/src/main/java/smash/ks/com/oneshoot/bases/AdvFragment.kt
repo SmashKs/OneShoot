@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
+import androidx.annotation.UiThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -55,17 +56,23 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     //endregion
 
     //region View Implementation for the Presenter.
+    @UiThread
     override fun showLoading() = activity?.showLoadingView() ?: Unit
 
+    @UiThread
     override fun hideLoading() = activity?.hideLoadingView() ?: Unit
 
+    @UiThread
     override fun showRetry() = activity?.showRetryView() ?: Unit
 
+    @UiThread
     override fun hideRetry() = activity?.hideRetryView() ?: Unit
 
+    @UiThread
     override fun showError(message: String) = activity?.showErrorView(message) ?: Unit
     //endregion
 
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    @UiThread
     protected open fun bindLiveData() = Unit
 }
