@@ -26,7 +26,7 @@
     </style>
 
     <style name="Camera.Area.Selection" parent="Constraint.Any">
-        <item name="android:background">#00000000</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="Camera.Button" parent="Constraint.Wrap.Center">
@@ -46,8 +46,8 @@
     </style>
 
     <style name="Camera.Button.Flash">
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">@dimen/flash_icon_width</item>
+        <item name="android:layout_height">@dimen/flash_icon_height</item>
         <item name="android:src">@drawable/ic_flash_on</item>
         <item name="layout_constraintStart_toStartOf"></item>
     </style>
