@@ -41,8 +41,7 @@
     <View
         android:id="@+id/v_control_bkg"
         android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="88dp"
-        android:layout_marginBottom="@dimen/navigation_bar_height"
+        android:layout_height="136dp"
         android:background="@color/dodger_blue_alpha_13"
         app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +51,7 @@
         android:id="@+id/iv_preview"
         android:layout_width="@dimen/md_eight_unit"
         android:layout_height="@dimen/md_zero_unit"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/ib_shot"
         app:layout_constraintEnd_toStartOf="@id/ib_shot"
         app:layout_constraintStart_toStartOf="@+id/cv_camera"

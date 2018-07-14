@@ -195,6 +195,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun provideInflateView() = R.layout.fragment_take_a_pic
     //endregion
 
+    //region Showing From ViewModel
     private fun showLabels(response: KsResponse<LabelEntites>) {
         peelResponseSkipLoading(response, ::showLabelDialog)
     }
@@ -229,6 +230,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
     }
+    //endregion
 
     private fun dismissDialog() {
         adapter.clearList()
