@@ -42,6 +42,7 @@
         android:id="@+id/v_control_bkg"
         android:layout_width="@dimen/md_zero_unit"
         android:layout_height="88dp"
+        android:layout_marginBottom="@dimen/navigation_bar_height"
         android:background="@color/dodger_blue_alpha_13"
         app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,8 +60,9 @@
 
     <ImageButton
         android:id="@+id/ib_shot"
-        app:layout_constraintTop_toTopOf="@+id/v_control_bkg"
-        style="@style/Camera.Button.Shot"/>
+        style="@style/Camera.Button.Shot"
+        app:layout_constraintBottom_toBottomOf="@+id/v_control_bkg"
+        app:layout_constraintTop_toTopOf="@+id/v_control_bkg"/>
 
     <ImageButton
         android:id="@+id/ib_flash"
