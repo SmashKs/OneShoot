@@ -16,24 +16,44 @@
 
 <resources>
     <!-- Base application theme. -->
-    <style name="SecondTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">#7F3B45</item>
-        <item name="colorPrimaryDark">#7F1524</item>
-        <item name="colorAccent">#FF7589</item>
-        <!--<item name="android:background">#FF2948</item>-->
-        <item name="android:textColor">#CC213A</item>
-    </style>
-
     <style name="MainTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
-        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryLight</item>
+        <!-- color for the app bar and other primary UI elements -->
+        <item name="colorPrimary">?themeColorPrimary</item>
+        <!-- A darker variant of the primary color, used for the status bar (on Android 5.0+) and contextual app bars -->
+        <item name="colorPrimaryDark">?themeColorPrimaryDark</item>
+        <!-- A secondary color for controls like checkboxes and text fields -->
+        <item name="colorAccent">?themeColorAccent</item>
+        <item name="android:textColorPrimary">?themeTextColorPrimary</item>
+
+        <!--<item name="android:fontFamily">?themeFont</item>-->
+        <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+        <!--<item name="fontFamily">?themeFont</item>-->
+        <item name="android:textColor">?themeTextColorPrimary</item>
+        <item name="android:navigationBarColor">?themeNavigationBarColor</item>
+        <item name="android:colorBackground">?themeBackgroundColor</item>
+
+        <!-- The view fit to until the state bar -->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!-- The view fit to until the navigation bar -->
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="MainTheme.Transitions">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="SmashKsTheme" parent="MainTheme.Transitions">
+        <item name="themeColorPrimary">@color/primaryColor</item>
+        <item name="themeColorPrimaryLight">@color/primaryLightColor</item>
+        <item name="themeColorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="themeColorAccent">@color/colorAccent</item>
+        <item name="themeTextColorPrimary">@color/primaryTextColor</item>
+        <item name="themeTextColorSecondary">@color/colorSecondaryText</item>
+        <item name="themeColorSecondaryLight">@color/secondaryLightColor</item>
+        <item name="themeColorSecondaryDark">@color/secondaryDarkColor</item>
+        <item name="themeNavigationBarColor">@color/navigationBarColor</item>
+        <item name="themeBackgroundColor">@color/backgroundColor</item>
     </style>
 
     <!-- Constraint Basic Setting -->

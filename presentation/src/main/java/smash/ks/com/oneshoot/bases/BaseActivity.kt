@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot.bases
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import com.hwangjr.rxbus.Bus
 import org.kodein.di.KodeinAware
@@ -67,6 +68,7 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     }
     //endregion
 
+    @UiThread
     abstract fun init(savedInstanceState: Bundle?)
 
     @LayoutRes

@@ -24,4 +24,31 @@
         <item name="autoFocus">true</item>
         <item name="flash">auto</item>
     </style>
+
+    <style name="Camera.Area.Selection" parent="Constraint.Any">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="Camera.Button" parent="Constraint.Wrap.Center">
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">@dimen/md_one_unit</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="Camera.Button.Shot">
+        <item name="android:layout_width">@dimen/md_nine_unit</item>
+        <item name="android:layout_height">@dimen/md_zero_unit</item>
+        <item name="android:layout_marginTop">@dimen/md_one_unit</item>
+        <item name="android:layout_marginBottom">@dimen/navigation_bar_height</item>
+        <item name="android:src">@drawable/ic_camera</item>
+    </style>
+
+    <style name="Camera.Button.Flash">
+        <item name="android:layout_width">@dimen/flash_icon_width</item>
+        <item name="android:layout_height">@dimen/flash_icon_height</item>
+        <item name="android:src">@drawable/ic_flash_on</item>
+        <item name="layout_constraintStart_toStartOf"></item>
+    </style>
 </resources>

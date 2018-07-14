@@ -37,6 +37,7 @@ android {
         targetSdkVersion Android.targetSdk
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 28
         renderscriptSupportModeEnabled true    // Enable RS support
     }
     buildTypes {
@@ -55,6 +56,7 @@ android {
     sourceSets {
         main {
             res.srcDirs += FeatureRes.dirs
+            jniLibs.srcDirs = ['libs']
         }
     }
     dexOptions { javaMaxHeapSize "4g" }
@@ -143,16 +145,21 @@ dependencies {
 //    }
     implementation Global.kodeinJVM
     //endregion
+
+    //region Rx Bus
     implementation(Presentation.rxBus) {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }
-    //region Rx Lifecycle
+    //endregion
 
+    //region Rx Lifecycle
     // We're not using now. This's just for the extensions.
     implementation Presentation.rxLifecycle
     //    implementation Presentation.rxLifecycleComponent
     //    implementation Presentation.rxPermission
     //endregion
+
+    implementation Presentation.loading
 
     //region Internet & Image loading
     implementation Presentation.retrofit2
@@ -160,6 +167,10 @@ dependencies {
     implementation Presentation.retrofit2RxJava2
     implementation Presentation.okhttpLogging
     implementation Presentation.glide
+    //endregion
+
+    //region UI
+    implementation Presentation.blurView
     //endregion
 
     //region Androidx SDK
@@ -197,6 +208,7 @@ dependencies {
     androidTestImplementation PresentationTest.kakao
     androidTestImplementation PresentationTest.mockkAndroid
     //endregion
+
     debugImplementation GlobalDebug.database
 }
 

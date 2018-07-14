@@ -136,6 +136,8 @@ object Versions {
      */
     object Ui {
         const val dialog = "1.0.1"
+        const val blurView = "1.1.0"
+        const val loading = "1.3.0"
     }
 
     /**

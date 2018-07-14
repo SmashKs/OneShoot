@@ -19,4 +19,18 @@
     <declare-styleable name="FontTextView">
         <attr name="textFont" format="string"/>
     </declare-styleable>
+
+    <!-- Theme Reference -->
+    <attr name="themeColorPrimary" format="reference"/>
+    <attr name="themeColorPrimaryLight" format="reference"/>
+    <attr name="themeColorPrimaryDark" format="reference"/>
+    <attr name="themeColorAccent" format="reference"/>
+    <attr name="themeTextColorPrimary" format="reference"/>
+    <attr name="themeTextColorSecondary" format="reference"/>
+    <attr name="themeColorSecondary" format="reference"/>
+    <attr name="themeColorSecondaryLight" format="reference"/>
+    <attr name="themeColorSecondaryDark" format="reference"/>
+    <attr name="themeFont" format="reference"/>
+    <attr name="themeNavigationBarColor" format="reference"/>
+    <attr name="themeBackgroundColor" format="reference"/>
 </resources>

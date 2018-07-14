@@ -18,9 +18,7 @@ package smash.ks.com.oneshoot.widgets.customize.selectable
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color.CYAN
-import android.graphics.Color.GREEN
-import android.graphics.Color.RED
+import android.graphics.Color.WHITE
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
 import android.graphics.Paint.Style.STROKE
@@ -80,7 +78,7 @@ class SelectableAreaView @JvmOverloads constructor(
     private var isTouchInside = false
     private val paintRect by lazy {
         Paint().apply {
-            color = RED
+            color = WHITE
             isAntiAlias = true
             style = STROKE
             strokeWidth = DEFAULT_STROKE_WIDTH
@@ -95,7 +93,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintInnerRect by lazy {
         Paint().apply {
-            color = CYAN  // This is interacted area so any color is fine.
+            color = WHITE  // This is interacted area so any color is fine.
             isAntiAlias = true
             style = FILL
             xfermode = PorterDuffXfermode(DST_OUT)
@@ -103,7 +101,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintAngles by lazy {
         Paint().apply {
-            color = GREEN
+            color = WHITE
             isAntiAlias = true
         }
     }

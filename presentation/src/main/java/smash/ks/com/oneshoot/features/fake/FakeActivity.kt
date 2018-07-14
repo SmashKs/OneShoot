@@ -17,16 +17,20 @@
 package smash.ks.com.oneshoot.features.fake
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
+import androidx.annotation.UiThread
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.BaseActivity
 import java.util.Random
 
 class FakeActivity : BaseActivity() {
+    @UiThread
     override fun init(savedInstanceState: Bundle?) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_container, FakeFragment.newInstance(Random().nextInt()))
         }.commit()
     }
 
+    @LayoutRes
     override fun provideLayoutId() = R.layout.activity_base
 }

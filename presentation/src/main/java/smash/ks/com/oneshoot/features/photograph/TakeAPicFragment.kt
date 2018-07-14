@@ -35,15 +35,19 @@ import com.devrapid.kotlinknifer.ui
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
+import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
+import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.cast
+import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntites
@@ -53,7 +57,11 @@ import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_OFF
+import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView.Flash
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
@@ -82,6 +90,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         cast<MultiTypeAdapter>(innerAdapter)
     }
     private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
+    private val flashCycle by lazy {
+        listOf(FLASH_OFF to R.drawable.ic_flash_off,
+               FLASH_ON to R.drawable.ic_flash_on,
+               FLASH_AUTO to R.drawable.ic_flash_auto)
+    }
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
@@ -162,6 +175,15 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             cv_camera.addCallback(cameraCallback)
         }
         ib_shot.onClick { cv_camera.takePicture() }
+        ib_flash.apply {
+            currentFlashState()?.second?.let(::setImageResource)
+            onClick {
+                val state = nextFlashState()
+
+                cv_camera.setFlash(state.first)
+                ib_flash.setImageResource(state.second)
+            }
+        }
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
@@ -173,6 +195,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun provideInflateView() = R.layout.fragment_take_a_pic
     //endregion
 
+    //region Showing From ViewModel
     private fun showLabels(response: KsResponse<LabelEntites>) {
         peelResponseSkipLoading(response, ::showLabelDialog)
     }
@@ -207,6 +230,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
     }
+    //endregion
 
     private fun dismissDialog() {
         adapter.clearList()
@@ -218,4 +242,18 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         labelDialog?.dismissAllowingStateLoss()
         labelDialog = null
     }
+
+    private fun currentFlashState() = flashCycle.find { cv_camera.getFlash() == it.first }
+
+    private fun currentFlashStateIndex(): Int {
+        @Flash var currentIndex = DEFAULT_INT
+
+        flashCycle.forEachWithIndex { index, flash ->
+            if (cv_camera.getFlash() == flash.first) currentIndex = index
+        }
+
+        return currentIndex
+    }
+
+    private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
 }

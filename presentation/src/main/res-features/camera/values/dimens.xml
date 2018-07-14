@@ -16,19 +16,6 @@
   -->
 
 <resources>
-    <dimen name="md_zero_unit">0dp</dimen>
-    <dimen name="md_one_unit">8dp</dimen>
-    <dimen name="md_two_unit">16dp</dimen>
-    <dimen name="md_three_unit">24dp</dimen>
-    <dimen name="md_four_unit">32dp</dimen>
-    <dimen name="md_five_unit">40dp</dimen>
-    <dimen name="md_six_unit">48dp</dimen>
-    <dimen name="md_seven_unit">56dp</dimen>
-    <dimen name="md_eight_unit">64dp</dimen>
-    <dimen name="md_nine_unit">72dp</dimen>
-    <dimen name="md_ten_unit">80dp</dimen>
-
-    <dimen name="navigation_bar_height">48dp</dimen>
-    <dimen name="state_bar_and_tab_layout_height">80dp</dimen>
-    <dimen name="state_bar_height">24dp</dimen>
+    <dimen name="flash_icon_height">@dimen/md_five_unit</dimen>
+    <dimen name="flash_icon_width">@dimen/md_five_unit</dimen>
 </resources>
