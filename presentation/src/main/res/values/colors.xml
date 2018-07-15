@@ -28,9 +28,9 @@
     <color name="colorSecondaryText">#757575</color>
 
     <!-- New Version 1 -->
-    <color name="primaryColor">#EF8587</color>
-    <color name="primaryLightColor">#FFB6B7</color>
-    <color name="primaryDarkColor">#B9565A</color>
+    <color name="primaryColor">#D13E4D</color>
+    <color name="primaryLightColor">#FF7179</color>
+    <color name="primaryDarkColor">#9A0025</color>
     <color name="accentColor">#FFFF74</color>
     <color name="secondaryColor">@color/accentColor</color>
     <color name="secondaryLightColor">#FFFFFF</color>
@@ -40,6 +40,7 @@
     <color name="navigationBarColor">@color/transparent</color>
     <color name="backgroundColor">#F5F5F6</color>
 
+    <color name="brick_red">#D2324B</color>
     <color name="transparent">#00000000</color>
 
     <color name="colorDivider">#BDBDBD</color>

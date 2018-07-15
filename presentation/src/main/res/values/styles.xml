@@ -43,6 +43,15 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Splash -->
+        <!-- The view fit to until the state bar -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!-- The view fit to until the navigation bar -->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="SmashKsTheme" parent="MainTheme.Transitions">
         <item name="themeColorPrimary">@color/primaryColor</item>
         <item name="themeColorPrimaryLight">@color/primaryLightColor</item>
