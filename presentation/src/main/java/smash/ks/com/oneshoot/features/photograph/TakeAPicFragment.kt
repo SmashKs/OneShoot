@@ -41,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
@@ -85,6 +86,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //endregion
 
     private var labelDialog: QuickDialogFragment? = null
+    private var shotDebounce = false
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
         val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
@@ -176,7 +178,13 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         if (!cv_camera.hasCallback(cameraCallback)) {
             cv_camera.addCallback(cameraCallback)
         }
-        ib_shot.onClick { cv_camera.takePicture() }
+        ib_shot.onClick {
+            if (!shotDebounce) {
+                shotDebounce = true
+                delay(200, MILLISECONDS)
+                cv_camera.takePicture()
+            }
+        }
         ib_flash.apply {
             currentFlashState()?.second?.let(::setImageResource)
             onClick {
@@ -200,6 +208,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Showing From ViewModel
     private fun showLabels(response: KsResponse<LabelEntites>) {
         peelResponseSkipLoading(response, ::showLabelDialog)
+        // Avoid triggering again taking a pic.
+        launch {
+            delay(500)
+            shotDebounce = false
+        }
     }
 
     private fun showLabelDialog(entities: LabelEntites) {
@@ -218,7 +231,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                     ib_close.onClick {
                         if (false == debouncing) {
                             debouncing = true
-                            delay(200, MILLISECONDS)
+                            delay(200)
                             dismissDialog()
                         }
                     }
