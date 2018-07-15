@@ -49,6 +49,7 @@ class SelectableAreaView @JvmOverloads constructor(
     companion object {
         const val DEFAULT_GAP = 300f
         const val DEFAULT_STROKE_WIDTH = 2f
+        const val DEFAULT_STROKE_HALF_WIDTH = 1f
         const val DEFAULT_ANGLE_WIDTH = 15f
         const val DEFAULT_TOUCH_RANGE = DEFAULT_ANGLE_WIDTH * 3
         const val DEFAULT_POSITION = 50f
@@ -62,6 +63,8 @@ class SelectableAreaView @JvmOverloads constructor(
 
         private const val OUTER_ARGB_ALPHA = 150
         private const val TOUCHABLE_RANGE_TIMES = 4
+
+        private const val SHIFT = 8
     }
 
     var selectedAreaCallback: ((x: Int, y: Int, width: Int, height: Int) -> Unit)? = null
@@ -78,7 +81,7 @@ class SelectableAreaView @JvmOverloads constructor(
     private var isTouchInside = false
     private val paintRect by lazy {
         Paint().apply {
-            color = WHITE
+            setARGB(OUTER_ARGB_ALPHA, 0xff, 0xff, 0xff)
             isAntiAlias = true
             style = STROKE
             strokeWidth = DEFAULT_STROKE_WIDTH
@@ -101,7 +104,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintAngles by lazy {
         Paint().apply {
-            color = WHITE
+            setARGB(OUTER_ARGB_ALPHA, 0xff, 0xff, 0xff)
             isAntiAlias = true
         }
     }
@@ -225,8 +228,67 @@ class SelectableAreaView @JvmOverloads constructor(
                      paintRect)
             // Four Angles
             fourAngles.forEach {
-                drawRect(it.coordination.x - DEFAULT_ANGLE_WIDTH, it.coordination.y - DEFAULT_ANGLE_WIDTH,
-                         it.coordination.x + DEFAULT_ANGLE_WIDTH, it.coordination.y + DEFAULT_ANGLE_WIDTH, paintAngles)
+                // Create a new canvas for doing interaction layer.
+                saveLayer(wholeRectangle, null).apply {
+                    when (it) {
+                        is LT -> {
+                            // All background rectangle (DST layer).
+                            drawRect(it.coordination.x + DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     paintAngles)
+                            // Inner transport of selection area rectangle (SRC layer).
+                            drawRect(it.coordination.x + SHIFT,
+                                     it.coordination.y + SHIFT,
+                                     it.coordination.x + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     it.coordination.y + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     paintInnerRect)
+                        }
+                        is RB -> {
+                            // All background rectangle (DST layer).
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.x - DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH,
+                                     paintAngles)
+                            // Inner transport of selection area rectangle (SRC layer).
+                            drawRect(it.coordination.x - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                                     it.coordination.y - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                                     it.coordination.x - SHIFT,
+                                     it.coordination.y - SHIFT,
+                                     paintInnerRect)
+                        }
+                        is LB -> {
+                            // All background rectangle (DST layer).
+                            drawRect(it.coordination.x + DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH,
+                                     paintAngles)
+                            // Inner transport of selection area rectangle (SRC layer).
+                            drawRect(it.coordination.x + SHIFT,
+                                     it.coordination.y - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                                     it.coordination.x + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     it.coordination.y - SHIFT,
+                                     paintInnerRect)
+                        }
+                        is RT -> {
+                            // All background rectangle (DST layer).
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.x - DEFAULT_STROKE_HALF_WIDTH,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     paintAngles)
+                            // Inner transport of selection area rectangle (SRC layer).
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + SHIFT,
+                                     it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - SHIFT,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     paintInnerRect)
+                        }
+                    }
+                }.apply(::restoreToCount)
             }
         }
     }

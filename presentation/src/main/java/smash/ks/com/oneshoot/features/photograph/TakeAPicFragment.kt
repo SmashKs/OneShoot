@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
+import kotlinx.coroutines.experimental.delay
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
@@ -66,6 +67,7 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 import java.io.ByteArrayOutputStream
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
@@ -202,6 +204,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
     private fun showLabelDialog(entities: LabelEntites) {
         labelDialog = QuickDialogFragment.Builder(this) {
+            var debouncing = false
+
             viewResCustom = R.layout.dialog_fragment_labels
             cancelable = false
             fetchComponents = { v, df ->
@@ -211,7 +215,13 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         it.adapter = adapter
                         it.addItemDecoration(decorator)
                     }
-                    ib_close.setOnClickListener { dismissDialog() }
+                    ib_close.onClick {
+                        if (false == debouncing) {
+                            debouncing = true
+                            delay(200, MILLISECONDS)
+                            dismissDialog()
+                        }
+                    }
                 }
 
                 df.dialog.setOnKeyListener { _, keyCode, _ ->
