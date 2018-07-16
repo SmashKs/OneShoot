@@ -58,6 +58,7 @@ import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntites
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
+import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
@@ -71,7 +72,6 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 import java.io.ByteArrayOutputStream
-import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
@@ -96,7 +96,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         cast<MultiTypeAdapter>(innerAdapter)
     }
-    private val decorator by lazy { VerticalItemDecorator(8.dp.toInt(), 8.dp.toInt()) }
+    private val decorator by lazy {
+        VerticalItemDecorator(gDimens(R.dimen.md_one_unit).dp.toInt(), gDimens(R.dimen.md_one_unit).dp.toInt())
+    }
     private val flashCycle by lazy {
         listOf(FLASH_OFF to R.drawable.ic_flash_off,
                FLASH_ON to R.drawable.ic_flash_on,
@@ -184,7 +186,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         ib_shot.onClick {
             if (!shotDebounce) {
                 shotDebounce = true
-                delay(200, MILLISECONDS)
                 cv_camera.takePicture()
             }
         }

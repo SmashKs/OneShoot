@@ -94,7 +94,8 @@ abstract class CompletableUseCase<R : BaseUseCase.RequestValues>(
      * @param parameter the parameter for retrieving data.
      * @param lifecycleProvider an activity or a fragment of the [LifecycleProvider] object.
      * @param block add some chain actions between [subscribeOn] and [observeOn].
-     * @param completableObserver a reaction of [Completable] from presentation, the data are omitted from database or remote.
+     * @param completableObserver a reaction of [Completable] from presentation, the data are
+     * omitted from database or remote.
      */
     fun execute(
         parameter: R,
