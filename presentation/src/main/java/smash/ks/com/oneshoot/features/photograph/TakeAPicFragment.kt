@@ -49,6 +49,9 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.cast
+import smash.ks.com.ext.const.Constant.CAMERA_QUILITY
+import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
+import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
@@ -117,7 +120,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
                             val stream = ByteArrayOutputStream()
-                            compress(PNG, 100, stream)
+                            compress(PNG, CAMERA_QUILITY, stream)
                             byteArray = stream.toByteArray()
                         }.recycle()
 
@@ -210,7 +213,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         peelResponseSkipLoading(response, ::showLabelDialog)
         // Avoid triggering again taking a pic.
         launch {
-            delay(500)
+            delay(DEBOUNCE_SAFE_MODE_CAMERA)
             shotDebounce = false
         }
     }
@@ -231,7 +234,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                     ib_close.onClick {
                         if (false == debouncing) {
                             debouncing = true
-                            delay(200)
+                            delay(DEBOUNCE_DELAY)
                             dismissDialog()
                         }
                     }

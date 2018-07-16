@@ -65,6 +65,8 @@ class SelectableAreaView @JvmOverloads constructor(
         private const val TOUCHABLE_RANGE_TIMES = 4
 
         private const val SHIFT = 8
+
+        private const val BLACK = 0xff
     }
 
     var selectedAreaCallback: ((x: Int, y: Int, width: Int, height: Int) -> Unit)? = null
@@ -81,7 +83,7 @@ class SelectableAreaView @JvmOverloads constructor(
     private var isTouchInside = false
     private val paintRect by lazy {
         Paint().apply {
-            setARGB(OUTER_ARGB_ALPHA, 0xff, 0xff, 0xff)
+            setARGB(OUTER_ARGB_ALPHA, BLACK, BLACK, BLACK)
             isAntiAlias = true
             style = STROKE
             strokeWidth = DEFAULT_STROKE_WIDTH
@@ -104,7 +106,7 @@ class SelectableAreaView @JvmOverloads constructor(
     }
     private val paintAngles by lazy {
         Paint().apply {
-            setARGB(OUTER_ARGB_ALPHA, 0xff, 0xff, 0xff)
+            setARGB(OUTER_ARGB_ALPHA, BLACK, BLACK, BLACK)
             isAntiAlias = true
         }
     }
@@ -235,26 +237,26 @@ class SelectableAreaView @JvmOverloads constructor(
                             // All background rectangle (DST layer).
                             drawRect(it.coordination.x + DEFAULT_STROKE_HALF_WIDTH,
                                      it.coordination.y + DEFAULT_STROKE_HALF_WIDTH,
-                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
-                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + DEFAULT_TOUCH_RANGE,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + DEFAULT_TOUCH_RANGE,
                                      paintAngles)
                             // Inner transport of selection area rectangle (SRC layer).
                             drawRect(it.coordination.x + SHIFT,
                                      it.coordination.y + SHIFT,
-                                     it.coordination.x + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
-                                     it.coordination.y + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     it.coordination.x + DEFAULT_TOUCH_RANGE + SHIFT,
+                                     it.coordination.y + DEFAULT_TOUCH_RANGE + SHIFT,
                                      paintInnerRect)
                         }
                         is RB -> {
                             // All background rectangle (DST layer).
-                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
-                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - DEFAULT_TOUCH_RANGE,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - DEFAULT_TOUCH_RANGE,
                                      it.coordination.x - DEFAULT_STROKE_HALF_WIDTH,
                                      it.coordination.y - DEFAULT_STROKE_HALF_WIDTH,
                                      paintAngles)
                             // Inner transport of selection area rectangle (SRC layer).
-                            drawRect(it.coordination.x - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
-                                     it.coordination.y - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                            drawRect(it.coordination.x - DEFAULT_TOUCH_RANGE - SHIFT,
+                                     it.coordination.y - DEFAULT_TOUCH_RANGE - SHIFT,
                                      it.coordination.x - SHIFT,
                                      it.coordination.y - SHIFT,
                                      paintInnerRect)
@@ -262,29 +264,29 @@ class SelectableAreaView @JvmOverloads constructor(
                         is LB -> {
                             // All background rectangle (DST layer).
                             drawRect(it.coordination.x + DEFAULT_STROKE_HALF_WIDTH,
-                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
-                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y - DEFAULT_STROKE_HALF_WIDTH - DEFAULT_TOUCH_RANGE,
+                                     it.coordination.x + DEFAULT_STROKE_HALF_WIDTH + DEFAULT_TOUCH_RANGE,
                                      it.coordination.y - DEFAULT_STROKE_HALF_WIDTH,
                                      paintAngles)
                             // Inner transport of selection area rectangle (SRC layer).
                             drawRect(it.coordination.x + SHIFT,
-                                     it.coordination.y - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
-                                     it.coordination.x + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     it.coordination.y - DEFAULT_TOUCH_RANGE - SHIFT,
+                                     it.coordination.x + DEFAULT_TOUCH_RANGE + SHIFT,
                                      it.coordination.y - SHIFT,
                                      paintInnerRect)
                         }
                         is RT -> {
                             // All background rectangle (DST layer).
-                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH,
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - DEFAULT_TOUCH_RANGE,
                                      it.coordination.y + DEFAULT_STROKE_HALF_WIDTH,
                                      it.coordination.x - DEFAULT_STROKE_HALF_WIDTH,
-                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + DEFAULT_TOUCH_RANGE,
                                      paintAngles)
                             // Inner transport of selection area rectangle (SRC layer).
-                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - 3 * DEFAULT_ANGLE_WIDTH - SHIFT,
+                            drawRect(it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - DEFAULT_TOUCH_RANGE - SHIFT,
                                      it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + SHIFT,
                                      it.coordination.x - DEFAULT_STROKE_HALF_WIDTH - SHIFT,
-                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + 3 * DEFAULT_ANGLE_WIDTH + SHIFT,
+                                     it.coordination.y + DEFAULT_STROKE_HALF_WIDTH + DEFAULT_TOUCH_RANGE + SHIFT,
                                      paintInnerRect)
                         }
                     }
