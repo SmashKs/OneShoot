@@ -44,7 +44,4 @@
     <color name="transparent">#00000000</color>
 
     <color name="colorDivider">#BDBDBD</color>
-
-    <color name="dodger_blue_alpha_33">#55FF7588</color>
-    <color name="dodger_blue_alpha_13">#22FF7588</color>
 </resources>

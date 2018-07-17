@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.Manifest.permission.CAMERA
+import android.animation.ObjectAnimator
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.PNG
@@ -28,10 +29,12 @@ import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.dp
 import com.devrapid.kotlinknifer.ui
+import com.devrapid.kotlinknifer.visiable
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
@@ -39,6 +42,7 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
+import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -77,6 +81,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Instance
     companion object Factory {
         private const val INPUT_SIZE = 224
+        private const val FLASH_DURATION = 250L
 
         /**
          * Use this factory method to create a new instance of this fragment using the provided parameters.
@@ -187,6 +192,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             if (!shotDebounce) {
                 shotDebounce = true
                 cv_camera.takePicture()
+                makeCameraFlashEffecting()
             }
         }
         ib_flash.apply {
@@ -268,6 +274,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         }
         labelDialog?.dismissAllowingStateLoss()
         labelDialog = null
+    }
+
+    private fun makeCameraFlashEffecting() {
+        if (!v_flash.isVisible) v_flash.visiable()
+
+        ObjectAnimator.ofFloat(v_flash, "alpha", 1f, 0f)
+            .apply { duration = FLASH_DURATION }
+            .start()
     }
 
     private fun currentFlashState() = flashCycle.find { cv_camera.getFlash() == it.first }

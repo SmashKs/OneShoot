@@ -39,6 +39,16 @@
         app:layout_constraintTop_toTopOf="@+id/cv_camera"/>
 
     <View
+        android:id="@+id/v_flash"
+        style="@style/Constraint.Any"
+        android:background="@color/flash_masking"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
+        app:layout_constraintEnd_toEndOf="@+id/cv_camera"
+        app:layout_constraintStart_toStartOf="@+id/cv_camera"
+        app:layout_constraintTop_toTopOf="@+id/cv_camera"/>
+
+    <View
         android:id="@+id/v_control_bkg"
         android:layout_width="@dimen/md_zero_unit"
         android:layout_height="136dp"
