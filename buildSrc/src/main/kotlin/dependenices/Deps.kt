@@ -123,6 +123,10 @@ object Deps {
         const val cardview = "androidx.cardview:cardview:${Versions.AndroidComponent.cardview}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.constraintLayout}"
+        const val navigationUi =
+            "android.arch.navigation:navigation-fragment-ktx:${Versions.AndroidComponent.navigation}"
+        const val navigationFragment =
+            "android.arch.navigation:navigation-ui-ktx:${Versions.AndroidComponent.navigation}"
     }
 
     /**

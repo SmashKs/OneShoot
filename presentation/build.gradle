@@ -27,6 +27,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'jacoco'
 
 android {
@@ -179,6 +180,8 @@ dependencies {
     implementation Presentation.cardview
     implementation Presentation.annot
     implementation Presentation.constraintLayout
+    implementation Presentation.navigationUi
+    implementation Presentation.navigationFragment
     //endregion
 
     //region Test
