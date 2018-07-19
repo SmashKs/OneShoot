@@ -33,9 +33,9 @@ object Versions {
      * Related Android component lib version.
      */
     object AndroidComponent {
-        const val androidx = "1.0.0-alpha3"
-        const val cardview = "1.0.0-alpha1"
-        const val constraintLayout = "1.1.0"
+        const val androidx = "1.0.0-beta01"
+        const val cardview = "1.0.0-beta01"
+        const val constraintLayout = "2.0.0-alpha1"
         const val navigation = "1.0.0-alpha04"
     }
 
