@@ -21,8 +21,8 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.devrapid.kotlinshaver.cast
 import org.kodein.di.generic.instance
-import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView

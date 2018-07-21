@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import com.devrapid.kotlinshaver.castOrNull
 import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.ResponseKsModel
 import smash.ks.com.domain.SingleUseCase
@@ -27,7 +28,6 @@ import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
-import smash.ks.com.ext.castOrNull
 
 /**
  * This class is an implementation of [BaseUseCase] that represents a use case for an example.

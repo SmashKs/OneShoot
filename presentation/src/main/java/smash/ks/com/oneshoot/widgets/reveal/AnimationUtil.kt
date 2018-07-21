@@ -27,8 +27,8 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.devrapid.kotlinknifer.gone
+import com.devrapid.kotlinshaver.cast
 import kotlinx.android.parcel.Parcelize
-import smash.ks.com.ext.cast
 import kotlin.math.pow
 
 private const val CIRCULAR_REVEAL_DURATION = 1000L

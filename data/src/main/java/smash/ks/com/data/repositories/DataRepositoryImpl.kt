@@ -16,6 +16,7 @@
 
 package smash.ks.com.data.repositories
 
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.data.datas.DataMapper
 import smash.ks.com.data.datas.MapperPool
 import smash.ks.com.data.datas.mappers.KsMapper
@@ -62,5 +63,5 @@ class DataRepositoryImpl constructor(
     override fun fetchImageWordContentByML(params: Parameterable) =
         (if (SWITCH) local else remote).analyzeImageWordContentByML(params)
 
-    private inline fun <reified DM : DataMapper> digDataMapper() = DM::class.java.cast(mapperPool[DM::class.java])
+    private inline fun <reified DM : DataMapper> digDataMapper() = cast<DM>(mapperPool[DM::class.java])
 }

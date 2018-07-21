@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.usecases.fake
 
+import com.devrapid.kotlinshaver.cast
 import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.single
 import com.nhaarman.mockito_kotlin.doReturn
@@ -33,7 +34,6 @@ import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
-import smash.ks.com.ext.cast
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith

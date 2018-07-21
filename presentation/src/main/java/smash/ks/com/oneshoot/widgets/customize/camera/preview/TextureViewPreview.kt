@@ -27,7 +27,7 @@ import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
 import android.view.View
 import android.view.ViewGroup
-import smash.ks.com.ext.cast
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 import smash.ks.com.oneshoot.widgets.customize.camera.view.DisplayOrientationDetector.Companion.DEGREE_180

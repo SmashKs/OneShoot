@@ -16,6 +16,7 @@
 
 package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 
+import com.devrapid.kotlinshaver.cast
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
@@ -23,7 +24,6 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.scoped
 import org.kodein.di.generic.singleton
-import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.features.fake.FakeViewHolder

@@ -23,7 +23,7 @@ import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
-import smash.ks.com.ext.cast
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Preview
 

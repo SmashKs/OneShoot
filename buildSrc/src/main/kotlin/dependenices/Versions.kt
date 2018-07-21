@@ -61,8 +61,8 @@ object Versions {
         const val aac = "2.0.0-alpha1"
         const val anko = "0.10.5"
         const val ktx = AndroidComponent.androidx
-        const val kinfer = "1.5.7"
-        const val shaver = "0.2.2"
+        const val kinfer = "2.0.1"
+        const val shaver = "1.0.1"
     }
 
     /**

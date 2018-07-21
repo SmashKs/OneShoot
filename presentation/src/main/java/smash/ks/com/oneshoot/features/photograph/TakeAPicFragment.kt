@@ -34,7 +34,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.dp
 import com.devrapid.kotlinknifer.ui
-import com.devrapid.kotlinknifer.visiable
+import com.devrapid.kotlinknifer.visible
+import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
@@ -52,7 +53,6 @@ import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
-import smash.ks.com.ext.cast
 import smash.ks.com.ext.const.Constant.CAMERA_QUILITY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
@@ -277,7 +277,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun makeCameraFlashEffecting() {
-        if (!v_flash.isVisible) v_flash.visiable()
+        if (!v_flash.isVisible) v_flash.visible()
 
         ObjectAnimator.ofFloat(v_flash, "alpha", 1f, 0f)
             .apply { duration = FLASH_DURATION }

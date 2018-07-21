@@ -72,8 +72,8 @@ import android.media.ImageReader.newInstance
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.util.Log
 import android.util.SparseIntArray
+import com.devrapid.kotlinshaver.cast
 import org.jetbrains.anko.toast
-import smash.ks.com.ext.cast
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_LOCKING
 import smash.ks.com.oneshoot.widgets.customize.camera.Camera2.PictureCaptureCallback.Companion.STATE_PREVIEW
 import smash.ks.com.oneshoot.widgets.customize.camera.module.AspectRatio

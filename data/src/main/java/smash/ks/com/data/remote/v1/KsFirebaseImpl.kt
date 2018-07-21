@@ -16,6 +16,7 @@
 
 package smash.ks.com.data.remote.v1
 
+import com.devrapid.kotlinshaver.castOrNull
 import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.single
 import com.google.firebase.database.DataSnapshot
@@ -27,7 +28,6 @@ import smash.ks.com.data.datas.KsData
 import smash.ks.com.data.remote.FirebaseData
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.parameters.Parameterable
-import smash.ks.com.ext.castOrNull
 
 /**
  * The implementation for accessing the data from Firebase.

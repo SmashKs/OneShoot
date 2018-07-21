@@ -20,13 +20,13 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.fragment_fake.btn_append
 import kotlinx.android.synthetic.main.fragment_fake.rv_fake
 import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
-import smash.ks.com.ext.cast
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment

@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.usecases.analysis
 
+import com.devrapid.kotlinshaver.castOrNull
 import smash.ks.com.domain.ResponseKsLabels
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
@@ -26,7 +27,6 @@ import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
-import smash.ks.com.ext.castOrNull
 
 class FindImageTagsUsecase(
     private val repository: DataRepository,

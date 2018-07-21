@@ -99,7 +99,6 @@ dependencies {
     //endregion
 
     //region Jieyi Libraries
-    implementation Global.shaver
     implementation Presentation.knifer
     implementation Presentation.arv
     implementation Presentation.quickDialog

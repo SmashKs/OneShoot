@@ -19,8 +19,8 @@ package smash.ks.com.oneshoot.bases
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.devrapid.kotlinshaver.cast
 import org.kodein.di.generic.instance
-import smash.ks.com.ext.cast
 import java.lang.reflect.ParameterizedType
 
 /**

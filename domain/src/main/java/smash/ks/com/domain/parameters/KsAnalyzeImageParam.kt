@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.parameters
 
+import com.devrapid.kotlinshaver.cast
 import java.util.Arrays
 
 data class KsAnalyzeImageParam(
@@ -27,7 +28,7 @@ data class KsAnalyzeImageParam(
 
     override fun toParameter() = throw UnsupportedOperationException()
 
-    override fun toAnyParameter() = hashMapOf(PARAM_BYTE_ARRAY to Any::class.java.cast(imageByteArray))
+    override fun toAnyParameter() = hashMapOf(PARAM_BYTE_ARRAY to cast<Any>(imageByteArray))
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
