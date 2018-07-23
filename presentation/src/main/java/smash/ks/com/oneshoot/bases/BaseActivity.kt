@@ -65,11 +65,16 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
 
         // Unregister RxBus.
         bus.unregister(busEvent)
+        uninit()
     }
     //endregion
 
     @UiThread
-    abstract fun init(savedInstanceState: Bundle?)
+    protected abstract fun init(savedInstanceState: Bundle?)
+
+    @UiThread
+    protected open fun uninit() {
+    }
 
     @LayoutRes
     abstract fun provideLayoutId(): Int
