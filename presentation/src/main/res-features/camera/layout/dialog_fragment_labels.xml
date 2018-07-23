@@ -40,7 +40,6 @@
             android:id="@+id/rv_labels"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/md_one_unit"
             android:layout_marginTop="@dimen/md_one_unit"
             tools:itemCount="4"
             tools:listitem="@layout/item_label"/>

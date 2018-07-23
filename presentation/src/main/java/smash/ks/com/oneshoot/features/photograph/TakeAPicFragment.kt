@@ -32,7 +32,6 @@ import androidx.core.graphics.scale
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.dp
 import com.devrapid.kotlinknifer.ui
 import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
@@ -102,7 +101,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         cast<MultiTypeAdapter>(innerAdapter)
     }
     private val decorator by lazy {
-        VerticalItemDecorator(gDimens(R.dimen.md_one_unit).dp.toInt(), gDimens(R.dimen.md_one_unit).dp.toInt())
+        VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit))
     }
     private val flashCycle by lazy {
         listOf(FLASH_OFF to R.drawable.ic_flash_off,

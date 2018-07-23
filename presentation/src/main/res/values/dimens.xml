@@ -17,6 +17,7 @@
 
 <resources>
     <dimen name="md_zero_unit">0dp</dimen>
+    <dimen name="md_half_unit">4dp</dimen>
     <dimen name="md_one_unit">8dp</dimen>
     <dimen name="md_two_unit">16dp</dimen>
     <dimen name="md_three_unit">24dp</dimen>

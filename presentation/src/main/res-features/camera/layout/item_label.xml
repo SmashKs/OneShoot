@@ -17,12 +17,14 @@
 
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/md_three_unit"
-    android:layout_marginStart="@dimen/md_three_unit"
-    android:orientation="vertical">
+    android:layout_marginEnd="@dimen/md_two_unit"
+    android:layout_marginStart="@dimen/md_two_unit"
+    android:orientation="vertical"
+    app:cardElevation="@dimen/md_half_unit">
 
     <TextView
         android:id="@+id/tv_label"
