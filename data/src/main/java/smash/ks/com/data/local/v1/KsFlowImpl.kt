@@ -33,7 +33,6 @@ class KsFlowImpl(
         val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
 
         it.onSuccess(classifier.recognizeImage(bitmap).map {
-            "Detect: $it"
             LabelData(it.id?.toIntOrNull() ?: DEFAULT_INT,
                       it.title.orEmpty(),
                     it.confidence ?: DEFAULT_FLOAT)

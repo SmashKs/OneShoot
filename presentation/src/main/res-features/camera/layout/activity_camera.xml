@@ -15,33 +15,22 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/state_bar_and_tab_layout_height"
-    tools:context=".features.fake.FakeActivity">
+    tools:context=".features.photograph.PhotographActivity">
 
-    <FrameLayout
-        android:id="@+id/fl_container"
-        style="@style/Constraint.Any.MatchParent"/>
+    <fragment
+        android:id="@+id/f_camera"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_camera"/>
 
-    <ViewStub
-        android:id="@+id/vs_loading"
-        style="@style/Constraint.MatchParent"
-        android:inflatedId="@+id/v_loading"
-        android:layout="@layout/part_loading"/>
-
-    <ViewStub
-        android:id="@+id/vs_error"
-        style="@style/Constraint.MatchParent"
-        android:inflatedId="@+id/v_error"
-        android:layout="@layout/part_error"/>
-
-    <ViewStub
-        android:id="@+id/vs_retry"
-        style="@style/Constraint.MatchParent"
-        android:inflatedId="@+id/v_retry"
-        android:layout="@layout/part_retry"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/merge_stub_views"/>
+</FrameLayout>

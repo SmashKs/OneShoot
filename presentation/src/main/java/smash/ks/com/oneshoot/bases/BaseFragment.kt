@@ -25,7 +25,10 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.devrapid.kotlinknifer.hideSoftKeyboard
 import com.devrapid.kotlinshaver.castOrNull
+import org.jetbrains.anko.findOptional
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -33,6 +36,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.kcontext
 import org.kodein.di.generic.singleton
+import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntries
 import smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment.SuperFragmentModule.fragmentModule
 import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
@@ -82,6 +86,8 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         super.onViewCreated(view, savedInstanceState)
 
         rendered(savedInstanceState)
+        // When the fragment has base_layout id, it'll attach the function of hiding soft keyboard.
+        view.findOptional<View>(R.id.base_layout)?.clickedThenHideKeyboard()
     }
     //endregion
 
@@ -101,8 +107,11 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     @LayoutRes
     protected abstract fun provideInflateView(): Int
 
+    /**
+     * Attaching the function of hiding the soft keyboard into a [View].
+     */
+    @UiThread
     protected fun View.clickedThenHideKeyboard() {
-        if (hasOnClickListeners()) return
-//        bindingToUiClicks(this@BaseFragment, 0).subscribe { hideSoftKeyboard() }
+        if (!hasOnClickListeners()) onClick { hideSoftKeyboard() }
     }
 }

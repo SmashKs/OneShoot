@@ -22,10 +22,7 @@ import smash.ks.com.oneshoot.bases.BaseActivity
 
 class PhotographActivity : BaseActivity() {
     override fun init(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_container, TakeAPicFragment.newInstance())
-        }.commit()
     }
 
-    override fun provideLayoutId() = R.layout.activity_base
+    override fun provideLayoutId() = R.layout.activity_camera
 }
