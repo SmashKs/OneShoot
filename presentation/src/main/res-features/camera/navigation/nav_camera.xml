@@ -20,11 +20,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/take_a_pic_fragment">
+    app:startDestination="@+id/takeapic_fragment">
 
     <fragment
-        android:id="@+id/take_a_pic_fragment"
+        android:id="@+id/takeapic_fragment"
         android:name="smash.ks.com.oneshoot.features.photograph.TakeAPicFragment"
         android:label="camera_index"
-        tools:layout="@layout/fragment_take_a_pic"/>
+        tools:layout="@layout/fragment_take_a_pic">
+        <action
+            android:id="@+id/action_takeapic_fragment_to_analyzeFragment"
+            app:destination="@+id/analyzeFragment"/>
+        <action
+            android:id="@+id/action_takeapic_fragment_to_uploadPicFragment"
+            app:destination="@+id/uploadPicFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/analyzeFragment"
+        android:name="smash.ks.com.oneshoot.features.photograph.AnalyzeFragment"
+        android:label="fragment_analyze_pic"
+        tools:layout="@layout/fragment_analyze_pic"/>
+
+    <fragment
+        android:id="@+id/uploadPicFragment"
+        android:name="smash.ks.com.oneshoot.features.photograph.UploadPicFragment"
+        android:label="fragment_upload_pic"
+        tools:layout="@layout/fragment_upload_pic"/>
 </navigation>
