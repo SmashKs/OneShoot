@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import androidx.core.view.isVisible
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.ui
@@ -46,6 +47,7 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -289,4 +291,10 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
+
+    // TODO(jieyi): 2018/07/26 Preparing for next page.
+    private fun goNextPage() {
+        Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_analyzeFragment, bundleOf())
+        Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_uploadPicFragment, bundleOf())
+    }
 }
