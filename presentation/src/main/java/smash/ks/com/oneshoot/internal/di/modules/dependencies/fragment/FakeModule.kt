@@ -38,7 +38,7 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
 object FakeModule {
-    fun fakeProvider() = Module("module name") {
+    fun fakeProvider() = Module("Fake Fragment Module") {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             FakeViewModel::class.java to FakeViewModel(instance(), instance(), instance())
