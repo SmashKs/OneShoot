@@ -46,7 +46,6 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -63,7 +62,7 @@ import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
 import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.ext.resource.gStrings
-import smash.ks.com.oneshoot.features.fake.FakeFragment.Factory.REQUEST_CAMERA_PERMISSION
+import smash.ks.com.oneshoot.features.fake.FakeFragment.Parameter.REQUEST_CAMERA_PERMISSION
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
@@ -77,21 +76,14 @@ import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorato
 import java.io.ByteArrayOutputStream
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
-    //region Instance
-    companion object Factory {
+    //region Static parameters
+    companion object Parameter {
         private const val INPUT_SIZE = 224
         private const val FLASH_DURATION = 250L
-
-        /**
-         * Use this factory method to create a new instance of this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment [TakeAPicFragment].
-         */
-        fun newInstance() = TakeAPicFragment().apply { arguments = bundleOf() }
     }
-
     //endregion
 
+    //region *** Private Variable ***
     private var labelDialog: QuickDialogFragment? = null
     private var shotDebounce = false
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
@@ -142,6 +134,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         var w = 0
         var h = 0
     }
+    //endregion
 
     //region Fragment Lifecycle
     override fun onResume() {

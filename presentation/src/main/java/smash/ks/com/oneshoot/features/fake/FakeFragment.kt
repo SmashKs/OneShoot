@@ -24,7 +24,6 @@ import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.fragment_fake.btn_append
 import kotlinx.android.synthetic.main.fragment_fake.rv_fake
 import kotlinx.android.synthetic.main.fragment_fake.tv_label
-import org.jetbrains.anko.bundleOf
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
@@ -39,23 +38,15 @@ import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
 class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
-    //region Instance
-    companion object Factory {
+    //region Static parameters
+    companion object Parameter {
         const val REQUEST_CAMERA_PERMISSION = 1
         // The key name of the fragment initialization parameters.
         const val ARG_RANDOM_ID = "param random image id"
-
-        /**
-         * Use this factory method to create a new instance of this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment [FakeFragment].
-         */
-        fun newInstance(arg1: Int = DEFAULT_INT) = FakeFragment().apply {
-            arguments = bundleOf(ARG_RANDOM_ID to arg1)
-        }
     }
     //endregion
 
+    //region *** Private Variable ***
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
         val innerAdapter by instance<RVAdapterAny>(KS_ADAPTER)
@@ -64,6 +55,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     }
     // The fragment initialization parameters.
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
+    //endregion
 
     //region Base Fragment
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
