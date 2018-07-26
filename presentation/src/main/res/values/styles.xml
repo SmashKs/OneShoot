@@ -102,4 +102,10 @@
         <item name="android:background">@null</item>
         <item name="android:padding">@dimen/md_one_unit</item>
     </style>
+
+    <!-- Dialog Fragment -->
+    <style name="KsDialog">
+        <item name="android:windowEnterAnimation">@anim/scale_enter_dialog</item>
+        <item name="android:windowExitAnimation">@anim/scale_exit_dialog</item>
+    </style>
 </resources>

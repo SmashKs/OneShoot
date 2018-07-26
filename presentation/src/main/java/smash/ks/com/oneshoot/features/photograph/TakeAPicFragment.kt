@@ -225,6 +225,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
             viewResCustom = R.layout.dialog_fragment_labels
             cancelable = false
+            onStartBlock = {
+                it.dialog.window.setWindowAnimations(R.style.KsDialog)
+            }
             fetchComponents = { v, df ->
                 v.apply {
                     rv_labels.also {
