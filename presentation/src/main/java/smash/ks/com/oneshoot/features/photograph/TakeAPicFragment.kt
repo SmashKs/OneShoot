@@ -87,6 +87,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
     //region *** Private Variable ***
     private var labelDialog: QuickDialogFragment? = null
+    private var selectionDialog: QuickDialogFragment? = null
     private var shotDebounce = false
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
@@ -220,6 +221,48 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun showLabelDialog(entities: LabelEntites) {
+        labelDialog = QuickDialogFragment.Builder(this) {
+            var debouncing = false
+
+            viewResCustom = R.layout.dialog_fragment_labels
+            cancelable = false
+            onStartBlock = {
+                it.dialog.window.setWindowAnimations(R.style.KsDialog)
+            }
+            fetchComponents = { v, df ->
+                v.apply {
+                    rv_labels.also {
+                        it.layoutManager = linearLayoutManager
+                        it.adapter = adapter
+                        it.addItemDecoration(decorator)
+                    }
+                    ib_close.onClick {
+                        if (false == debouncing) {
+                            debouncing = true
+                            delay(DEBOUNCE_DELAY)
+                            dismissDialog()
+                        }
+                    }
+                }
+
+                df.dialog.setOnKeyListener { _, keyCode, _ ->
+                    when (keyCode) {
+                        KEYCODE_BACK -> {
+                            dismissDialog()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+            // Transforming the data into [KsMultiVisitable] type.
+            adapter.appendList(entities.toMutableList())
+        }.build()
+
+        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
+    }
+
+    private fun showSelectionDialog(entities: LabelEntites) {
         labelDialog = QuickDialogFragment.Builder(this) {
             var debouncing = false
 
