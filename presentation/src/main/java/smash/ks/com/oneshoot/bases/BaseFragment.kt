@@ -45,7 +45,7 @@ import smash.ks.com.oneshoot.widgets.viewmodel.ViewModelFactory
  * The basic fragment is for the normal activity which prepares all necessary variables or functions.
  */
 abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
-    override val kodeinContext get() = kcontext(activity)
+    override val kodeinContext get() = kcontext(requireActivity())
     override val kodein = Kodein.lazy {
         extend(parentKodein)
         /* fragment specific bindings */
@@ -56,7 +56,7 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         }
     }
     @Suppress("UNCHECKED_CAST")
-    protected val parent by lazy { activity as A }  // If there's no parent, forcing crashing the app.
+    protected val parent by lazy { requireActivity() as A }  // If there's no parent, forcing crashing the app.
     protected val appContext by instance<Context>()
     private var rootView: View? = null
     private val parentKodein by closestKodein()

@@ -57,19 +57,19 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
 
     //region View Implementation for the Presenter.
     @UiThread
-    override fun showLoading() = activity?.showLoadingView() ?: Unit
+    override fun showLoading() = requireActivity().showLoadingView()
 
     @UiThread
-    override fun hideLoading() = activity?.hideLoadingView() ?: Unit
+    override fun hideLoading() = requireActivity().hideLoadingView()
 
     @UiThread
-    override fun showRetry() = activity?.showRetryView() ?: Unit
+    override fun showRetry() = requireActivity().showRetryView()
 
     @UiThread
-    override fun hideRetry() = activity?.hideRetryView() ?: Unit
+    override fun hideRetry() = requireActivity().hideRetryView()
 
     @UiThread
-    override fun showError(message: String) = activity?.showErrorView(message) ?: Unit
+    override fun showError(message: String) = requireActivity().showErrorView(message)
     //endregion
 
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
