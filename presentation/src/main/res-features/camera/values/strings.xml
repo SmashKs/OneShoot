@@ -22,4 +22,9 @@
     <!-- ML Result Label Start -->
     <string name="label_format">Label : %1$s\nProbabilities : %2$f %%</string>
     <!-- ML Result Label End -->
+
+    <!-- Upload Label Start -->
+    <string name="edit_hint_author">Author</string>
+    <string name="edit_hint_photo_title">Title</string>
+    <!-- Upload Label End -->
 </resources>

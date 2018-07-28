@@ -29,12 +29,7 @@
 
         <ImageButton
             android:id="@+id/ib_close"
-            style="@style/ImageButton.Vector.Button"
-            android:layout_margin="@dimen/md_one_unit"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_close"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            style="@style/CloseButton"/>
 
         <ImageView
             android:layout_width="@dimen/md_zero_unit"
@@ -48,10 +43,7 @@
 
         <ImageButton
             android:id="@+id/ib_analyze"
-            style="@style/ImageButton.Vector.Button"
-            android:layout_marginBottom="@dimen/md_one_unit"
-            android:layout_marginEnd="@dimen/md_one_unit"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            style="@style/ImageButton.Vector.Button.Ripple"
             android:src="@drawable/ic_analyze"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ib_upload"
@@ -60,10 +52,7 @@
 
         <ImageButton
             android:id="@+id/ib_upload"
-            style="@style/ImageButton.Vector.Button"
-            android:layout_marginBottom="@dimen/md_one_unit"
-            android:layout_marginEnd="@dimen/md_one_unit"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            style="@style/ImageButton.Vector.Button.Ripple"
             android:src="@drawable/ic_cloud_upload"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

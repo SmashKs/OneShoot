@@ -28,11 +28,8 @@
 
         <ImageButton
             android:id="@+id/ib_close"
-            style="@style/ImageButton.Vector.Button"
+            style="@style/ImageButton.Vector.Button.Ripple"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/md_one_unit"
-            android:layout_marginTop="@dimen/md_one_unit"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_clear"/>
 
         <androidx.recyclerview.widget.RecyclerView

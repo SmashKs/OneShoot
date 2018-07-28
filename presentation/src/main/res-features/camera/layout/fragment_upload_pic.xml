@@ -19,6 +19,77 @@
     android:id="@+id/base_layout"
     style="@style/Constraint.MatchParent"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".features.photograph.UploadPicFragment">
+
+    <ImageView
+        android:id="@+id/iv_upload"
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/md_one_unit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/logo_splash"/>
+
+    <EditText
+        android:id="@+id/et_author"
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_author"
+        android:importantForAutofill="no"
+        android:inputType="textAutoCorrect"
+        android:textColor="#212121"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_upload"/>
+
+    <EditText
+        android:id="@+id/et_photo_title"
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_photo_title"
+        android:importantForAutofill="no"
+        android:inputType="textAutoComplete"
+        android:textColor="#212121"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_author"/>
+
+    <TextView
+        android:id="@+id/tv_title_tag"
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="wrap_content"
+        android:text="tag"
+        android:textColor="#212121"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_photo_title"/>
+
+    <View
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="@dimen/md_zero_unit"
+        app:layout_constraintBottom_toTopOf="@+id/ib_check"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_tag"/>
+
+    <ImageButton
+        android:id="@+id/ib_check"
+        style="@style/ImageButton.Vector.Button.Ripple"
+        android:layout_margin="@dimen/md_three_unit"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_cancel"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/ib_cancel"
+        style="@style/ImageButton.Vector.Button.Ripple"
+        android:layout_margin="@dimen/md_three_unit"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ib_check"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
