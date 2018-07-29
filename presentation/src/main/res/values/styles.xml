@@ -65,6 +65,11 @@
         <item name="themeBackgroundColor">@color/backgroundColor</item>
     </style>
 
+    <style name="SmashKsTheme.WithoutTransparent">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="themeColorPrimary">@color/colorPrimaryDark</item>
+    </style>
+
     <!-- Constraint Basic Setting -->
     <style name="Constraint"/>
 

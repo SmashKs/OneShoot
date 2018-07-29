@@ -22,7 +22,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
 import androidx.annotation.UiThread
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.devrapid.kotlinknifer.hideSoftKeyboard
@@ -62,14 +64,20 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
     private val parentKodein by closestKodein()
 
     //region Fragment lifecycle
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Keep the instance data.
         retainInstance = true
+
+        val localInflater = customTheme()?.let {
+            // Create ContextThemeWrapper from the original Activity Context with the custom theme
+            val contextThemeWrapper = ContextThemeWrapper(activity, it)
+            // Clone the inflater using the ContextThemeWrapper
+            inflater.cloneInContext(contextThemeWrapper)
+        } ?: inflater
+
         // FIXED: https://www.zybuluo.com/kimo/note/255244
-        rootView ?: let { rootView = inflater.inflate(provideInflateView(), null) }
+        // inflate the layout using the cloned inflater, not default inflater
+        rootView ?: let { rootView = localInflater.inflate(provideInflateView(), null) }
         val parent = castOrNull<ViewGroup>(rootView?.parent)
         parent?.removeView(rootView)
 
@@ -104,8 +112,13 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
      *
      * @return [LayoutRes] layout xml.
      */
+    @UiThread
     @LayoutRes
     protected abstract fun provideInflateView(): Int
+
+    @UiThread
+    @StyleRes
+    protected open fun customTheme(): Int? = null
 
     /**
      * Attaching the function of hiding the soft keyboard into a [View].

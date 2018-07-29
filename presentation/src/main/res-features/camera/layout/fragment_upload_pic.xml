@@ -67,13 +67,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_photo_title"/>
 
-    <View
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_tags"
         android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="@dimen/md_zero_unit"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/ib_check"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_tag"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_tag"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World"/>
+    </com.google.android.material.chip.ChipGroup>
 
     <ImageButton
         android:id="@+id/ib_check"

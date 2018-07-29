@@ -36,7 +36,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
     //endregion
 
-    //region Base Fragment
+    //region Base Implementation
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     override fun bindLiveData() {
@@ -49,6 +49,8 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     }
 
     @LayoutRes
-    override fun provideInflateView() = R.layout.fragment_fake
+    override fun provideInflateView() = R.layout.fragment_upload_pic
+
+    override fun customTheme() = R.style.SmashKsTheme_WithoutTransparent
     //endregion
 }

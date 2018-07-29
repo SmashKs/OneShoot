@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_take_a_pic">
         <action
             android:id="@+id/action_takeAPicFragment_to_analyzeFragment"
-            app:destination="@+id/upload_pic_fragment"/>
+            app:destination="@+id/analyze_fragment"/>
         <action
             android:id="@+id/action_takeAPicFragment_to_uploadPicFragment"
             app:destination="@+id/upload_pic_fragment"/>

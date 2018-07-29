@@ -139,7 +139,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
     //endregion
 
-    //region Fragment Lifecycle
+    override fun onCreate(savedInstanceState: Bundle?) {
+        parent.setTheme(R.style.SmashKsTheme)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -183,12 +187,16 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         if (!cv_camera.hasCallback(cameraCallback)) {
             cv_camera.addCallback(cameraCallback)
         }
+//        ib_shot.onClick {
+//            if (!shotDebounce) {
+//                shotDebounce = true
+//                cv_camera.takePicture()
+//                makeCameraFlashEffecting()
+//            }
+//        }
         ib_shot.onClick {
-            if (!shotDebounce) {
-                shotDebounce = true
-                cv_camera.takePicture()
-                makeCameraFlashEffecting()
-            }
+            Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_uploadPicFragment, bundleOf())
+                .onClick(ib_shot)
         }
         ib_flash.apply {
             currentFlashState()?.second?.let(::setImageResource)

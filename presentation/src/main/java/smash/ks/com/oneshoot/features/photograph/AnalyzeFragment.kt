@@ -46,6 +46,6 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     }
 
     @LayoutRes
-    override fun provideInflateView() = R.layout.fragment_fake
+    override fun provideInflateView() = R.layout.fragment_analyze_pic
     //endregion
 }
