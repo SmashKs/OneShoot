@@ -17,7 +17,7 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.Manifest.permission.CAMERA
-import android.animation.ObjectAnimator
+import android.animation.AnimatorInflater
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.PNG
@@ -103,7 +103,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             byteArrayPhoto = stream.toByteArray()
                         }
 
-//                        ui { vm.analyzeImage(byteArray) }
                         showSelectionDialog(cropBitmap)
                     }
                 }.recycle()
@@ -220,11 +219,13 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         else -> false
                     }
                 }
+
+                // Open the dialog well then the debounce can re-trigger again.
+                shotDebounce = false
             }
         }.build()
 
         selectionDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
-        shotDebounce = false
     }
 
     private fun dismissOptionDialog() {
@@ -236,10 +237,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Camera Effective
     private fun makeCameraFlashEffecting() {
         if (!v_flash.isVisible) v_flash.visible()
-
-        ObjectAnimator.ofFloat(v_flash, "alpha", 1f, 0f)
-            .apply { duration = FLASH_DURATION }
-            .start()
+        AnimatorInflater.loadAnimator(requireContext(), R.animator.camera_flash).apply { setTarget(v_flash) }.start()
     }
 
     private fun currentFlashState() = flashCycle.find { cv_camera.getFlash() == it.first }
