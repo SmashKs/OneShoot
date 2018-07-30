@@ -32,6 +32,7 @@
             style="@style/CloseButton"/>
 
         <ImageView
+            android:id="@+id/iv_snippet"
             android:layout_width="@dimen/md_zero_unit"
             android:layout_height="@dimen/md_zero_unit"
             android:layout_margin="@dimen/md_two_unit"
