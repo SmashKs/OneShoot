@@ -18,6 +18,7 @@ package smash.ks.com.oneshoot.features.photograph
 
 import android.Manifest.permission.CAMERA
 import android.animation.AnimatorInflater
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.PNG
@@ -32,6 +33,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.visible
@@ -148,7 +150,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun onDestroy() {
         super.onDestroy()
 
-        selectionDialog?.takeIf { it.isVisible }?.dismiss()
+        selectionDialog?.takeIf(Fragment::isVisible)?.dismiss()
         selectionDialog = null
     }
     //endregion
@@ -225,7 +227,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             }
         }.build()
 
-        selectionDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
+        selectionDialog?.takeUnless(Fragment::isVisible)?.show()
     }
 
     private fun dismissOptionDialog() {
@@ -240,8 +242,10 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         AnimatorInflater.loadAnimator(requireContext(), R.animator.camera_flash).apply { setTarget(v_flash) }.start()
     }
 
+    @SuppressLint("WrongConstant")
     private fun currentFlashState() = flashCycle.find { cv_camera.getFlash() == it.first }
 
+    @SuppressLint("WrongConstant")
     private fun currentFlashStateIndex(): Int {
         @Flash var currentIndex = DEFAULT_INT
 

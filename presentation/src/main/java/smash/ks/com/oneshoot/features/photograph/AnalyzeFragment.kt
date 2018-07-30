@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.KeyEvent.KEYCODE_BACK
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinshaver.cast
@@ -145,7 +146,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
             adapter.appendList(entities.toMutableList())
         }.build()
 
-        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
+        labelDialog?.takeUnless(Fragment::isVisible)?.show()
     }
 
     private fun dismissDialog() {
