@@ -53,11 +53,11 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     //region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init(savedInstanceState)
         setContentView(provideLayoutId())
 
         // Register RxBus.
         bus.register(busEvent)
-        init(savedInstanceState)
     }
 
     override fun onDestroy() {

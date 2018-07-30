@@ -195,8 +195,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 //            }
 //        }
         ib_shot.onClick {
-            Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_uploadPicFragment, bundleOf())
-                .onClick(ib_shot)
+            view?.let(Navigation::findNavController)?.navigate(R.id.action_takeAPicFragment_to_uploadPicFragment)
         }
         ib_flash.apply {
             currentFlashState()?.second?.let(::setImageResource)
@@ -271,45 +270,45 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun showSelectionDialog(entities: LabelEntites) {
-        labelDialog = QuickDialogFragment.Builder(this) {
-            var debouncing = false
-
-            viewResCustom = R.layout.dialog_fragment_labels
-            cancelable = false
-            onStartBlock = {
-                it.dialog.window.setWindowAnimations(R.style.KsDialog)
-            }
-            fetchComponents = { v, df ->
-                v.apply {
-                    rv_labels.also {
-                        it.layoutManager = linearLayoutManager
-                        it.adapter = adapter
-                        it.addItemDecoration(decorator)
-                    }
-                    ib_close.onClick {
-                        if (false == debouncing) {
-                            debouncing = true
-                            delay(DEBOUNCE_DELAY)
-                            dismissDialog()
-                        }
-                    }
-                }
-
-                df.dialog.setOnKeyListener { _, keyCode, _ ->
-                    when (keyCode) {
-                        KEYCODE_BACK -> {
-                            dismissDialog()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
-            // Transforming the data into [KsMultiVisitable] type.
-            adapter.appendList(entities.toMutableList())
-        }.build()
-
-        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
+//        labelDialog = QuickDialogFragment.Builder(this) {
+//            var debouncing = false
+//
+//            viewResCustom = R.layout.dialog_fragment_labels
+//            cancelable = false
+//            onStartBlock = {
+//                it.dialog.window.setWindowAnimations(R.style.KsDialog)
+//            }
+//            fetchComponents = { v, df ->
+//                v.apply {
+//                    rv_labels.also {
+//                        it.layoutManager = linearLayoutManager
+//                        it.adapter = adapter
+//                        it.addItemDecoration(decorator)
+//                    }
+//                    ib_close.onClick {
+//                        if (false == debouncing) {
+//                            debouncing = true
+//                            delay(DEBOUNCE_DELAY)
+//                            dismissDialog()
+//                        }
+//                    }
+//                }
+//
+//                df.dialog.setOnKeyListener { _, keyCode, _ ->
+//                    when (keyCode) {
+//                        KEYCODE_BACK -> {
+//                            dismissDialog()
+//                            true
+//                        }
+//                        else -> false
+//                    }
+//                }
+//            }
+//            // Transforming the data into [KsMultiVisitable] type.
+//            adapter.appendList(entities.toMutableList())
+//        }.build()
+//
+//        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
     }
     //endregion
 
