@@ -30,11 +30,13 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
+import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
+import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.iv_snippet
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
@@ -44,7 +46,6 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
 import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
@@ -281,6 +282,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             dismissOptionDialog()
                         }
                     }
+                    ib_analyze.onClick {
+                        dismissOptionDialog()
+                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_analyzeFragment)
+                    }
+                    ib_upload.onClick {
+                        dismissOptionDialog()
+                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_uploadPicFragment)
+                    }
                 }
 
                 df.dialog.setOnKeyListener { _, keyCode, _ ->
@@ -337,10 +346,4 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
-
-    // TODO(jieyi): 2018/07/26 Preparing for next page.
-    private fun goNextPage() {
-        Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_analyzeFragment, bundleOf())
-        Navigation.createNavigateOnClickListener(R.id.action_takeAPicFragment_to_uploadPicFragment, bundleOf())
-    }
 }
