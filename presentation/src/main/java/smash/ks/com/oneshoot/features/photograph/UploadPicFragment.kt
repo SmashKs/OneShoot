@@ -19,21 +19,22 @@ package smash.ks.com.oneshoot.features.photograph
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
-import smash.ks.com.ext.const.DEFAULT_INT
+import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
+import smash.ks.com.oneshoot.ext.image.glide.loadByAny
+import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 
 class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() {
     //region Static parameters
     companion object Parameter {
         // The key name of the fragment initialization parameters.
-        const val ARG_RANDOM_ID = "param random image id"
     }
     //endregion
 
     //region *** Private Variable ***
     // The fragment initialization parameters.
-    private val randomId by lazy { arguments?.getInt(ARG_RANDOM_ID) ?: DEFAULT_INT }
+    private val imageData by lazy { arguments?.getByteArray(ARG_IMAGE_DATA) ?: throw IllegalArgumentException() }
     //endregion
 
     //region Base Implementation
@@ -46,6 +47,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
 
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
+        iv_upload.loadByAny(imageData)
     }
 
     @LayoutRes

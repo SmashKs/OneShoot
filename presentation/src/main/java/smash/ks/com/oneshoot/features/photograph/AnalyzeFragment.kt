@@ -22,7 +22,6 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.ui
 import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
@@ -40,6 +39,7 @@ import smash.ks.com.oneshoot.entities.LabelEntites
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
 import smash.ks.com.oneshoot.ext.resource.gDimens
+import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
@@ -50,7 +50,6 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     //region Static parameters
     companion object Parameter {
         // The key name of the fragment initialization parameters.
-        const val ARG_IMAGE_DATA = "param image data array"
     }
     //endregion
 
@@ -146,8 +145,6 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
             // Transforming the data into [KsMultiVisitable] type.
             adapter.appendList(entities.toMutableList())
         }.build()
-
-        logw(labelDialog)
 
         labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
     }

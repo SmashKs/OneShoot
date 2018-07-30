@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
+import androidx.annotation.IdRes
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
@@ -55,7 +56,6 @@ import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Parameter.REQUEST_CAMERA_PERMISSION
-import smash.ks.com.oneshoot.features.photograph.AnalyzeFragment.Parameter.ARG_IMAGE_DATA
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_OFF
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
@@ -67,8 +67,10 @@ import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_close as o
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Static parameters
     companion object Parameter {
+        // The key name of the fragment initialization parameters.
+        const val ARG_IMAGE_DATA = "param image data array"
+
         private const val INPUT_SIZE = 224
-        private const val FLASH_DURATION = 250L
     }
     //endregion
 
@@ -190,6 +192,11 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             cancelable = false
             onStartBlock = { it.dialog.window.setWindowAnimations(R.style.KsDialog) }
             fetchComponents = { v, df ->
+                fun navigateTo(@IdRes navigationAction: Int) {
+                    dismissOptionDialog()
+                    view?.findNavController()?.navigate(navigationAction, bundleOf(ARG_IMAGE_DATA to byteArrayPhoto))
+                }
+
                 v.apply {
                     iv_snippet.loadByAny(bitmap)
                     option_close.onClick {
@@ -199,15 +206,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             dismissOptionDialog()
                         }
                     }
-                    ib_analyze.onClick {
-                        dismissOptionDialog()
-                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_analyzeFragment,
-                                                            bundleOf(ARG_IMAGE_DATA to byteArrayPhoto))
-                    }
-                    ib_upload.onClick {
-                        dismissOptionDialog()
-                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_uploadPicFragment)
-                    }
+                    ib_analyze.onClick { navigateTo(R.id.action_takeAPicFragment_to_analyzeFragment) }
+                    ib_upload.onClick { navigateTo(R.id.action_takeAPicFragment_to_uploadPicFragment) }
                 }
 
                 df.dialog.setOnKeyListener { _, keyCode, _ ->
