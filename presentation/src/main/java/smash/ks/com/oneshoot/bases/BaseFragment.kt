@@ -18,13 +18,13 @@ package smash.ks.com.oneshoot.bases
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.annotation.UiThread
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.devrapid.kotlinknifer.hideSoftKeyboard
