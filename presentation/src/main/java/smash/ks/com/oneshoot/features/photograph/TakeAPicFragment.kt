@@ -29,12 +29,11 @@ import android.widget.Toast.makeText
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.scale
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.visible
-import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.iv_snippet
@@ -48,26 +47,20 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
 import kotlinx.coroutines.experimental.delay
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.kodein.di.generic.instance
 import smash.ks.com.ext.const.Constant.CAMERA_QUILITY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
-import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.ext.resource.gStrings
 import smash.ks.com.oneshoot.features.fake.FakeFragment.Parameter.REQUEST_CAMERA_PERMISSION
-import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
-import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.features.photograph.AnalyzeFragment.Parameter.ARG_IMAGE_DATA
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_AUTO
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_OFF
 import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView.Flash
-import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
-import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
-import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 import java.io.ByteArrayOutputStream
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_close as option_close
 
@@ -80,18 +73,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //endregion
 
     //region *** Private Variable ***
-    private var labelDialog: QuickDialogFragment? = null
+    private lateinit var byteArrayPhoto: ByteArray
     private var selectionDialog: QuickDialogFragment? = null
     private var shotDebounce = false
-    private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
-    private val adapter by lazy {
-        val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
-
-        cast<MultiTypeAdapter>(innerAdapter)
-    }
-    private val decorator by lazy {
-        VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit))
-    }
     private val flashCycle by lazy {
         listOf(FLASH_OFF to R.drawable.ic_flash_off,
                FLASH_ON to R.drawable.ic_flash_on,
@@ -100,11 +84,10 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     private val cameraCallback by lazy {
         object : CameraView.Callback() {
             override fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
-                var byteArray = byteArrayOf()
-
                 BitmapFactory.decodeByteArray(data, 0, data.size).also { bmp ->
                     selectedRectF.apply {
                         // Round the x, y, width, and height for avoiding the range is over than bitmap size.
+                        lateinit var cropBitmap: Bitmap
                         var roundWidth = (x + w).let { if (it > bmp.width) bmp.width - x else w }
                         var roundHeight = (y + h).let { if (it > bmp.height) bmp.height - y else h }
                         val roundX = x.takeIf { 0 < it } ?: let { roundWidth = w + x; 0 }
@@ -112,16 +95,16 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                         val bitmap = Bitmap.createBitmap(bmp, roundX, roundY, roundWidth, roundHeight)
 
                         // Show the image into the view.
-                        iv_preview.loadByAny(bitmap)
-//                        iv_preview.imageBitmap = bitmap
                         bitmap.scale(INPUT_SIZE, INPUT_SIZE, false).apply {
+                            cropBitmap = this
+                            iv_preview.loadByAny(this)
                             val stream = ByteArrayOutputStream()
                             compress(PNG, CAMERA_QUILITY, stream)
-                            byteArray = stream.toByteArray()
-                        }.recycle()
+                            byteArrayPhoto = stream.toByteArray()
+                        }
 
 //                        ui { vm.analyzeImage(byteArray) }
-                        showSelectionDialog(bitmap)
+                        showSelectionDialog(cropBitmap)
                     }
                 }.recycle()
             }
@@ -135,11 +118,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
     //endregion
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        parent.setTheme(R.style.SmashKsTheme)
-        super.onCreate(savedInstanceState)
-    }
-
+    //region Fragment Lifecycle
     override fun onResume() {
         super.onResume()
 
@@ -168,21 +147,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (null != labelDialog && labelDialog?.isVisible!!)
-            labelDialog?.dismiss()
-        labelDialog = null
+        selectionDialog?.takeIf { it.isVisible }?.dismiss()
+        selectionDialog = null
     }
     //endregion
 
     //region Base Fragment
-    override fun bindLiveData() {
-//        observeNonNull(vm.labels, ::showLabels)
-    }
-
     override fun rendered(savedInstanceState: Bundle?) {
-        if (!cv_camera.hasCallback(cameraCallback)) {
-            cv_camera.addCallback(cameraCallback)
-        }
+        cv_camera.apply { cameraCallback.takeUnless(::hasCallback)?.let(::addCallback) }
         ib_shot.onClick {
             if (!shotDebounce) {
                 shotDebounce = true
@@ -190,9 +162,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 makeCameraFlashEffecting()
             }
         }
-//        ib_shot.onClick {
-//            view?.let(Navigation::findNavController)?.navigate(R.id.action_takeAPicFragment_to_uploadPicFragment)
-//        }
         ib_flash.apply {
             currentFlashState()?.second?.let(::setImageResource)
             onClick {
@@ -214,57 +183,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //endregion
 
     //region Showing From ViewModel
-//    private fun showLabels(response: KsResponse<LabelEntites>) {
-//        peelResponseSkipLoading(response, ::showLabelDialog)
-//        // Avoid triggering again taking a pic.
-//        launch {
-//            delay(DEBOUNCE_SAFE_MODE_CAMERA)
-//            shotDebounce = false
-//        }
-//    }
-
-//    private fun showLabelDialog(entities: LabelEntites) {
-//        labelDialog = QuickDialogFragment.Builder(this) {
-//            var debouncing = false
-//
-//            viewResCustom = R.layout.dialog_fragment_labels
-//            cancelable = false
-//            onStartBlock = {
-//                it.dialog.window.setWindowAnimations(R.style.KsDialog)
-//            }
-//            fetchComponents = { v, df ->
-//                v.apply {
-//                    rv_labels.also {
-//                        it.layoutManager = linearLayoutManager
-//                        it.adapter = adapter
-//                        it.addItemDecoration(decorator)
-//                    }
-//                    ib_close.onClick {
-//                        if (false == debouncing) {
-//                            debouncing = true
-//                            delay(DEBOUNCE_DELAY)
-//                            dismissDialog()
-//                        }
-//                    }
-//                }
-//
-//                df.dialog.setOnKeyListener { _, keyCode, _ ->
-//                    when (keyCode) {
-//                        KEYCODE_BACK -> {
-//                            dismissDialog()
-//                            true
-//                        }
-//                        else -> false
-//                    }
-//                }
-//            }
-//            // Transforming the data into [KsMultiVisitable] type.
-//            adapter.appendList(entities.toMutableList())
-//        }.build()
-//
-//        labelDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
-//    }
-
     private fun showSelectionDialog(bitmap: Bitmap) {
         selectionDialog = QuickDialogFragment.Builder(this) {
             var debouncing = false
@@ -284,7 +202,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                     }
                     ib_analyze.onClick {
                         dismissOptionDialog()
-                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_analyzeFragment)
+                        view?.findNavController()?.navigate(R.id.action_takeAPicFragment_to_analyzeFragment,
+                                                            bundleOf(ARG_IMAGE_DATA to byteArrayPhoto))
                     }
                     ib_upload.onClick {
                         dismissOptionDialog()
@@ -307,24 +226,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         selectionDialog?.takeUnless(QuickDialogFragment::isVisible)?.show()
         shotDebounce = false
     }
-    //endregion
-
-//    private fun dismissDialog() {
-//        adapter.clearList()
-//        labelDialog?.view?.rv_labels?.apply {
-//            layoutManager = null
-//            adapter = null
-//            removeItemDecoration(decorator)
-//        }
-//        labelDialog?.dismissAllowingStateLoss()
-//        labelDialog = null
-//    }
 
     private fun dismissOptionDialog() {
         selectionDialog?.dismissAllowingStateLoss()
         selectionDialog = null
     }
+    //endregion
 
+    //region Camera Effective
     private fun makeCameraFlashEffecting() {
         if (!v_flash.isVisible) v_flash.visible()
 
@@ -346,4 +255,5 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
+    //endregion
 }

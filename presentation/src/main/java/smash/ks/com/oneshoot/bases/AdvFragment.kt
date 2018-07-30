@@ -53,6 +53,11 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
         super.onCreate(savedInstanceState)
         bindLiveData()
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        unbindLiveData()
+    }
     //endregion
 
     //region View Implementation for the Presenter.
@@ -75,4 +80,8 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     protected open fun bindLiveData() = Unit
+
+    /** The block of unbinding from [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    @UiThread
+    protected open fun unbindLiveData() = Unit
 }

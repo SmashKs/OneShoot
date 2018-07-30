@@ -17,5 +17,21 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import androidx.lifecycle.ViewModel
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
+import smash.ks.com.domain.usecases.GetImageTagsCase
+import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
+import smash.ks.com.oneshoot.entities.LabelEntites
+import smash.ks.com.oneshoot.entities.mappers.PresentationLabelMapper
+import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
+import smash.ks.com.oneshoot.ext.presentation.requestData
+import smash.ks.com.oneshoot.ext.usecase.toListAwait
 
-class AnalyzeViewModel : ViewModel()
+class AnalyzeViewModel(
+    private val getImageTagsCase: GetImageTagsCase,
+    private val mapper: PresentationLabelMapper
+) : ViewModel() {
+    val labels by lazy { ResponseLiveData<LabelEntites>() }
+
+    suspend fun analyzeImage(byteArray: ByteArray) =
+        labels.requestData { getImageTagsCase.toListAwait(mapper, Requests(KsAnalyzeImageParam(byteArray))) }
+}

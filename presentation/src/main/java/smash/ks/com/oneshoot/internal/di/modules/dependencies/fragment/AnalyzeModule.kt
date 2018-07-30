@@ -19,15 +19,36 @@ package smash.ks.com.oneshoot.internal.di.modules.dependencies.fragment
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
+import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import org.kodein.di.generic.scoped
+import org.kodein.di.generic.singleton
+import smash.ks.com.oneshoot.R
+import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.features.photograph.AnalyzeViewModel
+import smash.ks.com.oneshoot.features.photograph.LabelsViewHolder
+import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
+import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
+import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
+import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
+import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
 object AnalyzeModule {
     fun analyzeProvider() = Module("Analyze A Picture Fragment Module") {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
-            AnalyzeViewModel::class.java to AnalyzeViewModel()
+            AnalyzeViewModel::class.java to AnalyzeViewModel(instance(), instance())
+        }
+
+        // *** ViewHolder
+        bind<ViewHolderEntry>().inSet() with provider {
+            LabelEntity::class.hashCode() to Pair(R.layout.item_label, ::LabelsViewHolder)
+        }
+
+        // *** Others
+        bind<RVAdapterAny>(LABEL_ADAPTER) with scoped(fragmentScope).singleton {
+            MultiTypeAdapter(mutableListOf(), context)
         }
     }
 }
