@@ -22,7 +22,6 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.ui
 import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
@@ -91,7 +90,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
 
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
-        ui { vm.analyzeImage(imageData) }
+        vm.analyzeImage(imageData)
     }
 
     @LayoutRes

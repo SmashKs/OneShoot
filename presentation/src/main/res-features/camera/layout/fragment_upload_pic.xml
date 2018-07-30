@@ -41,7 +41,10 @@
         android:hint="@string/edit_hint_author"
         android:importantForAutofill="no"
         android:inputType="textAutoCorrect"
+        android:layout_marginEnd="@dimen/md_two_unit"
+        android:layout_marginStart="@dimen/md_two_unit"
         android:textColor="#212121"
+        android:layout_marginTop="@dimen/md_three_unit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_upload"/>
@@ -52,7 +55,10 @@
         android:layout_height="wrap_content"
         android:hint="@string/edit_hint_photo_title"
         android:importantForAutofill="no"
+        android:layout_marginStart="@dimen/md_two_unit"
         android:inputType="textAutoComplete"
+
+        android:layout_marginTop="@dimen/md_two_unit"
         android:textColor="#212121"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,6 +71,9 @@
         android:text="tag"
         android:textColor="#212121"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/md_two_unit"
+        android:layout_marginStart="@dimen/md_two_unit"
+        android:layout_marginTop="@dimen/md_two_unit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_photo_title"/>
 
@@ -73,6 +82,8 @@
         android:layout_width="@dimen/md_zero_unit"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/ib_check"
+        android:layout_marginEnd="@dimen/md_two_unit"
+        android:layout_marginStart="@dimen/md_two_unit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

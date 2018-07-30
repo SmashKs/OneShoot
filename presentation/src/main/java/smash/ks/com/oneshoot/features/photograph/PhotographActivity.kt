@@ -17,12 +17,19 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.BaseActivity
 
 class PhotographActivity : BaseActivity() {
+    private val navController by lazy { findNavController(R.id.f_camera) }
     override fun init(savedInstanceState: Bundle?) {
+        // Set up Action Bar
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
     override fun provideLayoutId() = R.layout.activity_camera
+
+    override fun onSupportNavigateUp() = navController.navigateUp()
 }

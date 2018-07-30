@@ -53,8 +53,9 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     //region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init(savedInstanceState)
+        preSetContentView()
         setContentView(provideLayoutId())
+        init(savedInstanceState)
 
         // Register RxBus.
         bus.register(busEvent)
@@ -73,8 +74,10 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     protected abstract fun init(savedInstanceState: Bundle?)
 
     @UiThread
-    protected open fun uninit() {
-    }
+    protected open fun uninit() = Unit
+
+    @UiThread
+    protected fun preSetContentView() = Unit
 
     @LayoutRes
     abstract fun provideLayoutId(): Int
