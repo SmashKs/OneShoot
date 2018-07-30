@@ -50,7 +50,5 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
 
     @LayoutRes
     override fun provideInflateView() = R.layout.fragment_upload_pic
-
-    override fun customTheme() = R.style.SmashKsTheme_WithoutTransparent
     //endregion
 }

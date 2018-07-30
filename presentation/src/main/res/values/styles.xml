@@ -36,7 +36,7 @@
         <!-- The view fit to until the state bar -->
         <!--<item name="android:windowTranslucentStatus">true</item>-->
         <!-- The view fit to until the navigation bar -->
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
     <style name="MainTheme.Transitions">
@@ -56,7 +56,7 @@
         <!--<item name="android:navigationBarColor">?themeNavigationBarColor</item>-->
     </style>
 
-    <style name="SmashKsTheme" parent="MainTheme.Transitions">
+    <style name="SmashKsTheme" parent="MainTheme">
         <item name="themeColorPrimary">@color/primaryColor</item>
         <item name="themeColorPrimaryLight">@color/primaryLightColor</item>
         <item name="themeColorPrimaryDark">@color/primaryDarkColor</item>
@@ -67,11 +67,6 @@
         <item name="themeColorSecondaryDark">@color/secondaryDarkColor</item>
         <item name="themeNavigationBarColor">@color/navigationBarColor</item>
         <item name="themeBackgroundColor">@color/backgroundColor</item>
-    </style>
-
-    <style name="SmashKsTheme.WithoutTransparent">
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="themeColorPrimary">@color/colorPrimaryDark</item>
     </style>
 
     <!-- Constraint Basic Setting -->

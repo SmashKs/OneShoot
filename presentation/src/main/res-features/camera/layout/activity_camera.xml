@@ -20,7 +20,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="@dimen/state_bar_and_tab_layout_height"
     tools:context=".features.photograph.PhotographActivity">
 
     <fragment

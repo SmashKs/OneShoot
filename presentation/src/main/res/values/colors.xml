@@ -37,7 +37,7 @@
     <color name="secondaryDarkColor">#CACACA</color>
     <color name="primaryTextColor">#EFF5FC</color>
     <color name="secondaryTextColor">#F7F6F5</color>
-    <color name="navigationBarColor">@color/transparent</color>
+    <color name="navigationBarColor">@color/primaryDarkColor</color>
     <color name="backgroundColor">#F5F5F6</color>
 
     <color name="brick_red">#D2324B</color>
