@@ -19,6 +19,7 @@ package smash.ks.com.oneshoot.features.photograph
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
+import com.devrapid.kotlinknifer.logw
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_author
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_photo_title
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
@@ -28,6 +29,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.navigation.findNavController
+import smash.ks.com.oneshoot.ext.aac.observe
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 
@@ -48,6 +50,9 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     @UiThread
     override fun bindLiveData() {
         vm.apply {
+            observe(uploadRes) {
+                logw(it)
+            }
         }
     }
 
@@ -63,7 +68,6 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     //endregion
 
     private fun collectionAllData() {
-        et_author.text
-        et_photo_title.text
+        vm.uploadPhoto("", et_photo_title.text.toString(), et_author.text.toString(), emptyList())
     }
 }

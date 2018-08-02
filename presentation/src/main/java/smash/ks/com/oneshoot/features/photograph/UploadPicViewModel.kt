@@ -28,7 +28,7 @@ import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 class UploadPicViewModel(
     private val uploadImageToFirebaseCase: UploadImageToFirebaseCase
 ) : ViewModel() {
-    private val uploadRes by lazy { UntilPresenterLiveData() }
+    val uploadRes by lazy { UntilPresenterLiveData() }
 
     fun uploadPhoto(uri: String, title: String, author: String, tags: List<Tag>) =
         uploadRes.requestWithoutResponse {
