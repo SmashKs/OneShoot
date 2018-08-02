@@ -17,9 +17,12 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import com.devrapid.kotlinknifer.logw
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.fragment_upload_pic.cg_tags
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_author
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_photo_title
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
@@ -59,7 +62,12 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
         iv_upload.loadByAny(imageData)
-        ib_check.onClick { collectionAllData() }
+        ib_check.onClick {
+            //            collectionAllData()
+            cg_tags.addView(Chip(view?.context).apply {
+                text = "Hello world?????????????"
+            } as View)
+        }
         ib_cancel.onClick { findNavController()?.navigateUp() }
     }
 
