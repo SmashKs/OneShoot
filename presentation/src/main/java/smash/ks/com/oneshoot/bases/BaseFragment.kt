@@ -58,7 +58,8 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
         }
     }
     @Suppress("UNCHECKED_CAST")
-    protected val parent by lazy { requireActivity() as A }  // If there's no parent, forcing crashing the app.
+    protected val parent
+        get() = requireActivity() as A  // If there's no parent, forcing crashing the app.
     protected val appContext by instance<Context>()
     private var rootView: View? = null
     private val parentKodein by closestKodein()

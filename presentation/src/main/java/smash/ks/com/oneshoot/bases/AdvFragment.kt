@@ -36,15 +36,14 @@ import java.lang.reflect.ParameterizedType
 abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>(), LoadView {
     /** Add the AAC [ViewModel] for each fragments. */
     @Suppress("UNCHECKED_CAST")
-    protected val vm by lazy {
-        vmCreateMethod.invoke(vmProviders, vmConcreteClass) as? VM ?: throw ClassCastException()
-    }
+    protected val vm
+        get() = vmCreateMethod.invoke(vmProviders, vmConcreteClass) as? VM ?: throw ClassCastException()
 
     private val viewModelFactory by instance<ViewModelProvider.Factory>()
     /** [VM] is the first (index: 1) in the generic declare. */
     private val vmConcreteClass
         get() = cast<Class<*>>(cast<ParameterizedType>(this::class.java.genericSuperclass).actualTypeArguments[1])
-    private val vmProviders by lazy { ViewModelProviders.of(this, viewModelFactory) }
+    private val vmProviders get() = ViewModelProviders.of(this, viewModelFactory)
     /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 
