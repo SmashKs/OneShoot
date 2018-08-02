@@ -43,7 +43,7 @@ object Versions {
      * Related Kotlin lib version.
      */
     object Kotlin {
-        const val kotlinLib = "1.2.51"
+        const val kotlinLib = "1.2.60"
         const val kotlinCoroutine = "0.24.0"
     }
 
