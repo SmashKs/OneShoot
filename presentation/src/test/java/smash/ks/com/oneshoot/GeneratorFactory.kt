@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot
 
 import net.bytebuddy.utility.RandomString
+import smash.ks.com.data.datas.Tag
 import java.util.Random
 import kotlin.math.absoluteValue
 
@@ -30,4 +31,14 @@ object GeneratorFactory {
     val randomFloat get() = Random().nextFloat().absoluteValue
     val randomDouble get() = Random().nextDouble().absoluteValue
     val randomString: String get() = RandomString.make()
+    private const val randomSeed = 20L
+
+    val randomTags: List<Tag>
+        get() {
+            val list = mutableListOf<Tag>()
+
+            repeat(Random(randomSeed).nextInt()) { list.add(randomString) }
+
+            return list
+        }
 }

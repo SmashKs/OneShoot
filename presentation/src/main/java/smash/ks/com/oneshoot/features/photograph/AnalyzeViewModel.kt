@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.usecases.GetImageTagsCase
 import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
-import smash.ks.com.oneshoot.entities.LabelEntites
+import smash.ks.com.oneshoot.entities.LabelEntities
 import smash.ks.com.oneshoot.entities.mappers.PresentationLabelMapper
 import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
 import smash.ks.com.oneshoot.ext.presentation.requestData
@@ -30,7 +30,7 @@ class AnalyzeViewModel(
     private val getImageTagsCase: GetImageTagsCase,
     private val mapper: PresentationLabelMapper
 ) : ViewModel() {
-    val labels by lazy { ResponseLiveData<LabelEntites>() }
+    val labels by lazy { ResponseLiveData<LabelEntities>() }
 
     fun analyzeImage(byteArray: ByteArray) =
         labels.requestData { getImageTagsCase.toListAwait(mapper, Requests(KsAnalyzeImageParam(byteArray))) }

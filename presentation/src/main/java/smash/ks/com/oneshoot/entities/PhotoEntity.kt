@@ -16,4 +16,14 @@
 
 package smash.ks.com.oneshoot.entities
 
-typealias LabelEntities = List<LabelEntity>
+import smash.ks.com.data.datas.Tag
+import smash.ks.com.ext.const.DEFAULT_STR
+import java.util.Date
+
+data class PhotoEntity(
+    var uri: String = DEFAULT_STR,
+    var author: String = DEFAULT_STR,
+    var title: String = DEFAULT_STR,
+    var tags: List<Tag> = emptyList(),
+    var uploadDate: Date = Date()
+) : Entity

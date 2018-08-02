@@ -35,7 +35,7 @@ import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
-import smash.ks.com.oneshoot.entities.LabelEntites
+import smash.ks.com.oneshoot.entities.LabelEntities
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
 import smash.ks.com.oneshoot.ext.resource.gDimens
@@ -98,7 +98,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     override fun provideInflateView() = R.layout.fragment_analyze_pic
     //endregion
 
-    private fun showLabels(response: KsResponse<LabelEntites>) {
+    private fun showLabels(response: KsResponse<LabelEntities>) {
         peelResponseSkipLoading(response, ::showLabelDialog)
         // Avoid triggering again taking a pic.
         launch {
@@ -107,7 +107,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         }
     }
 
-    private fun showLabelDialog(entities: LabelEntites) {
+    private fun showLabelDialog(entities: LabelEntities) {
         labelDialog = QuickDialogFragment.Builder(this) {
             var debouncing = false
 

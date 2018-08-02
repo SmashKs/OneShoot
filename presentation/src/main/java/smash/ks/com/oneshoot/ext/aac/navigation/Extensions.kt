@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.entities
+@file:Suppress("NOTHING_TO_INLINE")
 
-typealias LabelEntities = List<LabelEntity>
+package smash.ks.com.oneshoot.ext.aac.navigation
+
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+
+inline fun Fragment.findNavController() = view?.findNavController()
