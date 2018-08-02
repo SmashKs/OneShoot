@@ -22,6 +22,7 @@ import smash.ks.com.domain.Labels
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.domain.parameters.PhotoParam
 
 /**
  * This interface will be the similar to [smash.ks.com.data.datastores.DataStore] .
@@ -38,8 +39,8 @@ interface DataRepository {
     /**
      * Store an image to the database.
      *
-     * @param params
-     * @return
+     * @param params [KsParam] parameter.
+     * @return [Completable]
      */
     fun storeKsImage(params: Parameterable = KsParam()): Completable
     //endregion
@@ -47,10 +48,10 @@ interface DataRepository {
     /**
      * Upload an image to Firebase for analysis the image.
      *
-     * @param params
-     * @return
+     * @param params [PhotoParam] parameter.
+     * @return [Completable]
      */
-    fun uploadImage(params: Parameterable): Completable
+    fun uploadImage(params: Parameterable = PhotoParam()): Completable
 
     /**
      * Retrieve the tags of an image info after it passed ML model.

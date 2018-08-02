@@ -44,6 +44,7 @@ class RemoteDataStoreImpl(
 
     override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()
 
+    // TODO(jieyi): 2018/08/03 [params] should be peeled here and put the each parameters.
     override fun pushImageToCloud(params: Parameterable) = ksFirebase.uploadImage(params)
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {

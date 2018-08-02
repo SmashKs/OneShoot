@@ -25,6 +25,7 @@ import smash.ks.com.domain.parameters.Parameterable
 
 /**
  * The access operations for Firebase service.
+ * NOTE: if the number of parameters is more than five, just pass the parameterable.
  */
 interface KsFirebase {
     fun retrieveImages(name: String): Single<KsData>

@@ -23,6 +23,7 @@ import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
+import smash.ks.com.domain.parameters.PhotoParam
 
 /**
  * This interface will be similar to [smash.ks.com.domain.repositories.DataRepository]
@@ -40,7 +41,7 @@ interface DataStore {
     /**
      * Keep an image object [KsData] by parameter.
      *
-     * @param params
+     * @param params [KsParam]
      * @return Rx [Completable] and no response to the presentation layer.
      */
     fun keepKsImage(params: Parameterable = KsParam()): Completable
@@ -49,10 +50,10 @@ interface DataStore {
     /**
      * Upload an image object to Firebase service.
      *
-     * @param params
+     * @param params [PhotoParam]
      * @return Rx [Completable] and no response to the presentation layer.
      */
-    fun pushImageToCloud(params: Parameterable): Completable
+    fun pushImageToCloud(params: Parameterable = PhotoParam()): Completable
 
     /**
      * Send an image object to machine learning model and get the tags of an image automatically.

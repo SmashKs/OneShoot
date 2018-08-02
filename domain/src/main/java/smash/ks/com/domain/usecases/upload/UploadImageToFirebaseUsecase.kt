@@ -20,7 +20,7 @@ import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.PhotoParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
 
@@ -33,5 +33,5 @@ class UploadImageToFirebaseUsecase(
         requestValues?.run { repository.uploadImage(params) } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsParam = KsParam()) : RequestValues
+    class Requests(val params: PhotoParam = PhotoParam()) : RequestValues
 }

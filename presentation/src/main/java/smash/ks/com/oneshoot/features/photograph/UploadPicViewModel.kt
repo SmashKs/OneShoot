@@ -17,5 +17,21 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import androidx.lifecycle.ViewModel
+import smash.ks.com.domain.Tag
+import smash.ks.com.domain.parameters.PhotoParam
+import smash.ks.com.domain.usecases.UploadImageToFirebaseCase
+import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
+import smash.ks.com.oneshoot.ext.presentation.requestWithoutResponse
+import smash.ks.com.oneshoot.ext.usecase.toAwait
+import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
-class UploadPicViewModel : ViewModel()
+class UploadPicViewModel(
+    private val uploadImageToFirebaseCase: UploadImageToFirebaseCase
+) : ViewModel() {
+    private val uploadRes by lazy { UntilPresenterLiveData() }
+
+    fun uploadPhoto(uri: String, title: String, author: String, tags: List<Tag>) =
+        uploadRes.requestWithoutResponse {
+            uploadImageToFirebaseCase.toAwait(Requests(PhotoParam(uri, title, author, tags)))
+        }
+}
