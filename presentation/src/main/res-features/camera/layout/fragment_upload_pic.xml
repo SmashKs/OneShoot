@@ -38,13 +38,9 @@
         style="@style/Upload.EditText.Title"
         app:layout_constraintTop_toBottomOf="@id/et_author"/>
 
-    <EditText
-        android:id="@+id/cg_tags"
-        style="@style/Upload.EditText.Tag"
-        app:layout_constraintBottom_toTopOf="@+id/ib_check"
-        app:layout_constraintTop_toBottomOf="@+id/et_photo_title"
-        app:layout_constraintVertical_bias="0.0">
-    </EditText>
+    <com.pchmn.materialchips.ChipsInput
+        android:id="@+id/et_tag"
+        style="@style/Upload.EditText.Tag"/>
 
     <ImageButton
         android:id="@+id/ib_check"

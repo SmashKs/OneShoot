@@ -156,8 +156,6 @@ dependencies {
     //    implementation Presentation.rxPermission
     //endregion
 
-    implementation Presentation.loading
-
     //region Internet & Image loading
     implementation Presentation.retrofit2
     implementation Presentation.retrofit2Gson
@@ -168,6 +166,8 @@ dependencies {
 
     //region UI
     implementation Presentation.blurView
+    implementation Presentation.loading
+    implementation Presentation.materialChip
     //endregion
 
     //region Androidx SDK

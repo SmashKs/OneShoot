@@ -17,21 +17,19 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.Spanned
-import android.text.TextWatcher
-import android.text.style.ImageSpan
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import com.devrapid.kotlinknifer.logw
-import com.google.android.material.chip.ChipDrawable
-import kotlinx.android.synthetic.main.fragment_upload_pic.cg_tags
+import com.pchmn.materialchips.ChipsInput
+import com.pchmn.materialchips.model.ChipInterface
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_author
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_photo_title
+import kotlinx.android.synthetic.main.fragment_upload_pic.et_tag
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_check
 import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.navigation.findNavController
@@ -62,9 +60,6 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         }
     }
 
-    private var SpannedLength = 0
-    private var chipLength = 4
-
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
         iv_upload.loadByAny(imageData)
@@ -72,24 +67,14 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
             collectionAllData()
         }
         ib_cancel.onClick { findNavController()?.navigateUp() }
-        cg_tags.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable) {
-                if (editable.length - SpannedLength == chipLength) {
-                    val chip = ChipDrawable.createFromResource(context, R.xml.chip_tag)
-                    chip.setText(editable.subSequence(SpannedLength, editable.length))
-                    chip.setBounds(0, 0, chip.intrinsicWidth, chip.intrinsicHeight)
-                    val span = ImageSpan(chip)
-                    editable.setSpan(span, SpannedLength, editable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    SpannedLength = editable.length
-                }
-            }
+        et_tag.addChipsListener(object : ChipsInput.ChipsListener {
+            override fun onChipAdded(chip: ChipInterface, newSize: Int) {}
 
-            override fun beforeTextChanged(charSequence: CharSequence, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onChipRemoved(chip: ChipInterface, newSize: Int) {}
 
-            override fun onTextChanged(charSequence: CharSequence, p1: Int, p2: Int, p3: Int) {
-                if (charSequence.length == SpannedLength - chipLength) {
-                    SpannedLength = charSequence.length
+            override fun onTextChanged(s: CharSequence) {
+                if (s.isNotBlank() && s.last().toString() == " ") {
+                    et_tag.addChip(s.trim().toString(), DEFAULT_STR)
                 }
             }
         })
