@@ -15,17 +15,9 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="camera_permission_confirmation">This app demonstrates the usage of CameraView. In order to do that, it needs permission to access camera.</string>
-    <string name="camera_permission_not_granted">Camera app cannot do anything without camera permission.</string>
-
-    <!-- ML Result Label Start -->
-    <string name="label_format">Label : %1$s\nProbabilities : %2$f %%</string>
-    <!-- ML Result Label End -->
-
-    <!-- Upload Label Start -->
-    <string name="edit_hint_author">Author</string>
-    <string name="edit_hint_photo_title">Title</string>
-    <string name="edit_hint_tag">Tag</string>
-    <!-- Upload Label End -->
-</resources>
+<chip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textAppearance="@style/Chip.Tag"
+    app:chipBackgroundColor="?themeColorAccent"
+    app:closeIconEnabled="false"/>

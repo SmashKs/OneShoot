@@ -17,11 +17,14 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
-import android.view.View
+import android.text.Editable
+import android.text.Spanned
+import android.text.TextWatcher
+import android.text.style.ImageSpan
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import com.devrapid.kotlinknifer.logw
-import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import kotlinx.android.synthetic.main.fragment_upload_pic.cg_tags
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_author
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_photo_title
@@ -59,16 +62,37 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         }
     }
 
+    private var SpannedLength = 0
+    private var chipLength = 4
+
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
         iv_upload.loadByAny(imageData)
         ib_check.onClick {
-            //            collectionAllData()
-            cg_tags.addView(Chip(view?.context).apply {
-                text = "Hello world?????????????"
-            } as View)
+            collectionAllData()
         }
         ib_cancel.onClick { findNavController()?.navigateUp() }
+        cg_tags.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.length - SpannedLength == chipLength) {
+                    val chip = ChipDrawable.createFromResource(context, R.xml.chip_tag)
+                    chip.setText(editable.subSequence(SpannedLength, editable.length))
+                    chip.setBounds(0, 0, chip.intrinsicWidth, chip.intrinsicHeight)
+                    val span = ImageSpan(chip)
+                    editable.setSpan(span, SpannedLength, editable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    SpannedLength = editable.length
+                }
+            }
+
+            override fun beforeTextChanged(charSequence: CharSequence, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (charSequence.length == SpannedLength - chipLength) {
+                    SpannedLength = charSequence.length
+                }
+            }
+        })
     }
 
     @LayoutRes

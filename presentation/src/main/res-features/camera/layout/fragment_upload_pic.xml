@@ -25,91 +25,37 @@
 
     <ImageView
         android:id="@+id/iv_upload"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="@dimen/md_zero_unit"
-        android:layout_margin="@dimen/md_one_unit"
-        app:layout_constraintDimensionRatio="3:1.8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Upload.ImageView.Snippet"
         tools:src="@drawable/logo_splash"/>
 
     <EditText
         android:id="@+id/et_author"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_hint_author"
-        android:importantForAutofill="no"
-        android:inputType="textAutoCorrect"
-        android:layout_marginEnd="@dimen/md_two_unit"
-        android:layout_marginStart="@dimen/md_two_unit"
-        android:textColor="#212121"
-        android:layout_marginTop="@dimen/md_three_unit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Upload.EditText.Author"
         app:layout_constraintTop_toBottomOf="@id/iv_upload"/>
 
     <EditText
         android:id="@+id/et_photo_title"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_hint_photo_title"
-        android:importantForAutofill="no"
-        android:layout_marginStart="@dimen/md_two_unit"
-        android:inputType="textAutoComplete"
-
-        android:layout_marginTop="@dimen/md_two_unit"
-        android:textColor="#212121"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Upload.EditText.Title"
         app:layout_constraintTop_toBottomOf="@id/et_author"/>
 
-    <TextView
-        android:id="@+id/tv_title_tag"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="wrap_content"
-        android:text="tag"
-        android:textColor="#212121"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/md_two_unit"
-        android:layout_marginStart="@dimen/md_two_unit"
-        android:layout_marginTop="@dimen/md_two_unit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_photo_title"/>
-
-    <com.google.android.material.chip.ChipGroup
+    <EditText
         android:id="@+id/cg_tags"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="wrap_content"
+        style="@style/Upload.EditText.Tag"
         app:layout_constraintBottom_toTopOf="@+id/ib_check"
-        android:layout_marginEnd="@dimen/md_two_unit"
-        android:layout_marginStart="@dimen/md_two_unit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_tag"
+        app:layout_constraintTop_toBottomOf="@+id/et_photo_title"
         app:layout_constraintVertical_bias="0.0">
-
-        <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Entry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World"/>
-    </com.google.android.material.chip.ChipGroup>
+    </EditText>
 
     <ImageButton
         android:id="@+id/ib_check"
-        style="@style/ImageButton.Vector.Button.Ripple"
-        android:layout_margin="@dimen/md_three_unit"
-        android:src="@drawable/ic_check"
+        style="@style/Upload.ImageButton.Check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ib_cancel"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <ImageButton
         android:id="@+id/ib_cancel"
-        style="@style/ImageButton.Vector.Button.Ripple"
-        android:layout_margin="@dimen/md_three_unit"
-        android:src="@drawable/ic_close"
+        style="@style/Upload.ImageButton.Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ib_check"/>

@@ -50,4 +50,59 @@
         <item name="android:src">@drawable/ic_flash_on</item>
         <item name="layout_constraintStart_toStartOf"></item>
     </style>
+
+    <!-- EditText -->
+    <style name="Upload.EditText" parent="EditText">
+        <item name="android:importantForAutofill">no</item>
+        <item name="android:inputType">textAutoCorrect</item>
+        <item name="android:textColor">#212121</item>
+    </style>
+
+    <style name="Upload.EditText.Author">
+        <item name="android:layout_marginTop">@dimen/md_three_unit</item>
+        <item name="android:hint">@string/edit_hint_author</item>
+    </style>
+
+    <style name="Upload.EditText.Title">
+        <item name="android:layout_marginTop">@dimen/md_two_unit</item>
+        <item name="android:hint">@string/edit_hint_photo_title</item>
+    </style>
+
+    <style name="Upload.EditText.Tag">
+        <item name="android:layout_marginTop">@dimen/md_two_unit</item>
+        <item name="android:hint">@string/edit_hint_tag</item>
+    </style>
+
+    <!-- Image View -->
+
+    <style name="Upload.ImageView" parent="Constraint.Any.MatchHorParent">
+        <item name="android:layout_width">@dimen/md_zero_unit</item>
+        <item name="android:layout_height">@dimen/md_zero_unit</item>
+        <item name="android:layout_margin">@dimen/md_one_unit</item>
+    </style>
+
+    <style name="Upload.ImageView.Snippet">
+        <item name="layout_constraintDimensionRatio">3:1.8</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <!-- Image Button -->
+    <style name="Upload.ImageButton" parent="ImageButton.Vector.Button.Ripple">
+        <item name="android:layout_margin">@dimen/md_three_unit</item>
+    </style>
+
+    <style name="Upload.ImageButton.Check">
+        <item name="android:src">@drawable/ic_check</item>
+    </style>
+
+    <style name="Upload.ImageButton.Cancel" parent="CloseButton">
+        <item name="android:layout_margin">@dimen/md_three_unit</item>
+        <item name="layout_constraintTop_toTopOf"></item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <!-- Chip -->
+    <style name="Chip.Tag" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textColor">?themeTextColorPrimary</item>
+    </style>
 </resources>
