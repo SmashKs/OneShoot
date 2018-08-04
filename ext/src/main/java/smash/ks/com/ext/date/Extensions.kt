@@ -22,5 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-inline fun Date.toFormatedString(pattern: String = "yyyy-MM-dd hh:mm:ss", locale: Locale = Locale.TAIWAN) =
-    SimpleDateFormat(pattern, locale).format(this)
+inline fun Date.toFormatedString(
+    pattern: String = "yyyy-MM-dd hh:mm:ss",
+    locale: Locale = Locale.TAIWAN
+) = SimpleDateFormat(pattern, locale).format(this)
