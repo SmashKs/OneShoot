@@ -27,9 +27,10 @@ import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.KsModel
-import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.PhotoParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
+import java.util.Date
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -38,12 +39,12 @@ class UploadImageToFirebaseUsecaseTest {
     private lateinit var usecase: UploadImageToFirebaseUsecase
     private lateinit var repository: DataRepository
     private lateinit var model: KsModel
-    private lateinit var parameter: KsParam
+    private lateinit var parameter: PhotoParam
 
     @BeforeTest
     fun setUp() {
         model = KsModel(randomLong, randomString)
-        parameter = KsParam(randomLong, randomString, randomString)
+        parameter = PhotoParam(randomString, randomString, randomString, emptyList(), Date())
         buildUsecaseWithAction(parameter) { completable() }
     }
 
@@ -82,13 +83,13 @@ class UploadImageToFirebaseUsecaseTest {
         assertThat(single.isDisposed).isTrue()
     }
 
-    private fun buildUsecaseWithAction(ksParam: KsParam, returnBlock: (() -> Completable)? = null) {
+    private fun buildUsecaseWithAction(PhotoParam: PhotoParam, returnBlock: (() -> Completable)? = null) {
         repository = mock {
-            returnBlock.takeIf { null != it }?.let { on { uploadImage(ksParam) } doReturn it.invoke() }
+            returnBlock.takeIf { null != it }?.let { on { uploadImage(PhotoParam) } doReturn it.invoke() }
         }
         usecase = UploadImageToFirebaseUsecase(repository, mock(), mock())
     }
 
-    private fun buildCompletable(ksParam: KsParam? = null) =
-        usecase.apply { ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) } }.fetchUseCase()
+    private fun buildCompletable(photoParam: PhotoParam? = null) =
+        usecase.apply { photoParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) } }.fetchUseCase()
 }
