@@ -22,9 +22,9 @@ import androidx.annotation.UiThread
 import com.devrapid.kotlinknifer.logw
 import com.pchmn.materialchips.ChipsInput
 import com.pchmn.materialchips.model.ChipInterface
+import kotlinx.android.synthetic.main.fragment_upload_pic.ci_tag
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_author
 import kotlinx.android.synthetic.main.fragment_upload_pic.et_photo_title
-import kotlinx.android.synthetic.main.fragment_upload_pic.et_tag
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_check
 import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
@@ -69,7 +69,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
             collectionAllData()
         }
         ib_cancel.onClick { findNavController()?.navigateUp() }
-        et_tag.addChipsListener(object : ChipsInput.ChipsListener {
+        ci_tag.addChipsListener(object : ChipsInput.ChipsListener {
             override fun onChipAdded(chip: ChipInterface, newSize: Int) {
                 tags.add(chip)
             }
@@ -80,7 +80,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
 
             override fun onTextChanged(s: CharSequence) {
                 if (s.isNotBlank() && s.last().toString() == " ") {
-                    et_tag.addChip(s.trim().toString(), DEFAULT_STR)
+                    ci_tag.addChip(s.trim().toString(), DEFAULT_STR)
                 }
             }
         })
@@ -95,6 +95,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         val author = et_author.text.toString()
         val labels = tags.map { it.label }
 
+        // TODO(jieyi): 2018/08/05 Upload the uri to someplace, ex: Imgur, ...
         vm.uploadPhoto("", title, author, labels)
     }
 }

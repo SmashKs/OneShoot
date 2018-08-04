@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/et_author"/>
 
     <com.pchmn.materialchips.ChipsInput
-        android:id="@+id/et_tag"
+        android:id="@+id/ci_tag"
         style="@style/Upload.EditText.Tag"/>
 
     <ImageButton
