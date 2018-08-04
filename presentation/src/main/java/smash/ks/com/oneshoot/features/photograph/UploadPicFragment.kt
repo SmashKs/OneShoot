@@ -47,6 +47,8 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     //region *** Private Variable ***
     // The fragment initialization parameters.
     private val imageData by lazy { arguments?.getByteArray(ARG_IMAGE_DATA) ?: throw IllegalArgumentException() }
+
+    private val tags by lazy { mutableListOf<ChipInterface>() }
     //endregion
 
     //region Base Implementation
@@ -68,9 +70,13 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         }
         ib_cancel.onClick { findNavController()?.navigateUp() }
         et_tag.addChipsListener(object : ChipsInput.ChipsListener {
-            override fun onChipAdded(chip: ChipInterface, newSize: Int) {}
+            override fun onChipAdded(chip: ChipInterface, newSize: Int) {
+                tags.add(chip)
+            }
 
-            override fun onChipRemoved(chip: ChipInterface, newSize: Int) {}
+            override fun onChipRemoved(chip: ChipInterface, newSize: Int) {
+                tags.remove(chip)
+            }
 
             override fun onTextChanged(s: CharSequence) {
                 if (s.isNotBlank() && s.last().toString() == " ") {
@@ -85,6 +91,10 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     //endregion
 
     private fun collectionAllData() {
-        vm.uploadPhoto("", et_photo_title.text.toString(), et_author.text.toString(), emptyList())
+        val title = et_photo_title.text.toString()
+        val author = et_author.text.toString()
+        val labels = tags.map { it.label }
+
+        vm.uploadPhoto("", title, author, labels)
     }
 }
