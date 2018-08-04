@@ -18,7 +18,9 @@ package smash.ks.com.domain.parameters
 
 import smash.ks.com.domain.Tag
 import smash.ks.com.ext.const.DEFAULT_STR
+import smash.ks.com.ext.date.toFormatedString
 import java.util.Date
+import java.util.UUID.randomUUID
 
 data class PhotoParam(
     var uri: String = DEFAULT_STR,
@@ -31,17 +33,17 @@ data class PhotoParam(
         const val PARAM_URI = "uri"
         const val PARAM_AUTHOR = "author"
         const val PARAM_TITLE = "title"
-        const val PARAM_TAGS = "tag list"
-        const val PARAM_UPLOAD_DATE = "upload date"
+        const val PARAM_TAGS = "tag"
+        const val PARAM_UPLOAD_DATE = "post date"
     }
 
     override fun toParameter() = throw UnsupportedOperationException()
 
     override fun toAnyParameter() = hashMapOf(
-        PARAM_URI to uri,
+        PARAM_URI to mapOf(randomUUID().toString() to uri),
         PARAM_AUTHOR to author,
         PARAM_TITLE to title,
-        PARAM_TAGS to tags,
-        PARAM_UPLOAD_DATE to uploadDate
+        PARAM_TAGS to tags.map { it to it }.toMap(),
+        PARAM_UPLOAD_DATE to uploadDate.toFormatedString()
     )
 }

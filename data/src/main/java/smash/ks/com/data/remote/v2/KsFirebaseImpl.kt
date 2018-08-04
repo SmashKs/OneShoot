@@ -19,6 +19,7 @@ package smash.ks.com.data.remote.v2
 import android.graphics.BitmapFactory
 import com.devrapid.kotlinshaver.completable
 import com.devrapid.kotlinshaver.isNotNull
+import com.devrapid.kotlinshaver.isNull
 import com.devrapid.kotlinshaver.single
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,11 +45,13 @@ class KsFirebaseImpl constructor(
 ) : KsFirebase {
     companion object {
         private const val V2_CHILD_PROPERTIES = "ImageVersion2"
+        private const val V2_CHILD_ANONYMOUS = "anonymous"
+
         private const val V2_CHILD_URI = "uri"
         private const val TO_PERCENT = 100
     }
 
-    private val ref by lazy { database.reference }
+    private val ref get() = database.reference
 
     //region Fake
     override fun retrieveImages(name: String) = single<KsData> {
@@ -71,7 +74,15 @@ class KsFirebaseImpl constructor(
     //endregion
 
     override fun uploadImage(params: Parameterable) = completable {
-        ref.child(V2_CHILD_PROPERTIES)
+        val root = ref.child(V2_CHILD_PROPERTIES).child(V2_CHILD_ANONYMOUS)
+        val key = root.push().key
+
+        if (key.isNull()) {
+            it.onError(Exception("There's something wrong."))
+            return@completable
+        }
+
+        root.child(key!!).setValue(params.toAnyParameter())
 
         it.onComplete()
     }
