@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
+import kotlinx.coroutines.experimental.CancellationException
 import smash.ks.com.data.datas.AlbumData
 import smash.ks.com.data.datas.KsData
 import smash.ks.com.data.datas.LabelData
@@ -73,33 +74,36 @@ class KsFirebaseImpl constructor(
     }
     //endregion
 
-    override fun uploadImage(params: Parameterable) = completable {
-        val root = ref.child(V2_CHILD_PROPERTIES).child(V2_CHILD_ANONYMOUS)
-        val key = root.push().key
+    override fun uploadImage(params: Parameterable) = completable { emitter ->
+        ref.child(V2_CHILD_PROPERTIES).child(V2_CHILD_ANONYMOUS).apply {
+            val key = push().key
 
-        if (key.isNull()) {
-            it.onError(Exception("There's something wrong."))
-            return@completable
+            if (key.isNull()) {
+                emitter.onError(NullPointerException("There's something wrong with the key."))
+                return@completable
+            }
+
+            child(key!!).setValue(params.toAnyParameter()).apply {
+                addOnSuccessListener { emitter.onComplete() }
+                addOnFailureListener(emitter::onError)
+                addOnCanceledListener { emitter.onError(CancellationException("The request was canceled.")) }
+            }
         }
-
-        root.child(key!!).setValue(params.toAnyParameter())
-
-        it.onComplete()
     }
 
     override fun retrieveImageTagsByML(imageByteArray: ByteArray) = single<LabelDatas> { emitter ->
         val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
         val textImage = FirebaseVisionImage.fromBitmap(bitmap)
 
-        detector.detectInImage(textImage).addOnCompleteListener {
-            if (it.isSuccessful) {
-                it.result.map {
+        detector.detectInImage(textImage).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result.map {
                     "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
                     LabelData(it.entityId.extractNumber().first(), it.label, it.confidence * TO_PERCENT)
                 }.let(emitter::onSuccess)
             }
-            else if (it.isCanceled)
-                it.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)
+            else if (task.isCanceled)
+                task.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)
         }
     }
 
