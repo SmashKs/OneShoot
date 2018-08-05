@@ -89,6 +89,10 @@ object Versions {
         const val lite = "0.1.7"
     }
 
+    object CloudStore {
+        const val cloudinary = "1.24.1"
+    }
+
     /**
      * Related database lib version.
      */

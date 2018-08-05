@@ -182,6 +182,8 @@ object Deps {
         const val firebaseDB = Presentation.firebaseDB
         const val firebaseVision = Presentation.firebaseVision
         const val firebaseMLImageLabel = Presentation.firebaseMLImageLabel
+        // Cloudinary
+        const val cloudinary = "com.cloudinary:cloudinary-android:${Versions.CloudStore.cloudinary}"
 
         const val appcompat = Presentation.appcompat
     }

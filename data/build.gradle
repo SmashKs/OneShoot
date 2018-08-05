@@ -103,6 +103,8 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    implementation Data.cloudinary
+
     implementation Data.retrofit2
     implementation Data.retrofit2AdapterRxJava2
 
