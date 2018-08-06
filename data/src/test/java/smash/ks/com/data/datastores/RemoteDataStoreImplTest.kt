@@ -26,6 +26,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import smash.ks.com.data.GeneratorFactory.randomString
+import smash.ks.com.data.remote.services.KsCloudinary
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.AnyParameters
@@ -40,6 +41,7 @@ import kotlin.test.Test
 class RemoteDataStoreImplTest {
     @Mock private lateinit var service: KsService
     @Mock private lateinit var firebase: KsFirebase
+    @Mock private lateinit var cloudinary: KsCloudinary
     @InjectMocks private lateinit var remoteDataStore: RemoteDataStoreImpl
 
     @BeforeTest
