@@ -20,7 +20,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.domain.Labels
 import smash.ks.com.domain.models.KsModel
+import smash.ks.com.domain.models.UploadResultModel
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.parameters.PhotoParam
 
@@ -31,10 +34,11 @@ interface DataRepository {
     //region Fake
     /**
      * Retrieve a specific image/all images from the remote/local database.
-     * @param params when `null` means that it'll retrieve all images, otherwise, will be a specific image.
+     * @param params when `null` means that it'll retrieve all images, otherwise [KsParam],
+     *               will be a specific image.
      * @return
      */
-    fun fetchKsImage(params: Parameterable?): Single<KsModel>
+    fun fetchKsImage(params: Parameterable? = null): Single<KsModel>
 
     /**
      * Store an image to the database.
@@ -54,12 +58,20 @@ interface DataRepository {
     fun uploadImage(params: Parameterable = PhotoParam()): Completable
 
     /**
+     * Store an image to Cloudinary service.
+     *
+     * @param params [KsPhotoToCloudinaryParam]
+     * @return Single<UploadResultModel>
+     */
+    fun storeImageToCloudinary(params: Parameterable = KsPhotoToCloudinaryParam()): Single<UploadResultModel>
+
+    /**
      * Retrieve the tags of an image info after it passed ML model.
      *
-     * @param params
+     * @param params [KsAnalyzeImageParam]
      * @return
      */
-    fun fetchImageTagsByML(params: Parameterable): Single<Labels>
+    fun fetchImageTagsByML(params: Parameterable = KsAnalyzeImageParam()): Single<Labels>
 
     /**
      * Retrieve the key words of an image info after it passed ML model.

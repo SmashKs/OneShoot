@@ -97,7 +97,7 @@ class RemoteDataStoreImplTest {
     fun `firebase did call the upload an image function`() {
         val parameter = mock<Parameterable>()
 
-        remoteDataStore.pushImageToCloud(parameter)
+        remoteDataStore.pushImageToFirebase(parameter)
 
         verify(firebase).uploadImage(parameter)
     }

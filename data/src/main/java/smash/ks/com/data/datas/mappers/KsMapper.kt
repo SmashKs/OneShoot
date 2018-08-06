@@ -26,7 +26,7 @@ import smash.ks.com.domain.models.KsModel
  * their own data objects, the objects should transform and fit each layers.
  */
 class KsMapper constructor(mapper: ModelMapper) : DataFakeMapper(mapper) {
-    override fun toModelFrom(data: KsData): KsModel = mapper.map(data, KsModel::class.java)
+    override fun toModelFrom(data: KsData) = mapper.map(data, KsModel::class.java)
 
-    override fun toDataFrom(model: KsModel): KsData = mapper.map(model, KsData::class.java)
+    override fun toDataFrom(model: KsModel) = mapper.map(model, KsData::class.java)
 }

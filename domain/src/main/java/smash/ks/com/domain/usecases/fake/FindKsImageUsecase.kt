@@ -23,8 +23,8 @@ import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
-import smash.ks.com.domain.models.KsResponse.Error
-import smash.ks.com.domain.models.KsResponse.Success
+import smash.ks.com.domain.models.response.KsResponse.Error
+import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests
@@ -44,5 +44,5 @@ class FindKsImageUsecase(
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsParam) : RequestValues
+    class Requests(val params: KsParam = KsParam()) : RequestValues
 }

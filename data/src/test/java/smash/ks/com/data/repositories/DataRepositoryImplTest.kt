@@ -57,10 +57,10 @@ class DataRepositoryImplTest {
     fun `check upload an image`() {
         val param = parameter
 
-        whenever(remote.pushImageToCloud(param)).thenReturn(completable())
+        whenever(remote.pushImageToFirebase(param)).thenReturn(completable())
         dataRepository.uploadImage(param)
 
-        verify(remote).pushImageToCloud(param)
+        verify(remote).pushImageToFirebase(param)
     }
 
     @Test

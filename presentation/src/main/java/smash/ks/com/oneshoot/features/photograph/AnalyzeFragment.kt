@@ -30,7 +30,7 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
-import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
 import smash.ks.com.oneshoot.R

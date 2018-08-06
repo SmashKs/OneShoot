@@ -20,8 +20,11 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import smash.ks.com.data.datas.KsData
 import smash.ks.com.data.datas.LabelDatas
+import smash.ks.com.data.datas.UploadResultData
 import smash.ks.com.domain.Label
+import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.parameters.PhotoParam
 
@@ -33,10 +36,10 @@ interface DataStore {
     /**
      * Fetching an image object [KsData] by parameter.
      *
-     * @param params
+     * @param params [KsParam]
      * @return Rx [Single] object to the presentation layer.
      */
-    fun getKsImage(params: Parameterable?): Single<KsData>
+    fun getKsImage(params: Parameterable? = null): Single<KsData>
 
     /**
      * Keep an image object [KsData] by parameter.
@@ -53,15 +56,23 @@ interface DataStore {
      * @param params [PhotoParam]
      * @return Rx [Completable] and no response to the presentation layer.
      */
-    fun pushImageToCloud(params: Parameterable = PhotoParam()): Completable
+    fun pushImageToFirebase(params: Parameterable = PhotoParam()): Completable
+
+    /**
+     * Upload an image object to Cloudinary service.
+     *
+     * @param params [KsPhotoToCloudinaryParam]
+     * @return Rx [Completable] and no response to the presentation layer.
+     */
+    fun pushImageToCloudinary(params: Parameterable = KsPhotoToCloudinaryParam()): Single<UploadResultData>
 
     /**
      * Send an image object to machine learning model and get the tags of an image automatically.
      *
-     * @param params
+     * @param params [KsAnalyzeImageParam]
      * @return Rx [Single] with tag list to the presentation layer.
      */
-    fun analyzeImageTagsByML(params: Parameterable): Single<LabelDatas>
+    fun analyzeImageTagsByML(params: Parameterable = KsAnalyzeImageParam()): Single<LabelDatas>
 
     /**
      * Send an image object to machine learning model and get the content of an image automatically.

@@ -50,7 +50,9 @@ class LocalDataStoreImpl(
     }
     //endregion
 
-    override fun pushImageToCloud(params: Parameterable) = throw UnsupportedOperationException()
+    override fun pushImageToFirebase(params: Parameterable) = throw UnsupportedOperationException()
+
+    override fun pushImageToCloudinary(params: Parameterable) = throw UnsupportedOperationException()
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
         val byteArray = it[PARAM_BYTE_ARRAY] ?: throw NullPointerException()

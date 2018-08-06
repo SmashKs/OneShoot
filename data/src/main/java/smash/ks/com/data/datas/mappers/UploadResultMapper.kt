@@ -17,16 +17,16 @@
 package smash.ks.com.data.datas.mappers
 
 import org.modelmapper.ModelMapper
-import smash.ks.com.data.datas.DataLabelMapper
-import smash.ks.com.data.datas.LabelData
-import smash.ks.com.domain.models.LabelModel
+import smash.ks.com.data.datas.DataUploadResultMapper
+import smash.ks.com.data.datas.UploadResultData
+import smash.ks.com.domain.models.UploadResultModel
 
 /**
- * A transforming mapping between [LabelData] and [LabelModel]. The different layers have
+ * A transforming mapping between [UploadResultData] and [UploadResultModel]. The different layers have
  * their own data objects, the objects should transform and fit each layers.
  */
-class LabelMapper constructor(mapper: ModelMapper) : DataLabelMapper(mapper) {
-    override fun toModelFrom(data: LabelData) = mapper.map(data, LabelModel::class.java)
+class UploadResultMapper constructor(mapper: ModelMapper) : DataUploadResultMapper(mapper) {
+    override fun toModelFrom(data: UploadResultData) = mapper.map(data, UploadResultModel::class.java)
 
-    override fun toDataFrom(model: LabelModel) = mapper.map(model, LabelData::class.java)
+    override fun toDataFrom(model: UploadResultModel) = mapper.map(model, UploadResultData::class.java)
 }

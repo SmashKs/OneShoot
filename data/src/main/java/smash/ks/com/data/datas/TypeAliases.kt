@@ -19,11 +19,13 @@ package smash.ks.com.data.datas
 import smash.ks.com.data.datas.mappers.Mapper
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.models.LabelModel
+import smash.ks.com.domain.models.UploadResultModel
 
 typealias DataMapper = Mapper<*, *>
 typealias MapperPool = Map<Class<out DataMapper>, DataMapper>
 typealias DataFakeMapper = Mapper<KsData, KsModel>
 typealias DataLabelMapper = Mapper<LabelData, LabelModel>
+typealias DataUploadResultMapper = Mapper<UploadResultData, UploadResultModel>
 
 //region Data
 

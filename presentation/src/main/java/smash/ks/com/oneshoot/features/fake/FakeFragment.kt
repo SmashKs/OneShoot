@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_fake.btn_append
 import kotlinx.android.synthetic.main.fragment_fake.rv_fake
 import kotlinx.android.synthetic.main.fragment_fake.tv_label
 import org.kodein.di.generic.instance
-import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment

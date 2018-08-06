@@ -29,10 +29,10 @@ import smash.ks.com.domain.ExtraObservableOpOnUi
 import smash.ks.com.domain.ExtraSingleOpOnUi
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.models.KsResponse
-import smash.ks.com.domain.models.KsResponse.Error
-import smash.ks.com.domain.models.KsResponse.Success
 import smash.ks.com.domain.models.Model
+import smash.ks.com.domain.models.response.KsResponse
+import smash.ks.com.domain.models.response.KsResponse.Error
+import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
 import smash.ks.com.oneshoot.entities.mappers.Mapper
 

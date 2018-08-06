@@ -38,7 +38,7 @@ import smash.ks.com.oneshoot.internal.di.tag.KsTag.REMOTE
 object RepositoryModule {
     fun repositoryProvider() = Module("Repository Module") {
         bind<KsCache>(LOCAL) with singleton { KsMemoryCache() }
-        bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance()) }
+        bind<DataStore>(REMOTE) with singleton { RemoteDataStoreImpl(instance(), instance(), instance()) }
         bind<DataStore>(LOCAL) with singleton { LocalDataStoreImpl(instance(), instance()) }
         /** Mapper Pool for providing all data mappers */
         bind<MapperPool>() with provider { instance<DataMapperEntries>().toMap() }

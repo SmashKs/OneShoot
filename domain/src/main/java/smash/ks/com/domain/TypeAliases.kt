@@ -27,8 +27,9 @@ import io.reactivex.ObservableSource
 import io.reactivex.Single
 import io.reactivex.SingleSource
 import smash.ks.com.domain.models.KsModel
-import smash.ks.com.domain.models.KsResponse
 import smash.ks.com.domain.models.LabelModel
+import smash.ks.com.domain.models.UploadResultModel
+import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.LookUp
 
 // Generic with Type Parameters
@@ -50,6 +51,7 @@ typealias ExtraCompletableOpOnUi = CompletablePlugin.() -> Unit
 
 typealias ResponseKsModel = KsResponse<KsModel>
 typealias ResponseKsLabels = KsResponse<Labels>
+typealias ResponseUploadResult = KsResponse<UploadResultModel>
 typealias Label = String
 typealias Tag = String
 typealias Labels = List<LabelModel>

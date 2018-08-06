@@ -119,7 +119,7 @@ class LocalDataStoreImplTest {
 
     @Test(UnsupportedOperationException::class)
     fun `local data store doesn't support uploadImage method`() {
-        localDataStore.pushImageToCloud(mock())
+        localDataStore.pushImageToFirebase(mock())
     }
 
     @Test(NullPointerException::class)

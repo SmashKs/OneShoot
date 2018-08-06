@@ -21,7 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.response.KsResponse
 
 // Reactive block with Function Parameter
 

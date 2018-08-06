@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package smash.ks.com.oneshoot.ext.presentation
+package smash.ks.com.domain.models
 
-import androidx.lifecycle.MutableLiveData
-import smash.ks.com.domain.models.response.KsResponse
+import smash.ks.com.domain.Tag
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_STR
 
-typealias ResponseLiveData<D> = MutableLiveData<KsResponse<D>>
+/**
+ * The data object for extracting from the uploading information.
+ */
+data class UploadResultModel(
+    val format: String = DEFAULT_STR,
+    val resourceType: String = DEFAULT_STR,
+    val secureUrl: String = DEFAULT_STR,
+    val createdAt: String = DEFAULT_STR,
+    val publicId: String = DEFAULT_STR,
+    val width: Int = DEFAULT_INT,
+    val height: Int = DEFAULT_INT,
+    val placeholder: Boolean = false,
+    val tags: List<Tag> = emptyList()
+) : Model

@@ -30,7 +30,7 @@ import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.ResponseKsModel
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.KsModel
-import smash.ks.com.domain.models.KsResponse.Success
+import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests

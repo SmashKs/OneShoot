@@ -14,31 +14,33 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.usecases.analysis
+package smash.ks.com.domain.usecases.upload
 
 import com.devrapid.kotlinshaver.castOrNull
-import smash.ks.com.domain.ResponseKsLabels
+import smash.ks.com.domain.ResponseUploadResult
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Success
-import smash.ks.com.domain.parameters.KsAnalyzeImageParam
+import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
 import smash.ks.com.domain.repositories.DataRepository
-import smash.ks.com.domain.usecases.analysis.FindImageTagsUsecase.Requests
+import smash.ks.com.domain.usecases.upload.UploadImageToCloudinaryUsecase.Requests
 
-class FindImageTagsUsecase(
+class UploadImageToCloudinaryUsecase(
     private val repository: DataRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<ResponseKsLabels, Requests>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<ResponseUploadResult, Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() = requestValues?.run {
         repository
-            .fetchImageTagsByML(params)
-            .map { castOrNull<ResponseKsLabels>(Success(it)) ?: Error(msg = ClassCastException().message.orEmpty()) }
+            .storeImageToCloudinary(params)
+            .map {
+                castOrNull<ResponseUploadResult>(Success(it)) ?: Error(msg = ClassCastException().message.orEmpty())
+            }
     } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
-    class Requests(val params: KsAnalyzeImageParam = KsAnalyzeImageParam()) : RequestValues
+    class Requests(val params: KsPhotoToCloudinaryParam = KsPhotoToCloudinaryParam()) : RequestValues
 }

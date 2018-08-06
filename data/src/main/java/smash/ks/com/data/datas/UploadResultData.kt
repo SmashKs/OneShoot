@@ -33,7 +33,7 @@ data class UploadResultData(
     val height: Int = DEFAULT_INT,
     val placeholder: Boolean = false,
     val tags: List<Tag> = emptyList()
-) {
+) : Data {
     companion object {
         private const val DATA_KEY_FORMAT = "format"
         private const val DATA_KEY_RESOURCE_TYPE = "resource_type"

@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_check
 import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import smash.ks.com.domain.models.KsResponse
+import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment

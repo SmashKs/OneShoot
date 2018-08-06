@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package smash.ks.com.domain.models
+package smash.ks.com.domain.models.response
 
-import smash.ks.com.domain.models.KsResponse.Error
-import smash.ks.com.domain.models.KsResponse.Loading
-import smash.ks.com.domain.models.KsResponse.Success
+import smash.ks.com.domain.models.response.KsResponse.Error
+import smash.ks.com.domain.models.response.KsResponse.Loading
+import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.ext.const.DEFAULT_STR
 
 /**
