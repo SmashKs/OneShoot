@@ -17,13 +17,12 @@
 package smash.ks.com.data.remote.services
 
 import android.net.Uri
-import io.reactivex.Completable
 import io.reactivex.Single
 
 interface KsCloudinary {
-    fun hangImage(uri: Uri): Completable
+    fun hangImage(uri: Uri): Single<String>
 
-    fun hangImage(byteArray: ByteArray): Completable
+    fun hangImage(byteArray: ByteArray): Single<String>
 
     fun downImage(imageId: String): Single<Unit>
 

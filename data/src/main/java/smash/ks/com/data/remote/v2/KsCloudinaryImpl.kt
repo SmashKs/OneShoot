@@ -20,23 +20,23 @@ import android.net.Uri
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
-import com.devrapid.kotlinshaver.completable
-import io.reactivex.CompletableEmitter
+import com.devrapid.kotlinshaver.single
+import io.reactivex.SingleEmitter
 import smash.ks.com.data.remote.services.KsCloudinary
 
 class KsCloudinaryImpl constructor(
     private val mediaManager: MediaManager
 ) : KsCloudinary {
-    override fun hangImage(uri: Uri) = completable { mediaManager.upload(uri).callback(uploadCallback(it)) }
+    override fun hangImage(uri: Uri) = single<String> { mediaManager.upload(uri).callback(uploadCallback(it)) }
 
     override fun hangImage(byteArray: ByteArray) =
-        completable { mediaManager.upload(byteArray).callback(uploadCallback(it)) }
+        single<String> { mediaManager.upload(byteArray).callback(uploadCallback(it)) }
 
     override fun downImage(imageId: String) = throw UnsupportedOperationException()
 
     override fun seekImageId() = throw UnsupportedOperationException()
 
-    private fun uploadCallback(it: CompletableEmitter) =
+    private fun uploadCallback(it: SingleEmitter<String>) =
         object : UploadCallback {
             /**
              * Called when a requests completes successfully.
@@ -45,7 +45,7 @@ class KsCloudinaryImpl constructor(
              * @param resultData Result data about the newly uploaded resource.
              */
             override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) {
-                it.onComplete()
+                it.onSuccess(requestId)
             }
 
             /**
