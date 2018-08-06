@@ -18,11 +18,12 @@ package smash.ks.com.data.remote.services
 
 import android.net.Uri
 import io.reactivex.Single
+import smash.ks.com.data.datas.UploadResultData
 
 interface KsCloudinary {
-    fun hangImage(uri: Uri): Single<String>
+    fun hangImage(uri: Uri): Single<UploadResultData>
 
-    fun hangImage(byteArray: ByteArray): Single<String>
+    fun hangImage(byteArray: ByteArray): Single<UploadResultData>
 
     fun downImage(imageId: String): Single<Unit>
 
