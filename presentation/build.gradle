@@ -132,6 +132,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation Presentation.tensorflowLite
+    implementation Presentation.cloudinary
     //endregion
 
     //region Mapper

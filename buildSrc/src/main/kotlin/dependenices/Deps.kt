@@ -109,6 +109,8 @@ object Deps {
         const val dbflowRxJava2KotlinExt =
             "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${Versions.Database.dbflow}"
 
+        const val cloudinary = "com.cloudinary:cloudinary-android:${Versions.CloudStore.cloudinary}"
+
         const val modelMapper = "org.modelmapper:modelmapper:${Versions.Mapping.modelmapper}"
 
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"
@@ -183,7 +185,7 @@ object Deps {
         const val firebaseVision = Presentation.firebaseVision
         const val firebaseMLImageLabel = Presentation.firebaseMLImageLabel
         // Cloudinary
-        const val cloudinary = "com.cloudinary:cloudinary-android:${Versions.CloudStore.cloudinary}"
+        const val cloudinary = Presentation.cloudinary
 
         const val appcompat = Presentation.appcompat
     }
