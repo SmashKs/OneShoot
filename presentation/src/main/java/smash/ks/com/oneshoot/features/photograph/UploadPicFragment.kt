@@ -96,7 +96,6 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         val author = et_author.text.toString()
         val labels = tags.map { it.label }
 
-        // TODO(jieyi): 2018/08/05 Upload the uri to someplace, ex: Imgur, ...
-        vm.uploadPhoto("", title, author, labels)
+        vm.uploadPhoto(imageData, title, author, labels)
     }
 }
