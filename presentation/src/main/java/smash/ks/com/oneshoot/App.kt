@@ -18,6 +18,8 @@ package smash.ks.com.oneshoot
 
 import android.app.Application
 import android.content.Context
+import com.cloudinary.android.LogLevel
+import com.cloudinary.android.MediaManager
 import com.google.firebase.FirebaseApp
 import com.raizlabs.android.dbflow.config.FlowManager
 import org.kodein.di.Kodein.Companion.lazy
@@ -65,5 +67,10 @@ class App : Application(), KodeinAware {
 
         FirebaseApp.initializeApp(this)
         FlowManager.init(this)
+
+        // This can be called any time regardless of initialization.
+        MediaManager.setLogLevel(LogLevel.DEBUG)
+        // Mandatory - call a flavor of init. Config can be null if cloudinary_url is provided in the manifest.
+        MediaManager.init(this)
     }
 }

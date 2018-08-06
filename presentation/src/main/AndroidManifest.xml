@@ -53,5 +53,8 @@
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="label"/>
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="@string/cloudinary_url"/>
     </application>
 </manifest>

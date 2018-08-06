@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalDebug
 import dependenices.Deps.GlobalTest
@@ -45,9 +44,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Usage is `BuildConfig.CloudinaryUrl`
+            buildConfigField 'String', "CloudinaryUrl", getProps("cloudinary_url")
+            // Usage is `@string/cloudinary_url`.
+            resValue 'string', "cloudinary_url", getProps("cloudinary_url")
         }
         debug {
             testCoverageEnabled = true
+            buildConfigField 'String', "CloudinaryUrl", getProps("cloudinary_url")
+            resValue 'string', "cloudinary_url", getProps("cloudinary_url")
         }
     }
     packagingOptions {
@@ -228,6 +233,19 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     executionData = fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
+}
+
+// Get a variable from local.properties.
+def getProps(String propName) {
+    def propsFile = rootProject.file('local.properties')
+
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName]
+    } else {
+        return ""
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

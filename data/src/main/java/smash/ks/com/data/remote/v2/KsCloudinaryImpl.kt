@@ -20,17 +20,23 @@ import android.net.Uri
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
+import com.devrapid.kotlinshaver.castOrNull
 import com.devrapid.kotlinshaver.single
 import io.reactivex.SingleEmitter
+import smash.ks.com.data.datas.Tag
 import smash.ks.com.data.remote.services.KsCloudinary
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_STR
 
 class KsCloudinaryImpl constructor(
     private val mediaManager: MediaManager
 ) : KsCloudinary {
-    override fun hangImage(uri: Uri) = single<String> { mediaManager.upload(uri).callback(uploadCallback(it)) }
+    override fun hangImage(uri: Uri) = single<String> {
+        mediaManager.upload(uri).callback(uploadCallback(it)).dispatch()
+    }
 
     override fun hangImage(byteArray: ByteArray) =
-        single<String> { mediaManager.upload(byteArray).callback(uploadCallback(it)) }
+        single<String> { mediaManager.upload(byteArray).callback(uploadCallback(it)).dispatch() }
 
     override fun downImage(imageId: String) = throw UnsupportedOperationException()
 
@@ -45,7 +51,9 @@ class KsCloudinaryImpl constructor(
              * @param resultData Result data about the newly uploaded resource.
              */
             override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) {
-                it.onSuccess(requestId)
+                val data = ResultData.extract(resultData)
+
+                it.onSuccess(data.secureUrl)
             }
 
             /**
@@ -82,4 +90,43 @@ class KsCloudinaryImpl constructor(
              */
             override fun onStart(requestId: String) = Unit
         }
+
+    /**
+     * The data object for extracting from the uploading information.
+     */
+    data class ResultData(
+        val format: String = DEFAULT_STR,
+        val resourceType: String = DEFAULT_STR,
+        val secureUrl: String = DEFAULT_STR,
+        val createdAt: String = DEFAULT_STR,
+        val publicId: String = DEFAULT_STR,
+        val width: Int = DEFAULT_INT,
+        val height: Int = DEFAULT_INT,
+        val placeholder: Boolean = false,
+        val tags: List<Tag> = emptyList()
+    ) {
+        companion object {
+            private const val DATA_KEY_FORMAT = "format"
+            private const val DATA_KEY_RESOURCE_TYPE = "resource_type"
+            private const val DATA_KEY_SECURE_URL = "secure_url"
+            private const val DATA_KEY_CREATED_AT = "created_at"
+            private const val DATA_KEY_PUBLIC_ID = "public_id"
+            private const val DATA_KEY_WIDTH = "width"
+            private const val DATA_KEY_HEIGHT = "height"
+            private const val DATA_KEY_PLACEHOLDER = "placeholder"
+            private const val DATA_KEY_TAGS = "tags"
+
+            fun extract(resultData: MutableMap<Any?, Any?>): ResultData {
+                return ResultData(castOrNull<String>(resultData[DATA_KEY_FORMAT]).orEmpty(),
+                                  castOrNull<String>(resultData[DATA_KEY_RESOURCE_TYPE]).orEmpty(),
+                                  castOrNull<String>(resultData[DATA_KEY_SECURE_URL]).orEmpty(),
+                                  castOrNull<String>(resultData[DATA_KEY_CREATED_AT]).orEmpty(),
+                                  castOrNull<String>(resultData[DATA_KEY_PUBLIC_ID]).orEmpty(),
+                                  castOrNull<Int>(resultData[DATA_KEY_WIDTH]) ?: DEFAULT_INT,
+                                  castOrNull<Int>(resultData[DATA_KEY_HEIGHT]) ?: DEFAULT_INT,
+                                  castOrNull<Boolean>(resultData[DATA_KEY_PLACEHOLDER]) ?: false,
+                                  castOrNull<List<Tag>>(resultData[DATA_KEY_PLACEHOLDER]).orEmpty())
+            }
+        }
+    }
 }
