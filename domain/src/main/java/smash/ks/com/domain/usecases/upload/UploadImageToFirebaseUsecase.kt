@@ -20,6 +20,7 @@ import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
+import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
 import smash.ks.com.domain.parameters.PhotoParam
 import smash.ks.com.domain.repositories.DataRepository
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
@@ -30,7 +31,17 @@ class UploadImageToFirebaseUsecase(
     postExecutionThread: PostExecutionThread
 ) : CompletableUseCase<Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() =
-        requestValues?.run { repository.uploadImage(params) } ?: throw NoParameterException("No request parameter.")
+        requestValues
+            ?.run {
+                println("==========================11111111111111========================")
+                repository.storeImageToCloudinary(KsPhotoToCloudinaryParam(params.imageBytes))
+            }
+            ?.flatMapCompletable {
+                println("==========================222222222222222222========================")
+                val parameter = requestValues!!.params.apply { uri = it.secureUrl }
+
+                repository.uploadImage(parameter)
+            } ?: throw NoParameterException("No request parameter.")
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: PhotoParam = PhotoParam()) : RequestValues

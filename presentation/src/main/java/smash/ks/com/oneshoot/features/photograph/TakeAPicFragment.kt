@@ -35,12 +35,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.cloudinary.android.MediaManager
-import com.cloudinary.android.callback.ErrorInfo
-import com.cloudinary.android.callback.UploadCallback
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import com.devrapid.kotlinknifer.loge
-import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.visible
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
@@ -112,29 +107,29 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             byteArrayPhoto = stream.toByteArray()
 
                             // FIXME(jieyi): 2018/08/06 This's the test for api. Just put here temporally.
-                            MediaManager.get().upload(byteArrayPhoto).callback(object : UploadCallback {
-                                override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {
-                                    logw(requestId, resultData)
-                                }
-
-                                override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
-                                    logw(requestId, totalBytes)
-                                }
-
-                                override fun onReschedule(requestId: String?, error: ErrorInfo?) {
-                                    logw(requestId)
-                                    loge(error?.code, error?.description)
-                                }
-
-                                override fun onError(requestId: String?, error: ErrorInfo?) {
-                                    logw(requestId)
-                                    loge(error?.code, error?.description)
-                                }
-
-                                override fun onStart(requestId: String?) {
-                                    logw(requestId)
-                                }
-                            }).dispatch()
+//                            MediaManager.get().upload(byteArrayPhoto).callback(object : UploadCallback {
+//                                override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {
+//                                    logw(requestId, resultData)
+//                                }
+//
+//                                override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
+//                                    logw(requestId, totalBytes)
+//                                }
+//
+//                                override fun onReschedule(requestId: String?, error: ErrorInfo?) {
+//                                    logw(requestId)
+//                                    loge(error?.code, error?.description)
+//                                }
+//
+//                                override fun onError(requestId: String?, error: ErrorInfo?) {
+//                                    logw(requestId)
+//                                    loge(error?.code, error?.description)
+//                                }
+//
+//                                override fun onStart(requestId: String?) {
+//                                    logw(requestId)
+//                                }
+//                            }).dispatch()
                         }
 
                         showSelectionDialog(cropBitmap)

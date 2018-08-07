@@ -33,7 +33,10 @@ class KsCloudinaryImpl constructor(
     }
 
     override fun hangImage(byteArray: ByteArray) =
-        single<UploadResultData> { mediaManager.upload(byteArray).callback(uploadCallback(it)).dispatch() }
+        single<UploadResultData> {
+            println("=====================55555555555555555===========================")
+            mediaManager.upload(byteArray).callback(uploadCallback(it)).dispatch()
+        }
 
     override fun downImage(imageId: String) = throw UnsupportedOperationException()
 
@@ -48,6 +51,7 @@ class KsCloudinaryImpl constructor(
              * @param resultData Result data about the newly uploaded resource.
              */
             override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) {
+                println("=====================66666666666666666666===========================")
                 it.onSuccess(UploadResultData.extract(resultData))
             }
 
@@ -75,8 +79,11 @@ class KsCloudinaryImpl constructor(
              * @param requestId Id of the request sending this callback.
              * @param error Error object containing description and code.
              */
-            override fun onError(requestId: String, error: ErrorInfo) =
+            override fun onError(requestId: String, error: ErrorInfo) {
+                println("=====================6666666666666666===========================")
+                println(error.description)
                 it.onError(InternalError("Code: ${error.code} Description: ${error.description}"))
+            }
 
             /**
              * Called when a request starts uploading.
