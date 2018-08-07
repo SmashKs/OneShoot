@@ -17,7 +17,6 @@
 package smash.ks.com.data.repositories
 
 import com.devrapid.kotlinshaver.cast
-import io.reactivex.Single
 import smash.ks.com.data.datas.DataMapper
 import smash.ks.com.data.datas.MapperPool
 import smash.ks.com.data.datas.mappers.KsMapper
@@ -25,7 +24,6 @@ import smash.ks.com.data.datas.mappers.LabelMapper
 import smash.ks.com.data.datas.mappers.UploadResultMapper
 import smash.ks.com.data.datastores.DataStore
 import smash.ks.com.data.local.cache.KsCache
-import smash.ks.com.domain.models.UploadResultModel
 import smash.ks.com.domain.parameters.Parameterable
 import smash.ks.com.domain.repositories.DataRepository
 
@@ -61,10 +59,8 @@ class DataRepositoryImpl constructor(
 
     override fun uploadImage(params: Parameterable) = remote.pushImageToFirebase(params)
 
-    override fun storeImageToCloudinary(params: Parameterable): Single<UploadResultModel> {
-        println("===============22222222222222222=================")
-        return remote.pushImageToCloudinary(params).map(photoResultMapper::toModelFrom)
-    }
+    override fun storeImageToCloudinary(params: Parameterable) =
+        remote.pushImageToCloudinary(params).map(photoResultMapper::toModelFrom)
 
     override fun fetchImageTagsByML(params: Parameterable) =
         (if (SWITCH) local else remote).analyzeImageTagsByML(params).map { it.map(labelMapper::toModelFrom) }

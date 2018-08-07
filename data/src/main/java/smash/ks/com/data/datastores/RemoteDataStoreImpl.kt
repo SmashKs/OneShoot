@@ -51,8 +51,7 @@ class RemoteDataStoreImpl(
     // TODO(jieyi): 2018/08/03 [params] should be peeled here and put the each parameters.
     override fun pushImageToFirebase(params: Parameterable) = ksFirebase.uploadImage(params)
 
-    override fun pushImageToCloudinary(params: Parameterable) = params.toParameter().let {
-        println("-------------------------4444444444444444444-------------------------")
+    override fun pushImageToCloudinary(params: Parameterable) = params.toAnyParameter().let {
         val byteArray = it[KsPhotoToCloudinaryParam.PARAM_BYTE_ARRAY] ?: throw NullPointerException()
         val bytes = castOrNull<ByteArray>(byteArray) ?: throw ClassCastException()
 

@@ -42,7 +42,7 @@ data class PhotoParam(
     override fun toParameter() = throw UnsupportedOperationException()
 
     override fun toAnyParameter() = hashMapOf(
-        PARAM_URI to mapOf(randomUUID().toString() to imageBytes),
+        PARAM_URI to mapOf(randomUUID().toString() to uri),
         PARAM_AUTHOR to author,
         PARAM_TITLE to title,
         PARAM_TAGS to tags.map { it to it }.toMap(),

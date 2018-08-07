@@ -133,7 +133,7 @@ object Versions {
      * Related mapping lib version.
      */
     object Mapping {
-        const val modelmapper = "1.1.0"
+        const val modelmapper = "2.1.0"
     }
 
     /**

@@ -32,12 +32,8 @@ class UploadImageToFirebaseUsecase(
 ) : CompletableUseCase<Requests>(threadExecutor, postExecutionThread) {
     override fun fetchUseCase() =
         requestValues
-            ?.run {
-                println("==========================11111111111111========================")
-                repository.storeImageToCloudinary(KsPhotoToCloudinaryParam(params.imageBytes))
-            }
+            ?.run { repository.storeImageToCloudinary(KsPhotoToCloudinaryParam(params.imageBytes)) }
             ?.flatMapCompletable {
-                println("==========================222222222222222222========================")
                 val parameter = requestValues!!.params.apply { uri = it.secureUrl }
 
                 repository.uploadImage(parameter)

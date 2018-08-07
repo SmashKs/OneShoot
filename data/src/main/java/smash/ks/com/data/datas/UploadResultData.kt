@@ -24,15 +24,15 @@ import smash.ks.com.ext.const.DEFAULT_STR
  * The data object for extracting from the uploading information.
  */
 data class UploadResultData(
-    val format: String = DEFAULT_STR,
-    val resourceType: String = DEFAULT_STR,
-    val secureUrl: String = DEFAULT_STR,
-    val createdAt: String = DEFAULT_STR,
-    val publicId: String = DEFAULT_STR,
-    val width: Int = DEFAULT_INT,
-    val height: Int = DEFAULT_INT,
-    val placeholder: Boolean = false,
-    val tags: List<Tag> = emptyList()
+    var format: String = DEFAULT_STR,
+    var resourceType: String = DEFAULT_STR,
+    var secureUrl: String = DEFAULT_STR,
+    var createdAt: String = DEFAULT_STR,
+    var publicId: String = DEFAULT_STR,
+    var width: Int = DEFAULT_INT,
+    var height: Int = DEFAULT_INT,
+    var placeholder: Boolean = false,
+    var tags: List<Tag> = emptyList()
 ) : Data {
     companion object {
         private const val DATA_KEY_FORMAT = "format"
@@ -45,16 +45,15 @@ data class UploadResultData(
         private const val DATA_KEY_PLACEHOLDER = "placeholder"
         private const val DATA_KEY_TAGS = "tags"
 
-        fun extract(resultData: MutableMap<Any?, Any?>): UploadResultData {
-            return UploadResultData(castOrNull<String>(resultData[DATA_KEY_FORMAT]).orEmpty(),
-                                    castOrNull<String>(resultData[DATA_KEY_RESOURCE_TYPE]).orEmpty(),
-                                    castOrNull<String>(resultData[DATA_KEY_SECURE_URL]).orEmpty(),
-                                    castOrNull<String>(resultData[DATA_KEY_CREATED_AT]).orEmpty(),
-                                    castOrNull<String>(resultData[DATA_KEY_PUBLIC_ID]).orEmpty(),
-                                    castOrNull<Int>(resultData[DATA_KEY_WIDTH]) ?: DEFAULT_INT,
-                                    castOrNull<Int>(resultData[DATA_KEY_HEIGHT]) ?: DEFAULT_INT,
-                                    castOrNull<Boolean>(resultData[DATA_KEY_PLACEHOLDER]) ?: false,
-                                    castOrNull<List<Tag>>(resultData[DATA_KEY_TAGS]).orEmpty())
-        }
+        fun extract(resultData: MutableMap<Any?, Any?>) =
+            UploadResultData(castOrNull<String>(resultData[DATA_KEY_FORMAT]).orEmpty(),
+                             castOrNull<String>(resultData[DATA_KEY_RESOURCE_TYPE]).orEmpty(),
+                             castOrNull<String>(resultData[DATA_KEY_SECURE_URL]).orEmpty(),
+                             castOrNull<String>(resultData[DATA_KEY_CREATED_AT]).orEmpty(),
+                             castOrNull<String>(resultData[DATA_KEY_PUBLIC_ID]).orEmpty(),
+                             castOrNull<Int>(resultData[DATA_KEY_WIDTH]) ?: DEFAULT_INT,
+                             castOrNull<Int>(resultData[DATA_KEY_HEIGHT]) ?: DEFAULT_INT,
+                             castOrNull<Boolean>(resultData[DATA_KEY_PLACEHOLDER]) ?: false,
+                             castOrNull<List<Tag>>(resultData[DATA_KEY_TAGS]).orEmpty())
     }
 }

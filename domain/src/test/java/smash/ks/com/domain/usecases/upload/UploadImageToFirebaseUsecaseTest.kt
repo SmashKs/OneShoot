@@ -44,7 +44,7 @@ class UploadImageToFirebaseUsecaseTest {
     @BeforeTest
     fun setUp() {
         model = KsModel(randomLong, randomString)
-        parameter = PhotoParam(randomString, randomString, randomString, emptyList(), Date())
+        parameter = PhotoParam(randomString, byteArrayOf(), randomString, randomString, emptyList(), Date())
         buildUsecaseWithAction(parameter) { completable() }
     }
 
