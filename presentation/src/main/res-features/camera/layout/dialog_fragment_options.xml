@@ -15,45 +15,40 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
-    style="@style/Constraint.MatchParent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_main"
-        android:layout_width="300dp"
-        android:layout_height="390dp"
-        android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/ib_close"
+        style="@style/CloseButton"/>
 
-        <ImageButton
-            android:id="@+id/ib_close"
-            style="@style/CloseButton"/>
+    <ImageView
+        android:id="@+id/iv_snippet"
+        style="@style/DialogFragment.ImageView.Thumbnail"
+        app:layout_constraintBottom_toTopOf="@+id/ib_analyze"
+        app:layout_constraintTop_toBottomOf="@id/ib_close"
+        tools:src="@drawable/logo_splash"/>
 
-        <ImageView
-            android:id="@+id/iv_snippet"
-            style="@style/DialogFragment.ImageView.Thumbnail"
-            app:layout_constraintBottom_toTopOf="@+id/ib_analyze"
-            app:layout_constraintTop_toBottomOf="@id/ib_close"
-            tools:src="@drawable/logo_splash"/>
+    <ImageButton
+        android:id="@+id/ib_analyze"
+        style="@style/ImageButton.Vector.Button.Ripple"
+        android:src="@drawable/ic_analyze"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_upload"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <ImageButton
-            android:id="@+id/ib_analyze"
-            style="@style/ImageButton.Vector.Button.Ripple"
-            android:src="@drawable/ic_analyze"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ib_upload"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <ImageButton
-            android:id="@+id/ib_upload"
-            style="@style/ImageButton.Vector.Button.Ripple"
-            android:src="@drawable/ic_cloud_upload"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ib_analyze"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/ib_upload"
+        style="@style/ImageButton.Vector.Button.Ripple"
+        android:src="@drawable/ic_cloud_upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ib_analyze"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

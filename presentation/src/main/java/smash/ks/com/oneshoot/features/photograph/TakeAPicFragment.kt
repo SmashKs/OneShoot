@@ -36,6 +36,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
+import com.devrapid.kotlinknifer.displayPixels
+import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.visible
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
@@ -63,6 +65,7 @@ import smash.ks.com.oneshoot.widgets.customize.camera.module.Constants.FLASH_ON
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
 import smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView.Flash
 import java.io.ByteArrayOutputStream
+import kotlin.math.roundToInt
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_close as option_close
 
 class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
@@ -72,6 +75,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         const val ARG_IMAGE_DATA = "param image data array"
 
         private const val INPUT_SIZE = 224
+        private const val DIALOG_FRAGMENT_WIDTH_RATIO = .85f
+        private const val DIALOG_FRAGMENT_HEIGHT_RATIO = .65f
     }
     //endregion
 
@@ -216,8 +221,17 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
             viewResCustom = R.layout.dialog_fragment_options
             cancelable = false
-            onStartBlock = { it.dialog.window?.setWindowAnimations(R.style.KsDialog) }
+            onStartBlock = {
+                val (width, heigth) = it.activity?.displayPixels() ?: throw NullPointerException()
+                val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
+                val realHeight = heigth * DIALOG_FRAGMENT_HEIGHT_RATIO
+                it.dialog.window?.apply {
+                    setWindowAnimations(R.style.KsDialog)
+                    setLayout(realWidth.roundToInt(), realHeight.roundToInt())
+                }
+            }
             fetchComponents = { v, df ->
+                logw(v)
                 fun navigateTo(@IdRes navigationAction: Int) {
                     dismissOptionDialog()
                     view?.findNavController()?.navigate(navigationAction, bundleOf(ARG_IMAGE_DATA to byteArrayPhoto))
