@@ -15,33 +15,18 @@
   ~ limitations under the License.
   -->
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+<merge style="@style/Constraint.MatchParent"
+       xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        style="@style/Constraint.MatchParent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bab_shot_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/md_seven_unit"
-            android:layout_gravity="bottom"
-            app:backgroundTint="@color/dodger_blue_alpha_13"
-            app:fabCradleMargin="@dimen/md_one_unit"
-            app:fabCradleRoundedCornerRadius="@dimen/md_two_unit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            style="@style/BottomAppBar.Shot"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_shot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_camera"
-            app:backgroundTint="?themeColorPrimaryLight"
-            app:layout_anchor="@id/bab_shot_bar"/>
+            style="@style/FAB.shot"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </merge>

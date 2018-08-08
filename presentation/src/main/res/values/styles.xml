@@ -72,6 +72,7 @@
     <!-- Constraint Basic Setting -->
     <style name="Constraint"/>
 
+    <!-- START Excepting the Constant Layout -->
     <style name="Constraint.MatchParent">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
@@ -81,6 +82,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="Constraint.MatchParent.FitWidth">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="Constraint.MatchParent.FitHeight">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!-- END Excepting the Constant Layout -->
 
     <style name="Constraint.Wrap.Center">
         <item name="layout_constraintBottom_toBottomOf">parent</item>

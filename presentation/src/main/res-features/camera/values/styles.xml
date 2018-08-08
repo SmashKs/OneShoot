@@ -112,8 +112,30 @@
         <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
 
+    <!-- Floating Action Button -->
+    <style name="FAB" parent="Constraint.Wrap">
+        <item name="backgroundTint">?themeColorPrimaryLight</item>
+    </style>
+
+    <style name="FAB.shot">
+        <item name="android:src">@drawable/ic_camera</item>
+        <item name="layout_anchor">@id/bab_shot_bar</item>
+    </style>
+
     <!-- Chip -->
     <style name="Chip.Tag" parent="TextAppearance.MaterialComponents.Chip">
         <item name="android:textColor">?themeTextColorPrimary</item>
+    </style>
+
+    <!-- Bottom App Bar -->
+    <style name="BottomAppBar" parent="Constraint.MatchParent.FitWidth">
+        <item name="android:layout_height">@dimen/md_seven_unit</item>
+    </style>
+
+    <style name="BottomAppBar.Shot">
+        <item name="android:layout_gravity">bottom</item>
+        <item name="backgroundTint">@color/dodger_blue_alpha_13</item>
+        <item name="fabCradleMargin">@dimen/md_one_unit</item>
+        <item name="fabCradleRoundedCornerRadius">@dimen/md_two_unit</item>
     </style>
 </resources>
