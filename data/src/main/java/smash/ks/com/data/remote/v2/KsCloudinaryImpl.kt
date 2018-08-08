@@ -47,9 +47,8 @@ class KsCloudinaryImpl constructor(
              * @param requestId Id of the request sending this callback.
              * @param resultData Result data about the newly uploaded resource.
              */
-            override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) {
+            override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) =
                 it.onSuccess(UploadResultData.extract(resultData))
-            }
 
             /**
              * Called on upload progress updates.

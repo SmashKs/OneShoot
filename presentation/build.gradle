@@ -239,12 +239,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 def getProps(String propName) {
     def propsFile = rootProject.file('local.properties')
 
-    if (!propsFile.exists()) return "No Exist!!"
+    if (!propsFile.exists()) return "\"No_Exist\""
 
     def props = new Properties()
     props.load(new FileInputStream(propsFile))
 
-    if (null == props[propName]) return "There's no parameter!!"
+    if (null == props[propName]) return "\"There_is_no_parameter\""
 
     return props[propName]
 }

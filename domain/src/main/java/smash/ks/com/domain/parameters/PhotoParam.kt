@@ -19,11 +19,13 @@ package smash.ks.com.domain.parameters
 import smash.ks.com.domain.Tag
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.ext.date.toFormatedString
+import java.util.Arrays
 import java.util.Date
 import java.util.UUID.randomUUID
 
 data class PhotoParam(
     var uri: String = DEFAULT_STR,
+    var imageBytes: ByteArray = byteArrayOf(),
     var author: String = DEFAULT_STR,
     var title: String = DEFAULT_STR,
     var tags: List<Tag> = emptyList(),
@@ -46,4 +48,32 @@ data class PhotoParam(
         PARAM_TAGS to tags.map { it to it }.toMap(),
         PARAM_UPLOAD_DATE to uploadDate.toFormatedString()
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PhotoParam
+
+        if (uri != other.uri) return false
+        if (!Arrays.equals(imageBytes, other.imageBytes)) return false
+        if (author != other.author) return false
+        if (title != other.title) return false
+        if (tags != other.tags) return false
+        if (uploadDate != other.uploadDate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = uri.hashCode()
+
+        result = 31 * result + Arrays.hashCode(imageBytes)
+        result = 31 * result + author.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + tags.hashCode()
+        result = 31 * result + uploadDate.hashCode()
+
+        return result
+    }
 }

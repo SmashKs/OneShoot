@@ -26,7 +26,12 @@ import smash.ks.com.domain.models.UploadResultModel
  * their own data objects, the objects should transform and fit each layers.
  */
 class UploadResultMapper constructor(mapper: ModelMapper) : DataUploadResultMapper(mapper) {
-    override fun toModelFrom(data: UploadResultData) = mapper.map(data, UploadResultModel::class.java)
+    // TODO(jieyi): 2018/08/07 Using [ModelMapper] to translate the [List].
+    override fun toModelFrom(data: UploadResultData) = data.run {
+        UploadResultModel(format, resourceType, secureUrl, createdAt, publicId, width, height, placeholder, tags)
+    }
 
-    override fun toDataFrom(model: UploadResultModel) = mapper.map(model, UploadResultData::class.java)
+    override fun toDataFrom(model: UploadResultModel) = model.run {
+        UploadResultData(format, resourceType, secureUrl, createdAt, publicId, width, height, placeholder, tags)
+    }
 }

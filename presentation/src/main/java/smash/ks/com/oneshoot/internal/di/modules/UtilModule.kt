@@ -30,6 +30,7 @@ import org.kodein.di.generic.singleton
 import org.modelmapper.ModelMapper
 import smash.ks.com.data.datas.mappers.KsMapper
 import smash.ks.com.data.datas.mappers.LabelMapper
+import smash.ks.com.data.datas.mappers.UploadResultMapper
 import smash.ks.com.oneshoot.entities.mappers.KsEntityMapper
 import smash.ks.com.oneshoot.entities.mappers.LabelEntityMapper
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
@@ -57,6 +58,7 @@ object UtilModule {
         /** Data Layer Mapper */
         bind<DataMapperEntry>().inSet() with provider { KsMapper::class.java to KsMapper(instance()) }
         bind<DataMapperEntry>().inSet() with provider { LabelMapper::class.java to LabelMapper(instance()) }
+        bind<DataMapperEntry>().inSet() with provider { UploadResultMapper::class.java to UploadResultMapper(instance()) }
 
         /** Presentation Layer Mapper */
         bind<PresentationFakeMapper>() with singleton { KsEntityMapper(instance()) }
