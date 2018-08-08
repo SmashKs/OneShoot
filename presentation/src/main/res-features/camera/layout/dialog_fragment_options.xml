@@ -23,6 +23,7 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
         android:layout_width="300dp"
         android:layout_height="390dp"
         android:orientation="vertical">
@@ -33,12 +34,8 @@
 
         <ImageView
             android:id="@+id/iv_snippet"
-            android:layout_width="@dimen/md_zero_unit"
-            android:layout_height="@dimen/md_zero_unit"
-            android:layout_margin="@dimen/md_two_unit"
+            style="@style/DialogFragment.ImageView.Thumbnail"
             app:layout_constraintBottom_toTopOf="@+id/ib_analyze"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ib_close"
             tools:src="@drawable/logo_splash"/>
 

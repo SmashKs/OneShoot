@@ -51,17 +51,7 @@
 
     <ImageView
         android:id="@+id/iv_preview"
-        android:layout_width="@dimen/md_eight_unit"
-        android:layout_height="@dimen/md_zero_unit"
-        android:layout_margin="@dimen/md_one_unit"
-        android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/gl_mid"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="@+id/cv_camera"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"/>
+        style="@style/TakePhoto.ImageView.Thumbnail"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_mid"
@@ -72,12 +62,5 @@
 
     <ImageButton
         android:id="@+id/ib_flash"
-        style="@style/Camera.Button.Flash"
-        android:layout_margin="@dimen/md_one_unit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/cv_camera"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="@+id/gl_mid"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"/>
+        style="@style/Camera.Button.Flash"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

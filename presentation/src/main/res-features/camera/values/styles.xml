@@ -47,8 +47,14 @@
     <style name="Camera.Button.Flash">
         <item name="android:layout_width">@dimen/flash_icon_width</item>
         <item name="android:layout_height">@dimen/flash_icon_height</item>
+        <item name="android:layout_margin">@dimen/md_one_unit</item>
         <item name="android:src">@drawable/ic_flash_on</item>
-        <item name="layout_constraintStart_toStartOf"></item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">@id/cv_camera</item>
+        <item name="layout_constraintHorizontal_bias">0.9</item>
+        <item name="layout_constraintStart_toStartOf">@+id/gl_mid</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintVertical_bias">1.0</item>
     </style>
 
     <!-- EditText -->
@@ -86,6 +92,34 @@
     </style>
 
     <!-- Image View -->
+    <style name="TakePhoto.ImageView" parent="Constraint.Any">
+        <item name="android:layout_margin">@dimen/md_one_unit</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="TakePhoto.ImageView.Thumbnail">
+        <item name="android:layout_width">@dimen/md_eight_unit</item>
+        <item name="android:layout_height">@dimen/md_zero_unit</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintDimensionRatio">1:1</item>
+        <item name="layout_constraintEnd_toStartOf">@+id/gl_mid</item>
+        <item name="layout_constraintHorizontal_bias">0.1</item>
+        <item name="layout_constraintStart_toStartOf">@+id/cv_camera</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintVertical_bias">1.0</item>
+    </style>
+
+    <style name="DialogFragment.ImageView" parent="Constraint.Any">
+        <item name="android:layout_margin">@dimen/md_two_unit</item>
+    </style>
+
+    <style name="DialogFragment.ImageView.Thumbnail">
+        <item name="android:layout_margin">@dimen/md_two_unit</item>
+        <item name="layout_constraintDimensionRatio">1:1</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
     <style name="Upload.ImageView" parent="Constraint.Any.MatchHorParent">
         <item name="android:layout_width">@dimen/md_zero_unit</item>
         <item name="android:layout_height">@dimen/md_zero_unit</item>
