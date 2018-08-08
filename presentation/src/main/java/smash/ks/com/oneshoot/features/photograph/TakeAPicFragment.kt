@@ -42,11 +42,10 @@ import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.iv_snippet
 import kotlinx.android.synthetic.main.fragment_take_a_pic.cv_camera
 import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_flash
-import kotlinx.android.synthetic.main.fragment_take_a_pic.ib_shot
 import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
-import kotlinx.android.synthetic.main.fragment_take_a_pic.view.ib_flash
+import kotlinx.android.synthetic.main.merge_bottom_shot_bar.fab_shot
 import kotlinx.coroutines.experimental.delay
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -183,7 +182,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         cv_camera.apply { cameraCallback.takeUnless(::hasCallback)?.let(::addCallback) }
-        ib_shot.onClick {
+        fab_shot.onClick {
             if (!shotDebounce) {
                 shotDebounce = true
                 cv_camera.takePicture()
@@ -217,7 +216,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
             viewResCustom = R.layout.dialog_fragment_options
             cancelable = false
-            onStartBlock = { it.dialog.window.setWindowAnimations(R.style.KsDialog) }
+            onStartBlock = { it.dialog.window?.setWindowAnimations(R.style.KsDialog) }
             fetchComponents = { v, df ->
                 fun navigateTo(@IdRes navigationAction: Int) {
                     dismissOptionDialog()
@@ -237,6 +236,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                     ib_upload.onClick { navigateTo(R.id.action_takeAPicFragment_to_uploadPicFragment) }
                 }
 
+                // For touch the back press key then close the dialog fragment.
                 df.dialog.setOnKeyListener { _, keyCode, _ ->
                     when (keyCode) {
                         KEYCODE_BACK -> {

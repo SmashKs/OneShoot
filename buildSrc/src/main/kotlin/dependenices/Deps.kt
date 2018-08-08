@@ -121,11 +121,14 @@ object Deps {
         const val materialChip = "com.github.pchmn:MaterialChipsInput:${Versions.Ui.materialChip}"
 
         const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.androidx}"
+        const val materialDessign = "com.google.android.material:material:${Versions.AndroidComponent.androidx}"
         const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.androidx}"
         const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.androidx}"
         const val cardview = "androidx.cardview:cardview:${Versions.AndroidComponent.cardview}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.constraintLayout}"
+        const val coordinatorLayout =
+            "androidx.coordinatorlayout:coordinatorlayout:${Versions.AndroidComponent.coordinatorLayout}"
         const val navigationUi =
             "android.arch.navigation:navigation-fragment-ktx:${Versions.AndroidComponent.navigation}"
         const val navigationFragment =

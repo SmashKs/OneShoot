@@ -178,10 +178,12 @@ dependencies {
 
     //region Androidx SDK
     implementation Presentation.appcompat
+    implementation Presentation.materialDessign
     implementation Presentation.recyclerview
     implementation Presentation.cardview
     implementation Presentation.annot
     implementation Presentation.constraintLayout
+    implementation Presentation.coordinatorLayout
     implementation Presentation.navigationUi
     implementation Presentation.navigationFragment
     //endregion

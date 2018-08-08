@@ -36,6 +36,7 @@ object Versions {
         const val androidx = "1.0.0-beta01"
         const val cardview = "1.0.0-beta01"
         const val constraintLayout = "2.0.0-alpha1"
+        const val coordinatorLayout = "1.0.0-beta01"
         const val navigation = "1.0.0-alpha04"
     }
 

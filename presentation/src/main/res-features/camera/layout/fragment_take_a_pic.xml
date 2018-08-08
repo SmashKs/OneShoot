@@ -47,37 +47,37 @@
         app:layout_constraintStart_toStartOf="@+id/cv_camera"
         app:layout_constraintTop_toTopOf="@+id/cv_camera"/>
 
-    <View
-        android:id="@+id/v_control_bkg"
-        android:layout_width="@dimen/md_zero_unit"
-        android:layout_height="@dimen/md_ten_unit"
-        android:background="@color/dodger_blue_alpha_13"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <include layout="@layout/merge_bottom_shot_bar"/>
 
     <ImageView
         android:id="@+id/iv_preview"
         android:layout_width="@dimen/md_eight_unit"
         android:layout_height="@dimen/md_zero_unit"
+        android:layout_margin="@dimen/md_one_unit"
         android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintBottom_toBottomOf="@+id/ib_shot"
-        app:layout_constraintEnd_toStartOf="@id/ib_shot"
+        app:layout_constraintEnd_toStartOf="@+id/gl_mid"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="@+id/cv_camera"
-        app:layout_constraintTop_toTopOf="@+id/ib_shot"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"/>
 
-    <ImageButton
-        android:id="@+id/ib_shot"
-        style="@style/Camera.Button.Shot"
-        app:layout_constraintBottom_toBottomOf="@+id/v_control_bkg"
-        app:layout_constraintTop_toTopOf="@+id/v_control_bkg"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
 
     <ImageButton
         android:id="@+id/ib_flash"
         style="@style/Camera.Button.Flash"
-        app:layout_constraintBottom_toBottomOf="@+id/ib_shot"
+        android:layout_margin="@dimen/md_one_unit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/cv_camera"
-        app:layout_constraintStart_toEndOf="@+id/ib_shot"
-        app:layout_constraintTop_toTopOf="@+id/ib_shot"/>
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="@+id/gl_mid"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
