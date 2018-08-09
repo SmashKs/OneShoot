@@ -148,13 +148,22 @@
 
     <!-- Floating Action Button -->
     <style name="FAB" parent="Constraint.Wrap">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
         <item name="backgroundTint">?themeColorPrimaryLight</item>
     </style>
 
-    <style name="FAB.shot">
+    <style name="FAB.Shot">
         <item name="android:src">@drawable/ic_camera</item>
         <item name="layout_anchor">@id/bab_shot_bar</item>
     </style>
+
+    <style name="FAB.Upload">
+        <item name="android:layout_margin">@dimen/md_two_unit</item>
+        <item name="android:src">@drawable/ic_cloud_upload_white</item>
+        <item name="layout_anchorGravity">bottom|right|end</item>
+    </style>
+
 
     <!-- Chip -->
     <style name="Chip.Tag" parent="TextAppearance.MaterialComponents.Chip">

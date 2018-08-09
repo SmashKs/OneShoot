@@ -26,6 +26,7 @@ import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
+import kotlinx.android.synthetic.main.fragment_analyze_pic.rv_analyzed
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -36,6 +37,7 @@ import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntities
+import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
 import smash.ks.com.oneshoot.ext.resource.gDimens
@@ -91,7 +93,21 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
 
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
-        vm.analyzeImage(imageData)
+//        vm.analyzeImage(imageData)
+        rv_analyzed.apply {
+            layoutManager = linearLayoutManager
+            adapter = this@AnalyzeFragment.adapter
+            addItemDecoration(decorator)
+        }
+        adapter.appendList(mutableListOf(LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity(),
+                                         LabelEntity()))
     }
 
     @LayoutRes
@@ -114,7 +130,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
             viewResCustom = R.layout.dialog_fragment_labels
             cancelable = false
             onStartBlock = {
-                it.dialog.window.setWindowAnimations(R.style.KsDialog)
+                it.dialog.window?.setWindowAnimations(R.style.KsDialog)
             }
             fetchComponents = { v, df ->
                 v.apply {

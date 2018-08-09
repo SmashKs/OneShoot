@@ -27,6 +27,6 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_shot"
-            style="@style/FAB.shot"/>
+            style="@style/FAB.Shot"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </merge>
