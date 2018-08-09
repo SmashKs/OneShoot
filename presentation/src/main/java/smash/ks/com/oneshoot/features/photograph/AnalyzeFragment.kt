@@ -23,10 +23,18 @@ import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
+import com.devrapid.kotlinknifer.getDisplayMetrics
+import com.devrapid.kotlinknifer.resizeView
+import com.devrapid.kotlinknifer.statusBarHeight
+import com.devrapid.kotlinknifer.waitForMeasure
 import com.devrapid.kotlinshaver.cast
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
 import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
+import kotlinx.android.synthetic.main.fragment_analyze_pic.abl_main
+import kotlinx.android.synthetic.main.fragment_analyze_pic.fab_upload
+import kotlinx.android.synthetic.main.fragment_analyze_pic.iv_backdrop
 import kotlinx.android.synthetic.main.fragment_analyze_pic.rv_analyzed
+import kotlinx.android.synthetic.main.merge_recycler_item_empty.fl_empty
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -34,12 +42,14 @@ import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
+import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntities
 import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
+import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
@@ -97,7 +107,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         rv_analyzed.apply {
             layoutManager = linearLayoutManager
             adapter = this@AnalyzeFragment.adapter
-            addItemDecoration(decorator)
+            if (0 == itemDecorationCount) addItemDecoration(decorator)
         }
         adapter.appendList(mutableListOf(LabelEntity(),
                                          LabelEntity(),
@@ -108,6 +118,8 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                                          LabelEntity(),
                                          LabelEntity(),
                                          LabelEntity()))
+        iv_backdrop.loadByAny(imageData)
+        showError()
     }
 
     @LayoutRes
@@ -121,6 +133,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
             delay(DEBOUNCE_SAFE_MODE_CAMERA)
 //            shotDebounce = false
         }
+        fab_upload.onClick {}
     }
 
     private fun showLabelDialog(entities: LabelEntities) {
@@ -174,5 +187,17 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         }
         labelDialog?.dismissAllowingStateLoss()
         labelDialog = null
+    }
+
+    private fun showError() {
+        abl_main.waitForMeasure { _, _, appBarLayoutHeight ->
+            val statusBarHeight = appContext.statusBarHeight()
+            val actionBarHeight = parent.supportActionBar?.height ?: DEFAULT_INT
+            val screenHeigthWithoutNavigationBar = appContext.getDisplayMetrics().heightPixels
+            val betweenHeight =
+                screenHeigthWithoutNavigationBar - actionBarHeight - statusBarHeight - appBarLayoutHeight
+
+            fl_empty.resizeView(null, betweenHeight)
+        }
     }
 }

@@ -37,7 +37,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.displayPixels
-import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.visible
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
@@ -231,7 +230,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 }
             }
             fetchComponents = { v, df ->
-                logw(v)
                 fun navigateTo(@IdRes navigationAction: Int) {
                     dismissOptionDialog()
                     view?.findNavController()?.navigate(navigationAction, bundleOf(ARG_IMAGE_DATA to byteArrayPhoto))

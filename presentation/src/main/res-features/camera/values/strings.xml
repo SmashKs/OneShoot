@@ -28,4 +28,8 @@
     <string name="edit_hint_photo_title">Title</string>
     <string name="edit_hint_tag">Tag</string>
     <!-- Upload Label End -->
+
+    <!-- Analyze Label Start -->
+    <string name="label_no_result">There\'s no result.</string>
+    <!-- Analyze Label Start -->
 </resources>
