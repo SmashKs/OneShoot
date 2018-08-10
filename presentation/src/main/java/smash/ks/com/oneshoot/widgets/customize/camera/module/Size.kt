@@ -35,7 +35,7 @@ class Size(
 
     override fun toString() = "$width x $height"
 
-    // Assuming most sizes are <2^16, doing a rotate will give us perfect hashing.
+    // Assuming most sizes are < 2^16, doing a rotate will give us perfect hashing.
     override fun hashCode() = height xor (width shl Integer.SIZE / 2 or width.ushr(Integer.SIZE / 2))
 
     override fun compareTo(other: Size) = width * height - other.width * other.height
