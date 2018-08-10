@@ -76,7 +76,7 @@ class RemoteDataStoreImplTest {
         verify(firebase).retrieveImages(name)
     }
 
-    @Test(NullPointerException::class)
+    @Test(IllegalArgumentException::class)
     fun `fetch an image with the parameters without name variable`() {
         val parameter = mock<Parameterable> {
             on { toParameter() } doReturn mock<Parameters>()
@@ -103,7 +103,7 @@ class RemoteDataStoreImplTest {
         verify(firebase).uploadImage(parameter)
     }
 
-    @Test(NullPointerException::class)
+    @Test(IllegalArgumentException::class)
     fun `with empty parameter firebase did call the analyzing an image tags by ML function`() {
         remoteDataStore.analyzeImageTagsByML(mock())
     }
