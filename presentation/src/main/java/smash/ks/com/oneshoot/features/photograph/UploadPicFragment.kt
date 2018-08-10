@@ -63,12 +63,24 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         }
     }
 
+    override fun unbindLiveData() {
+        vm.uploadRes.removeObservers(this)
+    }
+
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
+        // Set the components.
         iv_upload.loadByAny(imageData)
-        ib_check.onClick {
-            collectionAllData()
-        }
+        // Set the components' event listeners.
+        setEventListeners()
+    }
+
+    @LayoutRes
+    override fun provideInflateView() = R.layout.fragment_upload_pic
+    //endregion
+
+    private fun setEventListeners() {
+        ib_check.onClick { collectionAllData() }
         ib_cancel.onClick { findNavController()?.navigateUp() }
         ci_tag.addChipsListener(object : ChipsInput.ChipsListener {
             override fun onChipAdded(chip: ChipInterface, newSize: Int) {
@@ -86,10 +98,6 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
             }
         })
     }
-
-    @LayoutRes
-    override fun provideInflateView() = R.layout.fragment_upload_pic
-    //endregion
 
     private fun collectionAllData() {
         val title = et_photo_title.text.toString()

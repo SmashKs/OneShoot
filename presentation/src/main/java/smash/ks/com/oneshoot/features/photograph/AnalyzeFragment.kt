@@ -118,8 +118,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
             it.statusBarHeight() to it.getDisplayMetrics().heightPixels
         }
         val appBarLayoutHeight = abl_main.measuredHeight
-        val betweenHeight =
-            screenHeightWithoutNavigationBar - actionBarHeight - statusBarHeight - appBarLayoutHeight
+        val betweenHeight = screenHeightWithoutNavigationBar - actionBarHeight - statusBarHeight - appBarLayoutHeight
 
         // Hide the recycler view.
         rv_analyzed.gone()
