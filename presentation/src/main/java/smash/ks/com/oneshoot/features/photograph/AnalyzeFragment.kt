@@ -112,6 +112,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     }
 
     private fun showEmptyResult() {
+        // Calculating the error page's height.
         val actionBarHeight = parent.supportActionBar?.height ?: DEFAULT_INT
         val (statusBarHeight, screenHeightWithoutNavigationBar) = appContext.let {
             it.statusBarHeight() to it.getDisplayMetrics().heightPixels
@@ -123,9 +124,6 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         // Hide the recycler view.
         rv_analyzed.gone()
         // Show the empty error.
-        fl_empty.apply {
-            visible()
-            resizeView(null, betweenHeight)
-        }
+        fl_empty.apply { resizeView(null, betweenHeight) }.visible()
     }
 }
