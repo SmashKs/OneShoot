@@ -21,6 +21,7 @@ package smash.ks.com.oneshoot.ext.aac
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.devrapid.kotlinshaver.isNull
 import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.response.KsResponse
@@ -60,42 +61,59 @@ inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnboxNonNull(
 ) = block?.run { liveData.observe(this@observeUnboxNonNull, Observer { it?.data?.let(block) }) }
 
 /**
- * Check the [KsResponse]'s changing and do the corresponding reaction.Here're three data
+ * Check the [KsResponse]'s changing and do the corresponding reaction.
+ */
+fun <D> LoadView.peelResponse(
+    response: KsResponse<D>,
+    errorBlock: ((String) -> Unit)? = null,
+    successBlock: (D) -> Unit
+) = peelResponseOptions(response,
+                        isShowError = errorBlock.isNull(),
+                        errorBlock = errorBlock,
+                        successBlock = successBlock)
+
+/**
+ * Check the [KsResponse]'s changing and do the corresponding reaction. For the situation which we need
+ * to use multi-requests in the same time.
+ */
+fun <D> LoadView.peelResponseAndContinue(response: KsResponse<D>, successBlock: (D) -> Unit) =
+    peelResponseOptions(response, isHideLoading = false, successBlock = successBlock)
+
+/**
+ * Check the [KsResponse]'s changing and do the corresponding reaction without showing the loading view.
+ */
+fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: (D) -> Unit) =
+    peelResponseOptions(response, false, successBlock = successBlock)
+
+/**
+ * Check the [KsResponse]'s changing and do the corresponding reaction. Here're three data
  * type [Loading], [Success], and [Error].
  *
  * - [Loading] state will show the loading view.
  * - [Success] state will extract the data from the inside class to be used [successBlock].
- * - [Error] state will show the error view and msg to the user.
+ * - [Error] state will show the error view and msg to the user. Also, you can use [errorBlock] manually.
  */
-fun <D> LoadView.peelResponse(response: KsResponse<D>, successBlock: (D) -> Unit) =
-    response.also {
-        when (it) {
-            is Loading<*> -> showLoading()
-            is Success<D> -> {
-                it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
-                hideLoading()
-            }
-            is Error<*> -> {
-                hideLoading()
-                showError(it.msg)
-            }
+private fun <D> LoadView.peelResponseOptions(
+    response: KsResponse<D>,
+    isShowLoading: Boolean = true,
+    isShowError: Boolean = true,
+    isHideLoading: Boolean = true,
+    errorBlock: ((String) -> Unit)? = null,
+    successBlock: (D) -> Unit
+) = response.also {
+    when (it) {
+        is Loading<*> -> if (isShowLoading) showLoading()
+        is Success<D> -> {
+            it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
+            if (isShowLoading && isHideLoading) hideLoading()
+        }
+        is Error<*> -> {
+            if (isShowLoading) hideLoading()
+            if (isShowError) showError(it.msg)
+            errorBlock?.invoke(it.msg)
         }
     }
-
-/**
- * Check the [KsResponse]'s changing and do the corresponding reaction.Here're three data
- * type [Success], and [Error] but skip [Loading] state.
- *
- * - [Success] state will extract the data from the inside class to be used [successBlock].
- * - [Error] state will show the error view and msg to the user.
- */
-fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: (D) -> Unit) =
-    response.also {
-        when (it) {
-            is Success<D> -> it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
-            is Error<*> -> showError(it.msg)
-        }
-    }
+}
 
 /**
  * Abort the await request.

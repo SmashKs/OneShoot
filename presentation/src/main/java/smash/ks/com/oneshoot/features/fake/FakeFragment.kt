@@ -86,7 +86,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
     //region Presenter Implementation.
     @UiThread
     private fun updateTemp(response: KsResponse<String>) {
-        peelResponse(response, this@FakeFragment::showImageUri)
+        peelResponse(response, successBlock = this@FakeFragment::showImageUri)
     }
 
     @UiThread
