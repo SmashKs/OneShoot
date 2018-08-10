@@ -39,12 +39,6 @@ import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 
 class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() {
-    //region Static parameters
-    companion object Parameter {
-        // The key name of the fragment initialization parameters.
-    }
-    //endregion
-
     //region *** Private Variable ***
     // The fragment initialization parameters.
     private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }

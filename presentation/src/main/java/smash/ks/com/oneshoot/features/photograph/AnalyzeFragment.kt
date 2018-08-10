@@ -51,12 +51,6 @@ import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
 
 class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
-    //region Static parameters
-    companion object Parameter {
-        // The key name of the fragment initialization parameters.
-    }
-    //endregion
-
     //region *** Private Variable ***
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
