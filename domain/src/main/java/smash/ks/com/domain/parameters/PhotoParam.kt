@@ -16,6 +16,7 @@
 
 package smash.ks.com.domain.parameters
 
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.domain.Tag
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.ext.date.toFormatedString
@@ -53,14 +54,14 @@ data class PhotoParam(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as PhotoParam
+        val casted = cast<PhotoParam>(other)
 
-        if (uri != other.uri) return false
-        if (!Arrays.equals(imageBytes, other.imageBytes)) return false
-        if (author != other.author) return false
-        if (title != other.title) return false
-        if (tags != other.tags) return false
-        if (uploadDate != other.uploadDate) return false
+        if (uri != casted.uri) return false
+        if (!Arrays.equals(imageBytes, casted.imageBytes)) return false
+        if (author != casted.author) return false
+        if (title != casted.title) return false
+        if (tags != casted.tags) return false
+        if (uploadDate != casted.uploadDate) return false
 
         return true
     }

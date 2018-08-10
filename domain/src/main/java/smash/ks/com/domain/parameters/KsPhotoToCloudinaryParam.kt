@@ -34,9 +34,9 @@ data class KsPhotoToCloudinaryParam(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as KsPhotoToCloudinaryParam
+        val casted = cast<KsPhotoToCloudinaryParam>(other)
 
-        if (!Arrays.equals(imageByteArray, other.imageByteArray)) return false
+        if (!Arrays.equals(imageByteArray, casted.imageByteArray)) return false
 
         return true
     }

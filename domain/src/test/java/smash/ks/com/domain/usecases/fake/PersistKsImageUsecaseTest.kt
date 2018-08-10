@@ -25,7 +25,6 @@ import io.reactivex.Completable
 import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.repositories.DataRepository
@@ -49,7 +48,7 @@ class PersistKsImageUsecaseTest {
 
     @Test
     fun `create the usecase without parameters`() {
-        assertFailsWith<NoParameterException> { buildCompletable() }
+        assertFailsWith<IllegalArgumentException> { buildCompletable() }
     }
 
     @Test

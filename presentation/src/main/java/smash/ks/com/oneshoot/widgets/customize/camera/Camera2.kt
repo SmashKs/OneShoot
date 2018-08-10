@@ -508,8 +508,9 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
      * This rewrites [previewSizes], [pictureSizes], and optionally, [mAspectRatio].
      */
     private fun collectCameraInfo() {
-        val map = cameraCharacteristics!![SCALER_STREAM_CONFIGURATION_MAP]
-                  ?: throw IllegalStateException("Failed to get configuration map: " + cameraId!!)
+        val map = checkNotNull(cameraCharacteristics!![SCALER_STREAM_CONFIGURATION_MAP]) {
+            "Failed to get configuration map: $cameraId"
+        }
 
         previewSizes.clear()
         for (size in map.getOutputSizes(preview.outputClass)) {

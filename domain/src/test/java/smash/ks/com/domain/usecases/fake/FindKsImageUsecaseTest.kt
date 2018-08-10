@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions.assertThat
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
 import smash.ks.com.domain.ResponseKsModel
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.domain.parameters.KsParam
@@ -55,7 +54,7 @@ class FindKsImageUsecaseTest {
 
     @Test
     fun `create the usecase without parameters`() {
-        assertFailsWith<NoParameterException> { buildSingle() }
+        assertFailsWith<IllegalArgumentException> { buildSingle() }
     }
 
     @Test

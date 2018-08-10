@@ -19,7 +19,6 @@ package smash.ks.com.domain.usecases.upload
 import com.devrapid.kotlinshaver.castOrNull
 import smash.ks.com.domain.ResponseUploadResult
 import smash.ks.com.domain.SingleUseCase
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.models.response.KsResponse.Error
@@ -33,13 +32,13 @@ class UploadImageToCloudinaryUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : SingleUseCase<ResponseUploadResult, Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() = requestValues?.run {
+    override fun fetchUseCase() = requireNotNull(requestValues?.run {
         repository
             .storeImageToCloudinary(params)
             .map {
                 castOrNull<ResponseUploadResult>(Success(it)) ?: Error(msg = ClassCastException().message.orEmpty())
             }
-    } ?: throw NoParameterException("No request parameter.")
+    })
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsPhotoToCloudinaryParam = KsPhotoToCloudinaryParam()) : RequestValues

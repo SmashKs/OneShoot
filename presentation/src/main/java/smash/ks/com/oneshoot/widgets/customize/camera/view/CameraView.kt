@@ -237,7 +237,7 @@ open class CameraView @JvmOverloads constructor(
      */
     fun addCallback(callback: Callback) = callbacks?.add(callback)
 
-    fun hasCallback(callback: Callback) = callbacks?.has(callback) ?: throw NullPointerException()
+    fun hasCallback(callback: Callback) = requireNotNull(callbacks?.has(callback))
 
     /**
      * Remove a callback.

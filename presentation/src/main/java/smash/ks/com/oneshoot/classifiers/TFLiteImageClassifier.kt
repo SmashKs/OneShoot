@@ -70,7 +70,7 @@ class TFLiteImageClassifier private constructor() : Classifier {
         val byteBuffer = convertBitmapToByteBuffer(bitmap)
         val result = Array(1) { ByteArray(labelList?.size ?: DEFAULT_INT) }
 
-        interpreter?.run(byteBuffer, result) ?: throw NullPointerException()
+        requireNotNull(interpreter?.run(byteBuffer, result))
 
         return getSortedResult(result)
     }

@@ -31,7 +31,6 @@ import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.domain.AnyParameters
 import smash.ks.com.domain.Parameters
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -49,12 +48,12 @@ class RemoteDataStoreImplTest {
         MockitoAnnotations.initMocks(this)
     }
 
-    @Test(NoParameterException::class)
+    @Test(IllegalArgumentException::class)
     fun `fetch an image without the parameters`() {
         remoteDataStore.getKsImage(null)
     }
 
-    @Test(NoParameterException::class)
+    @Test(IllegalArgumentException::class)
     fun `fetch an image with the parameters but toParameter is null`() {
         val parameter = mock<Parameterable> {
             on { toParameter() }.thenReturn(null)

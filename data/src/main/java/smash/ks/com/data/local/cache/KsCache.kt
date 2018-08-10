@@ -16,12 +16,13 @@
 
 package smash.ks.com.data.local.cache
 
+import com.devrapid.kotlinshaver.cast
+
 /**
  * An abstract class for this project and pre-defined the some functions for this app keeping the data.
  */
 abstract class KsCache : Cache {
-    inline fun <reified T> digCachedData(which: Int, params: Any) =
-        obtainCachedObj(which, params) as? T ?: throw ClassCastException()
+    inline fun <reified T> digCachedData(which: Int, params: Any) = cast<T>(obtainCachedObj(which, params))
 
     fun isDirtyAndNotCached(which: Int, params: Any) = isDirty(which, params) || !isCached(which, params)
 }

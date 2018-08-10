@@ -16,12 +16,11 @@
 
 package smash.ks.com.data.datastores
 
-import com.devrapid.kotlinshaver.castOrNull
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.data.remote.services.KsCloudinary
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.data.remote.services.KsService
 import smash.ks.com.data.repositories.DataRepositoryImpl.Companion.SWITCH
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam.Companion.PARAM_NAME
 import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
@@ -36,15 +35,15 @@ class RemoteDataStoreImpl(
     private val ksFirebase: KsFirebase,
     private val ksCloudinary: KsCloudinary
 ) : DataStore {
-    override fun getKsImage(params: Parameterable?) = params?.toParameter()?.let {
+    override fun getKsImage(params: Parameterable?) = requireNotNull(params?.toParameter()?.let {
         if (SWITCH)
             ksService.retrieveKsData(it)
         else {
-            val name = it[PARAM_NAME] ?: throw NullPointerException()
+            val name = requireNotNull(it[PARAM_NAME])
 
             ksFirebase.retrieveImages(name)
         }
-    } ?: throw NoParameterException()
+    })
 
     override fun keepKsImage(params: Parameterable) = throw UnsupportedOperationException()
 
@@ -52,15 +51,15 @@ class RemoteDataStoreImpl(
     override fun pushImageToFirebase(params: Parameterable) = ksFirebase.uploadImage(params)
 
     override fun pushImageToCloudinary(params: Parameterable) = params.toAnyParameter().let {
-        val byteArray = it[KsPhotoToCloudinaryParam.PARAM_BYTE_ARRAY] ?: throw NullPointerException()
-        val bytes = castOrNull<ByteArray>(byteArray) ?: throw ClassCastException()
+        val byteArray = requireNotNull(it[KsPhotoToCloudinaryParam.PARAM_BYTE_ARRAY])
+        val bytes = cast<ByteArray>(byteArray)
 
         ksCloudinary.hangImage(bytes)
     }
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
-        val byteArray = it[KsAnalyzeImageParam.PARAM_BYTE_ARRAY] ?: throw NullPointerException()
-        val bytes = castOrNull<ByteArray>(byteArray) ?: throw ClassCastException()
+        val byteArray = requireNotNull(it[KsAnalyzeImageParam.PARAM_BYTE_ARRAY])
+        val bytes = cast<ByteArray>(byteArray)
 
         ksFirebase.retrieveImageTagsByML(bytes)
     }

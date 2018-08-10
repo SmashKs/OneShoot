@@ -22,7 +22,6 @@ import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Completable
 import smash.ks.com.domain.GeneratorFactory.randomLong
 import smash.ks.com.domain.GeneratorFactory.randomString
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.KsModel
 import smash.ks.com.domain.parameters.PhotoParam
 import smash.ks.com.domain.repositories.DataRepository
@@ -47,7 +46,7 @@ class UploadImageToFirebaseUsecaseTest {
 
     @Test
     fun `create the usecase without parameters`() {
-        assertFailsWith<NoParameterException> { buildCompletable() }
+        assertFailsWith<IllegalArgumentException> { buildCompletable() }
     }
 
     // TODO(jieyi): 2018/08/07 fix this unit test.

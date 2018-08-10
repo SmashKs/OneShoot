@@ -65,7 +65,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         cast<MultiTypeAdapter>(innerAdapter)
     }
     private val decorator by lazy { VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit)) }
-    private val imageData by lazy { arguments?.getByteArray(ARG_IMAGE_DATA) ?: throw IllegalArgumentException() }
+    private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
     //endregion
 
     //region Fragment Lifecycle

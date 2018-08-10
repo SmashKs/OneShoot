@@ -47,7 +47,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
 
     //region *** Private Variable ***
     // The fragment initialization parameters.
-    private val imageData by lazy { arguments?.getByteArray(ARG_IMAGE_DATA) ?: throw IllegalArgumentException() }
+    private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
 
     private val tags by lazy { mutableListOf<ChipInterface>() }
     //endregion

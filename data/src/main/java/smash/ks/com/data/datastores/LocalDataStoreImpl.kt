@@ -16,9 +16,9 @@
 
 package smash.ks.com.data.datastores
 
+import com.devrapid.kotlinshaver.cast
 import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.local.services.KsFlow
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam.Companion.PARAM_BYTE_ARRAY
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -34,11 +34,11 @@ class LocalDataStoreImpl(
     // NOTE(jieyi): 2018/05/17 delay is for the simulation of the real API communication.
 
     //region Fake
-    override fun getKsImage(params: Parameterable?) = params?.toParameter()?.run {
+    override fun getKsImage(params: Parameterable?) = requireNotNull(params?.toParameter()?.run {
         val id = get(KsParam.PARAM_ID)?.toLong()
 
         database.retrieveKsData(id)
-    } ?: throw NoParameterException()
+    })
 
     override fun keepKsImage(params: Parameterable) = params.toParameter().run {
         val id = get(KsParam.PARAM_ID)
@@ -55,8 +55,7 @@ class LocalDataStoreImpl(
     override fun pushImageToCloudinary(params: Parameterable) = throw UnsupportedOperationException()
 
     override fun analyzeImageTagsByML(params: Parameterable) = params.toAnyParameter().let {
-        val byteArray = it[PARAM_BYTE_ARRAY] ?: throw NullPointerException()
-        byteArray as? ByteArray ?: throw ClassCastException()
+        val byteArray = cast<ByteArray>(it[PARAM_BYTE_ARRAY])
 
         flow.retrieveImageTagsByML(byteArray)
     }

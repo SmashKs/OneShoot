@@ -221,9 +221,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             viewResCustom = R.layout.dialog_fragment_options
             cancelable = false
             onStartBlock = {
-                val (width, heigth) = it.activity?.displayPixels() ?: throw NullPointerException()
+                val (width, height) = requireNotNull(it.activity?.displayPixels())
                 val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
-                val realHeight = heigth * DIALOG_FRAGMENT_HEIGHT_RATIO
+                val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
                 it.dialog.window?.apply {
                     setWindowAnimations(R.style.KsDialog)
                     setLayout(realWidth.roundToInt(), realHeight.roundToInt())

@@ -23,7 +23,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.devrapid.kotlinshaver.isNull
 import kotlinx.coroutines.experimental.Deferred
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Loading
@@ -104,7 +103,7 @@ private fun <D> LoadView.peelResponseOptions(
     when (it) {
         is Loading<*> -> if (isShowLoading) showLoading()
         is Success<D> -> {
-            it.data?.let(successBlock) ?: throw NoParameterException("There's no any parameters.")
+            requireNotNull(it.data?.let(successBlock))
             if (isShowLoading && isHideLoading) hideLoading()
         }
         is Error<*> -> {

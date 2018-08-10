@@ -34,7 +34,6 @@ import smash.ks.com.data.local.services.KsDatabase
 import smash.ks.com.data.local.services.KsFlow
 import smash.ks.com.domain.AnyParameters
 import smash.ks.com.domain.Parameters
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
 import smash.ks.com.domain.parameters.Parameterable
@@ -56,11 +55,11 @@ class LocalDataStoreImplTest {
     fun `the flow of fetching an image from the local database without parameter`() {
         whenever(database.retrieveKsData(any())).thenReturn(single(mock()))
 
-        assertFailsWith<NoParameterException> { localDataStore.getKsImage(null) }
+        assertFailsWith<IllegalArgumentException> { localDataStore.getKsImage(null) }
 
         val parameter = mock<Parameterable> { on { toParameter() }.thenReturn(null) }
 
-        assertFailsWith<NoParameterException> { localDataStore.getKsImage(parameter) }
+        assertFailsWith<IllegalArgumentException> { localDataStore.getKsImage(parameter) }
     }
 
     @Test

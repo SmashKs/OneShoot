@@ -18,7 +18,6 @@ package smash.ks.com.domain.usecases.fake
 
 import smash.ks.com.domain.BaseUseCase
 import smash.ks.com.domain.CompletableUseCase
-import smash.ks.com.domain.exceptions.NoParameterException
 import smash.ks.com.domain.executors.PostExecutionThread
 import smash.ks.com.domain.executors.ThreadExecutor
 import smash.ks.com.domain.parameters.KsParam
@@ -33,9 +32,9 @@ class PersistKsImageUsecase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : CompletableUseCase<Requests>(threadExecutor, postExecutionThread) {
-    override fun fetchUseCase() = requestValues?.run {
+    override fun fetchUseCase() = requireNotNull(requestValues?.run {
         repository.storeKsImage(params)
-    } ?: throw NoParameterException("No request parameter.")
+    })
 
     /** Wrapping data requests for general situation.*/
     class Requests(val params: KsParam = KsParam()) : RequestValues

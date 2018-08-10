@@ -114,8 +114,8 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
             try {
                 tfLite = Interpreter(loadModelFile(assetManager, modelFilename))
             }
-            catch (e: Exception) {
-                throw RuntimeException(e)
+            catch (e: IOException) {
+                e.printStackTrace()
             }
 
             // Pre-allocate buffers.
@@ -171,7 +171,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
 
                 }
                 if (priorIndex != NUM_RESULTS) {
-                    throw RuntimeException("BoxPrior length mismatch: $priorIndex vs $NUM_RESULTS")
+                    throw IllegalStateException("BoxPrior length mismatch: $priorIndex vs $NUM_RESULTS")
                 }
             }
         }
@@ -209,7 +209,6 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
     override fun recognizeImage(bitmap: Bitmap): List<Recognition> {
         // Log this method so that it can be analyzed with systrace.
         Trace.beginSection("recognizeImage")
-
         Trace.beginSection("preprocessBitmap")
         // Preprocess the image data from 0-255 int to normalized float based
         // on the provided parameters.
@@ -226,25 +225,22 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
                     (pixel shr SECOND_UNIT and MASK_VALUE).toFloat() / (MASK_VALUE + 1f) - 1f
             }
         }
-        Trace.endSection() // preprocessBitmap
+        Trace.endSection()  // preprocessBitmap
 
         // Copy the input data into TensorFlow.
         Trace.beginSection("feed")
         outputLocations = Array(1) { Array(NUM_RESULTS) { FloatArray(MAXIMUM_RECTANGLE) } }
         outputClasses = Array(1) { Array(NUM_RESULTS) { FloatArray(NUM_CLASSES) } }
-
-        val inputArray = arrayOf<Any>(img)
-        val outputMap = hashMapOf<Int, Any>(0 to outputLocations, 1 to outputClasses)
-
-        Trace.endSection()
+        Trace.endSection()  // feed
 
         // Run the inference call.
         Trace.beginSection("run")
-        tfLite?.runForMultipleInputsOutputs(inputArray, outputMap)
-        Trace.endSection()
+        tfLite?.runForMultipleInputsOutputs(arrayOf<Any>(img),
+                                            hashMapOf<Int, Any>(0 to outputLocations,
+                                                                1 to outputClasses))  // inputArray, outputMap
+        Trace.endSection()  // run
 
         decodeCenterSizeBoxes(outputLocations)
-
         // Find the best detections.
         val pq = PriorityQueue(1, Comparator<Recognition> { lhs, rhs ->
             // Intentionally reversed to put high confidence at the head of the queue.
@@ -272,7 +268,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
                                       outputLocations[0][i][RIGHT_POINT_OF_RECT] * inputSize,
                                       outputLocations[0][i][BOTTOM_POINT_OF_RECT] * inputSize)
 
-                pq.add(Recognition("" + i,
+                pq.add(Recognition(i.toString(),
                                    labels[topClassScoreIndex],
                                    outputClasses[0][i][topClassScoreIndex],
                                    detection))
@@ -286,7 +282,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
 
             recognitions.add(recog)
         }
-        Trace.endSection()  // "recognizeImage"
+        Trace.endSection()  // recognizeImage
 
         return recognitions
     }
