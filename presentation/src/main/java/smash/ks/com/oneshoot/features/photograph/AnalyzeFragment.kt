@@ -17,38 +17,30 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
-import android.view.KeyEvent.KEYCODE_BACK
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.getDisplayMetrics
+import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.resizeView
 import com.devrapid.kotlinknifer.statusBarHeight
-import com.devrapid.kotlinknifer.waitForMeasure
+import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
-import kotlinx.android.synthetic.main.dialog_fragment_labels.view.ib_close
-import kotlinx.android.synthetic.main.dialog_fragment_labels.view.rv_labels
+import com.devrapid.kotlinshaver.isNull
 import kotlinx.android.synthetic.main.fragment_analyze_pic.abl_main
 import kotlinx.android.synthetic.main.fragment_analyze_pic.fab_upload
 import kotlinx.android.synthetic.main.fragment_analyze_pic.iv_backdrop
 import kotlinx.android.synthetic.main.fragment_analyze_pic.rv_analyzed
 import kotlinx.android.synthetic.main.merge_recycler_item_empty.fl_empty
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.response.KsResponse
-import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
-import smash.ks.com.ext.const.Constant.DEBOUNCE_SAFE_MODE_CAMERA
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntities
-import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
-import smash.ks.com.oneshoot.ext.aac.peelResponseSkipLoading
+import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
@@ -66,26 +58,17 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     //endregion
 
     //region *** Private Variable ***
-    private var labelDialog: QuickDialogFragment? = null
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
         val innerAdapter by instance<RVAdapterAny>(LABEL_ADAPTER)
 
         cast<MultiTypeAdapter>(innerAdapter)
     }
-    private val decorator by lazy {
-        VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit))
-    }
+    private val decorator by lazy { VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit)) }
     private val imageData by lazy { arguments?.getByteArray(ARG_IMAGE_DATA) ?: throw IllegalArgumentException() }
     //endregion
 
     //region Fragment Lifecycle
-    override fun onDestroy() {
-        super.onDestroy()
-
-        labelDialog?.takeIf { it.isVisible }?.dismiss()
-        labelDialog = null
-    }
     //endregion
 
     //region Base Fragment
@@ -103,23 +86,19 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
 
     @UiThread
     override fun rendered(savedInstanceState: Bundle?) {
-//        vm.analyzeImage(imageData)
+        // Analyze the image from previous fragment.
+        vm.analyzeImage(imageData)
+        // Set the all components.
+        iv_backdrop.loadByAny(imageData)
         rv_analyzed.apply {
-            layoutManager = linearLayoutManager
-            adapter = this@AnalyzeFragment.adapter
+            if (layoutManager.isNull()) layoutManager = linearLayoutManager
+            if (adapter.isNull()) adapter = this@AnalyzeFragment.adapter
             if (0 == itemDecorationCount) addItemDecoration(decorator)
         }
-        adapter.appendList(mutableListOf(LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity(),
-                                         LabelEntity()))
-        iv_backdrop.loadByAny(imageData)
-        showError()
+        // Set the event listeners.
+        fab_upload.onClick {
+            // TODO(jieyi): 2018/08/10 Uploading function.
+        }
     }
 
     @LayoutRes
@@ -127,77 +106,26 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     //endregion
 
     private fun showLabels(response: KsResponse<LabelEntities>) {
-        peelResponseSkipLoading(response, ::showLabelDialog)
-        // Avoid triggering again taking a pic.
-        launch {
-            delay(DEBOUNCE_SAFE_MODE_CAMERA)
-//            shotDebounce = false
+        peelResponse(response) {
+            if (it.isEmpty()) showEmptyResult() else adapter.appendList(it.toMutableList())
         }
-        fab_upload.onClick {}
     }
 
-    private fun showLabelDialog(entities: LabelEntities) {
-        labelDialog = QuickDialogFragment.Builder(this) {
-            var debouncing = false
-
-            viewResCustom = R.layout.dialog_fragment_labels
-            cancelable = false
-            onStartBlock = {
-                it.dialog.window?.setWindowAnimations(R.style.KsDialog)
-            }
-            fetchComponents = { v, df ->
-                v.apply {
-                    rv_labels.also {
-                        it.layoutManager = linearLayoutManager
-                        it.adapter = adapter
-                        it.addItemDecoration(decorator)
-                    }
-                    ib_close.onClick {
-                        if (false == debouncing) {
-                            debouncing = true
-                            delay(DEBOUNCE_DELAY)
-                            dismissDialog()
-                        }
-                    }
-                }
-
-                df.dialog.setOnKeyListener { _, keyCode, _ ->
-                    when (keyCode) {
-                        KEYCODE_BACK -> {
-                            dismissDialog()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
-            // Transforming the data into [KsMultiVisitable] type.
-            adapter.appendList(entities.toMutableList())
-        }.build()
-
-        labelDialog?.takeUnless(Fragment::isVisible)?.show()
-    }
-
-    private fun dismissDialog() {
-        adapter.clearList()
-        labelDialog?.view?.rv_labels?.apply {
-            layoutManager = null
-            adapter = null
-            removeItemDecoration(decorator)
+    private fun showEmptyResult() {
+        val actionBarHeight = parent.supportActionBar?.height ?: DEFAULT_INT
+        val (statusBarHeight, screenHeightWithoutNavigationBar) = appContext.let {
+            it.statusBarHeight() to it.getDisplayMetrics().heightPixels
         }
-        labelDialog?.dismissAllowingStateLoss()
-        labelDialog = null
-    }
+        val appBarLayoutHeight = abl_main.measuredHeight
+        val betweenHeight =
+            screenHeightWithoutNavigationBar - actionBarHeight - statusBarHeight - appBarLayoutHeight
 
-    private fun showError() {
-        abl_main.waitForMeasure { _, _, appBarLayoutHeight ->
-            val statusBarHeight = appContext.statusBarHeight()
-            val actionBarHeight = parent.supportActionBar?.height ?: DEFAULT_INT
-            val screenHeigthWithoutNavigationBar = appContext.getDisplayMetrics().heightPixels
-            val betweenHeight =
-                screenHeigthWithoutNavigationBar - actionBarHeight - statusBarHeight - appBarLayoutHeight
-
-            fl_empty.resizeView(null, betweenHeight)
+        // Hide the recycler view.
+        rv_analyzed.gone()
+        // Show the empty error.
+        fl_empty.apply {
+            visible()
+            resizeView(null, betweenHeight)
         }
     }
 }

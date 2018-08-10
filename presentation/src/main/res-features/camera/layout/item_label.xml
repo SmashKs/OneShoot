@@ -23,6 +23,9 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/md_two_unit"
     android:layout_marginStart="@dimen/md_two_unit"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="vertical"
     app:cardElevation="@dimen/md_half_unit">
 

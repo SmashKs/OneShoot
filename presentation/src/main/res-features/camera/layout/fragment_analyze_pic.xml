@@ -50,7 +50,9 @@
         android:id="@+id/rv_analyzed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_label"/>
 
     <include layout="@layout/merge_recycler_item_empty"/>
 
