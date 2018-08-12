@@ -34,5 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/md_one_unit"
+        android:textColor="@color/colorPrimaryText"
         tools:text="@string/label_format"/>
 </androidx.cardview.widget.CardView>

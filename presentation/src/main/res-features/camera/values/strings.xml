@@ -20,7 +20,9 @@
     <string name="camera_permission_not_granted">Camera app cannot do anything without camera permission.</string>
 
     <!-- ML Result Label Start -->
-    <string name="label_format">Label : %1$s\nProbabilities : %2$f %%</string>
+    <string name="label_format">
+        <![CDATA[Label : %1$s\n<font color=#8D8D8D>Probabilities : %2$f %%</font></b>]]>
+    </string>
     <!-- ML Result Label End -->
 
     <!-- Upload Label Start -->
