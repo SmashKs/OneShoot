@@ -121,6 +121,11 @@ class LocalDataStoreImplTest {
         localDataStore.pushImageToFirebase(mock())
     }
 
+    @Test(UnsupportedOperationException::class)
+    fun `the flow of pushImageToCloudinary method`() {
+        localDataStore.pushImageToCloudinary(mock())
+    }
+
     @Test(NullPointerException::class)
     fun `analyzeImageTagsByML with empty parameter calling`() {
         localDataStore.analyzeImageTagsByML(mock())

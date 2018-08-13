@@ -30,8 +30,12 @@ class LabelsViewHolder(view: View) : LabelVH(view) {
     override fun initView(model: LabelEntity, position: Int, adapter: Any) {
         itemView.apply {
             val formatted = String.format(context.getString(R.string.label_format), model.label, model.confidence)
-            tv_label.text =
-                (if (SDK_INT >= N) Html.fromHtml(formatted, FROM_HTML_MODE_LEGACY) else Html.fromHtml(formatted))
+            tv_label.text = if (SDK_INT >= N) {
+                Html.fromHtml(formatted, FROM_HTML_MODE_LEGACY)
+            }
+            else {
+                Html.fromHtml(formatted)
+            }
         }
     }
 }

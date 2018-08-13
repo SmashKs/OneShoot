@@ -33,6 +33,7 @@ import smash.ks.com.domain.AnyParameters
 import smash.ks.com.domain.Parameters
 import smash.ks.com.domain.parameters.KsAnalyzeImageParam
 import smash.ks.com.domain.parameters.KsParam
+import smash.ks.com.domain.parameters.KsPhotoToCloudinaryParam
 import smash.ks.com.domain.parameters.Parameterable
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -101,6 +102,36 @@ class RemoteDataStoreImplTest {
         remoteDataStore.pushImageToFirebase(parameter)
 
         verify(firebase).uploadImage(parameter)
+    }
+
+    @Test(IllegalArgumentException::class)
+    fun `with empty parameter cloudinary did call the upload an image function`() {
+        remoteDataStore.pushImageToCloudinary(mock())
+    }
+
+    @Test(ClassCastException::class)
+    fun `with wrong parameters cloudinary did call the upload an image function`() {
+        val parameter = mock<Parameterable> {
+            on { toAnyParameter() } doReturn mock<AnyParameters>()
+            on { toAnyParameter()[KsPhotoToCloudinaryParam.PARAM_BYTE_ARRAY] } doReturn "This is one shoot"
+        }
+
+        remoteDataStore.pushImageToCloudinary(parameter)
+    }
+
+    @Test
+    fun `cloudinary did call the upload an image function`() {
+        val byteArray = byteArrayOf()
+
+        val parameter = mock<Parameterable> {
+            on { toAnyParameter() } doReturn mock<AnyParameters>()
+            on { toAnyParameter()[KsAnalyzeImageParam.PARAM_BYTE_ARRAY] } doReturn byteArray
+        }
+
+        whenever(cloudinary.hangImage(byteArray)).thenReturn(single(mock()))
+        remoteDataStore.pushImageToCloudinary(parameter)
+
+        verify(cloudinary).hangImage(byteArray)
     }
 
     @Test(IllegalArgumentException::class)
