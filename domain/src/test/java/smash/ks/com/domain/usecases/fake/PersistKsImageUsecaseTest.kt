@@ -17,7 +17,6 @@
 package smash.ks.com.domain.usecases.fake
 
 import com.devrapid.kotlinshaver.completable
-import com.devrapid.kotlinshaver.isNotNull
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -89,5 +88,5 @@ class PersistKsImageUsecaseTest {
     }
 
     private fun buildCompletable(ksParam: KsParam? = null) =
-        usecase.apply { ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) } }.fetchUseCase()
+        usecase.apply { ksParam?.let { requestValues = Requests(it) } }.fetchUseCase()
 }

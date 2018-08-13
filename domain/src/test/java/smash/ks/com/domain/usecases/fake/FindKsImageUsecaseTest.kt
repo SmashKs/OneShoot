@@ -17,7 +17,6 @@
 package smash.ks.com.domain.usecases.fake
 
 import com.devrapid.kotlinshaver.cast
-import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.single
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -112,6 +111,6 @@ class FindKsImageUsecaseTest {
 
     private fun buildSingle(ksParam: KsParam? = null) =
         usecase.apply {
-            ksParam?.takeIf(Any::isNotNull)?.let { requestValues = Requests(it) }
+            ksParam?.let { requestValues = Requests(it) }
         }.fetchUseCase()
 }
