@@ -531,7 +531,7 @@ open class Camera2(callback: Callback?, preview: Preview, context: Context) : Ca
     }
 
     private fun prepareImageReader() {
-        imageReader.takeIf { null != it }?.close()
+        imageReader?.close()
         // OPTIMIZE(jieyi): 2018/04/25 Hard code here.
         val largest = pictureSizes.sizes(mAspectRatio)?.last() ?: Size(300, 300)
         imageReader = newInstance(largest.width, largest.height, JPEG, /* maxImages */ 2).apply {

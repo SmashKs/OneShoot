@@ -83,7 +83,7 @@ class PersistKsImageUsecaseTest {
 
     private fun buildUsecaseWithAction(ksParam: KsParam, returnBlock: (() -> Completable)? = null) {
         repository = mock {
-            returnBlock.takeIf { null != it }?.let { on { storeKsImage(ksParam) } doReturn it.invoke() }
+            returnBlock?.let { on { storeKsImage(ksParam) } doReturn it.invoke() }
         }
         usecase = PersistKsImageUsecase(repository, mock(), mock())
     }

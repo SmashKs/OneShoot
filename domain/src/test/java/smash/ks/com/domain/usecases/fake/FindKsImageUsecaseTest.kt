@@ -103,7 +103,7 @@ class FindKsImageUsecaseTest {
 
     private fun buildUsecaseWithAction(ksParam: KsParam? = null, returnBlock: (() -> Single<KsModel>)? = null) {
         repository = mock {
-            returnBlock.takeIf { null != it }?.let { on { fetchKsImage(ksParam) } doReturn it.invoke() }
+            returnBlock?.let { on { fetchKsImage(ksParam) } doReturn it.invoke() }
         }
         usecase = FindKsImageUsecase(repository, mock(), mock())
     }
