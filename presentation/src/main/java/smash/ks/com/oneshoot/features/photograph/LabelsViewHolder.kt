@@ -16,6 +16,10 @@
 
 package smash.ks.com.oneshoot.features.photograph
 
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.N
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.View
 import kotlinx.android.synthetic.main.item_label.view.tv_label
 import smash.ks.com.oneshoot.R
@@ -25,7 +29,9 @@ import smash.ks.com.oneshoot.widgets.viewmodel.LabelVH
 class LabelsViewHolder(view: View) : LabelVH(view) {
     override fun initView(model: LabelEntity, position: Int, adapter: Any) {
         itemView.apply {
-            tv_label.text = String.format(context.getString(R.string.label_format), model.label, model.confidence)
+            val formatted = String.format(context.getString(R.string.label_format), model.label, model.confidence)
+            tv_label.text =
+                (if (SDK_INT >= N) Html.fromHtml(formatted, FROM_HTML_MODE_LEGACY) else Html.fromHtml(formatted))
         }
     }
 }
