@@ -27,6 +27,7 @@ import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.features.photograph.AnalyzeViewModel
 import smash.ks.com.oneshoot.features.photograph.LabelsViewHolder
+import smash.ks.com.oneshoot.features.photograph.UploadPicViewModel
 import smash.ks.com.oneshoot.internal.di.modules.ViewHolderEntry
 import smash.ks.com.oneshoot.internal.di.modules.ViewModelEntry
 import smash.ks.com.oneshoot.internal.di.scope.fragmentScope
@@ -39,6 +40,9 @@ object AnalyzeModule {
         // *** ViewModel
         bind<ViewModelEntry>().inSet() with provider {
             AnalyzeViewModel::class.java to AnalyzeViewModel(instance(), instance())
+        }
+        bind<ViewModelEntry>().inSet() with provider {
+            UploadPicViewModel::class.java to UploadPicViewModel(instance())
         }
 
         // *** ViewHolder

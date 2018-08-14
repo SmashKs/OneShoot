@@ -65,7 +65,7 @@ inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnboxNonNull(
 fun <D> LoadView.peelResponse(
     response: KsResponse<D>,
     errorBlock: ((String) -> Unit)? = null,
-    successBlock: (D) -> Unit
+    successBlock: ((D) -> Unit)? = null
 ) = peelResponseOptions(response,
                         isShowError = errorBlock.isNull(),
                         errorBlock = errorBlock,
@@ -75,13 +75,13 @@ fun <D> LoadView.peelResponse(
  * Check the [KsResponse]'s changing and do the corresponding reaction. For the situation which we need
  * to use multi-requests in the same time.
  */
-fun <D> LoadView.peelResponseAndContinue(response: KsResponse<D>, successBlock: (D) -> Unit) =
+fun <D> LoadView.peelResponseAndContinue(response: KsResponse<D>, successBlock: ((D) -> Unit)? = null) =
     peelResponseOptions(response, isHideLoading = false, successBlock = successBlock)
 
 /**
  * Check the [KsResponse]'s changing and do the corresponding reaction without showing the loading view.
  */
-fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: (D) -> Unit) =
+fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: ((D) -> Unit)? = null) =
     peelResponseOptions(response, false, successBlock = successBlock)
 
 /**
@@ -98,12 +98,12 @@ private fun <D> LoadView.peelResponseOptions(
     isShowError: Boolean = true,
     isHideLoading: Boolean = true,
     errorBlock: ((String) -> Unit)? = null,
-    successBlock: (D) -> Unit
+    successBlock: ((D) -> Unit)? = null
 ) = response.also {
     when (it) {
         is Loading<*> -> if (isShowLoading) showLoading()
         is Success<D> -> {
-            requireNotNull(it.data?.let(successBlock))
+            requireNotNull(it.data?.let { successBlock?.invoke(it) })
             if (isShowLoading && isHideLoading) hideLoading()
         }
         is Error<*> -> {

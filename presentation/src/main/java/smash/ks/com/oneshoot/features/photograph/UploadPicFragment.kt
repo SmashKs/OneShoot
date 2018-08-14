@@ -19,7 +19,6 @@ package smash.ks.com.oneshoot.features.photograph
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
-import com.devrapid.kotlinknifer.logw
 import com.pchmn.materialchips.ChipsInput
 import com.pchmn.materialchips.model.ChipInterface
 import kotlinx.android.synthetic.main.fragment_upload_pic.ci_tag
@@ -29,12 +28,13 @@ import kotlinx.android.synthetic.main.fragment_upload_pic.ib_cancel
 import kotlinx.android.synthetic.main.fragment_upload_pic.ib_check
 import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import smash.ks.com.domain.models.response.KsResponse
+import org.jetbrains.anko.toast
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.navigation.findNavController
-import smash.ks.com.oneshoot.ext.aac.observe
+import smash.ks.com.oneshoot.ext.aac.observeNonNull
+import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 
@@ -50,13 +50,12 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     override fun bindLiveData() {
-        vm.apply {
-            observe(uploadRes) {
-                logw((it as? KsResponse.Error<Unit>)?.msg)
-            }
+        observeNonNull(vm.uploadRes) {
+            peelResponse(it, { parent.toast(it) }, null)
         }
     }
 
+    @UiThread
     override fun unbindLiveData() {
         vm.uploadRes.removeObservers(this)
     }

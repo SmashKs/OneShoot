@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 The Smash Ks Open Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/ib_close"
+        style="@style/CloseButton"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_author"
+        style="@style/TextInputLayout"
+        android:layout_marginTop="@dimen/md_two_unit"
+        app:layout_constraintTop_toBottomOf="@+id/ib_close">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_author"
+            style="@style/TextInputEditText"
+            android:hint="Author"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_title"
+        style="@style/TextInputLayout"
+        android:layout_marginTop="@dimen/md_two_unit"
+        app:layout_constraintTop_toBottomOf="@+id/til_author">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_photo_title"
+            style="@style/TextInputEditText"
+            android:hint="Title"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<com.pchmn.materialchips.ChipsInput-->
+    <!--android:id="@+id/ci_tag"-->
+    <!--android:theme="@style/Theme.AppCompat"-->
+    <!--style="@style/Upload.EditText.Tag"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/til_title"/>-->
+
+    <ImageButton
+        android:id="@+id/ib_check"
+        style="@style/Upload.ImageButton.Check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -147,6 +147,36 @@
         <item name="android:textColor">#212121</item>
     </style>
 
+    <style name="TextInputLayout">
+        <item name="android:layout_width">@dimen/md_zero_unit</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/md_three_unit</item>
+        <item name="android:layout_marginStart">@dimen/md_three_unit</item>
+        <item name="android:background">@drawable/layer_edittext_bkg</item>
+        <item name="android:paddingTop">@dimen/md_one_unit</item>
+        <item name="android:textColorHint">@color/martini</item>
+        <item name="android:theme">@style/Theme.AppCompat</item>
+        <item name="hintTextAppearance">@style/TextAppearence.App.TextInputLayout</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/md_one_unit</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingTop">@dimen/md_one_unit</item>
+        <item name="android:textColor">@color/martinique</item>
+        <item name="android:textCursorDrawable">@drawable/layer_cursor</item>
+    </style>
+
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/martini</item>
+    </style>
+
     <!-- Dialog Fragment -->
     <style name="KsDialog">
         <item name="android:windowEnterAnimation">@anim/scale_enter_dialog</item>

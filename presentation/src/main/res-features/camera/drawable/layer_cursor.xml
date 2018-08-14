@@ -15,14 +15,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="dodger_blue_alpha_33">#55FF7588</color>
-    <color name="dodger_blue_alpha_13">#22FF7588</color>
-    <color name="flash_masking">#AA000000</color>
-
-    <color name="gray">#8D8D8D</color>
-    <color name="martini">#979797</color>
-    <color name="wild_sand">#F4F4F4</color>
-
-    <color name="martinique">#413853</color>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:width="2dp"/>
+    <solid android:color="@color/martinique"/>
+</shape>

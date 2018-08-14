@@ -19,7 +19,11 @@ package smash.ks.com.oneshoot.features.photograph
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.devrapid.dialogbuilder.support.QuickDialogFragment
+import com.devrapid.kotlinknifer.displayPixels
 import com.devrapid.kotlinknifer.getDisplayMetrics
 import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.resizeView
@@ -33,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_analyze_pic.iv_backdrop
 import kotlinx.android.synthetic.main.fragment_analyze_pic.rv_analyzed
 import kotlinx.android.synthetic.main.merge_recycler_item_empty.fl_empty
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.toast
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
@@ -49,8 +54,14 @@ import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
+import kotlin.math.roundToInt
 
 class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
+    companion object {
+        private const val DIALOG_FRAGMENT_WIDTH_RATIO = .85f
+        private const val DIALOG_FRAGMENT_HEIGHT_RATIO = .75f
+    }
+
     //region *** Private Variable ***
     private val linearLayoutManager by instance<LinearLayoutManager>(LINEAR_LAYOUT_VERTICAL)
     private val adapter by lazy {
@@ -60,15 +71,34 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     }
     private val decorator by lazy { VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit)) }
     private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
+    private val vmFactory by instance<ViewModelProvider.Factory>()
+    private val vmUpload by lazy { ViewModelProviders.of(this, vmFactory)[UploadPicViewModel::class.java] }
+    private val dialogFragment = QuickDialogFragment.Builder(this@AnalyzeFragment) {
+        viewResCustom = R.layout.dialog_fragment_upload
+        cancelable = true
+        onStartBlock = {
+            val (width, height) = requireNotNull(it.activity?.displayPixels())
+            val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
+            val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
+            it.dialog.window?.apply {
+                setWindowAnimations(R.style.KsDialog)
+                setLayout(realWidth.roundToInt(), realHeight.roundToInt())
+            }
+        }
+    }.build()
     //endregion
 
-    //region Fragment Lifecycle
+    override fun onStop() {
+        super.onStop()
+        if (dialogFragment.isVisible) dialogFragment.dismiss()
+    }
     //endregion
 
     //region Base Fragment
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     override fun bindLiveData() {
+        observeNonNull(vmUpload.uploadRes, ::showUploadError)
         observeNonNull(vm.labels, ::showLabels)
     }
 
@@ -76,6 +106,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     @UiThread
     override fun unbindLiveData() {
         vm.labels.removeObservers(this)
+        vmUpload.uploadRes.removeObservers(this)
     }
 
     @UiThread
@@ -91,7 +122,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         }
         // Set the event listeners.
         fab_upload.onClick {
-            // TODO(jieyi): 2018/08/10 Uploading function.
+            dialogFragment.show()
         }
     }
 
@@ -118,5 +149,9 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
         rv_analyzed.gone()
         // Show the empty error.
         fl_empty.apply { resizeView(null, betweenHeight) }.visible()
+    }
+
+    private fun showUploadError(response: KsResponse<Unit>) {
+        peelResponse(response, { parent.toast(it) }, null)
     }
 }
