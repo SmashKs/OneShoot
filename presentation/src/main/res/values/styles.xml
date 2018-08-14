@@ -134,7 +134,7 @@
     </style>
 
     <style name="CloseButton" parent="ImageButton.Vector.Button.Ripple">
-        <item name="android:src">@drawable/ic_close</item>
+        <item name="android:src">@drawable/ic_clear</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>

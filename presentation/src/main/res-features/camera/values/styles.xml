@@ -84,7 +84,6 @@
         <item name="chip_labelColor">?themeTextColorPrimary</item>
         <item name="hint">@string/edit_hint_tag</item>
         <item name="layout_constraintBottom_toTopOf">@+id/ib_check</item>
-        <item name="layout_constraintTop_toBottomOf">@+id/et_photo_title</item>
         <item name="layout_constraintVertical_bias">0.0</item>
         <item name="maxRows">3</item>
         <item name="showChipDetailed">false</item>

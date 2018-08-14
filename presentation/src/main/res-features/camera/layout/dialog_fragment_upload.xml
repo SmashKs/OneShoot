@@ -36,7 +36,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_author"
             style="@style/TextInputEditText"
-            android:hint="Author"/>
+            android:hint="@string/edit_hint_author"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_photo_title"
             style="@style/TextInputEditText"
-            android:hint="Title"/>
+            android:hint="@string/edit_hint_photo_title"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <!--<com.pchmn.materialchips.ChipsInput-->
