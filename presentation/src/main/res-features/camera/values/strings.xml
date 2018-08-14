@@ -21,13 +21,13 @@
 
     <!-- ML Result Label Start -->
     <string name="label_format">
-        <![CDATA[<b>Label : %1$s</b><br><font color=#8D8D8D>Probabilities : %2$f %%</font></b>]]>
+        <![CDATA[<h3><b>Label : %1$s</b></h3><br><font color=#8D8D8D>Probabilities : %2$f %%</font></b>]]>
     </string>
     <!-- ML Result Label End -->
 
     <!-- Upload Label Start -->
-    <string name="edit_hint_author">Author</string>
-    <string name="edit_hint_photo_title">Title</string>
+    <string name="edit_hint_author">Author (option)</string>
+    <string name="edit_hint_photo_title">Title (option)</string>
     <string name="edit_hint_tag">Tag</string>
     <!-- Upload Label End -->
 

@@ -31,6 +31,8 @@ import com.devrapid.kotlinknifer.statusBarHeight
 import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
 import com.devrapid.kotlinshaver.isNull
+import kotlinx.android.synthetic.main.dialog_fragment_upload.view.ib_check
+import kotlinx.android.synthetic.main.dialog_fragment_upload.view.ib_close
 import kotlinx.android.synthetic.main.fragment_analyze_pic.abl_main
 import kotlinx.android.synthetic.main.fragment_analyze_pic.fab_upload
 import kotlinx.android.synthetic.main.fragment_analyze_pic.iv_backdrop
@@ -69,23 +71,29 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
 
         cast<MultiTypeAdapter>(innerAdapter)
     }
-    private val decorator by lazy { VerticalItemDecorator(gDimens(R.dimen.md_one_unit), gDimens(R.dimen.md_zero_unit)) }
+    private val decorator by lazy { VerticalItemDecorator(gDimens(R.dimen.md_two_unit), gDimens(R.dimen.md_two_unit)) }
     private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
     private val vmFactory by instance<ViewModelProvider.Factory>()
     private val vmUpload by lazy { ViewModelProviders.of(this, vmFactory)[UploadPicViewModel::class.java] }
-    private val dialogFragment = QuickDialogFragment.Builder(this@AnalyzeFragment) {
-        viewResCustom = R.layout.dialog_fragment_upload
-        cancelable = true
-        onStartBlock = {
-            val (width, height) = requireNotNull(it.activity?.displayPixels())
-            val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
-            val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
-            it.dialog.window?.apply {
-                setWindowAnimations(R.style.KsDialog)
-                setLayout(realWidth.roundToInt(), realHeight.roundToInt())
+    private val dialogFragment
+        get() = QuickDialogFragment.Builder(this@AnalyzeFragment) {
+            viewResCustom = R.layout.dialog_fragment_upload
+            onStartBlock = {
+                val (width, height) = requireNotNull(it.activity?.displayPixels())
+                val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
+                val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
+                it.dialog.window?.apply {
+                    setWindowAnimations(R.style.KsDialog)
+                    setLayout(realWidth.roundToInt(), realHeight.roundToInt())
+                }
             }
-        }
-    }.build()
+            fetchComponents = { v, dialog ->
+                v.apply {
+                    ib_close.onClick { dialog.dismiss() }
+                    ib_check.onClick { }
+                }
+            }
+        }.build()
     //endregion
 
     override fun onStop() {
