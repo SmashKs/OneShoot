@@ -77,6 +77,9 @@
     <style name="Upload.EditText.Tag">
         <item name="android:layout_marginTop">@dimen/md_two_unit</item>
         <item name="android:hint">@string/edit_hint_tag</item>
+        <item name="android:background">@drawable/layer_edittext_bkg</item>
+        <item name="android:paddingEnd">@dimen/md_one_unit</item>
+        <item name="android:paddingStart">@dimen/md_one_unit</item>
         <item name="chip_backgroundColor">?themeColorAccent</item>
         <item name="chip_deletable">true</item>
         <item name="chip_deleteIconColor">?themeTextColorPrimary</item>
@@ -85,7 +88,7 @@
         <item name="hint">@string/edit_hint_tag</item>
         <item name="layout_constraintBottom_toTopOf">@+id/ib_check</item>
         <item name="layout_constraintVertical_bias">0.0</item>
-        <item name="maxRows">3</item>
+        <item name="maxRows">2</item>
         <item name="showChipDetailed">false</item>
         <item name="textColor">?themeTextColorSecondary</item>
     </style>

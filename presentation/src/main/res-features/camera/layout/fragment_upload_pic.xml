@@ -15,62 +15,72 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/base_layout"
+<androidx.core.widget.NestedScrollView
     style="@style/Constraint.MatchParent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:overScrollMode="never"
     tools:context=".features.photograph.UploadPicFragment">
 
-    <ImageView
-        android:id="@+id/iv_upload"
-        style="@style/Upload.ImageView.Snippet"
-        tools:src="@drawable/logo_splash"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/base_layout"
+        style="@style/Constraint.MatchParent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_author"
-        style="@style/TextInputLayout"
-        android:layout_marginTop="@dimen/md_two_unit"
-        app:layout_constraintTop_toBottomOf="@id/iv_upload">
+        <ImageView
+            android:id="@+id/iv_upload"
+            style="@style/Upload.ImageView.Snippet"
+            tools:src="@drawable/logo_splash"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_author"
-            style="@style/TextInputEditText"
-            android:hint="@string/edit_hint_author"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_author"
+            style="@style/TextInputLayout"
+            android:layout_marginEnd="@dimen/md_two_unit"
+            android:layout_marginStart="@dimen/md_two_unit"
+            android:layout_marginTop="@dimen/md_two_unit"
+            app:layout_constraintTop_toBottomOf="@id/iv_upload">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_title"
-        style="@style/TextInputLayout"
-        android:layout_marginTop="@dimen/md_two_unit"
-        app:layout_constraintTop_toBottomOf="@+id/til_author">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_author"
+                style="@style/TextInputEditText"
+                android:hint="@string/edit_hint_author"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_photo_title"
-            style="@style/TextInputEditText"
-            android:hint="@string/edit_hint_photo_title"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_title"
+            style="@style/TextInputLayout"
+            android:layout_marginEnd="@dimen/md_two_unit"
+            android:layout_marginStart="@dimen/md_two_unit"
+            android:layout_marginTop="@dimen/md_two_unit"
+            app:layout_constraintTop_toBottomOf="@+id/til_author">
 
-    <com.pchmn.materialchips.ChipsInput
-        android:id="@+id/ci_tag"
-        style="@style/Upload.EditText.Tag"
-        app:layout_constraintTop_toBottomOf="@+id/til_title"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_photo_title"
+                style="@style/TextInputEditText"
+                android:hint="@string/edit_hint_photo_title"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageButton
-        android:id="@+id/ib_check"
-        style="@style/Upload.ImageButton.Check"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ib_cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
+        <com.pchmn.materialchips.ChipsInput
+            android:id="@+id/ci_tag"
+            style="@style/Upload.EditText.Tag"
+            android:layout_marginTop="@dimen/md_two_unit"
+            app:layout_constraintTop_toBottomOf="@+id/til_title"/>
 
-    <ImageButton
-        android:id="@+id/ib_cancel"
-        style="@style/Upload.ImageButton.Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ib_check"
-        app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/ib_check"
+            style="@style/Upload.ImageButton.Check"
+            android:layout_marginTop="@dimen/md_four_unit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ib_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
+
+        <ImageButton
+            android:id="@+id/ib_cancel"
+            style="@style/Upload.ImageButton.Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ib_check"
+            app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
