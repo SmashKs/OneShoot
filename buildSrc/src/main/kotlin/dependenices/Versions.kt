@@ -141,7 +141,7 @@ object Versions {
      * Related Android UI lib version.
      */
     object Ui {
-        const val dialog = "1.0.3"
+        const val dialog = "1.0.5"
         const val blurView = "1.1.0"
         const val loading = "1.3.0"
         const val materialChip = "1.0.8"
