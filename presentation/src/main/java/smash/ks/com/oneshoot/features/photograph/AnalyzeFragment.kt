@@ -60,7 +60,7 @@ import kotlin.math.roundToInt
 
 class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     companion object {
-        private const val DIALOG_FRAGMENT_WIDTH_RATIO = .85f
+        private const val DIALOG_FRAGMENT_WIDTH_RATIO = .9f
         private const val DIALOG_FRAGMENT_HEIGHT_RATIO = .75f
     }
 

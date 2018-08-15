@@ -51,11 +51,10 @@
             android:hint="@string/edit_hint_photo_title"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<com.pchmn.materialchips.ChipsInput-->
-    <!--android:id="@+id/ci_tag"-->
-    <!--android:theme="@style/Theme.AppCompat"-->
-    <!--style="@style/Upload.EditText.Tag"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/til_title"/>-->
+    <com.pchmn.materialchips.ChipsInput
+        android:id="@+id/ci_tag"
+        style="@style/Upload.EditText.Tag"
+        app:layout_constraintTop_toBottomOf="@+id/til_title"/>
 
     <ImageButton
         android:id="@+id/ib_check"
