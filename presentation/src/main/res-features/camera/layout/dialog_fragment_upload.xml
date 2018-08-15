@@ -54,6 +54,10 @@
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/ci_tag"
         style="@style/Upload.EditText.Tag"
+        android:layout_marginEnd="@dimen/md_three_unit"
+        android:layout_marginStart="@dimen/md_three_unit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_title"/>
 
     <ImageButton
@@ -61,6 +65,5 @@
         style="@style/Upload.ImageButton.Check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ci_tag"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

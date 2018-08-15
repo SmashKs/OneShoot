@@ -31,6 +31,11 @@ import com.devrapid.kotlinknifer.statusBarHeight
 import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
 import com.devrapid.kotlinshaver.isNull
+import com.pchmn.materialchips.ChipsInput
+import com.pchmn.materialchips.model.ChipInterface
+import kotlinx.android.synthetic.main.dialog_fragment_upload.view.ci_tag
+import kotlinx.android.synthetic.main.dialog_fragment_upload.view.et_author
+import kotlinx.android.synthetic.main.dialog_fragment_upload.view.et_photo_title
 import kotlinx.android.synthetic.main.dialog_fragment_upload.view.ib_check
 import kotlinx.android.synthetic.main.dialog_fragment_upload.view.ib_close
 import kotlinx.android.synthetic.main.fragment_analyze_pic.abl_main
@@ -43,6 +48,7 @@ import org.jetbrains.anko.toast
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.entities.LabelEntities
@@ -75,6 +81,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
     private val vmFactory by instance<ViewModelProvider.Factory>()
     private val vmUpload by lazy { ViewModelProviders.of(this, vmFactory)[UploadPicViewModel::class.java] }
+    private val tags by lazy { mutableListOf<ChipInterface>() }
     private val dialogFragment
         get() = QuickDialogFragment.Builder(this@AnalyzeFragment) {
             viewResCustom = R.layout.dialog_fragment_upload
@@ -88,9 +95,32 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                 }
             }
             fetchComponents = { v, dialog ->
+                fun collectionAllData() {
+                    val title = v.et_photo_title.text.toString()
+                    val author = v.et_author.text.toString()
+                    val labels = tags.map { it.label }
+
+//                vm.uploadPhoto(imageData, title, author, labels)
+                }
+
                 v.apply {
                     ib_close.onClick { dialog.dismiss() }
-                    ib_check.onClick { }
+                    ib_check.onClick { collectionAllData() }
+                    ci_tag.addChipsListener(object : ChipsInput.ChipsListener {
+                        override fun onChipAdded(chip: ChipInterface, newSize: Int) {
+                            tags.add(chip)
+                        }
+
+                        override fun onChipRemoved(chip: ChipInterface, newSize: Int) {
+                            tags.remove(chip)
+                        }
+
+                        override fun onTextChanged(s: CharSequence) {
+                            if (s.isNotBlank() && s.last().toString() == " ") {
+                                ci_tag.addChip(s.trim().toString(), DEFAULT_STR)
+                            }
+                        }
+                    })
                 }
             }
         }.build()
