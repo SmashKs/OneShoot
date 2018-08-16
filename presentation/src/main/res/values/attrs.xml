@@ -20,6 +20,12 @@
         <attr name="textFont" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="RealtimeBlurView">
+        <attr name="realtimeBlurRadius" format="dimension"/>
+        <attr name="realtimeDownsampleFactor" format="float"/>
+        <attr name="realtimeOverlayColor" format="color"/>
+    </declare-styleable>
+
     <!-- Theme Reference -->
     <attr name="themeColorPrimary" format="reference"/>
     <attr name="themeColorPrimaryLight" format="reference"/>

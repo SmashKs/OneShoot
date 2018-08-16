@@ -171,7 +171,6 @@ dependencies {
     //endregion
 
     //region UI
-    implementation Presentation.blurView
     implementation Presentation.loading
     implementation Presentation.materialChip
     //endregion
