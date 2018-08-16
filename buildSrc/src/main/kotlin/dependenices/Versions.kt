@@ -33,11 +33,11 @@ object Versions {
      * Related Android component lib version.
      */
     object AndroidComponent {
-        const val androidx = "1.0.0-beta01"
-        const val cardview = "1.0.0-beta01"
+        const val androidx = "1.0.0-rc01"
+        const val cardview = "1.0.0-rc01"
         const val constraintLayout = "2.0.0-alpha1"
-        const val coordinatorLayout = "1.0.0-beta01"
-        const val navigation = "1.0.0-alpha04"
+        const val coordinatorLayout = "1.0.0-rc01"
+        const val navigation = "1.0.0-alpha05"
     }
 
     /**
@@ -59,7 +59,7 @@ object Versions {
      * Related Kotlin extensions lib version.
      */
     object KotlinAndroidExt {
-        const val aac = "2.0.0-alpha1"
+        const val aac = "2.0.0-rc01"
         const val anko = "0.10.5"
         const val ktx = AndroidComponent.androidx
         const val kinfer = "2.0.1"
@@ -77,7 +77,7 @@ object Versions {
      * Related Firebase lib version.
      */
     object Firebase {
-        const val core = "16.0.0"
+        const val core = "16.0.1"
         const val database = "16.0.1"
         const val auth = "16.0.1"
         const val messaging = "17.0.0"
@@ -126,7 +126,7 @@ object Versions {
      * Related parser lib version.
      */
     object Parser {
-        const val gson = "2.8.2"
+        const val gson = "2.8.5"
         const val jsoup = "1.10.3"
     }
 
@@ -134,7 +134,7 @@ object Versions {
      * Related mapping lib version.
      */
     object Mapping {
-        const val modelmapper = "2.1.0"
+        const val modelmapper = "2.1.1"
     }
 
     /**
