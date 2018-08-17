@@ -23,27 +23,44 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.devrapid.kotlinshaver.cast
 import org.kodein.di.generic.instance
+import smash.ks.com.ext.const.DEFAULT_INT
+import smash.ks.com.ext.const.isDefault
 import smash.ks.com.oneshoot.ext.stubview.hideLoadingView
 import smash.ks.com.oneshoot.ext.stubview.hideRetryView
 import smash.ks.com.oneshoot.ext.stubview.showErrorView
 import smash.ks.com.oneshoot.ext.stubview.showLoadingView
 import smash.ks.com.oneshoot.ext.stubview.showRetryView
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 /**
  * The basic fragment is in MVVM architecture which prepares all necessary variables or functions.
  */
 abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragment<A>(), LoadView {
+    protected open val genericVMIndex = DEFAULT_INT
+    protected val vmProviders get() = ViewModelProviders.of(this, viewModelFactory)
     /** Add the AAC [ViewModel] for each fragments. */
     @Suppress("UNCHECKED_CAST")
     protected val vm
         get() = vmCreateMethod.invoke(vmProviders, vmConcreteClass) as? VM ?: throw ClassCastException()
-
     private val viewModelFactory by instance<ViewModelProvider.Factory>()
     /** [VM] is the first (index: 1) in the generic declare. */
-    private val vmConcreteClass
-        get() = cast<Class<*>>(cast<ParameterizedType>(this::class.java.genericSuperclass).actualTypeArguments[1])
-    private val vmProviders get() = ViewModelProviders.of(this, viewModelFactory)
+    private val vmConcreteClass: Class<*>
+        get() {
+            // Get the all generic data types.
+            val actualTypeArguments =
+                cast<ParameterizedType>(recursiveFindGenericSuperClass(this::class.java)).actualTypeArguments
+
+            // If we don't set viewmodel index by ourselves, it can find the first generic viewmodel.
+            val viewmodelClass = if (genericVMIndex.isDefault())
+            // Recursively find the first generic viewmodel data type.
+                actualTypeArguments.firstOrNull { checkAllSuperClass(cast(it), ViewModel::class.java) }
+            else
+            // Customize index.
+                actualTypeArguments[genericVMIndex]
+
+            return cast(viewmodelClass)
+        }
     /** The [ViewModelProviders.of] function for obtaining a [ViewModel]. */
     private val vmCreateMethod get() = vmProviders.javaClass.getMethod("get", vmConcreteClass.superclass.javaClass)
 
@@ -83,4 +100,19 @@ abstract class AdvFragment<out A : BaseActivity, out VM : ViewModel> : BaseFragm
     /** The block of unbinding from [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     protected open fun unbindLiveData() = Unit
+
+    private fun recursiveFindGenericSuperClass(superclass: Class<*>): Type =
+        if (superclass.genericSuperclass is ParameterizedType)
+            requireNotNull(superclass.genericSuperclass)
+        else
+            recursiveFindGenericSuperClass(requireNotNull(superclass.superclass))
+
+    private fun checkAllSuperClass(objClass: Class<*>, assignable: Class<*>): Boolean {
+        objClass.superclass?.takeUnless { it.isAssignableFrom(java.lang.Object::class.java) }?.let {
+            return if (it.isAssignableFrom(assignable))
+                true
+            else
+                checkAllSuperClass(it, assignable)
+        } ?: return false
+    }
 }
