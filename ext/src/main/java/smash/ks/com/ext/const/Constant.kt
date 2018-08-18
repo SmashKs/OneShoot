@@ -17,7 +17,7 @@
 package smash.ks.com.ext.const
 
 object Constant {
-    const val CAMERA_QUILITY = 100
+    const val CAMERA_QUALITY = 100
     const val DEBOUNCE_DELAY = 200
     const val DEBOUNCE_SAFE_MODE_CAMERA = 500
 }

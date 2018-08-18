@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.merge_bottom_shot_bar.fab_shot
 import kotlinx.coroutines.experimental.delay
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import smash.ks.com.ext.const.Constant.CAMERA_QUILITY
+import smash.ks.com.ext.const.Constant.CAMERA_QUALITY
 import smash.ks.com.ext.const.Constant.DEBOUNCE_DELAY
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.oneshoot.R
@@ -106,7 +106,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                             cropBitmap = this
                             iv_preview.loadByAny(this)
                             val stream = ByteArrayOutputStream()
-                            compress(PNG, CAMERA_QUILITY, stream)
+                            compress(PNG, CAMERA_QUALITY, stream)
                             byteArrayPhoto = stream.toByteArray()
 
                             // FIXME(jieyi): 2018/08/06 This's the test for api. Just put here temporally.

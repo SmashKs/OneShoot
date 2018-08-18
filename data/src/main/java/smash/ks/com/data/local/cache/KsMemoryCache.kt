@@ -18,6 +18,7 @@ package smash.ks.com.data.local.cache
 
 import com.devrapid.kotlinshaver.currentTime
 import com.devrapid.kotlinshaver.isNotNull
+import smash.ks.com.ext.const.DEFAULT_LONG
 import smash.ks.com.ext.const.takeIfDefault
 
 /**
@@ -54,6 +55,18 @@ open class KsMemoryCache : KsCache() {
         else {
             true
         }
+
+    override fun setDirty(which: Int, params: Any): Boolean {
+        val cachedItem = isHit(which, params) ?: return false
+        val data = Triple(cachedItem.first, DEFAULT_LONG, cachedItem.third)
+
+        memory[which]?.apply {
+            remove(cachedItem)
+            add(data)
+        }
+
+        return true
+    }
 
     override fun isCached(which: Int, params: Any) = isHit(which, params).isNotNull()
 

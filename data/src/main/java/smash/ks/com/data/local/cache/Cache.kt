@@ -32,6 +32,15 @@ interface Cache {
     fun isDirty(which: Int, params: Any): Boolean
 
     /**
+     * Set the cache (specific part) to dirty.
+     *
+     * @param which
+     * @param params
+     * @return success or fail for setting dirty
+     */
+    fun setDirty(which: Int, params: Any): Boolean
+
+    /**
      * Check the assigned data has cached.
      *
      * @param which
