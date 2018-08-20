@@ -75,7 +75,7 @@ class KsCloudinaryImpl constructor(
              * @param error Error object containing description and code.
              */
             override fun onError(requestId: String, error: ErrorInfo) =
-                it.onError(InternalError("Code: ${error.code} Description: ${error.description}"))
+                it.onError(IllegalAccessException("Code: ${error.code} Description: ${error.description}"))
 
             /**
              * Called when a request starts uploading.

@@ -48,7 +48,7 @@ inline fun Activity.showRetryView(noinline retryListener: ((View) -> Unit)? = nu
     showViewStub(R.id.vs_retry, R.id.v_retry) RetryView@{ retryListener?.let(this@RetryView::setOnClickListener) }
 }
 
-inline fun Activity.hideLoadingView() = find<View>(R.id.v_loading).gone()
+inline fun Activity.hideLoadingView() = findOptional<View>(R.id.v_loading)?.gone() ?: Unit
 
 inline fun Activity.hideErrorView() =
     find<View>(R.id.v_error).apply { find<TextView>(R.id.tv_error_msg).text = DEFAULT_STR }.gone()
