@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.displayPixels
+import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.visible
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
@@ -83,6 +84,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     private lateinit var byteArrayPhoto: ByteArray
     private var selectionDialog: QuickDialogFragment? = null
     private var shotDebounce = false
+    private var prevDebounce = false
     private val flashCycle by lazy {
         listOf(FLASH_OFF to R.drawable.ic_flash_off,
                FLASH_ON to R.drawable.ic_flash_on,
@@ -202,6 +204,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 ib_flash.setImageResource(state.second)
             }
         }
+        iv_preview.apply {
+            onClick {
+                if (!prevDebounce) {
+                    prevDebounce = true
+                    showSelectionDialog(drawable.toBitmap())
+                }
+            }
+        }
         sav_selection.selectedAreaCallback = { x, y, w, h ->
             selectedRectF.x = x
             selectedRectF.y = y
@@ -261,6 +271,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
                 // Open the dialog well then the debounce can re-trigger again.
                 shotDebounce = false
+                prevDebounce = false
             }
         }.build()
 
@@ -268,7 +279,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun dismissOptionDialog() {
-        selectionDialog?.dismissAllowingStateLoss()
+        selectionDialog?.dismiss()
         selectionDialog = null
     }
     //endregion
@@ -276,7 +287,9 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Camera Effective
     private fun makeCameraFlashEffecting() {
         if (!v_flash.isVisible) v_flash.visible()
-        AnimatorInflater.loadAnimator(requireContext(), R.animator.camera_flash).apply { setTarget(v_flash) }.start()
+        AnimatorInflater.loadAnimator(requireContext(), R.animator.camera_flash)
+            .apply { setTarget(v_flash) }
+            .start()
     }
 
     @SuppressLint("WrongConstant")
