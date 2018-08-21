@@ -44,7 +44,7 @@ object Versions {
      * Related Kotlin lib version.
      */
     object Kotlin {
-        const val kotlinLib = "1.2.60"
+        const val kotlinLib = "1.2.61"
         const val kotlinCoroutine = "0.24.0"
     }
 
@@ -145,6 +145,7 @@ object Versions {
         const val blurView = "1.1.0"
         const val loading = "1.3.0"
         const val materialChip = "1.0.8"
+        const val cameraView = "1.5.1"
     }
 
     /**

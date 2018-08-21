@@ -173,6 +173,7 @@ dependencies {
     //region UI
     implementation Presentation.loading
     implementation Presentation.materialChip
+    implementation Presentation.cameraView
     //endregion
 
     //region Androidx SDK
@@ -216,8 +217,6 @@ dependencies {
     //endregion
 
     debugImplementation GlobalDebug.database
-
-    implementation 'com.otaliastudios:cameraview:1.5.1'
 }
 
 tasks.withType(Test) { jacoco.includeNoLocationClasses = true }

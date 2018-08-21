@@ -119,6 +119,7 @@ object Deps {
         const val blurView = "com.github.mmin18:realtimeblurview:${Versions.Ui.blurView}"
         const val loading = "com.github.castorflex.smoothprogressbar:library-circular:${Versions.Ui.loading}"
         const val materialChip = "com.github.pchmn:MaterialChipsInput:${Versions.Ui.materialChip}"
+        const val cameraView = "com.otaliastudios:cameraview:${Versions.Ui.cameraView}"
 
         const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.androidx}"
         const val materialDessign = "com.google.android.material:material:${Versions.AndroidComponent.androidx}"

@@ -32,8 +32,10 @@
 
     <com.otaliastudios.cameraview.CameraView
         android:id="@+id/cv_camera"
+        style="@style/Constraint.Any.MatchParent"
         android:keepScreenOn="true"
-        style="@style/Constraint.Any.MatchParent"/>
+        app:cameraPlaySounds="false"
+        app:cameraVideoQuality="highest"/>
 
     <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
         android:id="@+id/sav_selection"
