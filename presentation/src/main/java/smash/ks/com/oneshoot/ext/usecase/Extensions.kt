@@ -31,6 +31,7 @@ import smash.ks.com.domain.ObservableUseCase
 import smash.ks.com.domain.SingleUseCase
 import smash.ks.com.domain.models.Model
 import smash.ks.com.domain.models.response.KsResponse
+import smash.ks.com.domain.models.response.KsResponse.Completed
 import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
@@ -256,7 +257,7 @@ fun <V : RequestValues> CompletableUseCase<V>.ayncCase(
  */
 suspend fun <V : RequestValues> CompletableUseCase<V>.toAwait(
     parameter: V? = null
-) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await().let { Success(it) } }
+) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await().let { Completed(it) } }
 //endregion
 
 /**

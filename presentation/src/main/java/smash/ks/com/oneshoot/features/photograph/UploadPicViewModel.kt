@@ -22,7 +22,7 @@ import smash.ks.com.domain.parameters.PhotoParam
 import smash.ks.com.domain.usecases.UploadImageToFirebaseCase
 import smash.ks.com.domain.usecases.upload.UploadImageToFirebaseUsecase.Requests
 import smash.ks.com.ext.const.DEFAULT_STR
-import smash.ks.com.oneshoot.ext.presentation.requestWithoutResponse
+import smash.ks.com.oneshoot.ext.presentation.requestData
 import smash.ks.com.oneshoot.ext.usecase.toAwait
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
@@ -32,7 +32,7 @@ class UploadPicViewModel(
     val uploadRes by lazy { UntilPresenterLiveData() }
 
     fun uploadPhoto(imageBytes: ByteArray, title: String, author: String, tags: List<Tag>) =
-        uploadRes.requestWithoutResponse {
+        uploadRes.requestData {
             uploadImageToFirebaseCase.toAwait(Requests(PhotoParam(DEFAULT_STR, imageBytes, title, author, tags)))
         }
 }
