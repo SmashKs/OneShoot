@@ -103,7 +103,7 @@ private fun <D> LoadView.peelResponseOptions(
     when (it) {
         is Loading<*> -> if (isShowLoading) showLoading()
         is Success<D> -> {
-            requireNotNull(it.data?.let { successBlock?.invoke(it) })
+            it.data?.let { successBlock?.invoke(it) }
             if (isShowLoading && isHideLoading) hideLoading()
         }
         is Error<*> -> {

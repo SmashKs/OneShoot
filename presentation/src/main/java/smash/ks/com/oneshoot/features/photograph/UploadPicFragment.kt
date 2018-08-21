@@ -50,9 +50,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     override fun bindLiveData() {
-        observeNonNull(vm.uploadRes) {
-            peelResponse(it, { parent.toast(it) }, null)
-        }
+        observeNonNull(vm.uploadRes) { peelResponse(it, { parent.toast(it) }, null) }
     }
 
     @UiThread
