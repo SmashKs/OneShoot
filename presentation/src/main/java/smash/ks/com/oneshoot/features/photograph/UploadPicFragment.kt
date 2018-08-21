@@ -51,7 +51,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     @UiThread
     override fun bindLiveData() {
         observeNonNull(vm.uploadRes) {
-            peelResponse(it, { parent.toast(it) }, null)
+            peelResponse(it, { parent.toast(it) }, { parent.toast("Uploaded is successful.") })
         }
     }
 

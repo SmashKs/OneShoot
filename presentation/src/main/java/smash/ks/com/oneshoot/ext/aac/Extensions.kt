@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import com.devrapid.kotlinshaver.isNull
 import kotlinx.coroutines.experimental.Deferred
 import smash.ks.com.domain.models.response.KsResponse
+import smash.ks.com.domain.models.response.KsResponse.Completed
 import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Loading
 import smash.ks.com.domain.models.response.KsResponse.Success
@@ -65,9 +66,11 @@ inline fun <reified E, T : KsResponse<E>> LifecycleOwner.observeUnboxNonNull(
 fun <D> LoadView.peelResponse(
     response: KsResponse<D>,
     errorBlock: ((String) -> Unit)? = null,
+    completedBlock: (() -> Unit)? = null,
     successBlock: ((D) -> Unit)? = null
 ) = peelResponseOptions(response,
                         isShowError = errorBlock.isNull(),
+                        completedBlock = completedBlock,
                         errorBlock = errorBlock,
                         successBlock = successBlock)
 
@@ -98,13 +101,18 @@ private fun <D> LoadView.peelResponseOptions(
     isShowError: Boolean = true,
     isHideLoading: Boolean = true,
     errorBlock: ((String) -> Unit)? = null,
+    completedBlock: (() -> Unit)? = null,
     successBlock: ((D) -> Unit)? = null
 ) = response.also {
     when (it) {
         is Loading<*> -> if (isShowLoading) showLoading()
         is Success<D> -> {
-            requireNotNull(it.data?.let { successBlock?.invoke(it) })
+            it.data?.let { successBlock?.invoke(it) }
             if (isShowLoading && isHideLoading) hideLoading()
+        }
+        is Completed<*> -> {
+            if (isShowLoading) hideLoading()
+            completedBlock?.invoke()
         }
         is Error<*> -> {
             if (isShowLoading) hideLoading()

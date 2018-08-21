@@ -67,8 +67,15 @@ fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> De
 /**
  * In order to run the [RxJava], using the `await`/`async` and informing the View layer.
  */
+// TODO(jieyi): 2018/08/21 Add the until presenter extension.
 fun UntilPresenterLiveData.requestWithoutResponse(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>) =
-    apply { ui { value = tryResponse { usecase().await() } } }
+    apply {
+        ui {
+            // Opening the loading view.
+            value = Loading()
+            value = tryResponse { usecase().await() }
+        }
+    }
 
 /**
  * Wrapping the `try catch` and ignoring the return value.

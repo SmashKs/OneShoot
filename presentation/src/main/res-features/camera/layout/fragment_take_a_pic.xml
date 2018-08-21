@@ -23,11 +23,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".features.photograph.TakeAPicFragment">
 
-    <smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView
+    <!--<smash.ks.com.oneshoot.widgets.customize.camera.view.CameraView-->
+    <!--android:id="@+id/cv_camera"-->
+    <!--style="@style/Constraint.Any.MatchParent"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:background="@android:color/black"-->
+    <!--app:autoFocus="true"/>-->
+
+    <com.otaliastudios.cameraview.CameraView
         android:id="@+id/cv_camera"
         style="@style/Constraint.Any.MatchParent"
-        android:adjustViewBounds="true"
-        android:background="@android:color/black"/>
+        android:keepScreenOn="true"
+        app:cameraPlaySounds="false"
+        app:cameraVideoQuality="highest"/>
 
     <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
         android:id="@+id/sav_selection"

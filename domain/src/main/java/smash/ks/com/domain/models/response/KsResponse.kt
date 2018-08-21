@@ -37,6 +37,11 @@ sealed class KsResponse<T> constructor(val data: T? = null) {
     class Success<T>(data: T? = null) : KsResponse<T>(data)
 
     /**
+     * A request complete getting a result from a remote/local service.
+     */
+    class Completed<T>(data: T? = null) : KsResponse<T>(data)
+
+    /**
      * A request sent then a remote/local service has happened an error.
      */
     class Error<T>(data: T? = null, val msg: String = DEFAULT_STR) : KsResponse<T>(data)

@@ -173,6 +173,7 @@ dependencies {
     //region UI
     implementation Presentation.loading
     implementation Presentation.materialChip
+    implementation Presentation.cameraView
     //endregion
 
     //region Androidx SDK
