@@ -218,6 +218,8 @@ dependencies {
     //endregion
 
     debugImplementation GlobalDebug.database
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 tasks.withType(Test) { jacoco.includeNoLocationClasses = true }

@@ -16,8 +16,8 @@
 
 package smash.ks.com.oneshoot
 
-import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDexApplication
 import com.cloudinary.android.LogLevel
 import com.cloudinary.android.MediaManager
 import com.google.firebase.FirebaseApp
@@ -35,7 +35,7 @@ import smash.ks.com.oneshoot.internal.di.modules.dependencies.UsecaseModule.usec
 /**
  * Android Main Application
  */
-class App : Application(), KodeinAware {
+class App : MultiDexApplication(), KodeinAware {
     companion object {
         lateinit var appContext: Context
             private set
