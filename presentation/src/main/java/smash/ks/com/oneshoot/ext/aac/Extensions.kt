@@ -88,6 +88,15 @@ fun <D> LoadView.peelResponseSkipLoading(response: KsResponse<D>, successBlock: 
     peelResponseOptions(response, false, successBlock = successBlock)
 
 /**
+ * Check the [KsResponse]'s changing and do the corresponding reaction with error block and completed block..
+ */
+fun <D> LoadView.peelResponseForCompleted(
+    response: KsResponse<D>,
+    errorBlock: ((String) -> Unit)? = null,
+    completedBlock: (() -> Unit)?
+) = peelResponseOptions(response, errorBlock = errorBlock, completedBlock = completedBlock)
+
+/**
  * Check the [KsResponse]'s changing and do the corresponding reaction. Here're three data
  * type [Loading], [Success], and [Error].
  *

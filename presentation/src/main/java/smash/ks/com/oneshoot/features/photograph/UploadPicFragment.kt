@@ -34,7 +34,7 @@ import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
 import smash.ks.com.oneshoot.ext.aac.navigation.findNavController
 import smash.ks.com.oneshoot.ext.aac.observeNonNull
-import smash.ks.com.oneshoot.ext.aac.peelResponse
+import smash.ks.com.oneshoot.ext.aac.peelResponseForCompleted
 import smash.ks.com.oneshoot.ext.image.glide.loadByAny
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 
@@ -51,7 +51,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     @UiThread
     override fun bindLiveData() {
         observeNonNull(vm.uploadRes) {
-            peelResponse(it, { parent.toast(it) }, { parent.toast("Uploaded is successful.") })
+            peelResponseForCompleted(it, ::showToast) { showToast("Uploaded is successful.") }
         }
     }
 
@@ -98,5 +98,9 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         val labels = tags.map { it.label }
 
         vm.uploadPhoto(imageData, title, author, labels)
+    }
+
+    private fun showToast(msg: String) {
+        parent.toast(msg)
     }
 }

@@ -26,7 +26,6 @@ import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Loading
 import smash.ks.com.domain.models.response.KsResponse.Success
 import smash.ks.com.oneshoot.entities.Entity
-import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 
 /**
  * A transformer wrapper for encapsulating the [ResponseLiveData]'s state
@@ -53,15 +52,6 @@ fun <E : Entity, R> ResponseLiveData<R>.requestData(
  */
 fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = preProcess {
     // Fetching the data from the data layer.
-    value = tryResponse { usecase().await() }
-}
-
-/**
- * In order to run the [RxJava], using the `await`/`async` and informing the View layer.
- */
-fun UntilPresenterLiveData.requestWithoutResponse(
-    usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>
-) = preProcess {
     value = tryResponse { usecase().await() }
 }
 
