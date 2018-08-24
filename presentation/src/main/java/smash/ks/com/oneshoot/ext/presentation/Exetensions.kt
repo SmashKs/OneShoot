@@ -38,16 +38,12 @@ import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 fun <E : Entity, R> ResponseLiveData<R>.requestData(
     usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>,
     transformBlock: (E) -> R
-) = apply {
-    ui {
-        // Opening the loading view.
-        value = Loading()
-        // Fetching the data from the data layer.
-        value = tryResponse {
-            val entity = usecase().await()
+) = preProcess {
+    // Fetching the data from the data layer.
+    value = tryResponse {
+        val entity = usecase().await()
 
-            entity.data?.let(transformBlock)?.let { Success(it) } ?: Error<R>(msg = "Don't have any response.")
-        }
+        entity.data?.let(transformBlock)?.let { Success(it) } ?: Error<R>(msg = "Don't have any response.")
     }
 }
 
@@ -55,27 +51,31 @@ fun <E : Entity, R> ResponseLiveData<R>.requestData(
  * A transformer wrapper for encapsulating the [ResponseLiveData]'s state
  * changing and the state becomes [Success] when retrieving a data from Data layer by Kotlin coroutine.
  */
-fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = apply {
-    ui {
-        // Opening the loading view.
-        value = Loading()
-        // Fetching the data from the data layer.
-        value = tryResponse { usecase().await() }
-    }
+fun <E> ResponseLiveData<E>.requestData(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<E>>) = preProcess {
+    // Fetching the data from the data layer.
+    value = tryResponse { usecase().await() }
 }
 
 /**
  * In order to run the [RxJava], using the `await`/`async` and informing the View layer.
  */
-// TODO(jieyi): 2018/08/21 Add the until presenter extension.
-fun UntilPresenterLiveData.requestWithoutResponse(usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>) =
-    apply {
-        ui {
-            // Opening the loading view.
-            value = Loading()
-            value = tryResponse { usecase().await() }
-        }
+fun UntilPresenterLiveData.requestWithoutResponse(
+    usecase: suspend CoroutineScope.() -> Deferred<KsResponse<Unit>>
+) = preProcess {
+    value = tryResponse { usecase().await() }
+}
+
+/**
+ * Pre-process doing the loading view.
+ */
+private fun <E> ResponseLiveData<E>.preProcess(block: suspend CoroutineScope.() -> Unit) = apply {
+    ui {
+        // Opening the loading view.
+        value = Loading()
+        // Fetching the data from the data layer.
+        block()
     }
+}
 
 /**
  * Wrapping the `try catch` and ignoring the return value.

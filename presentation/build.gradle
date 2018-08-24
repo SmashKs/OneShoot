@@ -31,6 +31,7 @@ apply plugin: 'jacoco'
 
 android {
     compileSdkVersion Android.compileSdk
+    buildToolsVersion Android.buiildTool
     defaultConfig {
         applicationId "smash.ks.com.oneshoot"
         minSdkVersion Android.minSdk

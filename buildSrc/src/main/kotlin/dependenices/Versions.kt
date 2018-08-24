@@ -26,6 +26,7 @@ object Versions {
     object Android {
         const val minSdk = 21
         const val targetSdk = 28
+        const val buiildTool = "28.0.2"
         const val compileSdk = targetSdk
     }
 
