@@ -45,7 +45,7 @@ plugins {
 }
 
 detekt {
-    version = "1.0.0.RC7"
+    version = "1.0.0.RC8"
     profile("main") {
         input = file("presentation/src/main/java")
         config = "$projectDir/detekt.yml"

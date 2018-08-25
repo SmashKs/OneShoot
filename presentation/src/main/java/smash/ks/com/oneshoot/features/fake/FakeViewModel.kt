@@ -24,7 +24,6 @@ import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.entities.mappers.PresentationFakeMapper
 import smash.ks.com.oneshoot.ext.presentation.ResponseLiveData
 import smash.ks.com.oneshoot.ext.presentation.requestData
-import smash.ks.com.oneshoot.ext.presentation.requestWithoutResponse
 import smash.ks.com.oneshoot.ext.usecase.toAwait
 import smash.ks.com.oneshoot.features.UntilPresenterLiveData
 import smash.ks.com.domain.usecases.fake.FindKsImageUsecase.Requests as FetchImageRequest
@@ -45,7 +44,7 @@ class FakeViewModel(
                          },
                          KsEntity::uri)
 
-    fun storeImage() = saveRes.requestWithoutResponse {
+    fun storeImage() = saveRes.requestData {
         saveKsImageCase.toAwait(SaveImageRequest(KsParam(imageUri = "!??!?!?!?!?!??!")))
     }
 }

@@ -91,6 +91,8 @@ dependencies {
     implementation project(':data')
     implementation project(':ext')
 
+    implementation Presentation.dexTool
+
     //region Kotlin
     implementation Global.kotlin
     implementation Global.coroutine
@@ -218,8 +220,6 @@ dependencies {
     //endregion
 
     debugImplementation GlobalDebug.database
-
-    implementation 'com.android.support:multidex:1.0.3'
 }
 
 tasks.withType(Test) { jacoco.includeNoLocationClasses = true }

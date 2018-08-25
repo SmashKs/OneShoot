@@ -71,6 +71,7 @@ object Deps {
      * The necessary libs only for presentation layer.
      */
     object Presentation {
+        const val dexTool = "com.android.support:multidex:${Versions.KotlinAndroidExt.dex}"
         const val anko = "org.jetbrains.anko:anko-commons:${Versions.KotlinAndroidExt.anko}"
         const val ankoSdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.KotlinAndroidExt.anko}"
         const val ankoV7 = "org.jetbrains.anko:anko-appcompat-v7:${Versions.KotlinAndroidExt.anko}"

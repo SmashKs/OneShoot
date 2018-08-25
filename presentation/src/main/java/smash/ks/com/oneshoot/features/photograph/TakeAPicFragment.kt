@@ -38,6 +38,7 @@ import com.devrapid.kotlinknifer.displayPixels
 import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.visible
 import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.Flash.AUTO
 import com.otaliastudios.cameraview.Flash.OFF
 import com.otaliastudios.cameraview.Flash.ON
@@ -132,7 +133,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         selectionDialog?.takeIf(Fragment::isVisible)?.dismiss()
         selectionDialog = null
-        cv_camera.destroy()
+        cv_camera?.let(CameraView::destroy)
     }
     //endregion
 

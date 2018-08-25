@@ -60,6 +60,7 @@ object Versions {
      * Related Kotlin extensions lib version.
      */
     object KotlinAndroidExt {
+        const val dex = "1.0.3"
         const val aac = "2.0.0-rc01"
         const val anko = "0.10.5"
         const val ktx = AndroidComponent.androidx
