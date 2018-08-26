@@ -260,7 +260,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
-    //endregion
+    //endregionx
 
     private fun scaleBitmap(data: ByteArray) {
         BitmapFactory.decodeByteArray(data, 0, data.size).also { bmp ->
@@ -272,7 +272,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 val roundY = y.takeIf { 0 < it } ?: let { roundHeight = h + y; 0 }
 
                 val ratioX = bmp.width.toFloat() / cv_camera.width
-                val ratioY = bmp.height.toFloat() / cv_camera.width
+                val ratioY = bmp.height.toFloat() / cv_camera.height
 
                 val bitmap = Bitmap.createBitmap(bmp,
                                                  (roundX * ratioX).toInt(),
@@ -284,7 +284,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(JPEG, CAMERA_QUALITY, stream)
                 byteArrayPhoto = stream.toByteArray()
-                // Let imageview and dialog show the bitmap.
+                // Let image view and dialog show the bitmap.
                 iv_preview.loadByAny(bitmap)
                 showSelectionDialog(bitmap)
                 // FIXME(jieyi): 2018/08/06 This's the test for api. Just put here temporally.

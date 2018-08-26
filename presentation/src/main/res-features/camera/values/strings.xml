@@ -29,6 +29,9 @@
     <string name="edit_hint_author">Author (option)</string>
     <string name="edit_hint_photo_title">Title (option)</string>
     <string name="edit_hint_tag">Tag</string>
+
+    <string name="toast_upload_success">Uploaded is successful.</string>
+    <string name="toast_has_uploaded">This photo has uploaded.</string>
     <!-- Upload Label End -->
 
     <!-- Analyze Label Start -->

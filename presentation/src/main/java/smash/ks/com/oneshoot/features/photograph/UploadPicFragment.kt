@@ -43,6 +43,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     // The fragment initialization parameters.
     private val imageData by lazy { requireNotNull(arguments?.getByteArray(ARG_IMAGE_DATA)) }
 
+    private var isUploaded = false
     private val tags by lazy { mutableListOf<ChipInterface>() }
     //endregion
 
@@ -50,9 +51,7 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
     @UiThread
     override fun bindLiveData() {
-        observeNonNull(vm.uploadRes) {
-            peelResponseForCompleted(it, ::showToast) { showToast("Uploaded is successful.") }
-        }
+        observeNonNull(vm.uploadRes) { peelResponseForCompleted(it, ::showToast, ::uploadCompleted) }
     }
 
     @UiThread
@@ -73,7 +72,12 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
     //endregion
 
     private fun setEventListeners() {
-        ib_check.onClick { collectionAllData() }
+        ib_check.onClick {
+            if (isUploaded) {
+                showToast(getString(R.string.toast_has_uploaded))
+            }
+            collectionAllData()
+        }
         ib_cancel.onClick { findNavController()?.navigateUp() }
         ci_tag.addChipsListener(object : ChipsInput.ChipsListener {
             override fun onChipAdded(chip: ChipInterface, newSize: Int) {
@@ -98,6 +102,11 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         val labels = tags.map { it.label }
 
         vm.uploadPhoto(imageData, title, author, labels)
+    }
+
+    private fun uploadCompleted() {
+        isUploaded = true
+        showToast(getString(R.string.toast_upload_success))
     }
 
     private fun showToast(msg: String) {

@@ -18,7 +18,7 @@ package smash.ks.com.oneshoot
 
 import android.content.Context
 import androidx.multidex.MultiDexApplication
-import com.cloudinary.android.LogLevel
+import com.cloudinary.android.LogLevel.DEBUG
 import com.cloudinary.android.MediaManager
 import com.google.firebase.FirebaseApp
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -69,7 +69,7 @@ class App : MultiDexApplication(), KodeinAware {
         FlowManager.init(this)
 
         // This can be called any time regardless of initialization.
-        MediaManager.setLogLevel(LogLevel.DEBUG)
+        MediaManager.setLogLevel(DEBUG)
         // Mandatory - call a flavor of init. Config can be null if cloudinary_url is provided in the manifest.
         MediaManager.init(this)
     }
