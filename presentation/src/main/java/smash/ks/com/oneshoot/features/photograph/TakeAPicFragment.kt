@@ -260,7 +260,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
 
     private fun nextFlashState() = flashCycle[(currentFlashStateIndex() + 1) % flashCycle.size]
-    //endregionx
+    //endregion
 
     private fun scaleBitmap(data: ByteArray) {
         BitmapFactory.decodeByteArray(data, 0, data.size).also { bmp ->

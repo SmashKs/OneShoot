@@ -16,7 +16,9 @@
   -->
 
 <merge
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <ViewStub
         android:id="@+id/vs_loading"

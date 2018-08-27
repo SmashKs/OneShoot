@@ -15,8 +15,11 @@
   ~ limitations under the License.
   -->
 
-<merge style="@style/Constraint.MatchParent"
-       xmlns:android="http://schemas.android.com/apk/res/android">
+<merge
+    style="@style/Constraint.MatchParent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         style="@style/Constraint.MatchParent">

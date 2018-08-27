@@ -60,7 +60,7 @@
         <item name="themeColorPrimary">@color/primaryColor</item>
         <item name="themeColorPrimaryLight">@color/primaryLightColor</item>
         <item name="themeColorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="themeColorAccent">@color/colorAccent</item>
+        <item name="themeColorAccent">@color/primaryLightColor</item>
         <item name="themeTextColorPrimary">@color/primaryTextColor</item>
         <item name="themeTextColorSecondary">@color/colorSecondaryText</item>
         <item name="themeColorSecondaryLight">@color/secondaryLightColor</item>
@@ -168,10 +168,9 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:inputType">text</item>
         <item name="android:paddingTop">@dimen/md_one_unit</item>
-        <item name="android:textColor">@color/martinique</item>
+        <item name="android:textColor">?themeColorAccent</item>
         <item name="android:textCursorDrawable">@drawable/layer_cursor</item>
     </style>
-
 
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/martini</item>
