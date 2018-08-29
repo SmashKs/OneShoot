@@ -82,7 +82,7 @@ object Deps {
         const val androidCoroutine =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.kotlinCoroutine}"
 
-        const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.KotlinAndroidExt.aac}"
+        const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.KotlinAndroidExt.aacLifecycle}"
 
         const val rxBus = "com.hwangjr.rxbus:rxbus:${Versions.RxDep.rxBus}"
         const val rxLifecycle = "com.trello.rxlifecycle2:rxlifecycle-kotlin:${Versions.RxDep.rxLifecycle2}"
@@ -117,7 +117,6 @@ object Deps {
         const val arv = "com.devrapid.jieyi:adaptiverecyclerview:${Versions.ViewComponent.adaptiveRecyclerView}"
 
         const val quickDialog = "com.devrapid.jieyi:dialogbuilder:${Versions.Ui.dialog}"
-        const val blurView = "com.github.mmin18:realtimeblurview:${Versions.Ui.blurView}"
         const val loading = "com.github.castorflex.smoothprogressbar:library-circular:${Versions.Ui.loading}"
         const val materialChip = "com.github.pchmn:MaterialChipsInput:${Versions.Ui.materialChip}"
         const val cameraView = "com.otaliastudios:cameraview:${Versions.Ui.cameraView}"

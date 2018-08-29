@@ -16,6 +16,8 @@
 
 package dependenices
 
+import dependenices.Versions.AndroidComponent.androidx
+
 /**
  * Collect all libs of the version number.
  */
@@ -34,10 +36,10 @@ object Versions {
      * Related Android component lib version.
      */
     object AndroidComponent {
-        const val androidx = "1.0.0-rc01"
-        const val cardview = "1.0.0-rc01"
+        const val androidx = "1.0.0-rc02"
+        const val cardview = androidx
         const val constraintLayout = "2.0.0-alpha1"
-        const val coordinatorLayout = "1.0.0-rc01"
+        const val coordinatorLayout = androidx
         const val navigation = "1.0.0-alpha05"
     }
 
@@ -46,7 +48,7 @@ object Versions {
      */
     object Kotlin {
         const val kotlinLib = "1.2.61"
-        const val kotlinCoroutine = "0.24.0"
+        const val kotlinCoroutine = "0.25.0"
     }
 
     /**
@@ -61,11 +63,12 @@ object Versions {
      */
     object KotlinAndroidExt {
         const val dex = "2.0.0"
-        const val aac = "2.0.0-rc01"
+        const val aac = androidx
+        const val aacLifecycle = "2.0.0-rc01"
         const val anko = "0.10.5"
-        const val ktx = AndroidComponent.androidx
-        const val kinfer = "2.0.1"
-        const val shaver = "1.0.1"
+        const val ktx = androidx
+        const val kinfer = "2.0.2"
+        const val shaver = "1.0.2"
     }
 
     /**
@@ -79,10 +82,10 @@ object Versions {
      * Related Firebase lib version.
      */
     object Firebase {
-        const val core = "16.0.1"
+        const val core = "16.0.3"
         const val database = "16.0.1"
-        const val auth = "16.0.1"
-        const val messaging = "17.0.0"
+        const val auth = "16.0.3"
+        const val messaging = "17.3.0"
 
         const val mlVision = "16.0.0"
         const val mlImageLabel = "15.0.0"
@@ -108,7 +111,7 @@ object Versions {
      * Related network lib version.
      */
     object Network {
-        const val glide = "4.7.1"
+        const val glide = "4.8.0"
         const val retrofit2 = "2.4.0"
         const val okhttp3 = "3.10.0"
     }
@@ -117,9 +120,9 @@ object Versions {
      * Related reactive lib version.
      */
     object RxDep {
-        const val rxJava2 = "2.1.15"
-        const val rxKotlin2 = "2.2.0"
-        const val rxLifecycle2 = "2.2.1"
+        const val rxJava2 = "2.2.1"
+        const val rxKotlin2 = "2.3.0"
+        const val rxLifecycle2 = "2.2.2"
         const val rxPermission2 = "0.9.5@aar"
         const val rxBus = "2.0.0"
     }
@@ -144,7 +147,6 @@ object Versions {
      */
     object Ui {
         const val dialog = "1.0.5"
-        const val blurView = "1.1.0"
         const val loading = "1.3.0"
         const val materialChip = "1.0.8"
         const val cameraView = "1.5.1"
