@@ -19,6 +19,9 @@ package smash.ks.com.oneshoot.features.photograph
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
+import com.devrapid.kotlinknifer.getResColor
+import com.devrapid.kotlinknifer.setCursorPointerColor
+import com.devrapid.kotlinshaver.cast
 import com.pchmn.materialchips.ChipsInput
 import com.pchmn.materialchips.model.ChipInterface
 import kotlinx.android.synthetic.main.fragment_upload_pic.ci_tag
@@ -94,6 +97,8 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
                 }
             }
         })
+        setCursorPointerColor(cast(et_author), parent.getResColor(R.color.primaryLightColor))
+        setCursorPointerColor(cast(et_photo_title), parent.getResColor(R.color.primaryLightColor))
     }
 
     private fun collectionAllData() {
