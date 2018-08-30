@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import androidx.lifecycle.ViewModelProvider
@@ -25,8 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.displayPixels
 import com.devrapid.kotlinknifer.getDisplayMetrics
+import com.devrapid.kotlinknifer.getResColor
+import com.devrapid.kotlinknifer.getResColorWithAlpha
 import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.resizeView
+import com.devrapid.kotlinknifer.setCursorPointerColor
 import com.devrapid.kotlinknifer.statusBarHeight
 import com.devrapid.kotlinknifer.visible
 import com.devrapid.kotlinshaver.cast
@@ -121,6 +125,11 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                             }
                         }
                     })
+                    listOf(et_author, et_photo_title).map {
+                        setCursorPointerColor(cast(it), context.getResColor(R.color.primaryLightColor))
+                        cast<EditText>(it).highlightColor =
+                            appContext.getResColorWithAlpha(R.color.primaryLightColor, 0.5f)
+                    }
                 }
             }
         }.build()

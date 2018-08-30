@@ -17,9 +17,11 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import com.devrapid.kotlinknifer.getResColor
+import com.devrapid.kotlinknifer.getResColorWithAlpha
 import com.devrapid.kotlinknifer.setCursorPointerColor
 import com.devrapid.kotlinshaver.cast
 import com.pchmn.materialchips.ChipsInput
@@ -97,8 +99,10 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
                 }
             }
         })
-        setCursorPointerColor(cast(et_author), parent.getResColor(R.color.primaryLightColor))
-        setCursorPointerColor(cast(et_photo_title), parent.getResColor(R.color.primaryLightColor))
+        listOf(et_author, et_photo_title).map {
+            setCursorPointerColor(cast(it), parent.getResColor(R.color.primaryLightColor))
+            cast<EditText>(it).highlightColor = appContext.getResColorWithAlpha(R.color.primaryLightColor, 0.5f)
+        }
     }
 
     private fun collectionAllData() {
