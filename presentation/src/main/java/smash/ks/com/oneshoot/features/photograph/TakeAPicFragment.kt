@@ -287,30 +287,6 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 // Let image view and dialog show the bitmap.
                 iv_preview.loadByAny(bitmap)
                 showSelectionDialog(bitmap)
-                // FIXME(jieyi): 2018/08/06 This's the test for api. Just put here temporally.
-//                            MediaManager.get().upload(byteArrayPhoto).callback(object : UploadCallback {
-//                                override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {
-//                                    logw(requestId, resultData)
-//                                }
-//
-//                                override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
-//                                    logw(requestId, totalBytes)
-//                                }
-//
-//                                override fun onReschedule(requestId: String?, error: ErrorInfo?) {
-//                                    logw(requestId)
-//                                    loge(error?.code, error?.description)
-//                                }
-//
-//                                override fun onError(requestId: String?, error: ErrorInfo?) {
-//                                    logw(requestId)
-//                                    loge(error?.code, error?.description)
-//                                }
-//
-//                                override fun onStart(requestId: String?) {
-//                                    logw(requestId)
-//                                }
-//                            }).dispatch()
             }
         }.recycle()
     }

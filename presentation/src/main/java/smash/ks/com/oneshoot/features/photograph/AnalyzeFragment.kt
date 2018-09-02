@@ -104,7 +104,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                     val author = v.et_author.text.toString()
                     val labels = tags.map { it.label }
 
-//                vm.uploadPhoto(imageData, title, author, labels)
+                    vmUpload.uploadPhoto(imageData, title, author, labels)
                 }
 
                 v.apply {
@@ -199,6 +199,9 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
     }
 
     private fun showUploadError(response: KsResponse<Unit>) {
-        peelResponse(response, { parent.toast(it) }, null)
+        peelResponse(response, { parent.toast(it) }, {
+            if (dialogFragment.isVisible) dialogFragment.dismiss()
+            parent.toast("Finish uploaded!")
+        })
     }
 }
