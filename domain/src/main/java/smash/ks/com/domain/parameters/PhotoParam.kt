@@ -38,6 +38,7 @@ data class PhotoParam(
         const val PARAM_TITLE = "title"
         const val PARAM_TAGS = "tag"
         const val PARAM_UPLOAD_DATE = "post date"
+        const val RANDOM_HASH = 13
     }
 
     override fun toParameter() = throw UnsupportedOperationException()
@@ -69,11 +70,11 @@ data class PhotoParam(
     override fun hashCode(): Int {
         var result = uri.hashCode()
 
-        result = 31 * result + Arrays.hashCode(imageBytes)
-        result = 31 * result + author.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + tags.hashCode()
-        result = 31 * result + uploadDate.hashCode()
+        result = RANDOM_HASH * result + Arrays.hashCode(imageBytes)
+        result = RANDOM_HASH * result + author.hashCode()
+        result = RANDOM_HASH * result + title.hashCode()
+        result = RANDOM_HASH * result + tags.hashCode()
+        result = RANDOM_HASH * result + uploadDate.hashCode()
 
         return result
     }

@@ -33,7 +33,7 @@ class UploadImageToFirebaseUsecase(
         requireNotNull(requestValues
                            ?.run { repository.storeImageToCloudinary(KsPhotoToCloudinaryParam(params.imageBytes)) }
                            ?.flatMapCompletable {
-                               val parameter = requestValues!!.params.apply { uri = it.secureUrl }
+                               val parameter = requireNotNull(requestValues).params.apply { uri = it.secureUrl }
 
                                repository.uploadImage(parameter)
                            })

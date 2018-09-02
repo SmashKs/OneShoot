@@ -51,6 +51,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import org.kodein.di.generic.instance
 import smash.ks.com.domain.models.response.KsResponse
+import smash.ks.com.ext.const.Constant.COLOR_TRANSPARENT_DEPTH_HALF
 import smash.ks.com.ext.const.DEFAULT_INT
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
@@ -128,7 +129,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                     listOf(et_author, et_photo_title).map {
                         setCursorPointerColor(cast(it), context.getResColor(R.color.primaryLightColor))
                         cast<EditText>(it).highlightColor =
-                            appContext.getResColorWithAlpha(R.color.primaryLightColor, 0.5f)
+                            appContext.getResColorWithAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
                     }
                 }
             }

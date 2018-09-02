@@ -83,7 +83,7 @@ class KsFirebaseImpl constructor(
                 return@completable
             }
 
-            child(key!!).setValue(params.toAnyParameter()).apply {
+            child(requireNotNull(key)).setValue(params.toAnyParameter()).apply {
                 addOnSuccessListener { emitter.onComplete() }
                 addOnFailureListener(emitter::onError)
                 addOnCanceledListener { emitter.onError(CancellationException("The request was canceled.")) }

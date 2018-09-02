@@ -109,7 +109,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
                 .toTypedArray()[1]
 
             labelsInput = assetManager.open(actualFilename)
-            BufferedReader(InputStreamReader(labelsInput!!)).useLines { it.forEach { labels.add(it) } }
+            BufferedReader(InputStreamReader(requireNotNull(labelsInput))).useLines { it.forEach { labels.add(it) } }
             this.inputSize = inputSize
             try {
                 tfLite = Interpreter(loadModelFile(assetManager, modelFilename))
@@ -244,7 +244,7 @@ class TFLiteObjectDetectionAPIModel private constructor() : Classifier {
         // Find the best detections.
         val pq = PriorityQueue(1, Comparator<Recognition> { lhs, rhs ->
             // Intentionally reversed to put high confidence at the head of the queue.
-            compare(rhs.confidence!!, lhs.confidence!!)
+            compare(requireNotNull(rhs.confidence), requireNotNull(lhs.confidence))
         })
 
         // Scale them back to the input size.

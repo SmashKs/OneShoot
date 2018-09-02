@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.fragment_upload_pic.ib_check
 import kotlinx.android.synthetic.main.fragment_upload_pic.iv_upload
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
+import smash.ks.com.ext.const.Constant.COLOR_TRANSPARENT_DEPTH_HALF
 import smash.ks.com.ext.const.DEFAULT_STR
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.bases.AdvFragment
@@ -101,7 +102,8 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
         })
         listOf(et_author, et_photo_title).map {
             setCursorPointerColor(cast(it), parent.getResColor(R.color.primaryLightColor))
-            cast<EditText>(it).highlightColor = appContext.getResColorWithAlpha(R.color.primaryLightColor, 0.5f)
+            cast<EditText>(it).highlightColor =
+                appContext.getResColorWithAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
         }
     }
 

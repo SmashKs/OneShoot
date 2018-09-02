@@ -124,7 +124,7 @@ class TFLiteImageClassifier private constructor() : Classifier {
     @SuppressLint("DefaultLocale")
     private fun getSortedResult(labelProbArray: Array<ByteArray>): List<Recognition> {
         val pq = PriorityQueue<Recognition>(MAX_RESULTS) { lhs, rhs ->
-            compare(rhs.confidence!!, lhs.confidence!!)
+            compare(requireNotNull(rhs.confidence), requireNotNull(lhs.confidence))
         }
 
         labelList?.let {
