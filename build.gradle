@@ -41,16 +41,29 @@ buildscript {
 plugins {
     id "jacoco"
     id "com.github.kt3k.coveralls" version "2.6.3"
-    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC10"
     id "com.github.ben-manes.versions" version "0.20.0"
 }
 
-detekt {
-    version = "1.0.0.RC8"
-    profile("main") {
-        input = file("presentation/src/main/java")
-        config = "$projectDir/detekt.yml"
+subprojects {
+    apply {
+        plugin("io.gitlab.arturbosch.detekt")
+    }
+
+    detekt {
+        toolVersion = "1.0.0-RC10"
+        debug = true
+        parallel = true
+        input = files("src/main/java")
         filters = ".*/resources/.*,.*/build/.*"
+        config = files("$rootDir/detekt.yml")
+
+        idea {
+            path = "$rootDir/.idea"
+            codeStyleScheme = "$rootDir/.idea/idea-code-style.xml"
+            inspectionsProfile = "$rootDir/.idea/inspect.xml"
+            mask = "*.kt"
+        }
     }
 }
 
