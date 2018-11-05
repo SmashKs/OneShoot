@@ -26,15 +26,15 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.2.0"
+        classpath 'com.android.tools.build:gradle:3.4.0-alpha02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Kotlin.kotlinLib}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
-        classpath "com.google.gms:google-services:4.0.1" // google-services plugin
-        classpath "org.jacoco:org.jacoco.core:0.8.1"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha06"
+        classpath "com.google.gms:google-services:4.2.0" // google-services plugin
+        classpath "org.jacoco:org.jacoco.core:0.8.2"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha07"
     }
 }
 
@@ -42,6 +42,7 @@ plugins {
     id "jacoco"
     id "com.github.kt3k.coveralls" version "2.6.3"
     id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
+    id "com.github.ben-manes.versions" version "0.20.0"
 }
 
 detekt {
@@ -67,10 +68,6 @@ allprojects {
         maven { url "https://dl.bintray.com/pokk/maven" }
         maven { url 'https://dl.bintray.com/kodein-framework/Kodein-DI/' }
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.5.1'
 }
 
 task clean(type: Delete) {

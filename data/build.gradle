@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 import dependenices.Deps.Data
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalTest
@@ -27,7 +26,6 @@ apply plugin: 'jacoco'
 
 android {
     compileSdkVersion Android.compileSdk
-    buildToolsVersion Android.buiildTool
     defaultConfig {
         minSdkVersion Android.minSdk
         targetSdkVersion Android.targetSdk

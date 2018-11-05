@@ -51,7 +51,7 @@ import kotlinx.android.synthetic.main.fragment_take_a_pic.iv_preview
 import kotlinx.android.synthetic.main.fragment_take_a_pic.sav_selection
 import kotlinx.android.synthetic.main.fragment_take_a_pic.v_flash
 import kotlinx.android.synthetic.main.merge_bottom_shot_bar.fab_shot
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.delay
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import smash.ks.com.ext.const.Constant.CAMERA_QUALITY
@@ -143,7 +143,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             clearCameraListeners()
             addCameraListener(cameraCallback)
         }
-        fab_shot.onClick {
+        fab_shot.setOnClickListener {
             if (!shotDebounce) {
                 shotDebounce = true
                 cv_camera.capturePicture()
@@ -152,7 +152,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
         }
         ib_flash.apply {
             currentFlashState()?.second?.let(::setImageResource)
-            onClick {
+            setOnClickListener {
                 val state = nextFlashState()
 
                 cv_camera.flash = state.first
@@ -160,7 +160,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
             }
         }
         iv_preview.apply {
-            onClick {
+            setOnClickListener {
                 if (!prevDebounce) {
                     prevDebounce = true
                     showSelectionDialog(drawable.toBitmap())

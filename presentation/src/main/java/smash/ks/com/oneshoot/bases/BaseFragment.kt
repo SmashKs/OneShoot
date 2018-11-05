@@ -30,7 +30,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.devrapid.kotlinknifer.hideSoftKeyboard
 import com.devrapid.kotlinshaver.castOrNull
 import org.jetbrains.anko.findOptional
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -126,6 +125,6 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment(), KodeinAware {
      */
     @UiThread
     protected fun View.clickedThenHideKeyboard() {
-        if (!hasOnClickListeners()) onClick { hideSoftKeyboard() }
+        if (!hasOnClickListeners()) setOnClickListener { hideSoftKeyboard() }
     }
 }

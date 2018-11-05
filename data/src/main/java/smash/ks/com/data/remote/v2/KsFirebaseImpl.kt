@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
-import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.CancellationException
 import smash.ks.com.data.datas.AlbumData
 import smash.ks.com.data.datas.KsData
 import smash.ks.com.data.datas.LabelData
@@ -97,10 +97,10 @@ class KsFirebaseImpl constructor(
 
         detector.detectInImage(textImage).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                task.result.map {
+                task.result?.map {
                     "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
                     LabelData(it.entityId.extractNumber().first(), it.label, it.confidence * TO_PERCENT)
-                }.let(emitter::onSuccess)
+                }?.let(emitter::onSuccess)
             }
             else if (task.isCanceled)
                 task.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)

@@ -19,9 +19,11 @@
 package smash.ks.com.oneshoot.ext.usecase
 
 import com.trello.rxlifecycle2.LifecycleProvider
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.rx2.await
-import kotlinx.coroutines.experimental.rx2.awaitSingle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.rx2.await
+import kotlinx.coroutines.rx2.awaitSingle
 import smash.ks.com.domain.BaseUseCase.RequestValues
 import smash.ks.com.domain.CompletableUseCase
 import smash.ks.com.domain.ExtraCompletableOpOnUi
@@ -124,7 +126,7 @@ fun <V : RequestValues, E> LifecycleProvider<E>.execute(
  */
 fun <M : Model, V : RequestValues> ObservableCaseWithResponse<M, V>.ayncCase(
     parameter: V? = null
-) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
+) = GlobalScope.async(Dispatchers.IO) { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
  * Connected [ObservableUseCase] and unwrapping and letting the usecase become a await
@@ -136,7 +138,7 @@ fun <M : Model, V : RequestValues> ObservableCaseWithResponse<M, V>.ayncCase(
 suspend fun <M : Model, E : Entity, V : RequestValues> ObservableCaseWithResponse<M, V>.toAwait(
     mapper: Mapper<M, E>,
     parameter: V? = null
-) = async {
+) = GlobalScope.async(Dispatchers.IO) {
     this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle().run { mapToEntity(mapper) }
 }
 
@@ -150,7 +152,7 @@ suspend fun <M : Model, E : Entity, V : RequestValues> ObservableCaseWithRespons
 suspend fun <M : Model, E : Entity, V : RequestValues, MS : List<M>> ObservableCaseWithResponse<MS, V>.toListAwait(
     mapper: Mapper<M, E>,
     parameter: V? = null
-) = async {
+) = GlobalScope.async(Dispatchers.IO) {
     this@toListAwait
         .apply { requestValues = parameter }
         .fetchUseCase()
@@ -167,7 +169,7 @@ suspend fun <M : Model, E : Entity, V : RequestValues, MS : List<M>> ObservableC
  */
 suspend fun <M : Any, V : RequestValues> ObservableCaseWithResponse<M, V>.toAwait(
     parameter: V? = null
-) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
+) = GlobalScope.async(Dispatchers.IO) { this@toAwait.apply { requestValues = parameter }.fetchUseCase().awaitSingle() }
 //endregion
 
 //region Single
@@ -177,7 +179,7 @@ suspend fun <M : Any, V : RequestValues> ObservableCaseWithResponse<M, V>.toAwai
  */
 fun <M : Model, V : RequestValues> SingleCaseWithResponse<M, V>.ayncCase(
     parameter: V? = null
-) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
+) = GlobalScope.async(Dispatchers.IO) { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
  * Connected [SingleUseCase] and unwrapping and letting the usecase become a await
@@ -189,7 +191,7 @@ fun <M : Model, V : RequestValues> SingleCaseWithResponse<M, V>.ayncCase(
 suspend fun <M : Model, E : Entity, V : RequestValues> SingleCaseWithResponse<M, V>.toAwait(
     mapper: Mapper<M, E>,
     parameter: V? = null
-) = async {
+) = GlobalScope.async(Dispatchers.IO) {
     this@toAwait
         .apply { requestValues = parameter }
         .fetchUseCase()
@@ -207,7 +209,7 @@ suspend fun <M : Model, E : Entity, V : RequestValues> SingleCaseWithResponse<M,
 suspend fun <M : Model, E : Entity, V : RequestValues, MS : List<M>> SingleCaseWithResponse<MS, V>.toListAwait(
     mapper: Mapper<M, E>,
     parameter: V? = null
-) = async {
+) = GlobalScope.async(Dispatchers.IO) {
     this@toListAwait
         .apply { requestValues = parameter }
         .fetchUseCase()
@@ -224,7 +226,7 @@ suspend fun <M : Model, E : Entity, V : RequestValues, MS : List<M>> SingleCaseW
  */
 suspend fun <M : Any, V : RequestValues> SingleCaseWithResponse<M, V>.toAwait(
     parameter: V? = null
-) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
+) = GlobalScope.async(Dispatchers.IO) { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await() }
 //endregion
 
 /**
@@ -249,7 +251,7 @@ private fun <M : Model, E : Entity, MS : List<M>> KsResponse<MS>.mapToEntities(m
  */
 fun <V : RequestValues> CompletableUseCase<V>.ayncCase(
     parameter: V? = null
-) = async { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
+) = GlobalScope.async(Dispatchers.IO) { this@ayncCase.apply { requestValues = parameter }.fetchUseCase() }
 
 /**
  * Connected [CompletableUseCase] and unwrapping and letting the usecase become a await
@@ -257,7 +259,10 @@ fun <V : RequestValues> CompletableUseCase<V>.ayncCase(
  */
 suspend fun <V : RequestValues> CompletableUseCase<V>.toAwait(
     parameter: V? = null
-) = async { this@toAwait.apply { requestValues = parameter }.fetchUseCase().await().let { Completed(it) } }
+) = GlobalScope.async(Dispatchers.IO) {
+    this@toAwait.apply { requestValues = parameter }.fetchUseCase().await()
+        .let { Completed(it) }
+}
 //endregion
 
 /**

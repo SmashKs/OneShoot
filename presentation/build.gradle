@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 import dependenices.Deps.Global
 import dependenices.Deps.GlobalDebug
 import dependenices.Deps.GlobalTest
@@ -31,7 +32,6 @@ apply plugin: 'jacoco'
 
 android {
     compileSdkVersion Android.compileSdk
-    buildToolsVersion Android.buiildTool
     defaultConfig {
         applicationId "smash.ks.com.oneshoot"
         minSdkVersion Android.minSdk
@@ -43,7 +43,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // Usage is `BuildConfig.CloudinaryUrl`
             buildConfigField 'String', "CloudinaryUrl", getProps("cloudinary_url")
@@ -78,7 +78,6 @@ android {
 }
 
 androidExtensions { experimental = true }
-kotlin { experimental { coroutines "enable" } }
 kapt {
     correctErrorTypes = true
     useBuildCache = true
@@ -87,8 +86,12 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':domain')
-    implementation project(':data')
+    implementation(project(':domain')) {
+        exclude group: 'org.reactivestreams'
+    }
+    implementation(project(':data')) {
+        exclude group: 'org.reactivestreams'
+    }
     implementation project(':ext')
 
     implementation Presentation.dexTool

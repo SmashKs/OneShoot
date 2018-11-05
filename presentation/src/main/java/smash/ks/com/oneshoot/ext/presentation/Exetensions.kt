@@ -19,8 +19,8 @@
 package smash.ks.com.oneshoot.ext.presentation
 
 import com.devrapid.kotlinknifer.ui
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.domain.models.response.KsResponse.Error
 import smash.ks.com.domain.models.response.KsResponse.Loading

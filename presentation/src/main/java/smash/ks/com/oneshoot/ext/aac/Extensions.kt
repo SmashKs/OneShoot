@@ -22,7 +22,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.devrapid.kotlinshaver.isNull
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import smash.ks.com.domain.models.response.KsResponse
 import smash.ks.com.domain.models.response.KsResponse.Completed
 import smash.ks.com.domain.models.response.KsResponse.Error
@@ -135,4 +135,4 @@ private fun <D> LoadView.peelResponseOptions(
  * Abort the await request.
  */
 inline fun <T> Deferred<T>?.abort(cause: Throwable? = null) =
-    takeIf { null != it && it.isActive }?.cancel(cause)
+    takeIf { null != it && it.isActive }?.cancel()
