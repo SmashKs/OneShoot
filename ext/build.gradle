@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,31 @@ dependencies {
     //region For the the newest version.
     testImplementation GlobalTest.byteBuddy
     testImplementation GlobalTest.byteBuddyAgent
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //endregion
 }
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+buildscript {
+    ext.kotlin_version = '1.3.31'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,7 @@
  * limitations under the License.
  */
 
-import org.gradle.kotlin.dsl.`kotlin-dsl`
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     `kotlin-dsl`
 }
-
 repositories { jcenter() }

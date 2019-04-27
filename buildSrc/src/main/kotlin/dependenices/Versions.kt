@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ object Versions {
      * Related Kotlin lib version.
      */
     object Kotlin {
-        const val kotlinLib = "1.3.0"
+        const val kotlinLib = "1.3.31"
         const val kotlinCoroutine = "1.0.0"
     }
 
