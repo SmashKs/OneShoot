@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 The Smash Ks Open Project
+  ~ Copyright (C) 2019 The Smash Ks Open Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         style="@style/Constraint.MatchParent">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bab_shot_bar"
-            style="@style/BottomAppBar.Shot"/>
+        <!--<com.google.android.material.bottomappbar.BottomAppBar-->
+        <!--android:id="@+id/bab_shot_bar"-->
+        <!--style="@style/BottomAppBar.Shot"/>-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_shot"

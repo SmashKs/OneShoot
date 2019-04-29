@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package smash.ks.com.domain.usecases.upload
 
-import com.devrapid.kotlinshaver.completable
+import com.devrapid.kotlinshaver.rxjava2.completable
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Completable

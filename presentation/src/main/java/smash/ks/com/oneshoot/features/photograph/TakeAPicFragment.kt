@@ -17,6 +17,7 @@
 package smash.ks.com.oneshoot.features.photograph
 
 import android.Manifest.permission.CAMERA
+import android.Manifest.permission.RECORD_AUDIO
 import android.animation.AnimatorInflater
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
@@ -109,17 +110,18 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         // Request the authority of the camera.
         when {
-            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.open()
+            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED &&
+            checkSelfPermission(parent, RECORD_AUDIO) == PERMISSION_GRANTED -> cv_camera.open()
             shouldShowRequestPermissionRationale(CAMERA) -> QuickDialogFragment.Builder(this) {
                 message = gStrings(R.string.camera_permission_confirmation)
                 btnPositiveText = "Ok" to { _ ->
-                    requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
+                    requestPermissions(parent, arrayOf(CAMERA, RECORD_AUDIO), REQUEST_CAMERA_PERMISSION)
                 }
                 btnNegativeText = "Deny" to { _ ->
                     makeText(parent, gStrings(R.string.camera_permission_not_granted), LENGTH_SHORT).show()
                 }
             }.build().show()
-            else -> requestPermissions(parent, arrayOf(CAMERA), REQUEST_CAMERA_PERMISSION)
+            else -> requestPermissions(parent, arrayOf(CAMERA, RECORD_AUDIO), REQUEST_CAMERA_PERMISSION)
         }
     }
 
