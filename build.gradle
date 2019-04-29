@@ -15,9 +15,6 @@
  */
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-import dependenices.Versions
-
 buildscript {
     repositories {
         google()
@@ -27,22 +24,22 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.4.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Kotlin.kotlinLib}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${dependenices.Versions.Kotlin.kotlinLib}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
         classpath "com.google.gms:google-services:4.2.0" // google-services plugin
-        classpath "org.jacoco:org.jacoco.core:0.8.2"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha07"
+        classpath "org.jacoco:org.jacoco.core:0.8.3"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
     }
 }
 
 plugins {
-    id "jacoco"
-    id "com.github.kt3k.coveralls" version "2.6.3"
-    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC10"
-    id "com.github.ben-manes.versions" version "0.20.0"
+    id("jacoco")
+    id("com.github.kt3k.coveralls").version("2.6.3")
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC14")
+    id("com.github.ben-manes.versions").version("0.21.0")
 }
 
 subprojects {
@@ -51,7 +48,7 @@ subprojects {
     }
 
     detekt {
-        toolVersion = "1.0.0-RC10"
+        toolVersion = "1.0.0-RC14"
         debug = true
         parallel = true
         input = files("src/main/java")
@@ -68,10 +65,6 @@ subprojects {
 }
 
 allprojects {
-    if (new File("/volumes/ramdisk").exists()) {
-//        buildDir = "/volumes/ramdisk/Android/${rootProject.name}/${project.name}"
-    }
-
     repositories {
         google()
         jcenter()

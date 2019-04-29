@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ object Deps {
         const val rxJava2 = "io.reactivex.rxjava2:rxjava:${Versions.RxDep.rxJava2}"
         const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.RxDep.rxKotlin2}"
 
-        const val shaver = "com.devrapid.jieyi:kotlinshaver:${Versions.KotlinAndroidExt.shaver}"
+        const val shaver = "com.devrapid.jieyi:kotlinshaver:${Versions.KotlinAndroidExt.kinfer}"
 
         const val kodeinAndroid = "org.kodein.di:kodein-di-framework-android:${Versions.DI.kodein}"
         const val kodeinAndroidX = "org.kodein.di:kodein-di-framework-android-x:${Versions.DI.kodein}"
@@ -121,19 +121,19 @@ object Deps {
         const val materialChip = "com.github.pchmn:MaterialChipsInput:${Versions.Ui.materialChip}"
         const val cameraView = "com.otaliastudios:cameraview:${Versions.Ui.cameraView}"
 
-        const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.androidx}"
-        const val materialDessign = "com.google.android.material:material:${Versions.AndroidComponent.androidx}"
-        const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.androidx}"
-        const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.androidx}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidComponent.appcompat}"
+        const val materialDessign = "com.google.android.material:material:${Versions.AndroidComponent.material}"
+        const val annot = "androidx.annotation:annotation:${Versions.AndroidComponent.annotation}"
+        const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.AndroidComponent.recyclerview}"
         const val cardview = "androidx.cardview:cardview:${Versions.AndroidComponent.cardview}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.AndroidComponent.constraintLayout}"
         const val coordinatorLayout =
             "androidx.coordinatorlayout:coordinatorlayout:${Versions.AndroidComponent.coordinatorLayout}"
         const val navigationUi =
-            "android.arch.navigation:navigation-fragment-ktx:${Versions.AndroidComponent.navigation}"
+            "androidx.navigation:navigation-fragment-ktx:${Versions.AndroidComponent.navigation}"
         const val navigationFragment =
-            "android.arch.navigation:navigation-ui-ktx:${Versions.AndroidComponent.navigation}"
+            "androidx.navigation:navigation-ui-ktx:${Versions.AndroidComponent.navigation}"
     }
 
     /**

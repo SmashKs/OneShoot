@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 The Smash Ks Open Project
+  ~ Copyright (C) 2019 The Smash Ks Open Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -34,8 +34,7 @@
         android:id="@+id/cv_camera"
         style="@style/Constraint.Any.MatchParent"
         android:keepScreenOn="true"
-        app:cameraPlaySounds="false"
-        app:cameraVideoQuality="highest"/>
+        app:cameraPlaySounds="false"/>
 
     <smash.ks.com.oneshoot.widgets.customize.selectable.SelectableAreaView
         android:id="@+id/sav_selection"

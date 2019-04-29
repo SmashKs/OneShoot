@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,32 +17,28 @@
 package smash.ks.com.data.remote.v2
 
 import android.graphics.BitmapFactory
-import com.devrapid.kotlinshaver.completable
-import com.devrapid.kotlinshaver.isNotNull
 import com.devrapid.kotlinshaver.isNull
-import com.devrapid.kotlinshaver.single
+import com.devrapid.kotlinshaver.rxjava2.completable
+import com.devrapid.kotlinshaver.rxjava2.single
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
 import kotlinx.coroutines.CancellationException
 import smash.ks.com.data.datas.AlbumData
 import smash.ks.com.data.datas.KsData
-import smash.ks.com.data.datas.LabelData
 import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.data.remote.services.KsFirebase
 import smash.ks.com.domain.Label
 import smash.ks.com.domain.parameters.Parameterable
-import smash.ks.com.ext.extractNumber
 
 /**
  * The implementation for accessing the data from Firebase.
  */
 class KsFirebaseImpl constructor(
-    private val database: FirebaseDatabase,
-    private val detector: FirebaseVisionLabelDetector
+    private val database: FirebaseDatabase
+//    private val detector: FirebaseVisionLabelDetector
 ) : KsFirebase {
     companion object {
         private const val V2_CHILD_PROPERTIES = "ImageVersion2"
@@ -95,16 +91,16 @@ class KsFirebaseImpl constructor(
         val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
         val textImage = FirebaseVisionImage.fromBitmap(bitmap)
 
-        detector.detectInImage(textImage).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                task.result?.map {
-                    "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
-                    LabelData(it.entityId.extractNumber().first(), it.label, it.confidence * TO_PERCENT)
-                }?.let(emitter::onSuccess)
-            }
-            else if (task.isCanceled)
-                task.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)
-        }
+//        detector.detectInImage(textImage).addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                task.result?.map {
+//                    "[${it.entityId}]${it.label}: ${it.confidence * TO_PERCENT}%"
+//                    LabelData(it.entityId.extractNumber().first(), it.label, it.confidence * TO_PERCENT)
+//                }?.let(emitter::onSuccess)
+//            }
+//            else if (task.isCanceled)
+//                task.exception.takeIf(Any?::isNotNull)?.let(emitter::onError)
+//        }
     }
 
     override fun retrieveImageWordContentByML(params: Parameterable) = single<Label> { }

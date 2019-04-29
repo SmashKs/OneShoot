@@ -37,10 +37,14 @@ object Versions {
      */
     object AndroidComponent {
         const val androidx = "1.0.0"
+        const val appcompat = "1.1.0-alpha04"
+        const val annotation = "1.1.0-beta01"
+        const val material = "1.1.0-alpha05"
+        const val recyclerview = "1.1.0-alpha04"
         const val cardview = androidx
-        const val constraintLayout = "2.0.0-alpha2"
-        const val coordinatorLayout = androidx
-        const val navigation = "1.0.0-alpha07"
+        const val constraintLayout = "2.0.0-alpha5"
+        const val coordinatorLayout = "1.1.0-alpha01"
+        const val navigation = "2.1.0-alpha02"
     }
 
     /**
@@ -48,27 +52,26 @@ object Versions {
      */
     object Kotlin {
         const val kotlinLib = "1.3.31"
-        const val kotlinCoroutine = "1.0.0"
+        const val kotlinCoroutine = "1.2.1"
     }
 
     /**
      * Related view component lib version.
      */
     object ViewComponent {
-        const val adaptiveRecyclerView = "1.0.3"
+        const val adaptiveRecyclerView = "1.0.16"
     }
 
     /**
      * Related Kotlin extensions lib version.
      */
     object KotlinAndroidExt {
-        const val dex = "2.0.0"
+        const val dex = "2.0.1"
         const val aac = androidx
-        const val aacLifecycle = "2.0.0"
-        const val anko = "0.10.7"
-        const val ktx = androidx
-        const val kinfer = "2.1.0"
-        const val shaver = "1.1.0"
+        const val aacLifecycle = "2.1.0-alpha04"
+        const val anko = "0.10.8"
+        const val ktx = "1.1.0-alpha05"
+        const val kinfer = "2.1.10"
     }
 
     /**
@@ -82,21 +85,21 @@ object Versions {
      * Related Firebase lib version.
      */
     object Firebase {
-        const val core = "16.0.5"
-        const val database = "16.0.4"
+        const val core = "16.0.8"
+        const val database = "16.1.0"
         const val auth = "16.0.3"
         const val messaging = "17.3.0"
 
-        const val mlVision = "18.0.1"
+        const val mlVision = "19.0.3"
         const val mlImageLabel = "17.0.2"
     }
 
     object TensorFlow {
-        const val lite = "1.10.0"
+        const val lite = "1.13.1"
     }
 
     object CloudStore {
-        const val cloudinary = "1.25.0"
+        const val cloudinary = "1.26.0"
     }
 
     /**
@@ -104,27 +107,27 @@ object Versions {
      */
     object Database {
         const val dbflow = "4.2.4"
-        const val debug = "1.0.4"
+        const val debug = "1.0.6"
     }
 
     /**
      * Related network lib version.
      */
     object Network {
-        const val glide = "4.8.0"
-        const val retrofit2 = "2.4.0"
-        const val okhttp3 = "3.11.0"
+        const val glide = "4.9.0"
+        const val retrofit2 = "2.5.0"
+        const val okhttp3 = "3.14.1"
     }
 
     /**
      * Related reactive lib version.
      */
     object RxDep {
-        const val rxJava2 = "2.2.3"
+        const val rxJava2 = "2.2.8"
         const val rxKotlin2 = "2.3.0"
         const val rxLifecycle2 = "2.2.2"
         const val rxPermission2 = "0.9.5@aar"
-        const val rxBus = "2.0.0"
+        const val rxBus = "2.0.1"
     }
 
     /**
@@ -139,32 +142,32 @@ object Versions {
      * Related mapping lib version.
      */
     object Mapping {
-        const val modelmapper = "2.3.1"
+        const val modelmapper = "2.3.3"
     }
 
     /**
      * Related Android UI lib version.
      */
     object Ui {
-        const val dialog = "1.0.6"
+        const val dialog = "1.0.7"
         const val loading = "1.3.0"
         const val materialChip = "1.0.8"
-        const val cameraView = "1.6.0"
+        const val cameraView = "2.0.0-beta04"
     }
 
     /**
      * Related Android unit test lib version.
      */
     object Test {
-        const val jUnit = "4.12"
+        const val jUnit = "4.13-beta-2"
         const val espressoHelper = "0.1.3"
-        const val kakao = "1.4.0"
+        const val kakao = "2.0.0"
         const val robolectric = "3.4.2"
-        const val assertJ = "3.11.1"
-        const val powerMockito = "2.0.0-RC.1"
+        const val assertJ = "3.12.2"
+        const val powerMockito = "2.0.2"
         const val mockitoKotlin = "1.6.0"
         const val mockitoAndroid = "2.9.0"
-        const val mockk = "1.8.12"
-        const val byteBuddy = "1.9.3"
+        const val mockk = "1.9.3.kotlin12"
+        const val byteBuddy = "1.9.12"
     }
 }

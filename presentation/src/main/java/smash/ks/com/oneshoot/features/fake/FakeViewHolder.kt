@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ package smash.ks.com.oneshoot.features.fake
 
 import android.view.View
 import androidx.annotation.UiThread
+import com.devrapid.adaptiverecyclerview.AdaptiveAdapter
 import smash.ks.com.oneshoot.entities.KsEntity
 import smash.ks.com.oneshoot.widgets.viewmodel.FakeVH
 
 class FakeViewHolder(view: View) : FakeVH(view) {
     @UiThread
-    override fun initView(model: KsEntity, position: Int, adapter: Any) {
+    override fun initView(model: KsEntity, position: Int, adapter: AdaptiveAdapter<*, *, *>) {
     }
 }

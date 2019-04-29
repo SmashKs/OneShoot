@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,13 @@ import dependenices.Deps.GlobalTest
 import dependenices.Deps.Presentation
 import dependenices.Deps.PresentationTest
 import dependenices.Versions.Android
-import resources.FeatureRes
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'jacoco'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: "jacoco"
 
 android {
     compileSdkVersion Android.compileSdk
@@ -44,26 +43,27 @@ android {
     buildTypes {
         release {
             minifyEnabled = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             // Usage is `BuildConfig.CloudinaryUrl`
-            buildConfigField 'String', "CloudinaryUrl", getProps("cloudinary_url")
+            buildConfigField "String", "CloudinaryUrl", getProps("cloudinary_url")
             // Usage is `@string/cloudinary_url`.
-            resValue 'string', "cloudinary_url", getProps("cloudinary_url")
+            resValue "string", "cloudinary_url", getProps("cloudinary_url")
         }
         debug {
             testCoverageEnabled = true
-            buildConfigField 'String', "CloudinaryUrl", getProps("cloudinary_url")
-            resValue 'string', "cloudinary_url", getProps("cloudinary_url")
+            buildConfigField "String", "CloudinaryUrl", getProps("cloudinary_url")
+            resValue "string", "cloudinary_url", getProps("cloudinary_url")
         }
     }
     packagingOptions {
-        exclude 'META-INF/rxjava.properties'
-        exclude 'META-INF/main.kotlin_module'
+        exclude "META-INF/rxjava.properties"
+        exclude "META-INF/main.kotlin_module"
+        exclude "META-INF/kotlinx-coroutines-core.kotlin_module"
     }
     sourceSets {
         main {
-            res.srcDirs += FeatureRes.dirs
-            jniLibs.srcDirs = ['libs']
+            res.srcDirs += resources.FeatureRes.dirs
+            jniLibs.srcDirs = ["libs"]
         }
     }
     dexOptions { javaMaxHeapSize "4g" }
@@ -74,7 +74,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    ext { coverageSourceDirs = 'src/test/java' }
+    ext { coverageSourceDirs = "src/test/java" }
 }
 
 androidExtensions { experimental = true }
@@ -85,14 +85,14 @@ kapt {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation(project(':domain')) {
-        exclude group: 'org.reactivestreams'
+    implementation fileTree(include: ["*.jar"], dir: "libs")
+    implementation(project(":domain")) {
+        exclude group: "org.reactivestreams"
     }
-    implementation(project(':data')) {
-        exclude group: 'org.reactivestreams'
+    implementation(project(":data")) {
+        exclude group: "org.reactivestreams"
     }
-    implementation project(':ext')
+    implementation project(":ext")
 
     implementation Presentation.dexTool
 
@@ -131,16 +131,16 @@ dependencies {
     //region Firebase & Database
     implementation Presentation.dbflow
     implementation(Presentation.firebaseCore) {
-        exclude group: 'com.android.support'
+        exclude group: "com.android.support"
     }
     implementation(Presentation.firebaseDB) {
-        exclude group: 'com.android.support'
+        exclude group: "com.android.support"
     }
     implementation(Presentation.firebaseVision) {
-        exclude group: 'com.android.support'
+        exclude group: "com.android.support"
     }
     implementation(Presentation.firebaseMLImageLabel) {
-        exclude group: 'com.android.support'
+        exclude group: "com.android.support"
     }
     implementation Presentation.tensorflowLite
     implementation Presentation.cloudinary
@@ -157,12 +157,12 @@ dependencies {
 
     //region Rx Bus
     implementation(Presentation.rxBus) {
-        exclude group: 'com.jakewharton.timber', module: 'timber'
+        exclude group: "com.jakewharton.timber", module: "timber"
     }
     //endregion
 
     //region Rx Lifecycle
-    // We're not using now. This's just for the extensions.
+    // We"re not using now. This"s just for the extensions.
     implementation Presentation.rxLifecycle
     //    implementation Presentation.rxLifecycleComponent
     //    implementation Presentation.rxPermission
@@ -198,7 +198,7 @@ dependencies {
     testImplementation GlobalTest.kotlin
     testImplementation GlobalTest.junit
     testImplementation(GlobalTest.mockito) {
-        exclude group: 'org.mockito', module: 'mockito-core'
+        exclude group: "org.mockito", module: "mockito-core"
     }
     testImplementation GlobalTest.assertj
     testImplementation GlobalTest.powerMockJunit
@@ -212,9 +212,9 @@ dependencies {
 
     //region Android Test
     androidTestImplementation GlobalTest.kotlin
-    androidTestImplementation 'org.mockito:mockito-core:2.19.0'
+    androidTestImplementation "org.mockito:mockito-core:2.27.0"
     androidTestImplementation(PresentationTest.espressoHelper) {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jre7"
     }
 
     //    androidTestImplementation PresentationTest.robolectric
@@ -226,7 +226,7 @@ dependencies {
 }
 
 tasks.withType(Test) { jacoco.includeNoLocationClasses = true }
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
     reports {
         xml.enabled = true
         html.enabled = true
@@ -239,13 +239,13 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            "jacoco/testDebugUnitTest.exec", "outputs/code-coverage/connected/*coverage.ec"
     ])
 }
 
 // Get a variable from local.properties.
 def getProps(String propName) {
-    def propsFile = rootProject.file('local.properties')
+    def propsFile = rootProject.file("local.properties")
 
     if (!propsFile.exists()) return "\"No_Exist\""
 
@@ -257,4 +257,4 @@ def getProps(String propName) {
     return props[propName]
 }
 
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"

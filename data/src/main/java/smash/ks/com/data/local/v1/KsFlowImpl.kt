@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package smash.ks.com.data.local.v1
 
 import android.graphics.BitmapFactory
-import com.devrapid.kotlinshaver.single
+import com.devrapid.kotlinshaver.rxjava2.single
 import smash.ks.com.data.datas.LabelData
 import smash.ks.com.data.datas.LabelDatas
 import smash.ks.com.data.local.ml.Classifier
@@ -35,7 +35,7 @@ class KsFlowImpl(
         it.onSuccess(classifier.recognizeImage(bitmap).map {
             LabelData(it.id?.toIntOrNull() ?: DEFAULT_INT,
                       it.title.orEmpty(),
-                    it.confidence ?: DEFAULT_FLOAT)
+                      it.confidence ?: DEFAULT_FLOAT)
         })
     }
 

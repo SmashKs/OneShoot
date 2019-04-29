@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import android.net.Uri
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
-import com.devrapid.kotlinshaver.single
+import com.devrapid.kotlinshaver.rxjava2.single
 import io.reactivex.SingleEmitter
 import smash.ks.com.data.datas.UploadResultData
 import smash.ks.com.data.remote.services.KsCloudinary

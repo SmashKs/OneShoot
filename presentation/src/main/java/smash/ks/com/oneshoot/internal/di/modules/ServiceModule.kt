@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ package smash.ks.com.oneshoot.internal.di.modules
 import android.content.Context
 import com.cloudinary.android.MediaManager
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -62,7 +60,7 @@ object ServiceModule {
             }.create(KsService::class.java)
         }
 
-        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance(), instance()) }
+        bind<KsFirebase>() with singleton { KsFirebaseImpl(instance()) }
 
         bind<KsCloudinary>() with singleton { KsCloudinaryImpl(instance()) }
         //endregion
@@ -81,7 +79,7 @@ object ServiceModule {
      */
     private fun firebaseProvider() = Module("Firebase Module") {
         bind<FirebaseDatabase>() with provider { FirebaseDatabase.getInstance() }
-        bind<FirebaseVisionLabelDetector>() with provider { FirebaseVision.getInstance().visionLabelDetector }
+//        bind<FirebaseVisionLabelDetector>() with provider { FirebaseVision.getInstance().visionLabelDetector }
     }
 
     /**

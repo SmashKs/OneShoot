@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.Flash.AUTO
 import com.otaliastudios.cameraview.Flash.OFF
 import com.otaliastudios.cameraview.Flash.ON
+import com.otaliastudios.cameraview.PictureResult
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_analyze
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.ib_upload
 import kotlinx.android.synthetic.main.dialog_fragment_options.view.iv_snippet
@@ -89,8 +90,8 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     }
     private val cameraCallback by lazy {
         object : CameraListener() {
-            override fun onPictureTaken(jpeg: ByteArray) {
-                scaleBitmap(jpeg)
+            override fun onPictureTaken(result: PictureResult) {
+                scaleBitmap(result.data)
             }
         }
     }
@@ -108,7 +109,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
 
         // Request the authority of the camera.
         when {
-            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.start()
+            checkSelfPermission(parent, CAMERA) == PERMISSION_GRANTED -> cv_camera.open()
             shouldShowRequestPermissionRationale(CAMERA) -> QuickDialogFragment.Builder(this) {
                 message = gStrings(R.string.camera_permission_confirmation)
                 btnPositiveText = "Ok" to { _ ->
@@ -125,7 +126,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     override fun onPause() {
         super.onPause()
 
-        cv_camera.stop()
+        cv_camera.close()
     }
 
     override fun onDestroy() {
@@ -140,13 +141,14 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
     //region Base Fragment
     override fun rendered(savedInstanceState: Bundle?) {
         cv_camera.apply {
+            setLifecycleOwner(this@TakeAPicFragment)
             clearCameraListeners()
             addCameraListener(cameraCallback)
         }
         fab_shot.setOnClickListener {
             if (!shotDebounce) {
                 shotDebounce = true
-                cv_camera.capturePicture()
+                cv_camera.takePicture()
                 makeCameraFlashEffecting()
             }
         }
@@ -189,7 +191,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 val (width, height) = requireNotNull(it.activity?.displayPixels())
                 val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
                 val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
-                it.dialog.window?.apply {
+                it.dialog?.window?.apply {
                     setWindowAnimations(R.style.KsDialog)
                     setLayout(realWidth.roundToInt(), realHeight.roundToInt())
                 }
@@ -214,7 +216,7 @@ class TakeAPicFragment : AdvFragment<PhotographActivity, TakeAPicViewModel>() {
                 }
 
                 // For touch the back press key then close the dialog fragment.
-                df.dialog.setOnKeyListener { _, keyCode, _ ->
+                df.dialog?.setOnKeyListener { _, keyCode, _ ->
                     when (keyCode) {
                         KEYCODE_BACK -> {
                             dismissOptionDialog()

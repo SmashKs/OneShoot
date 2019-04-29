@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,14 @@ import android.os.Build.VERSION_CODES.N
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.View
+import com.devrapid.adaptiverecyclerview.AdaptiveAdapter
 import kotlinx.android.synthetic.main.item_label.view.tv_label
 import smash.ks.com.oneshoot.R
 import smash.ks.com.oneshoot.entities.LabelEntity
 import smash.ks.com.oneshoot.widgets.viewmodel.LabelVH
 
 class LabelsViewHolder(view: View) : LabelVH(view) {
-    override fun initView(model: LabelEntity, position: Int, adapter: Any) {
+    override fun initView(model: LabelEntity, position: Int, adapter: AdaptiveAdapter<*, *, *>) {
         itemView.apply {
             val formatted = String.format(context.getString(R.string.label_format), model.label, model.confidence)
             tv_label.text = if (SDK_INT >= N) {

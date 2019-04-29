@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.kotlinknifer.displayPixels
+import com.devrapid.kotlinknifer.getColor
+import com.devrapid.kotlinknifer.getColorOfAlpha
 import com.devrapid.kotlinknifer.getDisplayMetrics
-import com.devrapid.kotlinknifer.getResColor
-import com.devrapid.kotlinknifer.getResColorWithAlpha
 import com.devrapid.kotlinknifer.gone
 import com.devrapid.kotlinknifer.resizeView
 import com.devrapid.kotlinknifer.setCursorPointerColor
@@ -64,6 +64,7 @@ import smash.ks.com.oneshoot.ext.resource.gDimens
 import smash.ks.com.oneshoot.features.photograph.TakeAPicFragment.Parameter.ARG_IMAGE_DATA
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LABEL_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 import smash.ks.com.oneshoot.widgets.recyclerview.decorator.VerticalItemDecorator
@@ -94,7 +95,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                 val (width, height) = requireNotNull(it.activity?.displayPixels())
                 val realWidth = width * DIALOG_FRAGMENT_WIDTH_RATIO
                 val realHeight = height * DIALOG_FRAGMENT_HEIGHT_RATIO
-                it.dialog.window?.apply {
+                it.dialog?.window?.apply {
                     setWindowAnimations(R.style.KsDialog)
                     setLayout(realWidth.roundToInt(), realHeight.roundToInt())
                 }
@@ -127,9 +128,9 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
                         }
                     })
                     listOf(et_author, et_photo_title).map {
-                        setCursorPointerColor(cast(it), context.getResColor(R.color.primaryLightColor))
+                        setCursorPointerColor(cast(it), getColor(R.color.primaryLightColor))
                         cast<EditText>(it).highlightColor =
-                            appContext.getResColorWithAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
+                            getColorOfAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
                     }
                 }
             }
@@ -180,7 +181,7 @@ class AnalyzeFragment : AdvFragment<PhotographActivity, AnalyzeViewModel>() {
 
     private fun showLabels(response: KsResponse<LabelEntities>) {
         peelResponse(response) {
-            if (it.isEmpty()) showEmptyResult() else adapter.appendList(it.toMutableList())
+            if (it.isEmpty()) showEmptyResult() else adapter.append(it.toMutableList<KsMultiVisitable>())
         }
     }
 

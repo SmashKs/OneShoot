@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
-import com.devrapid.kotlinknifer.getResColor
-import com.devrapid.kotlinknifer.getResColorWithAlpha
+import com.devrapid.kotlinknifer.getColor
+import com.devrapid.kotlinknifer.getColorOfAlpha
 import com.devrapid.kotlinknifer.setCursorPointerColor
 import com.devrapid.kotlinshaver.cast
 import com.pchmn.materialchips.ChipsInput
@@ -101,9 +101,9 @@ class UploadPicFragment : AdvFragment<PhotographActivity, UploadPicViewModel>() 
             }
         })
         listOf(et_author, et_photo_title).map {
-            setCursorPointerColor(cast(it), parent.getResColor(R.color.primaryLightColor))
+            setCursorPointerColor(cast(it), getColor(R.color.primaryLightColor))
             cast<EditText>(it).highlightColor =
-                appContext.getResColorWithAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
+                getColorOfAlpha(R.color.primaryLightColor, COLOR_TRANSPARENT_DEPTH_HALF)
         }
     }
 

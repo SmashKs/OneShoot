@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Smash Ks Open Project
+ * Copyright (C) 2019 The Smash Ks Open Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import smash.ks.com.oneshoot.ext.aac.observeNonNull
 import smash.ks.com.oneshoot.ext.aac.peelResponse
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.KS_ADAPTER
 import smash.ks.com.oneshoot.internal.di.tag.ObjectLabel.LINEAR_LAYOUT_VERTICAL
+import smash.ks.com.oneshoot.widgets.recyclerview.KsMultiVisitable
 import smash.ks.com.oneshoot.widgets.recyclerview.MultiTypeAdapter
 import smash.ks.com.oneshoot.widgets.recyclerview.RVAdapterAny
 
@@ -75,7 +76,7 @@ class FakeFragment : AdvFragment<FakeActivity, FakeViewModel>() {
             it.adapter = adapter
         }
         btn_append.setOnClickListener {
-            adapter.appendList(mutableListOf(KsEntity()))
+            adapter.append(mutableListOf<KsMultiVisitable>(KsEntity()))
         }
     }
 
