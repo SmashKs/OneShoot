@@ -20,18 +20,19 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven { url("http://dl.bintray.com/kotlin/kotlin-eap") }
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.4.0"
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${dependenices.Versions.Kotlin.kotlinLib}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
         classpath "com.google.gms:google-services:4.2.0" // google-services plugin
-        classpath "org.jacoco:org.jacoco.core:0.8.3"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
+        classpath "org.jacoco:org.jacoco.core:0.8.4"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha04"
     }
 }
 
@@ -70,6 +71,7 @@ allprojects {
         jcenter()
         mavenCentral()
         // required to find the project's artifacts
+        maven { url("http://dl.bintray.com/kotlin/kotlin-eap") }
         maven { url "https://www.jitpack.io" }
         maven { url "https://dl.bintray.com/pokk/maven" }
         maven { url 'https://dl.bintray.com/kodein-framework/Kodein-DI/' }

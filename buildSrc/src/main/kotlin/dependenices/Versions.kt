@@ -37,21 +37,21 @@ object Versions {
      */
     object AndroidComponent {
         const val androidx = "1.0.0"
-        const val appcompat = "1.1.0-alpha04"
-        const val annotation = "1.1.0-beta01"
-        const val material = "1.1.0-alpha05"
-        const val recyclerview = "1.1.0-alpha04"
+        const val appcompat = "1.1.0-alpha05"
+        const val annotation = "1.1.0-rc01"
+        const val material = "1.1.0-alpha06"
+        const val recyclerview = "1.1.0-alpha05"
         const val cardview = androidx
-        const val constraintLayout = "2.0.0-alpha5"
+        const val constraintLayout = "2.0.0-beta1"
         const val coordinatorLayout = "1.1.0-alpha01"
-        const val navigation = "2.1.0-alpha02"
+        const val navigation = "2.1.0-alpha04"
     }
 
     /**
      * Related Kotlin lib version.
      */
     object Kotlin {
-        const val kotlinLib = "1.3.31"
+        const val kotlinLib = "1.3.40-eap-21"
         const val kotlinCoroutine = "1.2.1"
     }
 
@@ -68,9 +68,9 @@ object Versions {
     object KotlinAndroidExt {
         const val dex = "2.0.1"
         const val aac = androidx
-        const val aacLifecycle = "2.1.0-alpha04"
+        const val aacLifecycle = "2.2.0-alpha01"
         const val anko = "0.10.8"
-        const val ktx = "1.1.0-alpha05"
+        const val ktx = "1.2.0-alpha01"
         const val kinfer = "2.1.10"
     }
 
@@ -85,12 +85,12 @@ object Versions {
      * Related Firebase lib version.
      */
     object Firebase {
-        const val core = "16.0.8"
-        const val database = "16.1.0"
+        const val core = "16.0.9"
+        const val database = "17.0.0"
         const val auth = "16.0.3"
         const val messaging = "17.3.0"
 
-        const val mlVision = "19.0.3"
+        const val mlVision = "20.0.0"
         const val mlImageLabel = "17.0.2"
     }
 
@@ -142,7 +142,7 @@ object Versions {
      * Related mapping lib version.
      */
     object Mapping {
-        const val modelmapper = "2.3.3"
+        const val modelmapper = "2.3.4"
     }
 
     /**
@@ -167,7 +167,7 @@ object Versions {
         const val powerMockito = "2.0.2"
         const val mockitoKotlin = "1.6.0"
         const val mockitoAndroid = "2.9.0"
-        const val mockk = "1.9.3.kotlin12"
+        const val mockk = "1.9.3"
         const val byteBuddy = "1.9.12"
     }
 }
