@@ -2,8 +2,10 @@
 
 
 [![CircleCI](https://circleci.com/gh/SmashKs/OneShoot/tree/master.svg?style=svg)](https://circleci.com/gh/SmashKs/OneShoot/tree/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9588602ae1e20eddca4a/maintainability)](https://codeclimate.com/github/SmashKs/OneShoot/maintainability)
 [![codecov](https://codecov.io/gh/SmashKs/OneShoot/branch/master/graph/badge.svg)](https://codecov.io/gh/SmashKs/OneShoot)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/df651d8c66c64905b606d5627223b8e0)](https://www.codacy.com/app/pokk/OneShoot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SmashKs/OneShoot&amp;utm_campaign=Badge_Grade)
+[![codebeat badge](https://codebeat.co/badges/b5551035-dc80-4e0a-afa7-01c47a71af52)](https://codebeat.co/projects/github-com-smashks-oneshoot-master)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 
 # OneShoot
