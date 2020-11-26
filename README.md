@@ -14,7 +14,7 @@ This is an application for analyzing a picture you took or are selected from the
 app a scenic photo then app might give you the information of the **place name**, the **similar
 place photo**, ... etc. In the near future, we'll add more function for anaylzing the picture.
 
-# Deprecated
+# 🛑 Deprecated
 
 If you did contribute on this project, I really apprecaited it a lot. Unfortunally, this project's
 architecture andlibraries have been old. Don't have so much time to maintain this project so we
