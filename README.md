@@ -14,9 +14,18 @@ This is an application for analyzing a picture you took or are selected from the
 app a scenic photo then app might give you the information of the **place name**, the **similar
 place photo**, ... etc. In the near future, we'll add more function for anaylzing the picture.
 
+# Deprecated
+
+If you did contribute on this project, I really apprecaited it a lot. Unfortunally, this project's
+architecture andlibraries have been old. Don't have so much time to maintain this project so we
+decided to archive this project.
+
+This project's idea is still going on my plan. Near future may have another idea android project
+with the morden architecture.
+
 # Show Case
 
-# Architecture
+## Architecture
 
 We're using Clean Architecture to build this App. There're few layers as well-known
 **Presentation**, **Domain**, **Data** layer. Also, I add an extra universal module *ext* for making
